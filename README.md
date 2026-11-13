@@ -29,6 +29,15 @@ make eda       # executa notebooks/01_eda.ipynb (somente agregados)
 make inventory # regenera docs/data_inventory.md e a lista de PII a partir do inventário
 ```
 
+### Modelo
+
+```bash
+make train     # dummy, regressão logística e XGBoost; calibra, seleciona e registra o champion no MLflow
+make report    # regenera docs/EXPERIMENTS.md a partir do MLflow
+```
+
+Cada treino gera RUN records em `docs/runs/` e o perfil de referência em `models/reference_profile.json`. Resultados: [EXPERIMENTS.md](docs/EXPERIMENTS.md).
+
 Detalhes da separação e do alvo: [ADR-0004](docs/adr/0004-target-maturity-leakage.md), [ADR-0005](docs/adr/0005-reference-production-split.md) e [data card](docs/data_card.md).
 
 ## Documentação
