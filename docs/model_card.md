@@ -47,7 +47,16 @@ Calibrado na referência (observado/esperado = 1,006 no teste). A recalibração
 
 0,33 (aprova se score < 0,33), escolhido por valor esperado com premissas de custo PROPOSTAS. No teste: aprovação de 94,3%, bad rate dos aprovados de 14,3% e US$ 445 por proposta (ADR-0007).
 
-**Sensibilidade:** o limiar é **pouco robusto** às premissas. Com LGD entre 0,4 e 0,8 e realização de margem entre 0,3 e 0,7, o ótimo varia de 0,06 a 0,55 e a aprovação de 14% a 100% (notebook `02_modelagem`, seção 4). A revisão das premissas está pendente.
+**Sensibilidade:** o limiar é **pouco robusto** às premissas. Com LGD entre 0,4 e 0,8 e realização de margem entre 0,3 e 0,7, o ótimo varia de 0,06 a 0,55 e a aprovação de 14% a 100% (notebook `02_modelagem`, seção 4).
+
+**Validação contra o caixa realizado** ([RUN-20261113-calib-COST-01](runs/RUN-20261113-calib-COST-01.md)):
+
+- As premissas medidas no dado são LGD 0,327 e realização de juros 0,756, menos pessimistas que as propostas.
+- No teste, o limiar 0,33 tem **regret de 8,1%** frente ao ótimo realizado (0,555).
+- Com as premissas empíricas, o modelo de custo reproduz o caixa real (Pearson 0,999 entre as curvas).
+- Nesta população já filtrada pelo credor, recusar rende pouco enquanto o custo de funding fica abaixo de ~8% a.a.
+
+A revisão do limiar está **proposta** no ADR-0016 e aguarda decisão.
 
 ## Sensibilidade a drift (observada fora do tempo)
 

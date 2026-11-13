@@ -54,6 +54,26 @@ Ver [ADR-0005](adr/0005-reference-production-split.md). Referência = safra 2013
 6. **Atributos de viés limitados.** Não há gênero nem idade. Os segmentos possíveis são `addr_state`, `emp_length` e `home_ownership`.
 7. **Dicionário de terceiros.** A cópia do dicionário não é a página oficial do credor. A classificação de vazamento foi confirmada por AUC univariado.
 
+## Qualidade e estatística (EDA, seções 8–14)
+
+- **Sem duplicatas e sem valores impossíveis** no dado real: renda ≤ 0, DTI < 0, juros fora de (0, 40], valor fora de [500, 40k], FICO fora de [300, 850] e histórico de crédito negativo têm contagem praticamente nula.
+- **Utilização acima de 100%** é real (cartão estourado): `revol_util` > 100 em 7.005 empréstimos e `bc_util` > 100 em 29.494 (2007–2018).
+- **Parcela incoerente** com a amortização de `loan_amnt`, `int_rate` e `term` (> 2%): 2.590 casos, concentrados em 2008–2011. O erro mediano é zero.
+- **Valor sentinela:** `tot_hi_cred_lim` = 9.999.999 em 14 empréstimos (2013–2018), com cara de placeholder do bureau.
+- **Assimetria forte** nas monetárias (`annual_inc` skew ≈ 19, `revol_bal` ≈ 28) e nas contagens raras. A regra IQR é inadequada para contagens, em que Q1 = Q3 = 0.
+- **Poder preditivo univariado** baixo, exceto `int_rate` (IV 0,38) e `grade` (IV 0,36). Nenhuma |ρ| com o alvo passa de 0,22.
+- **Redundâncias** (Spearman > 0,9): `tot_hi_cred_lim` × `tot_cur_bal`, `loan_amnt` × `installment`, `avg_cur_bal` × `tot_cur_bal`, `pub_rec` × `pub_rec_bankruptcies`.
+
+## Economia realizada (EDA seção 15; RUN-20261113-calib-COST-01)
+
+Lida das colunas `use: custo`, só em agregado, na referência 2013 madura:
+
+- Perda líquida de um mau, ponderada por valor: **0,327** do principal (perda média por grade entre 0,31 e 0,36).
+- Um bom realiza **0,757** dos juros contratuais, ponderado por valor (pré-pagamento).
+- **16%** dos maus pagadores têm caixa líquido positivo (default tardio).
+
+Implicação para o limiar: [ADR-0016](adr/0016-empirical-cost-threshold.md).
+
 ## Privacidade
 
 Nenhum dado pessoal sensível (LGPD art. 5º, II). Identificadores diretos são removidos (`member_id`, `url`) ou pseudonimizados (`id` → `loan_key`, HMAC). Texto livre (`emp_title`, `desc`, `title`) e `zip_code` nunca são carregados. O plano completo fica para a F8.
