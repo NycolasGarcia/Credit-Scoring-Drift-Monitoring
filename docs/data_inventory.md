@@ -7,7 +7,7 @@ Legenda — **cat**: categoria do dado · **pii**: dado pessoal (LGPD) direto,
 quase-identificador ou não · **use**: destino no projeto.
 Nenhuma coluna é dado pessoal *sensível* (LGPD art. 5º, II).
 
-**Total: 151 colunas** — alvo: 1 · chave: 1 · descartado: 114 · feature: 32 · metadado: 2 · segmento: 1
+**Total: 151 colunas** — alvo: 1 · chave: 1 · custo: 7 · descartado: 107 · feature: 32 · metadado: 2 · segmento: 1
 
 | Coluna | cat | pii | use | Racional |
 |---|---|---|---|---|
@@ -26,7 +26,7 @@ Nenhuma coluna é dado pessoal *sensível* (LGPD art. 5º, II).
 | `policy_code` | metadado | nao | descartado | constante |
 | `initial_list_status` | originacao | nao | descartado | canal de investidor, não atributo do tomador |
 | `disbursement_method` | originacao | nao | descartado | só existe a partir de 2018 |
-| `funded_amnt` | originacao | nao | descartado | redundante com loan_amnt |
+| `funded_amnt` | originacao | nao | custo | exposição (EAD) na economia da decisão; redundante com loan_amnt como feature |
 | `funded_amnt_inv` | originacao | nao | descartado | processo de funding por investidores; fora da aba browseNotes |
 | `loan_amnt` | originacao | nao | feature |  |
 | `term` | originacao | nao | feature |  |
@@ -127,13 +127,13 @@ Nenhuma coluna é dado pessoal *sensível* (LGPD art. 5º, II).
 | `pymnt_plan` | pos_originacao | nao | descartado |  |
 | `out_prncp` | pos_originacao | nao | descartado |  |
 | `out_prncp_inv` | pos_originacao | nao | descartado |  |
-| `total_pymnt` | pos_originacao | nao | descartado |  |
+| `total_pymnt` | pos_originacao | nao | custo | agregado para estimar a economia da decisão (ADR-0016); nunca feature |
 | `total_pymnt_inv` | pos_originacao | nao | descartado |  |
-| `total_rec_prncp` | pos_originacao | nao | descartado |  |
-| `total_rec_int` | pos_originacao | nao | descartado |  |
-| `total_rec_late_fee` | pos_originacao | nao | descartado |  |
-| `recoveries` | pos_originacao | nao | descartado |  |
-| `collection_recovery_fee` | pos_originacao | nao | descartado |  |
+| `total_rec_prncp` | pos_originacao | nao | custo | agregado para estimar a economia da decisão (ADR-0016); nunca feature |
+| `total_rec_int` | pos_originacao | nao | custo | agregado para estimar a economia da decisão (ADR-0016); nunca feature |
+| `total_rec_late_fee` | pos_originacao | nao | custo | agregado para estimar a economia da decisão (ADR-0016); nunca feature |
+| `recoveries` | pos_originacao | nao | custo | agregado para estimar a economia da decisão (ADR-0016); nunca feature |
+| `collection_recovery_fee` | pos_originacao | nao | custo | agregado para estimar a economia da decisão (ADR-0016); nunca feature |
 | `last_pymnt_d` | pos_originacao | nao | descartado | lido só para datar o snapshot |
 | `last_pymnt_amnt` | pos_originacao | nao | descartado |  |
 | `next_pymnt_d` | pos_originacao | nao | descartado |  |

@@ -21,7 +21,7 @@ Category = Literal[
     "identificador_direto", "quase_identificador", "texto_livre",
     "originacao", "pos_originacao", "alvo", "metadado",
 ]  # fmt: skip
-Use = Literal["feature", "segmento", "alvo", "chave", "metadado", "descartado"]
+Use = Literal["feature", "segmento", "alvo", "chave", "metadado", "custo", "descartado"]
 
 
 class ColumnSpec(BaseModel):

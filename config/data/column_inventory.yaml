@@ -3,7 +3,8 @@
 #
 # cat  : identificador_direto | quase_identificador | texto_livre | originacao | pos_originacao | alvo | metadado
 # pii  : direto | quase | nao          (LGPD: dado pessoal identificado/identificável; nenhum "sensível" art. 5º II)
-# use  : feature | segmento | alvo | chave | metadado | descartado
+# use  : feature | segmento | alvo | chave | metadado | custo | descartado
+#        (custo = read only by src/models/economics.py, aggregated, to estimate decision economics)
 # why  : short rationale (only when not obvious)
 #
 # Evidence: data dictionary (sheet browseNotes = fields visible at listing time) and univariate
@@ -29,7 +30,7 @@ columns:
   policy_code: {cat: metadado, pii: nao, use: descartado, why: "constante"}
   initial_list_status: {cat: originacao, pii: nao, use: descartado, why: "canal de investidor, não atributo do tomador"}
   disbursement_method: {cat: originacao, pii: nao, use: descartado, why: "só existe a partir de 2018"}
-  funded_amnt: {cat: originacao, pii: nao, use: descartado, why: "redundante com loan_amnt"}
+  funded_amnt: {cat: originacao, pii: nao, use: custo, why: "exposição (EAD) na economia da decisão; redundante com loan_amnt como feature"}
   funded_amnt_inv: {cat: originacao, pii: nao, use: descartado, why: "processo de funding por investidores; fora da aba browseNotes"}
 
   # --- features de originação (allowlist do modelo) -----------------------------------------
@@ -140,13 +141,13 @@ columns:
   pymnt_plan: {cat: pos_originacao, pii: nao, use: descartado}
   out_prncp: {cat: pos_originacao, pii: nao, use: descartado}
   out_prncp_inv: {cat: pos_originacao, pii: nao, use: descartado}
-  total_pymnt: {cat: pos_originacao, pii: nao, use: descartado}
+  total_pymnt: {cat: pos_originacao, pii: nao, use: custo, why: "agregado para estimar a economia da decisão (ADR-0016); nunca feature"}
   total_pymnt_inv: {cat: pos_originacao, pii: nao, use: descartado}
-  total_rec_prncp: {cat: pos_originacao, pii: nao, use: descartado}
-  total_rec_int: {cat: pos_originacao, pii: nao, use: descartado}
-  total_rec_late_fee: {cat: pos_originacao, pii: nao, use: descartado}
-  recoveries: {cat: pos_originacao, pii: nao, use: descartado}
-  collection_recovery_fee: {cat: pos_originacao, pii: nao, use: descartado}
+  total_rec_prncp: {cat: pos_originacao, pii: nao, use: custo, why: "agregado para estimar a economia da decisão (ADR-0016); nunca feature"}
+  total_rec_int: {cat: pos_originacao, pii: nao, use: custo, why: "agregado para estimar a economia da decisão (ADR-0016); nunca feature"}
+  total_rec_late_fee: {cat: pos_originacao, pii: nao, use: custo, why: "agregado para estimar a economia da decisão (ADR-0016); nunca feature"}
+  recoveries: {cat: pos_originacao, pii: nao, use: custo, why: "agregado para estimar a economia da decisão (ADR-0016); nunca feature"}
+  collection_recovery_fee: {cat: pos_originacao, pii: nao, use: custo, why: "agregado para estimar a economia da decisão (ADR-0016); nunca feature"}
   last_pymnt_d: {cat: pos_originacao, pii: nao, use: descartado, why: "lido só para datar o snapshot"}
   last_pymnt_amnt: {cat: pos_originacao, pii: nao, use: descartado}
   next_pymnt_d: {cat: pos_originacao, pii: nao, use: descartado}
