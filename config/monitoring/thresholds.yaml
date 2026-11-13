@@ -1,0 +1,84 @@
+# Limiares de severidade do monitoramento (§8.4). Nenhum limiar mora no código.
+# status: PROPOSTO (valor de planejamento) -> CALIBRADO (validado no cenário de controle S0,
+# com o RUN de calibração em calibration_run). Racional humano em docs/THRESHOLDS.md.
+version: 1
+
+false_alarm_target:            # por lote, no cenário sem drift
+  sev1: 0.05
+  sev2: 0.0
+  status: PROPOSTO
+
+calibration:                   # bootstrap A/A sobre o holdout (mesma população da referência)
+  replicates: 500
+  batch_size: 6000             # menor lote simulado: o ruído é máximo aqui
+  seed: 7
+
+top_k_features: 10             # "feature importante" = top-k da importância por permutação
+
+thresholds:
+  - id: TH-FEAT-PSI
+    signal: feature_psi
+    layer: L2
+    sev1: 0.10                 # qualquer feature
+    sev2: 0.25                 # alguma feature top-k
+    sev3_min_features: 3       # >= 3 features top-k acima de sev2
+    status: PROPOSTO
+    calibration_run: null
+    rationale: Convenção de mercado de crédito (NV-9); bins fixos da referência.
+  - id: TH-SCORE-PSI
+    signal: score_psi
+    layer: L3
+    sev1: 0.10
+    sev2: 0.25
+    status: PROPOSTO
+    calibration_run: null
+    rationale: Mesma convenção do PSI de feature, aplicada à distribuição do score.
+  - id: TH-APPROVAL
+    signal: approval_delta_pp
+    layer: L3
+    direction: two_sided         # |variação|
+    sev1: 3.0
+    sev2: 7.0
+    sev3: 12.0
+    status: PROPOSTO
+    calibration_run: null
+    rationale: Variação absoluta da taxa de aprovação vs. referência, em pontos percentuais.
+  - id: TH-BADRATE
+    signal: bad_rate_ratio
+    layer: L4
+    direction: symmetric_ratio   # max(r, 1/r): sub e superestimação do risco
+    sev1: 1.2
+    sev2: 1.5
+    sev3: 2.0
+    status: PROPOSTO
+    calibration_run: null
+    rationale: Bad rate observado / esperado (média do score) na coorte com rótulo maduro.
+  - id: TH-AUC
+    signal: auc_drop
+    layer: L4
+    direction: higher_is_worse   # AUC que melhora não alerta
+    sev1: 0.02
+    sev2: 0.05
+    sev3: 0.10
+    status: PROPOSTO
+    calibration_run: null
+    rationale: Queda de AUC da coorte madura vs. AUC de referência (teste 2013).
+  - id: TH-SEGMENT-GAP
+    signal: segment_gap
+    layer: L4
+    sev1: 0.50
+    status: PROPOSTO
+    calibration_run: null
+    rationale: >-
+      Amplitude, em logit, do descolamento observado/esperado entre quintis de uma feature
+      top-k. Não gera alerta sozinho; separa concept drift (descolamento concentrado num
+      segmento, D3) de prior shift (descolamento uniforme, D2).
+
+diagnosis:                      # assinatura de bug de unidade (D6), §8.7
+  unit_factors: [12, 52, 100, 1000]
+  tail_quantile: 0.01           # cauda = abaixo do percentil 1 da amostra de referência
+  min_tail_excess: 0.05         # parcela na cauda acima da esperada (1%) para suspeitar
+  max_psi_ratio: 0.5            # corrigir a cauda pelo fator precisa cortar o PSI pela metade
+  status: PROPOSTO
+
+min_labeled_rows: 500           # L4 só é avaliado com pelo menos isso de rótulos maduros
