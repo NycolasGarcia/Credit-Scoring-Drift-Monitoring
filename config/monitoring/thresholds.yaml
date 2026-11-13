@@ -22,16 +22,16 @@ thresholds:
     sev1: 0.10                 # qualquer feature
     sev2: 0.25                 # alguma feature top-k
     sev3_min_features: 3       # >= 3 features top-k acima de sev2
-    status: PROPOSTO
-    calibration_run: null
+    status: CALIBRADO
+    calibration_run: RUN-20261113-calib-S0-01
     rationale: Convenção de mercado de crédito (NV-9); bins fixos da referência.
   - id: TH-SCORE-PSI
     signal: score_psi
     layer: L3
     sev1: 0.10
     sev2: 0.25
-    status: PROPOSTO
-    calibration_run: null
+    status: CALIBRADO
+    calibration_run: RUN-20261113-calib-S0-01
     rationale: Mesma convenção do PSI de feature, aplicada à distribuição do score.
   - id: TH-APPROVAL
     signal: approval_delta_pp
@@ -40,8 +40,8 @@ thresholds:
     sev1: 3.0
     sev2: 7.0
     sev3: 12.0
-    status: PROPOSTO
-    calibration_run: null
+    status: CALIBRADO
+    calibration_run: RUN-20261113-calib-S0-01
     rationale: Variação absoluta da taxa de aprovação vs. referência, em pontos percentuais.
   - id: TH-BADRATE
     signal: bad_rate_ratio
@@ -50,25 +50,25 @@ thresholds:
     sev1: 1.2
     sev2: 1.5
     sev3: 2.0
-    status: PROPOSTO
-    calibration_run: null
+    status: CALIBRADO
+    calibration_run: RUN-20261113-calib-S0-01
     rationale: Bad rate observado / esperado (média do score) na coorte com rótulo maduro.
   - id: TH-AUC
     signal: auc_drop
     layer: L4
     direction: higher_is_worse   # AUC que melhora não alerta
-    sev1: 0.02
+    sev1: 0.025               # proposto 0,02: 1,2% de falso alarme no controle
     sev2: 0.05
     sev3: 0.10
-    status: PROPOSTO
-    calibration_run: null
+    status: CALIBRADO
+    calibration_run: RUN-20261113-calib-S0-01
     rationale: Queda de AUC da coorte madura vs. AUC de referência (teste 2013).
   - id: TH-SEGMENT-GAP
     signal: segment_gap
     layer: L4
     sev1: 0.50
-    status: PROPOSTO
-    calibration_run: null
+    status: CALIBRADO
+    calibration_run: RUN-20261113-calib-S0-01
     rationale: >-
       Amplitude, em logit, do descolamento observado/esperado entre quintis de uma feature
       top-k. Não gera alerta sozinho; separa concept drift (descolamento concentrado num

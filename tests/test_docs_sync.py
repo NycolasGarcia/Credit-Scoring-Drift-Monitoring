@@ -6,6 +6,8 @@ from src.config import PROJECT_ROOT
 from src.contracts.catalog import DOC as CONTRACTS_DOC
 from src.contracts.catalog import render
 from src.contracts.settings import load_contract_config
+from src.monitoring import docs
+from src.monitoring.settings import load_monitoring_config
 from src.simulation.settings import load_scenario, scenario_ids
 
 ARCHITECTURE = PROJECT_ROOT / "docs" / "ARCHITECTURE.md"
@@ -39,3 +41,19 @@ def test_scenarios_doc_lists_every_configured_scenario() -> None:
     doc = (PROJECT_ROOT / "docs" / "SCENARIOS.md").read_text(encoding="utf-8")
     missing = [s for s in scenario_ids() if f"| {s} | {load_scenario(s).name} |" not in doc]
     assert not missing, f"scenarios missing from SCENARIOS.md: {missing}"
+
+
+def test_thresholds_doc_is_in_sync() -> None:
+    calib = docs._load(docs.EVIDENCE / "calibration_S0.json")
+    expected = docs.render_thresholds(load_monitoring_config(), calib)
+    assert docs.THRESHOLDS_DOC.read_text(encoding="utf-8") == expected
+
+
+def test_calibrated_thresholds_match_calibration_evidence() -> None:
+    calib = docs._load(docs.EVIDENCE / "calibration_S0.json")
+    for th in load_monitoring_config().thresholds:
+        if th.status != "CALIBRADO":
+            continue
+        cut = calib["signals"][th.signal]
+        assert th.calibration_run == calib["run_id"]
+        assert (th.sev1, th.sev2, th.sev3) == (cut["sev1"], cut.get("sev2"), cut.get("sev3"))

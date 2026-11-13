@@ -1,0 +1,120 @@
+{
+  "run_id": "RUN-20261113-calib-S0-01",
+  "replicates": 500,
+  "batch_size": 6000,
+  "signals": {
+    "feature_psi": {
+      "signal": "feature_psi",
+      "id": "TH-FEAT-PSI",
+      "q50": 0.0031088392084966518,
+      "q95": 0.004315797025674689,
+      "q99": 0.004961176543299291,
+      "max": 0.005139438935468241,
+      "proposed": {
+        "sev1": 0.1,
+        "sev2": 0.25,
+        "sev3": null
+      },
+      "fa_proposed_sev1": 0.0,
+      "sev1": 0.1,
+      "fa_proposed_sev2": 0.0,
+      "sev2": 0.25
+    },
+    "score_psi": {
+      "signal": "score_psi",
+      "id": "TH-SCORE-PSI",
+      "q50": 0.0014543960961381191,
+      "q95": 0.0029339007255975882,
+      "q99": 0.003504036608885004,
+      "max": 0.005367957998042621,
+      "proposed": {
+        "sev1": 0.1,
+        "sev2": 0.25,
+        "sev3": null
+      },
+      "fa_proposed_sev1": 0.0,
+      "sev1": 0.1,
+      "fa_proposed_sev2": 0.0,
+      "sev2": 0.25
+    },
+    "approval_delta_pp": {
+      "signal": "approval_delta_pp",
+      "id": "TH-APPROVAL",
+      "q50": 0.039211716584752754,
+      "q95": 0.09470945507371877,
+      "q99": 0.12254504991808801,
+      "max": 0.16078828341524742,
+      "proposed": {
+        "sev1": 3.0,
+        "sev2": 7.0,
+        "sev3": 12.0
+      },
+      "fa_proposed_sev1": 0.0,
+      "sev1": 3.0,
+      "fa_proposed_sev2": 0.0,
+      "sev2": 7.0,
+      "sev3": 12.0
+    },
+    "bad_rate_ratio": {
+      "signal": "bad_rate_ratio",
+      "id": "TH-BADRATE",
+      "q50": 1.019620766432595,
+      "q95": 1.0589717933576113,
+      "q99": 1.0753116255072857,
+      "max": 1.0905163812342,
+      "proposed": {
+        "sev1": 1.2,
+        "sev2": 1.5,
+        "sev3": 2.0
+      },
+      "fa_proposed_sev1": 0.0,
+      "sev1": 1.2,
+      "fa_proposed_sev2": 0.0,
+      "sev2": 1.5,
+      "sev3": 2.0
+    },
+    "auc_drop": {
+      "signal": "auc_drop",
+      "id": "TH-AUC",
+      "q50": 0.003681234871614758,
+      "q95": 0.016765944440691214,
+      "q99": 0.020430717146003488,
+      "max": 0.027797604291460387,
+      "proposed": {
+        "sev1": 0.02,
+        "sev2": 0.05,
+        "sev3": 0.1
+      },
+      "fa_proposed_sev1": 0.012,
+      "sev1": 0.025,
+      "fa_proposed_sev2": 0.0,
+      "sev2": 0.05,
+      "sev3": 0.1
+    },
+    "segment_gap": {
+      "signal": "segment_gap",
+      "id": "TH-SEGMENT-GAP",
+      "q50": 0.2811641823572062,
+      "q95": 0.3769713786534055,
+      "q99": 0.43152809788454627,
+      "max": 0.5372571586658497,
+      "proposed": {
+        "sev1": 0.5,
+        "sev2": null,
+        "sev3": null
+      },
+      "fa_proposed_sev1": 0.002,
+      "sev1": 0.5
+    }
+  },
+  "false_alarm": {
+    "proposed": {
+      "sev1_plus": 0.012,
+      "sev2_plus": 0.0
+    },
+    "calibrated": {
+      "sev1_plus": 0.002,
+      "sev2_plus": 0.0
+    }
+  }
+}

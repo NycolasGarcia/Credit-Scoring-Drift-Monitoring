@@ -53,7 +53,7 @@ def _f(v: Any, nd: int = 3) -> str:
 
 
 def _pct(v: Any) -> str:
-    return "—" if v is None else f"{100 * v:.0f}%"
+    return "—" if v is None else f"{100 * v:.1f}%"
 
 
 def _load(path: Path) -> dict[str, Any] | None:
