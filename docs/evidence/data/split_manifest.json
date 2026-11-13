@@ -1,0 +1,51 @@
+{
+  "raw_file_sha256": "3eae03c28fd9d2e8a076ebeb73507e8d4d0f44d90500decdb0936e0933d1f36a",
+  "raw_rows_after_footer_drop": 2260668,
+  "snapshot": "2019-03-01",
+  "split_config": {
+    "scope_application_type": "Individual",
+    "reference_start": "2013-01",
+    "reference_end": "2013-12",
+    "production_start": "2014-01",
+    "holdout_fraction": 0.2,
+    "seed": 42
+  },
+  "partitions": {
+    "reference": {
+      "rows": 107843,
+      "vintage_min": "2013-01",
+      "vintage_max": "2013-12",
+      "labeled_share": 1.0,
+      "mature_share": 1.0,
+      "bad_rate_labeled": 0.156,
+      "content_sha256": "8f438ed3cf939baf2b30532e6382cb213908f6fc3f2178c9ac03f09f3aa65396"
+    },
+    "holdout": {
+      "rows": 26961,
+      "vintage_min": "2013-01",
+      "vintage_max": "2013-12",
+      "labeled_share": 1.0,
+      "mature_share": 1.0,
+      "bad_rate_labeled": 0.1559,
+      "content_sha256": "f426398c4c947edafe4f1b11f8b307d5ea761fc773ed6829710e0f72d1962d6b"
+    },
+    "production": {
+      "rows": 1909242,
+      "vintage_min": "2014-01",
+      "vintage_max": "2018-12",
+      "labeled_share": 0.5717,
+      "mature_share": 0.2899,
+      "bad_rate_labeled": 0.2079,
+      "content_sha256": "0a7c06d4be4f90c83ae2dfbf22752f9855a6986d9bcd319ea759a43f1312bd2a"
+    },
+    "out_of_scope": {
+      "rows": 216622,
+      "vintage_min": "2007-06",
+      "vintage_max": "2018-12",
+      "labeled_share": 0.5618,
+      "mature_share": 0.4509,
+      "bad_rate_labeled": 0.176,
+      "content_sha256": "c16c580aed5f7860f46fd4266a66035a2d5c51579303207ee760dc2c2e01dd98"
+    }
+  }
+}
