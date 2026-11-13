@@ -6,9 +6,9 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 |---|---|---|
 | [PROGRESS.md](PROGRESS.md) | Log append-only de checkpoints por fase | vivo |
 | [../CHANGELOG.md](../CHANGELOG.md) | Mudanças por fase, em ordem cronológica | vivo |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2) e quality gate (F3) implementados; demais planejados |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2), quality gate (F3) e simulador (F4) implementados; demais planejados |
 | [adr/](adr/) | Decisões de arquitetura | ver índice abaixo |
-| [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino e calibração de custo) |
+| [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino, calibração de custo e simulação) |
 | [incidents/](incidents/) | Incidentes e postmortems | vazio |
 | [evidence/](evidence/) | Prints e relatórios curados (somente agregados) | vivo |
 | [data_inventory.md](data_inventory.md) | Classificação das 151 colunas (gerado do YAML) | gerado |
@@ -20,8 +20,10 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [DATA_CONTRACTS.md](DATA_CONTRACTS.md) | Catálogo de regras do contrato (gerado), parâmetros e caso D6 | gerado |
 | [contracts_d6.md](contracts_d6.md) | Apêndice do catálogo: contrato × drift no bug de unidade (incluído no DATA_CONTRACTS) | F3 |
 | [evidence/contracts/](evidence/contracts/) | Relatórios agregados do gate (mês real, lote ruim, varredura D6) | F3 |
+| [SCENARIOS.md](SCENARIOS.md) | Cenários S0–S5: o que muda, quando, narrativa econômica e resultados | F4 |
+| [evidence/scenarios/](evidence/scenarios/) | Manifestos de ground truth por cenário (agregados, hashes, RUN-id) | F4 |
 
-Documentos previstos para fases seguintes: `SCENARIOS.md`, `DRIFT_EVALUATION.md`, `THRESHOLDS.md`, `METRICS.md`, `ALERTS.md`, `RUNBOOK.md`, `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
+Documentos previstos para fases seguintes: `DRIFT_EVALUATION.md`, `THRESHOLDS.md`, `METRICS.md`, `ALERTS.md`, `RUNBOOK.md`, `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
 
 ## ADRs
 
@@ -36,3 +38,4 @@ Documentos previstos para fases seguintes: `SCENARIOS.md`, `DRIFT_EVALUATION.md`
 | [0007](adr/0007-cost-threshold.md) | Matriz de custo e limiar por valor esperado | supersedido pelo 0016 |
 | [0008](adr/0008-data-contracts.md) | Contratos de dados, gate em dois níveis e quarentena | aceito |
 | [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas, funding e apetite de risco | aceito |
+| [0017](adr/0017-scenario-simulator.md) | Desenho do simulador de cenários: amostragem, rótulo por oráculo, atraso de rótulo, S4 parcial | aceito |

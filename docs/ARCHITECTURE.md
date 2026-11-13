@@ -1,6 +1,6 @@
 # Arquitetura
 
-> **Status:** preparação de dados (F1), treino (F2) e quality gate (F3) implementados e descritos aqui. Simulação, monitoramento e resposta ainda estão como desenho (a confirmar nas fases F4–F7). Todo módulo de `src/` precisa aparecer neste documento; um teste garante isso (`tests/test_docs_sync.py`).
+> **Status:** preparação de dados (F1), treino (F2), quality gate (F3) e simulador de cenários (F4) implementados e descritos aqui. Detecção, observabilidade e resposta ainda estão como desenho (a confirmar nas fases F5–F7). Todo módulo de `src/` precisa aparecer neste documento; um teste garante isso (`tests/test_docs_sync.py`).
 
 ## Visão geral
 
@@ -72,6 +72,27 @@ flowchart LR
 
 Regras, parâmetros e o caso D6 estão em [DATA_CONTRACTS.md](DATA_CONTRACTS.md); as decisões, no [ADR-0008](adr/0008-data-contracts.md).
 
+## Fluxo implementado — simulador de cenários (F4)
+
+`make simulate` executa `src/simulation/cli.py`. Cada cenário (`config/scenarios/S*.yaml`) vira uma sequência de lotes mensais com ground truth conhecido; todo lote passa pelo gate da F3 e é pontuado pelo champion:
+
+```mermaid
+flowchart LR
+    CFG[[S0..S5.yaml<br/>settings.py]] --> ENG
+    H[(holdout)] --> ENG[engine.py<br/>amostra por lote<br/>seed = cenário, lote]
+    P[(production)] --> NAT[natural.py<br/>S5: safras reais<br/>rótulo no vencimento]
+    ENG --> TR[transforms.py<br/>mundo real · bug · logit]
+    TR --> LB[labels.py<br/>rótulo por oráculo<br/>p_old → p_new]
+    TR --> GATE{gate F3}
+    NAT --> GATE
+    GATE --> OUT[(data/simulated/id/lote<br/>applications · labels · scored)]
+    GATE --> MAN[manifest.py<br/>ground truth + agregados + hashes]
+    MAN --> EV[(docs/evidence/scenarios/id.json)]
+    MAN --> REC[record.py<br/>RUN-*-sim-id]
+```
+
+Cenários, narrativa e resultados em [SCENARIOS.md](SCENARIOS.md); decisões no [ADR-0017](adr/0017-scenario-simulator.md).
+
 ## Fluxos planejados
 
 ```mermaid
@@ -131,7 +152,14 @@ flowchart LR
 | `src/contracts/d6.py` | Varredura do bug de unidade (contrato × drift) | F3 | implementado |
 | `src/contracts/catalog.py` | Gera `docs/DATA_CONTRACTS.md` a partir das regras, da config e dos defeitos | F3 | implementado |
 | `src/simulation/bad_batch.py` | Gerador de lote ruim: 13 defeitos catalogados, cada um com a regra que deve dispará-lo | F3 | implementado |
-| `src/simulation/` (restante) | Cenários S0–S5, manifesto de ground truth | F4 | planejado |
+| `src/simulation/settings.py` | Configuração validada dos cenários (transformações, cronograma, resposta esperada) | F4 | implementado |
+| `src/simulation/transforms.py` | Intensidade no tempo e transformações (Strategy): mundo real, bug de dado, deslocamento do logit | F4 | implementado |
+| `src/simulation/labels.py` | Mecanismo do rótulo: move cada rótulo de `p_old` para `p_new` preservando o desfecho real | F4 | implementado |
+| `src/simulation/engine.py` | Gera os lotes de S0–S4 a partir do holdout (puro, seed por lote) | F4 | implementado |
+| `src/simulation/natural.py` | S5: safras reais mensais com rótulo só quando maduro | F4 | implementado |
+| `src/simulation/manifest.py` | Manifesto de ground truth com agregados e hashes por lote | F4 | implementado |
+| `src/simulation/record.py` | RUN record do tipo `sim` por cenário | F4 | implementado |
+| `src/simulation/cli.py` | `make simulate`: gera, passa pelo gate, pontua e persiste | F4 | implementado |
 | `src/monitoring/` (restante) | KS/χ²/Wasserstein, Evidently, desempenho maduro, avaliação do detector | F5 | planejado |
 | `src/observability/` | Eventos de log, métricas Pushgateway, ledger de runs | F6 | planejado |
 | `src/alerting/` | Motor de severidade e alertas | F6 | planejado |
@@ -149,6 +177,7 @@ flowchart LR
 | `config/models/training.yaml` | Partição interna, modelos, calibração, seleção, tipos confiáveis do skops |
 | `config/models/cost.yaml` | Premissas de custo (medidas + funding declarado), grade de limiar e apetite de risco |
 | `config/contracts/contract.yaml` | Faixas, domínios, tolerâncias, janelas e parâmetros soft do contrato de dados |
+| `config/scenarios/S0.yaml` … `S5.yaml` | Cenários de degradação: transformações, magnitudes, cronograma, seed, resposta esperada |
 
 ## Infraestrutura transversal
 
