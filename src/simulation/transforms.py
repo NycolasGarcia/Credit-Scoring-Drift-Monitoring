@@ -88,5 +88,12 @@ def logit_delta(
 
 
 def drifted_features(transforms: list[Transform]) -> list[str]:
-    """Features whose observed distribution the scenario changes (ground truth for L2)."""
-    return sorted({tr.feature for tr in transforms if isinstance(tr, Scale | Shift | UnitBug)})
+    """Features whose observed distribution the scenario changes (ground truth for L2).
+
+    The installment is recomputed whenever amount, rate or term change, so it drifts too.
+    """
+    touched = {tr.feature for tr in transforms if isinstance(tr, Scale | Shift | UnitBug)}
+    real = {tr.feature for tr in transforms if isinstance(tr, Scale | Shift)}
+    if real & AMORTIZATION_INPUTS:
+        touched.add("installment")
+    return sorted(touched)
