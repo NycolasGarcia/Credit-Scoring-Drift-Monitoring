@@ -21,3 +21,4 @@ Observações humanas sobre os runs ficam na seção "Observações" de cada reg
 | [RUN-20261113-sim-S3-01](RUN-20261113-sim-S3-01.md) | 2026-11-13 | sim | S3 | 12 lotes · 0 bloqueados · 71973 linhas pontuadas · diagnóstico esperado D2 | sim |
 | [RUN-20261113-sim-S4-01](RUN-20261113-sim-S4-01.md) | 2026-11-13 | sim | S4 | 12 lotes · 0 bloqueados · 71978 linhas pontuadas · diagnóstico esperado D6 | sim |
 | [RUN-20261113-sim-S5-01](RUN-20261113-sim-S5-01.md) | 2026-11-13 | sim | S5 | 60 lotes · 0 bloqueados · 1908945 linhas pontuadas · diagnóstico esperado unknown | sim |
+| [RUN-20261113-sim-S1-02](RUN-20261113-sim-S1-02.md) | 2026-11-13 | sim | S1 | 12 lotes · 0 bloqueados · 71996 linhas pontuadas · diagnóstico esperado D1 | sim |

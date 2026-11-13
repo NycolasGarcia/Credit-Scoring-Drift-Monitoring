@@ -55,6 +55,7 @@
     "drifted_features": [
       "annual_inc",
       "dti",
+      "installment",
       "int_rate"
     ],
     "label_mechanism": [],
@@ -379,5 +380,5 @@
       }
     }
   ],
-  "run_id": "RUN-20261113-sim-S1-01"
+  "run_id": "RUN-20261113-sim-S1-02"
 }
