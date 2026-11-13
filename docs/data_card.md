@@ -24,11 +24,13 @@
 | 2013 | 134.814 | 0,0 | 15,6% | 15,6% |
 | 2014 | 235.629 | 5,1 | 18,5% | 14,6% |
 | 2015 | 420.584 | 10,3 | 20,2% | 14,9% |
-| 2016 | 425.618 | 30,9 | 23,3% | 16,1% |
-| 2017 | 401.154 | 59,0 | 22,8% | — |
-| 2018 | 426.257 | 86,3 | 15,2% | — |
+| 2016 | 425.618 | 30,7 | 23,3% | 16,1% |
+| 2017 | 401.154 | 58,3 | 22,8% | — |
+| 2018 | 426.257 | 86,2 | 15,2% | — |
 
-(% Current calculado sobre todas as aplicações da safra; demais colunas sobre individuais.)
+Todas as colunas são calculadas sobre aplicações individuais (escopo do modelo).
+
+Cardinalidade das categóricas: `grade` 7 níveis em todas as safras; `verification_status` 3 (exceto 2007); `purpose` 13–14; `home_ownership` 3–5; `addr_state` cresce de 38 (2007) para 50 (2016+).
 
 ## Alvo
 

@@ -11,7 +11,7 @@
 Evidências (EDA `notebooks/01_eda.ipynb`, raw sha256 `3eae03c2…f36a`):
 
 - Bad rate por safra, comparando **resolvidos** com **maduros**: 2014 = 18,5% × 14,6%; 2015 = 20,2% × 14,9%; 2016 = 23,3% × 16,1%. Usar só "resolvidos" superestima o risco das safras jovens.
-- Proporção `Current` por safra: 5% (2014), 10% (2015), 31% (2016), 59% (2017), 86% (2018).
+- Proporção `Current` por safra, em aplicações individuais: 5% (2014), 10% (2015), 31% (2016), 58% (2017), 86% (2018). *Errata 2026-11-12: a primeira versão citava 59% em 2017, calculado sobre todas as aplicações; a decisão não muda.*
 - AUC univariado de colunas pós-originação em empréstimos maduros de 2013: `recoveries` 0,958; `last_fico_range_*` 0,896; `last_credit_pull_d` 0,856; `total_rec_prncp` 0,845. Nenhuma feature de originação passa de 0,67.
 
 ## Decisão
