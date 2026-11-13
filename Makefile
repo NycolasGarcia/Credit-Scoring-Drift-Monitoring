@@ -7,14 +7,14 @@ define todo
 	@exit 1
 endef
 
-.PHONY: help setup lint format test data inventory eda train validate validate-bad simulate detect monitor \
+.PHONY: help setup lint format test data inventory eda cost train validate validate-bad simulate detect monitor \
         replay report rollback stack-up stack-down publish-check publish-check-all \
         publish-check-history
 
 help:
 	@echo dev:     setup lint format test
 	@echo data:    data inventory eda
-	@echo model:   train report
+	@echo model:   train report cost
 	@echo monitor: validate validate-bad simulate detect monitor replay rollback
 	@echo stack:   stack-up stack-down
 	@echo publish: publish-check publish-check-all publish-check-history
@@ -75,6 +75,9 @@ replay:
 
 report:
 	$(RUN) python -m src.reporting.experiments
+
+cost:
+	$(RUN) python -m src.models.cost_calibration
 
 rollback:
 	$(call todo,F7)

@@ -65,6 +65,7 @@ class CostConfig(BaseModel):
     lgd: float = Field(gt=0, le=1)
     margin_realization: float = Field(gt=0, le=1)
     threshold_grid: Grid
+    funding_rate_grid: list[float] = Field(default_factory=lambda: [0.0])
 
 
 def _read(path: Path) -> dict:

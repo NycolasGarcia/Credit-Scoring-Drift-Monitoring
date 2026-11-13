@@ -34,6 +34,7 @@ make inventory # regenera docs/data_inventory.md e a lista de PII a partir do in
 ```bash
 make train     # dummy, regressão logística e XGBoost; calibra, seleciona e registra o champion no MLflow
 make report    # regenera docs/EXPERIMENTS.md a partir do MLflow
+make cost      # estima LGD e margem do caixa realizado e valida o limiar (FP/FN) contra o caixa real
 ```
 
 Cada treino gera RUN records em `docs/runs/` e o perfil de referência em `models/reference_profile.json`. Resultados: [EXPERIMENTS.md](docs/EXPERIMENTS.md).
