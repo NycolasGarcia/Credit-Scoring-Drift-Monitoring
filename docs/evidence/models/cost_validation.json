@@ -11,26 +11,26 @@
     "interest_realization_median": 0.9256075676690991
   },
   "configured": {
-    "lgd": 0.6,
-    "margin_realization": 0.5,
-    "bad_interest_realization": 0.0,
+    "lgd": 0.327,
+    "margin_realization": 0.756,
+    "bad_interest_realization": 0.564,
     "funding_rate": 0.05,
-    "threshold": 0.12,
+    "threshold": 0.495,
     "realized_optimal_threshold": 0.435,
     "realized_value_at_optimal": 926.97685892836,
-    "realized_value_at_chosen": 270.68706401214706,
-    "regret_pct": 70.79894051237943,
-    "curve_pearson": -0.8545489963141903,
+    "realized_value_at_chosen": 918.7759912970208,
+    "regret_pct": 0.8846895747559292,
+    "curve_pearson": 0.9986197356963096,
     "confusion_at_chosen": {
-      "tn": 6476,
-      "fp": 7180,
-      "fn": 512,
-      "tp": 2009,
-      "fn_loss_total": 2572661.8023845227,
-      "fp_forgone_total": 23805138.565513957,
-      "fn_loss_mean": 5024.730082782271,
-      "fp_forgone_mean": 3315.478908845955,
-      "tp_loss_avoided_total": 13323164.012165928
+      "tn": 13642,
+      "fp": 14,
+      "fn": 2507,
+      "tp": 14,
+      "fn_loss_total": 15786780.976469055,
+      "fp_forgone_total": 106884.8147420208,
+      "fn_loss_mean": 6297.080565005606,
+      "fp_forgone_mean": 7634.6296244300565,
+      "tp_loss_avoided_total": 109044.83808139624
     }
   },
   "estimated": {
