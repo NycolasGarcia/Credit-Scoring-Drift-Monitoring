@@ -5,7 +5,7 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | Documento | Para quê | Status |
 |---|---|---|
 | [PROGRESS.md](PROGRESS.md) | Log append-only de checkpoints por fase | vivo |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | esqueleto |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados implementados (F1); demais planejados |
 | [adr/](adr/) | Decisões de arquitetura | ver índice abaixo |
 | [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | vazio |
 | [incidents/](incidents/) | Incidentes e postmortems | vazio |
