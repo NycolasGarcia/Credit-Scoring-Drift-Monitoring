@@ -1,15 +1,15 @@
 # Decision economics (ADR-0016).
 # Premises lgd / margin_realization / bad_interest_realization are measured on realized cash of
 # mature 2013 reference loans (train split) by `make cost`; funding_rate is a declared policy premise.
-status: PROPOSTO               # becomes ESTIMADO once the values below come from a cost RUN
-source_run: null
+status: ESTIMADO               # lgd / margin / bad interest measured; funding_rate declared
+source_run: RUN-20261113-calib-COST-02
 # Approving a loan that defaults loses loan_amnt * lgd (net of interest paid and recoveries)
 # plus the funding of the balance it carried until default.
-lgd: 0.60
+lgd: 0.327
 # A good loan realizes this share of the contractual interest (installment * term - loan_amnt).
-margin_realization: 0.50
+margin_realization: 0.756
 # A bad loan pays this share of the contractual interest before default (drives its funding cost).
-bad_interest_realization: 0.0
+bad_interest_realization: 0.564
 # Annual cost of funding the outstanding balance (policy premise, ADR-0016 option B).
 funding_rate: 0.05
 # Global cut-off searched on the calibration set: approve when score < threshold.
