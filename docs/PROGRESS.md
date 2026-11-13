@@ -274,3 +274,54 @@ Sequência executada, com árvore limpa em cada run:
 **Leitura:** em regime normal o modelo aprova quase todos, por causa do viés de seleção da base. O valor do modelo aparece sob degradação. Isso vira tema explícito do vídeo e da F7.
 
 Docs em sincronia: **ok** (ADR-0016 aceito, ADR-0007 supersedido, índice, model card v2, notebook `02_modelagem` reexecutado, EXPERIMENTS regenerado).
+
+---
+
+## CHECKPOINT — F3 «Contratos de dados e quality gate» · fechamento · 2026-11-13
+
+### Hard requirements
+
+| HR | Descrição | Status | Evidência |
+|---|---|---|---|
+| HR-3.1 | Contrato Pandera com ≥ 3 regras rígidas (meta ≥ 8) | ok | 11 regras hard de entrada (H01–H11) + 3 de saída (O01–O03); `docs/DATA_CONTRACTS.md` |
+| HR-3.2 | Lote ruim bloqueado ponta a ponta com evidência | ok | `make validate-bad`: 13 defeitos → bloqueado, 0 linhas pontuadas, exit 2, alerta `CONTRACT_BATCH_BLOCKED` (`docs/evidence/contracts/bad-all-seed7.json`) |
+| HR-3.3 | Cada regra com teste que a faz falhar isoladamente | ok | `tests/test_contracts.py`: 13 defeitos parametrizados + testes diretos de S01/S03/S04/O01–O03; um teste garante que toda regra do catálogo tem teste |
+| HR-3.4 | Quarentena com relatório de violação sem PII | ok | `report.json` só com agregados; teste verifica que nenhuma chave nem valor de linha aparece |
+| HR-3.5 | ADR-0008 aceito | ok | `docs/adr/0008-data-contracts.md` |
+
+### Portões numéricos
+
+| Portão | Alvo | Medido | Status |
+|---|---|---|---|
+| Regras hard | ≥ 3 (meta ≥ 8) | 11 de entrada + 3 de saída | ok |
+| Regras com teste de falha isolada | 100% | 18/18 | ok |
+| Lote ruim → linhas pontuadas | 0 | 0 | ok |
+| Relatório lista regra e contagem por defeito | sim | 11 regras com contagem (linhas distintas) | ok |
+| Valores PII no relatório | 0 | 0 (teste) | ok |
+| Falso bloqueio em lotes reais | — | 0/61 (holdout + 60 meses); quarentena máx. 0,049% | ok |
+| ruff / testes | 0 / verde | 0 / 111 passed | ok |
+
+### Estado
+
+- Caixas da fase: 10/10 → micro 100%
+- Progresso macro: 28% (F0 2 + F1 3 + F2 3 + F3 20)
+- Rubrica tocada: R1 (20) · RO-1, RO-8, RO-12
+- ADRs aceitos: ADR-0008
+- RUNs registrados: nenhum (o gate não depende de modelo novo; evidências agregadas em `docs/evidence/contracts/`)
+- NV fechado: NV-12 (Pandera 0.36 verificado na versão fixada)
+- Limiares: 0 CALIBRADO · 0 PROPOSTO em `thresholds.yaml` (F5); tolerância de linhas do contrato (1%) é PROPOSTO
+- Incidentes abertos: nenhum
+- Travas de publicação: OK
+- Docs em sincronia: ok (`DATA_CONTRACTS.md` gerado e testado, ARCHITECTURE com o fluxo do gate, README, índice)
+
+### Achados
+
+- **Gate em dois níveis em vez do GR-1 literal.** Lotes reais trazem defeitos esparsos por linha (parcela incoerente, sentinela em 13 meses, renda de US$ 110 mi). Bloquear o lote por qualquer linha ruim barraria quase todos os meses. Linhas ruins vão para quarentena, e o bloqueio fica reservado a falha estrutural ou a mais de 1% de linhas ruins.
+- **Falso positivo do próprio contrato, encontrado nos lotes reais:** `term` é inteiro no dado e o contrato esperava float. Corrigido no contrato (`integer_columns`).
+- **Pandera reporta checagem de DataFrame uma vez por coluna** de cada linha reprovada. A contagem por regra passou a ser por linhas distintas.
+- **Os valores brutos aparecem nos casos de falha do Pandera.** O relatório descarta esses valores; só contagens são publicadas.
+- **D6 (renda mensal):** o contrato (`H10`, mediana do lote) só bloqueia quando ≥ 50% das linhas estão erradas. O PSI de `annual_inc` passa de 0,23 a partir de 20% (`docs/evidence/contracts/d6_sweep.json`). Contrato e drift são camadas complementares, e a separação D1 × D6 fica para a F5.
+
+### Veredito
+
+**PODE AVANÇAR para F4.**
