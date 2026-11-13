@@ -1,0 +1,91 @@
+{
+  "premises_train": {
+    "lgd": 0.3271520607350322,
+    "margin_realization": 0.7560228732578079,
+    "n_bad": 11773,
+    "n_good": 63717,
+    "loss_rate_p25": 0.10785479999999997,
+    "loss_rate_median": 0.35533006027375347,
+    "loss_rate_p75": 0.5843224833336249,
+    "interest_realization_median": 0.9256075676690991
+  },
+  "proposed": {
+    "lgd": 0.6,
+    "margin_realization": 0.5,
+    "threshold": 0.33,
+    "realized_optimal_threshold": 0.555,
+    "realized_value_at_optimal": 2053.518393361696,
+    "realized_value_at_chosen": 1887.0895029538924,
+    "regret_pct": 8.104572666395862,
+    "curve_pearson": 0.9209351942348499,
+    "confusion_at_chosen": {
+      "tn": 13079,
+      "fp": 577,
+      "fn": 2178,
+      "tp": 343,
+      "fn_loss_total": 10936578.813831389,
+      "fp_forgone_total": 5003296.622245146,
+      "fn_loss_mean": 5021.386048591087,
+      "fp_forgone_mean": 8671.224648605106,
+      "tp_loss_avoided_total": 2313923.1267349795
+    }
+  },
+  "empirical": {
+    "lgd": 0.3271520607350322,
+    "margin_realization": 0.7560228732578079,
+    "threshold": 0.55,
+    "realized_optimal_threshold": 0.555,
+    "realized_value_at_optimal": 2053.518393361696,
+    "realized_value_at_chosen": 2052.4045550814876,
+    "regret_pct": 0.05424048227709594,
+    "curve_pearson": 0.9992105589973468,
+    "confusion_at_chosen": {
+      "tn": 13652,
+      "fp": 4,
+      "fn": 2517,
+      "tp": 4,
+      "fn_loss_total": 13241091.338433553,
+      "fp_forgone_total": 24482.4993748732,
+      "fn_loss_mean": 5260.6640200371685,
+      "fp_forgone_mean": 6120.6248437183,
+      "tp_loss_avoided_total": 9410.6021328145
+    }
+  },
+  "funding_sensitivity": [
+    {
+      "funding_rate": 0.0,
+      "realized_optimal_threshold": 0.555,
+      "approval_rate": 0.9996909192062805,
+      "value_per_app": 2053.518393361696,
+      "value_approve_all": 2053.3362418739744
+    },
+    {
+      "funding_rate": 0.03,
+      "realized_optimal_threshold": 0.435,
+      "approval_rate": 0.9910366569821352,
+      "value_per_app": 1375.0612933780053,
+      "value_approve_all": 1372.51997692042
+    },
+    {
+      "funding_rate": 0.05,
+      "realized_optimal_threshold": 0.435,
+      "approval_rate": 0.9910366569821352,
+      "value_per_app": 926.97685892836,
+      "value_approve_all": 918.6424669513835
+    },
+    {
+      "funding_rate": 0.08,
+      "realized_optimal_threshold": 0.4,
+      "approval_rate": 0.9817642331705508,
+      "value_per_app": 257.1545909525155,
+      "value_approve_all": 237.82620199782906
+    },
+    {
+      "funding_rate": 0.1,
+      "realized_optimal_threshold": 0.02,
+      "approval_rate": 0.0040180503183532175,
+      "value_per_app": -2.367377960795948,
+      "value_approve_all": -216.05130797120736
+    }
+  ]
+}
