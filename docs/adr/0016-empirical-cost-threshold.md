@@ -47,7 +47,7 @@ Recusar um mau evita, em média, menos do que recusar um bom custa. Por isso o �
 
 **Leitura:** nesta população, que **já foi aprovada pela política do credor de origem** (viés de seleção), o valor econômico de recusar é pequeno enquanto o custo de funding fica abaixo de ~8% a.a. A 10%, a carteira inteira dá prejuízo. O modelo de custo em si está validado: com premissas empíricas, ele reproduz o caixa real.
 
-## Opções para decisão
+## Alternativas consideradas (opções apresentadas ao autor)
 
 | Opção | Limiar | Aprovação | Prós | Contras |
 |---|---|---|---|---|

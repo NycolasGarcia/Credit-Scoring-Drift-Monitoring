@@ -28,6 +28,8 @@ Estimar a probabilidade de inadimplência (*charged off*/*default*) de uma propo
 
 33 features de originação (allowlist em `config/data/column_inventory.yaml`): condições do empréstimo (`loan_amnt`, `term`, `int_rate`, `installment`, `grade`, `purpose`), perfil do tomador (`annual_inc`, `emp_length`, `home_ownership`, `verification_status`, `dti`) e histórico de bureau (FICO, utilização, inquéritos, contas, tempo de histórico). Nenhuma coluna pós-concessão, nenhum identificador direto, nenhum texto livre.
 
+O modelo só pontua lotes aprovados pelo contrato de dados ([DATA_CONTRACTS.md](DATA_CONTRACTS.md), [ADR-0008](adr/0008-data-contracts.md)): lote com falha estrutural ou com mais de 1% de linhas inválidas é bloqueado sem pontuação; linhas inválidas isoladas vão para quarentena. A saída (score em [0, 1], decisão coerente com o limiar) também é validada.
+
 ## Desempenho ([RUN-20261112-train-REF-02](runs/RUN-20261112-train-REF-02.md); idêntico no v2, [RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md))
 
 | Conjunto | n | AUC | Gini | KS | PR-AUC | Brier | Bad rate esperado | Bad rate observado |

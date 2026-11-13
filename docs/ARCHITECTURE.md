@@ -76,7 +76,7 @@ Regras, parâmetros e o caso D6 estão em [DATA_CONTRACTS.md](DATA_CONTRACTS.md)
 
 ```mermaid
 flowchart LR
-    subgraph Monitoramento [Monitoramento por lote — F3 a F6]
+    subgraph Monitoramento [Monitoramento por lote — contrato em F3; demais etapas F4 a F7]
         B[(Lote mensal)] --> V{Contrato}
         V -- reprovado --> Q[(Quarentena)]
         V -- aprovado --> S[score]

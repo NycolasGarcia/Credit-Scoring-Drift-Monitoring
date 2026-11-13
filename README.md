@@ -55,4 +55,4 @@ Detalhes da separação e do alvo: [ADR-0004](docs/adr/0004-target-maturity-leak
 
 ## Documentação
 
-Índice em [docs/README.md](docs/README.md).
+Índice em [docs/README.md](docs/README.md). Mudanças por fase: [CHANGELOG.md](CHANGELOG.md).

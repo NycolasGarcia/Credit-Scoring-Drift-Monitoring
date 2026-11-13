@@ -5,9 +5,10 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | Documento | Para quê | Status |
 |---|---|---|
 | [PROGRESS.md](PROGRESS.md) | Log append-only de checkpoints por fase | vivo |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados implementados (F1); demais planejados |
+| [../CHANGELOG.md](../CHANGELOG.md) | Mudanças por fase, em ordem cronológica | vivo |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2) e quality gate (F3) implementados; demais planejados |
 | [adr/](adr/) | Decisões de arquitetura | ver índice abaixo |
-| [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | vazio |
+| [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino e calibração de custo) |
 | [incidents/](incidents/) | Incidentes e postmortems | vazio |
 | [evidence/](evidence/) | Prints e relatórios curados (somente agregados) | vivo |
 | [data_inventory.md](data_inventory.md) | Classificação das 151 colunas (gerado do YAML) | gerado |
