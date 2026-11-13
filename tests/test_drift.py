@@ -180,3 +180,14 @@ def test_batch_result_is_strict_json(reference, profile) -> None:
     batch = Batch(0, "b", "2014-01", "passed", apps, scored, labels)
     out = detect_batch(DetectContext(reference, profile, CFG), batch, hist)
     json.dumps(out, allow_nan=False)
+
+
+def test_evaluation_without_ground_truth_reports_undefined_metrics() -> None:
+    sig = dict.fromkeys(("feature_psi", "score_psi", "approval_delta_pp", "bad_rate_ratio",
+                         "auc_drop"), 0) | {"feature_psi": 1}  # fmt: skip
+    results = [{"index": 0, "diagnosis": "D1",
+                "severity": {"level": 1, "signals": sig, "flagged_features": ["x"]}}]  # fmt: skip
+    gt = {"onset_batch": None, "drift_type": "natural", "drifted_features": [],
+          "expected_layers": [], "expected_diagnosis": "unknown"}  # fmt: skip
+    ev = evaluate(results, gt)
+    assert ev["attribution"]["precision"] is None and ev["diagnosis"]["accuracy"] is None

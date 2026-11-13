@@ -36,9 +36,10 @@ def attribution(post: list[dict[str, Any]], truth: list[str]) -> dict[str, Any]:
     """Recall and precision of the features flagged after the onset."""
     flagged = sorted({f for r in post for f in r["severity"]["flagged_features"]})
     hit = set(flagged) & set(truth)
+    known = bool(truth)  # no injected feature (S0, S2, S3, S5): attribution is undefined
     return {"flagged": flagged, "truth": truth,
-            "recall": len(hit) / len(truth) if truth else None,
-            "precision": len(hit) / len(flagged) if flagged else None}  # fmt: skip
+            "recall": len(hit) / len(truth) if known else None,
+            "precision": len(hit) / len(flagged) if known and flagged else None}  # fmt: skip
 
 
 def diagnosis_accuracy(post: list[dict[str, Any]], expected: str) -> dict[str, Any]:
@@ -48,8 +49,9 @@ def diagnosis_accuracy(post: list[dict[str, Any]], expected: str) -> dict[str, A
     for r in alerting:
         counts[r["diagnosis"]] = counts.get(r["diagnosis"], 0) + 1
     correct = counts.get(expected, 0)
+    defined = alerting and expected != "unknown"
     return {"expected": expected, "counts": counts,
-            "accuracy": correct / len(alerting) if alerting else None}  # fmt: skip
+            "accuracy": correct / len(alerting) if defined else None}  # fmt: skip
 
 
 def evaluate(results: list[dict[str, Any]], ground_truth: dict[str, Any]) -> dict[str, Any]:
