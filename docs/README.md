@@ -16,8 +16,11 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [EXPERIMENTS.md](EXPERIMENTS.md) | Comparação dos runs de treino (gerado do MLflow) | gerado |
 | [model_card.md](model_card.md) | Uso, desempenho, calibração, limiar, sensibilidade a drift, limitações | rascunho F2 |
 | [../notebooks/02_modelagem.ipynb](../notebooks/02_modelagem.ipynb) | Curva de calibração, score fora do tempo, trade-off do limiar, importância | F2 |
+| [DATA_CONTRACTS.md](DATA_CONTRACTS.md) | Catálogo de regras do contrato (gerado), parâmetros e caso D6 | gerado |
+| [contracts_d6.md](contracts_d6.md) | Apêndice do catálogo: contrato × drift no bug de unidade (incluído no DATA_CONTRACTS) | F3 |
+| [evidence/contracts/](evidence/contracts/) | Relatórios agregados do gate (mês real, lote ruim, varredura D6) | F3 |
 
-Documentos previstos para fases seguintes: `DATA_CONTRACTS.md`, `SCENARIOS.md`, `DRIFT_EVALUATION.md`, `THRESHOLDS.md`, `METRICS.md`, `ALERTS.md`, `RUNBOOK.md`, `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
+Documentos previstos para fases seguintes: `SCENARIOS.md`, `DRIFT_EVALUATION.md`, `THRESHOLDS.md`, `METRICS.md`, `ALERTS.md`, `RUNBOOK.md`, `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
 
 ## ADRs
 
@@ -30,4 +33,5 @@ Documentos previstos para fases seguintes: `DATA_CONTRACTS.md`, `SCENARIOS.md`, 
 | [0005](adr/0005-reference-production-split.md) | Separação referência × produção | aceito |
 | [0006](adr/0006-base-model.md) | Modelo base: regressão logística calibrada | aceito |
 | [0007](adr/0007-cost-threshold.md) | Matriz de custo e limiar por valor esperado | supersedido pelo 0016 |
+| [0008](adr/0008-data-contracts.md) | Contratos de dados, gate em dois níveis e quarentena | aceito |
 | [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas, funding e apetite de risco | aceito |

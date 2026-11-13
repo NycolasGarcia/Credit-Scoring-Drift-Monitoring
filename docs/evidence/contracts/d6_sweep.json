@@ -1,0 +1,56 @@
+{
+  "base": "holdout",
+  "rows": 26961,
+  "seed": 7,
+  "results": [
+    {
+      "fraction_monthly": 0.1,
+      "median_ratio": 0.9378,
+      "contract_status": "partial",
+      "h10_triggered": false,
+      "annual_inc_psi": 0.0693
+    },
+    {
+      "fraction_monthly": 0.2,
+      "median_ratio": 0.8565,
+      "contract_status": "partial",
+      "h10_triggered": false,
+      "annual_inc_psi": 0.2315
+    },
+    {
+      "fraction_monthly": 0.3,
+      "median_ratio": 0.7659,
+      "contract_status": "partial",
+      "h10_triggered": false,
+      "annual_inc_psi": 0.457
+    },
+    {
+      "fraction_monthly": 0.4,
+      "median_ratio": 0.6252,
+      "contract_status": "partial",
+      "h10_triggered": false,
+      "annual_inc_psi": 0.7476
+    },
+    {
+      "fraction_monthly": 0.5,
+      "median_ratio": 0.3126,
+      "contract_status": "blocked",
+      "h10_triggered": true,
+      "annual_inc_psi": 1.0951
+    },
+    {
+      "fraction_monthly": 0.6,
+      "median_ratio": 0.1329,
+      "contract_status": "blocked",
+      "h10_triggered": true,
+      "annual_inc_psi": 1.5236
+    },
+    {
+      "fraction_monthly": 1.0,
+      "median_ratio": 0.0834,
+      "contract_status": "blocked",
+      "h10_triggered": true,
+      "annual_inc_psi": 8.0782
+    }
+  ]
+}

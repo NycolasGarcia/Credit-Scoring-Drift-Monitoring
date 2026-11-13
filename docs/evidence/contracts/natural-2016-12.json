@@ -1,0 +1,33 @@
+{
+  "batch_id": "natural-2016-12",
+  "contract_version": 1,
+  "validated_at": "2026-11-13T16:40:01+00:00",
+  "status": "partial",
+  "rows_in": 34632,
+  "rows_valid": 34627,
+  "rows_quarantined": 5,
+  "row_failure_rate": 0.000144,
+  "max_row_failure_rate": 0.01,
+  "hard_violations": [
+    {
+      "rule": "H08",
+      "scope": "row",
+      "description": "parcela coerente com valor, taxa e prazo",
+      "count": 5
+    }
+  ],
+  "soft_warnings": {
+    "S02": {
+      "triggered": true,
+      "new_levels": {
+        "home_ownership": [
+          "ANY"
+        ]
+      }
+    }
+  },
+  "output_violations": {},
+  "rows_scored": 34627,
+  "exit_code": 0,
+  "injected_defects": null
+}

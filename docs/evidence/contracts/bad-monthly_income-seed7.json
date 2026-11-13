@@ -1,0 +1,39 @@
+{
+  "batch_id": "bad-monthly_income-seed7",
+  "contract_version": 1,
+  "validated_at": "2026-11-13T16:40:18+00:00",
+  "status": "blocked",
+  "rows_in": 20000,
+  "rows_valid": 0,
+  "rows_quarantined": 20000,
+  "row_failure_rate": 0.00035,
+  "max_row_failure_rate": 0.01,
+  "hard_violations": [
+    {
+      "rule": "H08",
+      "scope": "row",
+      "description": "parcela coerente com valor, taxa e prazo",
+      "count": 7
+    },
+    {
+      "rule": "H10",
+      "scope": "batch",
+      "description": "escala da renda do lote compatível com a referência",
+      "count": 1
+    }
+  ],
+  "soft_warnings": {},
+  "rows_scored": 0,
+  "exit_code": 2,
+  "injected_defects": {
+    "seed": 7,
+    "rate": 0.02,
+    "rows": 20000,
+    "defects": [
+      {
+        "name": "monthly_income",
+        "expected_rule": "H10"
+      }
+    ]
+  }
+}

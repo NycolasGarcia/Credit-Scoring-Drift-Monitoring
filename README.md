@@ -39,6 +39,18 @@ make cost      # estima LGD e margem do caixa realizado e valida o limiar (FP/FN
 
 Cada treino gera RUN records em `docs/runs/` e o perfil de referência em `models/reference_profile.json`. Resultados: [EXPERIMENTS.md](docs/EXPERIMENTS.md).
 
+### Contratos de dados (quality gate)
+
+```bash
+make validate VINTAGE=2014-01   # valida, põe em quarentena linhas inválidas e pontua um mês real
+make validate-bad               # injeta 13 defeitos catalogados; sucesso = lote BLOQUEADO (0 linhas pontuadas)
+make validate-bad DEFECTS=monthly_income   # um defeito isolado (renda mensal no lugar de anual)
+make contracts-d6               # varredura do bug de unidade: o que o contrato pega e o que fica para o drift
+make contracts-doc              # regenera docs/DATA_CONTRACTS.md a partir das regras e da configuração
+```
+
+Lote bloqueado → exit code 2, linhas e relatório agregado em `data/quarantine/<batch_id>/`, evidência em `docs/evidence/contracts/`. Regras: [DATA_CONTRACTS.md](docs/DATA_CONTRACTS.md); decisões: [ADR-0008](docs/adr/0008-data-contracts.md).
+
 Detalhes da separação e do alvo: [ADR-0004](docs/adr/0004-target-maturity-leakage.md), [ADR-0005](docs/adr/0005-reference-production-split.md) e [data card](docs/data_card.md).
 
 ## Documentação

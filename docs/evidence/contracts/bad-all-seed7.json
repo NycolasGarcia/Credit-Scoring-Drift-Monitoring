@@ -1,0 +1,141 @@
+{
+  "batch_id": "bad-all-seed7",
+  "contract_version": 1,
+  "validated_at": "2026-11-13T16:40:10+00:00",
+  "status": "blocked",
+  "rows_in": 20000,
+  "rows_valid": 0,
+  "rows_quarantined": 20000,
+  "row_failure_rate": 0.11395,
+  "max_row_failure_rate": 0.01,
+  "hard_violations": [
+    {
+      "rule": "H01",
+      "scope": "schema",
+      "description": "colunas exatamente as do contrato (sem extra, sem faltante)",
+      "count": 2
+    },
+    {
+      "rule": "H02",
+      "scope": "schema",
+      "description": "tipo de cada coluna conforme o contrato",
+      "count": 1
+    },
+    {
+      "rule": "H03",
+      "scope": "schema",
+      "description": "loan_key único no lote",
+      "count": 401
+    },
+    {
+      "rule": "H04",
+      "scope": "row",
+      "description": "campos críticos não nulos",
+      "count": 400
+    },
+    {
+      "rule": "H05",
+      "scope": "row",
+      "description": "valores dentro de faixas possíveis",
+      "count": 391
+    },
+    {
+      "rule": "H06",
+      "scope": "row",
+      "description": "valores categóricos e prazo dentro do domínio",
+      "count": 400
+    },
+    {
+      "rule": "H07",
+      "scope": "row",
+      "description": "data de emissão dentro da janela válida (sem data futura)",
+      "count": 400
+    },
+    {
+      "rule": "H08",
+      "scope": "row",
+      "description": "parcela coerente com valor, taxa e prazo",
+      "count": 1
+    },
+    {
+      "rule": "H09",
+      "scope": "row",
+      "description": "sem valores sentinela (placeholder de bureau)",
+      "count": 400
+    },
+    {
+      "rule": "H10",
+      "scope": "batch",
+      "description": "escala da renda do lote compatível com a referência",
+      "count": 1
+    },
+    {
+      "rule": "H11",
+      "scope": "row",
+      "description": "contagens e saldos não negativos",
+      "count": 400
+    }
+  ],
+  "soft_warnings": {},
+  "rows_scored": 0,
+  "exit_code": 2,
+  "injected_defects": {
+    "seed": 7,
+    "rate": 0.02,
+    "rows": 20000,
+    "defects": [
+      {
+        "name": "extra_column",
+        "expected_rule": "H01"
+      },
+      {
+        "name": "missing_column",
+        "expected_rule": "H01"
+      },
+      {
+        "name": "wrong_type",
+        "expected_rule": "H02"
+      },
+      {
+        "name": "duplicate_keys",
+        "expected_rule": "H03"
+      },
+      {
+        "name": "null_critical",
+        "expected_rule": "H04"
+      },
+      {
+        "name": "negative_income",
+        "expected_rule": "H05"
+      },
+      {
+        "name": "unknown_grade",
+        "expected_rule": "H06"
+      },
+      {
+        "name": "future_date",
+        "expected_rule": "H07"
+      },
+      {
+        "name": "incoherent_installment",
+        "expected_rule": "H08"
+      },
+      {
+        "name": "sentinel",
+        "expected_rule": "H09"
+      },
+      {
+        "name": "monthly_income",
+        "expected_rule": "H10"
+      },
+      {
+        "name": "negative_count",
+        "expected_rule": "H11"
+      },
+      {
+        "name": "new_category",
+        "expected_rule": "S02"
+      }
+    ]
+  }
+}
