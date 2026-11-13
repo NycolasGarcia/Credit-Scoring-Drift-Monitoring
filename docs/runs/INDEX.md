@@ -31,3 +31,4 @@ Observações humanas sobre os runs ficam na seção "Observações" de cada reg
 | [RUN-20261113-monitor-S5-01](RUN-20261113-monitor-S5-01.md) | 2026-11-13 | monitor | S5 | 1º alerta: lote 1 (atraso None) · camadas L2/L4 · diagnóstico dominante D1 (esperado unknown) | sim |
 | [RUN-20261113-monitor-S5-02](RUN-20261113-monitor-S5-02.md) | 2026-11-13 | monitor | S5 | 1º alerta: lote 1 (atraso None) · camadas L2/L4 · diagnóstico dominante D1 (esperado unknown) | sim |
 | [RUN-20261113-sim-S1-03](RUN-20261113-sim-S1-03.md) | 2026-11-13 | sim | S1 | 12 lotes · 0 bloqueados · 71996 linhas pontuadas · diagnóstico esperado D1 | sim |
+| [RUN-20261113-monitor-S1-02](RUN-20261113-monitor-S1-02.md) | 2026-11-13 | monitor | S1 | 1º alerta: lote 5 (atraso 2) · camadas L2/L3 · diagnóstico dominante D1 (esperado D1) | sim |

@@ -1,10 +1,10 @@
 {
-  "run_id": "RUN-20261113-monitor-S1-01",
+  "run_id": "RUN-20261113-monitor-S1-02",
   "scenario": "S1",
   "base_sha256": "f426398c4c947edafe4f1b11f8b307d5ea761fc773ed6829710e0f72d1962d6b",
   "model": "credit-scoring@champion v2",
   "thresholds": "c7aaf9056a2c",
-  "sim_run": "RUN-20261113-sim-S1-02",
+  "sim_run": "RUN-20261113-sim-S1-03",
   "evaluation": {
     "onset": 3,
     "false_alarm": {
@@ -45,10 +45,12 @@
       "truth": [
         "annual_inc",
         "dti",
-        "installment",
         "int_rate"
       ],
-      "recall": 0.75,
+      "secondary": [
+        "installment"
+      ],
+      "recall": 1.0,
       "precision": 1.0
     },
     "diagnosis": {
