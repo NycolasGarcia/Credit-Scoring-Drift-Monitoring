@@ -137,3 +137,65 @@ Novas salvaguardas: `tests/test_docs_sync.py` falha se um módulo de `src/` não
 Pendente do autor: aval da convenção de fonte para números de dados da F1 (notebook/manifesto com hash do bruto em vez de RUN-id).
 
 Docs em sincronia: **ok**.
+
+---
+
+## CHECKPOINT — F2 «Modelo baseline, calibração e perfil de referência» · fechamento · 2026-11-12
+
+### Hard requirements
+
+| HR | Descrição | Status | Evidência |
+|---|---|---|---|
+| HR-2.1 | ≥ 3 runs no MLflow com RUN record | ok | RUN-20261112-train-REF-01/02/03 (todos de árvore limpa) |
+| HR-2.2 | ≥ 4 métricas por run | ok | AUC, Gini, KS, PR-AUC, Brier, log-loss, bad rate esperado/observado (test e OOT) |
+| HR-2.3 | Todo candidato supera o Dummy | ok | AUC test: LogReg 0,7001 · XGBoost 0,6979 · Dummy 0,5000; garantido por `select_champion` |
+| HR-2.4 | OOT reportado | ok | OOT 2014 e 2015 maduros, em todos os runs |
+| HR-2.5 | Modelo calibrado e registrado como `champion` | ok | `credit-scoring` v1 @champion (RUN-…-REF-02); calibração Platt ajustada e reportada |
+| HR-2.6 | `reference_profile.json` versionado | ok | Artefato MLflow do run REF-02; sha256 `ffcfdc1b0b85d6cc…f75e9` |
+
+### Portões numéricos
+
+| Portão | Alvo | Medido | Fonte | Status |
+|---|---|---|---|---|
+| Runs de treino | ≥ 3 | 3 | REF-01..03 | ok |
+| AUC candidato > Dummy | todos | 0,7001 / 0,6979 > 0,5000 | REF-01..03 | ok |
+| OOT reportado | sim | 2014 e 2015 | REF-02 | ok |
+| Brier pós ≤ pré (champion) | ≤ | 0,12253509 > 0,12253362 (+1,5×10⁻⁶) | REF-02 | **não** (exceção abaixo) |
+| Perfil de referência com hash | sim | sha256 registrado | REF-02 | ok |
+| AUC < 0,90 (auditoria de vazamento) | < 0,90 | 0,7001 | REF-02 | ok |
+| Reprodutibilidade do treino | mesmos números | run de depuração e run oficial idênticos | — | ok |
+| ruff / testes | 0 / verde | 0 / 74 passed | — | ok |
+
+### Estado
+
+- Caixas da fase: 11/11 → micro 100%
+- Progresso macro: 8% (F0 2 + F1 3 + F2 3)
+- Rubrica tocada: R1 (3) · RO-6
+- ADRs aceitos: ADR-0006, ADR-0007
+- RUNs registrados: RUN-20261112-train-REF-01, -02 (champion v1), -03
+- Limiares: 0 CALIBRADO · 0 PROPOSTO em `thresholds.yaml` (criado na F5); premissas de custo PROPOSTO em `config/models/cost.yaml`
+- Incidentes abertos: nenhum
+- Travas de publicação: OK
+- Docs em sincronia: ok (ARCHITECTURE, README, docs/README, model card, EXPERIMENTS gerado)
+
+### Achados
+
+- **Calibração neutra.** A LogReg já sai calibrada (esperado 15,50% × observado 15,58% no teste), e a recalibração de Platt não muda o Brier além do ruído. No XGBoost, a isotônica **piorou** o Brier (+2,4×10⁻⁴).
+- **Degradação natural fora do tempo, antes de qualquer simulação.** Observado/esperado vai de 1,006 (2013) a 1,113 (2014) e 1,287 (2015), com AUC estável perto de 0,69–0,70. O PSI do score em 2015 é 0,226, puxado pela queda de `int_rate`. Isso dá o padrão "ranking preservado, calibração quebrada" (D2) com dado real, que é insumo para F4 (S5), F5 (L3/L4) e F7 (recalibração).
+- **Empate técnico LogReg × XGBoost** (ΔAUC 0,0022): a LogReg venceu pela estabilidade, conforme a regra do ADR-0006.
+- **APIs do MLflow 3.18 diferentes do esperado:** backend padrão SQLite e serialização por skops com tipos confiáveis. Adotada uma lista explícita de tipos em vez de pickle.
+- **Bug no registro de reprodutibilidade, encontrado e corrigido.** Escrever um RUN record alterava o índice versionado e marcava os runs seguintes como sujos. Agora o estado do git é capturado no início do job (commit `fix(reporting)` + teste). Os runs inválidos foram descartados antes de qualquer commit.
+
+### Exceção justificada
+
+O portão "Brier pós ≤ pré" é PROPOSTO e falha por 1,5×10⁻⁶. O objetivo do portão, um modelo calibrado para o monitoramento comparar esperado × observado, é atendido: |esperado − observado| = 0,08 pp no teste. **Proposta ao autor:** reformular o portão como "|bad rate esperado − observado| ≤ 1 pp no teste".
+
+### Pendências do autor
+
+- Aval da convenção de fonte de números da F1.
+- Aval da reformulação do portão de calibração.
+- Premissas de custo (LGD 0,60; margem 0,50) continuam PROPOSTO.
+
+### Veredito
+
+**PODE AVANÇAR para F3**, com a exceção do portão de calibração registrada acima.
