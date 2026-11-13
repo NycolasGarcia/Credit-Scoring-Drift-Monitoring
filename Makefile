@@ -1,6 +1,6 @@
 # Single command interface for the project. Recipes are shell-agnostic (sh or cmd).
 RUN := uv run
-SCENARIO ?= S1
+SCENARIO ?= all
 VINTAGE ?= 2014-01
 DEFECTS ?= all
 
@@ -72,7 +72,7 @@ contracts-doc:
 	$(RUN) python -m src.contracts.catalog
 
 simulate:
-	$(call todo,F4)
+	$(RUN) python -m src.simulation.cli --scenario $(SCENARIO)
 
 detect:
 	$(call todo,F5)

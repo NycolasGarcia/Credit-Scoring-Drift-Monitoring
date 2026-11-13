@@ -1,0 +1,16 @@
+# S5 — produção natural: safras mensais reais de 2014 a 2018, sem ground truth controlado.
+id: S5
+name: Produção natural (safras reais)
+drift_type: natural
+narrative: >-
+  Os meses reais posteriores à referência. O drift aqui não foi injetado: queda de juros,
+  mudança de mix e censura do rótulo nas safras finais. Pela regra de maturação (ADR-0004),
+  só ficam maduros no snapshot os contratos de 36 meses emitidos até 2016-03 e os de 60 meses
+  até 2014-03; o rótulo fica disponível no mês de vencimento.
+source: production
+seed: 105
+label_lag: 0
+calendar_start: "2014-01"
+months: ["2014-01", "2018-12"]
+schedule: {shape: none}
+expected: {layers: [L2, L3, L4], diagnosis: unknown}
