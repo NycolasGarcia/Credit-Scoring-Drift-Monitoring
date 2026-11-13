@@ -1,0 +1,9 @@
+# Decision economics (ADR-0007). Status: PROPOSTO — premises, not measured values.
+status: PROPOSTO
+# Approving a loan that defaults loses loan_amnt * lgd.
+lgd: 0.60
+# Approving a loan that pays earns the contractual interest (installment * term - loan_amnt)
+# times this realization share (net of funding cost, servicing and prepayment).
+margin_realization: 0.50
+# Global cut-off searched on the calibration set: approve when score < threshold.
+threshold_grid: {start: 0.02, stop: 0.60, step: 0.005}
