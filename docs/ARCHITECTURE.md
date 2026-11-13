@@ -1,6 +1,6 @@
 # Arquitetura
 
-> **Status:** preparação de dados (F1) e treino (F2) implementados e descritos aqui. Monitoramento e resposta ainda estão como desenho (a confirmar nas fases F3–F7). Todo módulo de `src/` precisa aparecer neste documento; um teste garante isso (`tests/test_docs_sync.py`).
+> **Status:** preparação de dados (F1), treino (F2) e quality gate (F3) implementados e descritos aqui. Simulação, monitoramento e resposta ainda estão como desenho (a confirmar nas fases F4–F7). Todo módulo de `src/` precisa aparecer neste documento; um teste garante isso (`tests/test_docs_sync.py`).
 
 ## Visão geral
 
@@ -53,6 +53,25 @@ flowchart TB
 
 Configuração: `config/models/training.yaml` (partição interna, modelos, calibração, seleção, tipos confiáveis do skops) e `config/models/cost.yaml` (LGD, margem e grade de limiar; status PROPOSTO). Tracking MLflow em SQLite (`mlruns/mlflow.db`), artefatos em `mlruns/artifacts/`, ambos fora do git.
 
+## Fluxo implementado — quality gate (F3)
+
+`make validate` (lote real) e `make validate-bad` (lote com defeitos) executam `src/contracts/cli.py`:
+
+```mermaid
+flowchart LR
+    B[(Lote de propostas<br/>esquema de aplicação)] --> V{validate_input<br/>Pandera lazy + strict}
+    V -- falha schema/batch<br/>ou > 1% linhas --> X[BLOQUEADO<br/>0 pontuadas · exit 2<br/>alerta CONTRACT_BATCH_BLOCKED]
+    V -- falha só em linhas --> Q[(data/quarantine/batch_id<br/>linhas + report.json agregado)]
+    V -- ok --> S[score_batch<br/>champion + limiar]
+    Q --> S
+    X --> Q
+    S --> O{validate_output<br/>score, decisão, consistência}
+    O -- ok --> R[(Lote pontuado)]
+    O -- falha --> X
+```
+
+Regras, parâmetros e o caso D6 estão em [DATA_CONTRACTS.md](DATA_CONTRACTS.md); as decisões, no [ADR-0008](adr/0008-data-contracts.md).
+
 ## Fluxos planejados
 
 ```mermaid
@@ -102,8 +121,17 @@ flowchart LR
 | `src/monitoring/profile.py` | Perfil de referência (bins, score, limiar, bad rate esperado, importância) | F2 | implementado |
 | `src/reporting/run_record.py` | RUN records e índice gerados por código | F2 | implementado |
 | `src/reporting/experiments.py` | `docs/EXPERIMENTS.md` gerado do MLflow, com link para cada RUN | F2 | implementado |
-| `src/contracts/` | Contratos Pandera, gate, quarentena, relatório de violação | F3 | planejado |
-| `src/simulation/` | Cenários S0–S5, manifesto de ground truth, gerador de lote ruim | F4 | planejado |
+| `src/contracts/settings.py` | Configuração validada do contrato (`config/contracts/contract.yaml`) | F3 | implementado |
+| `src/contracts/rules.py` | Catálogo de regras (id, severidade, escopo) e classificação das falhas do Pandera | F3 | implementado |
+| `src/contracts/schema.py` | Schemas Pandera de entrada e saída construídos da config e do perfil de referência | F3 | implementado |
+| `src/contracts/validate.py` | Validação `lazy`, decisão bloqueio × quarentena, regras soft | F3 | implementado |
+| `src/contracts/report.py` | Relatório de violação só com agregados e escrita da quarentena | F3 | implementado |
+| `src/contracts/gate.py` | Quality gate: validar → pontuar → validar saída, ou quarentena + alerta + exit 2 | F3 | implementado |
+| `src/contracts/cli.py` | `make validate`, `make validate-bad`, `make contracts-d6` | F3 | implementado |
+| `src/contracts/d6.py` | Varredura do bug de unidade (contrato × drift) | F3 | implementado |
+| `src/contracts/catalog.py` | Gera `docs/DATA_CONTRACTS.md` a partir das regras, da config e dos defeitos | F3 | implementado |
+| `src/simulation/bad_batch.py` | Gerador de lote ruim: 13 defeitos catalogados, cada um com a regra que deve dispará-lo | F3 | implementado |
+| `src/simulation/` (restante) | Cenários S0–S5, manifesto de ground truth | F4 | planejado |
 | `src/monitoring/` (restante) | KS/χ²/Wasserstein, Evidently, desempenho maduro, avaliação do detector | F5 | planejado |
 | `src/observability/` | Eventos de log, métricas Pushgateway, ledger de runs | F6 | planejado |
 | `src/alerting/` | Motor de severidade e alertas | F6 | planejado |
@@ -119,7 +147,8 @@ flowchart LR
 | `config/data/split.yaml` | Janelas de referência/produção, fração de holdout, seed |
 | `config/governance/pii_columns.txt` | Gerado do inventário; lido pela guarda de publicação |
 | `config/models/training.yaml` | Partição interna, modelos, calibração, seleção, tipos confiáveis do skops |
-| `config/models/cost.yaml` | Premissas de custo (LGD, margem) e grade de limiar — PROPOSTO |
+| `config/models/cost.yaml` | Premissas de custo (medidas + funding declarado), grade de limiar e apetite de risco |
+| `config/contracts/contract.yaml` | Faixas, domínios, tolerâncias, janelas e parâmetros soft do contrato de dados |
 
 ## Infraestrutura transversal
 
