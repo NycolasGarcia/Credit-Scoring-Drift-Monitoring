@@ -12,8 +12,12 @@ endef
         publish-check-history
 
 help:
-	@echo targets: setup lint format test train validate validate-bad simulate detect monitor
-	@echo targets: replay report rollback stack-up stack-down publish-check publish-check-all
+	@echo dev:     setup lint format test
+	@echo data:    data inventory eda
+	@echo model:   train report
+	@echo monitor: validate validate-bad simulate detect monitor replay rollback
+	@echo stack:   stack-up stack-down
+	@echo publish: publish-check publish-check-all publish-check-history
 
 setup:
 	uv sync --frozen
