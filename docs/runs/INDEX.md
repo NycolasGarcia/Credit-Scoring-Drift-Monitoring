@@ -11,3 +11,6 @@ Observações humanas sobre os runs ficam na seção "Observações" de cada reg
 | [RUN-20261112-train-REF-03](RUN-20261112-train-REF-03.md) | 2026-11-12 | train | REF | candidato | sim |
 | [RUN-20261113-calib-COST-01](RUN-20261113-calib-COST-01.md) | 2026-11-13 | calib | COST | premissas empíricas: LGD 0.327, margem 0.756; limiar 0.550; regret no teste 0.05% | sim |
 | [RUN-20261113-calib-COST-02](RUN-20261113-calib-COST-02.md) | 2026-11-13 | calib | COST | config: limiar 0.120, regret 70.80% · estimado: LGD 0.327, margem 0.756, juros dos maus 0.564 · funding 5% | sim |
+| [RUN-20261113-train-REF-01](RUN-20261113-train-REF-01.md) | 2026-11-13 | train | REF | candidato | sim |
+| [RUN-20261113-train-REF-02](RUN-20261113-train-REF-02.md) | 2026-11-13 | train | REF | champion (v2) | sim |
+| [RUN-20261113-train-REF-03](RUN-20261113-train-REF-03.md) | 2026-11-13 | train | REF | candidato | sim |
