@@ -29,3 +29,4 @@ Observações humanas sobre os runs ficam na seção "Observações" de cada reg
 | [RUN-20261113-monitor-S3-01](RUN-20261113-monitor-S3-01.md) | 2026-11-13 | monitor | S3 | 1º alerta: lote 7 (atraso 3) · camadas L4 · diagnóstico dominante D2 (esperado D2) | sim |
 | [RUN-20261113-monitor-S4-01](RUN-20261113-monitor-S4-01.md) | 2026-11-13 | monitor | S4 | 1º alerta: lote 5 (atraso 0) · camadas L2/L3/L4 · diagnóstico dominante D6 (esperado D6) | sim |
 | [RUN-20261113-monitor-S5-01](RUN-20261113-monitor-S5-01.md) | 2026-11-13 | monitor | S5 | 1º alerta: lote 1 (atraso None) · camadas L2/L4 · diagnóstico dominante D1 (esperado unknown) | sim |
+| [RUN-20261113-monitor-S5-02](RUN-20261113-monitor-S5-02.md) | 2026-11-13 | monitor | S5 | 1º alerta: lote 1 (atraso None) · camadas L2/L4 · diagnóstico dominante D1 (esperado unknown) | sim |

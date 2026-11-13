@@ -1,5 +1,5 @@
 {
-  "run_id": "RUN-20261113-monitor-S5-01",
+  "run_id": "RUN-20261113-monitor-S5-02",
   "scenario": "S5",
   "base_sha256": "0a7c06d4be4f90c83ae2dfbf22752f9855a6986d9bcd319ea759a43f1312bd2a",
   "model": "credit-scoring@champion v2",
@@ -60,7 +60,7 @@
       ],
       "truth": [],
       "recall": null,
-      "precision": 0.0
+      "precision": null
     },
     "diagnosis": {
       "expected": "unknown",
@@ -69,7 +69,7 @@
         "D3": 2,
         "D2": 13
       },
-      "accuracy": 0.0
+      "accuracy": null
     }
   },
   "evidently": {
