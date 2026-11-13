@@ -1,13 +1,16 @@
 # Single command interface for the project. Recipes are shell-agnostic (sh or cmd).
 RUN := uv run
 SCENARIO ?= S1
+VINTAGE ?= 2014-01
+DEFECTS ?= all
 
 define todo
 	@echo target $@ is not implemented yet - planned for $(1)
 	@exit 1
 endef
 
-.PHONY: help setup lint format test data inventory eda cost train validate validate-bad simulate detect monitor \
+.PHONY: help setup lint format test data inventory eda cost train validate validate-bad contracts-d6 \
+        contracts-doc simulate detect monitor \
         replay report rollback stack-up stack-down publish-check publish-check-all \
         publish-check-history
 
@@ -15,7 +18,8 @@ help:
 	@echo dev:     setup lint format test
 	@echo data:    data inventory eda
 	@echo model:   train report cost
-	@echo monitor: validate validate-bad simulate detect monitor replay rollback
+	@echo contracts: validate validate-bad contracts-d6 contracts-doc
+	@echo monitor: simulate detect monitor replay rollback
 	@echo stack:   stack-up stack-down
 	@echo publish: publish-check publish-check-all publish-check-history
 
@@ -56,10 +60,16 @@ train:
 	$(RUN) python -m src.models.train
 
 validate:
-	$(call todo,F3)
+	$(RUN) python -m src.contracts.cli --vintage $(VINTAGE) --evidence
 
 validate-bad:
-	$(call todo,F3)
+	$(RUN) python -m src.contracts.cli --bad --defects $(DEFECTS) --evidence --expect-blocked
+
+contracts-d6:
+	$(RUN) python -m src.contracts.cli --d6-sweep
+
+contracts-doc:
+	$(RUN) python -m src.contracts.catalog
 
 simulate:
 	$(call todo,F4)
