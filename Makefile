@@ -10,7 +10,7 @@ define todo
 endef
 
 .PHONY: help setup lint format test data inventory eda cost train validate validate-bad contracts-d6 \
-        contracts-doc simulate detect monitor \
+        contracts-doc simulate calibrate detect drift-docs monitor \
         replay report rollback stack-up stack-down publish-check publish-check-all \
         publish-check-history
 
@@ -19,7 +19,7 @@ help:
 	@echo data:    data inventory eda
 	@echo model:   train report cost
 	@echo contracts: validate validate-bad contracts-d6 contracts-doc
-	@echo monitor: simulate detect monitor replay rollback
+	@echo monitor: simulate calibrate detect drift-docs monitor replay rollback
 	@echo stack:   stack-up stack-down
 	@echo publish: publish-check publish-check-all publish-check-history
 
@@ -74,8 +74,14 @@ contracts-doc:
 simulate:
 	$(RUN) python -m src.simulation.cli --scenario $(SCENARIO)
 
+calibrate:
+	$(RUN) python -m src.monitoring.cli calibrate
+
 detect:
-	$(call todo,F5)
+	$(RUN) python -m src.monitoring.cli detect --scenario $(SCENARIO)
+
+drift-docs:
+	$(RUN) python -m src.monitoring.docs
 
 monitor:
 	$(call todo,F6)
