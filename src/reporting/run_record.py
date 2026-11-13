@@ -89,8 +89,14 @@ def render(rec: RunRecord) -> str:
 
 
 def write_record(rec: RunRecord) -> Path:
-    """Write the record and append its line to the index."""
-    rec.sha, rec.dirty = git_state()
+    """Write the record and append its line to the index.
+
+    The git state must be captured by the caller at the start of the job (writing a record
+    touches the tracked index, so checking afterwards would mark later records dirty). It is
+    only computed here as a fallback when the caller did not set it.
+    """
+    if not rec.sha:
+        rec.sha, rec.dirty = git_state()
     path = RUNS_DIR / f"{rec.run_id}.md"
     path.write_text(render(rec), encoding="utf-8")
     repro = "não" if rec.dirty else "sim"

@@ -16,6 +16,7 @@ from src.monitoring.psi import (
     psi_numeric,
     quantile_edges,
 )
+from src.reporting import run_record as rr
 from src.reporting.run_record import RunRecord, render
 
 
@@ -74,3 +75,16 @@ def test_run_record_marks_dirty_tree_and_renders_metrics() -> None:
     text = render(rec)
     assert "NÃO REPRODUTÍVEL" in text
     assert "| auc | 0.7000 |" in text
+
+
+def test_write_record_keeps_git_state_captured_at_job_start(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr(rr, "RUNS_DIR", tmp_path)
+    monkeypatch.setattr(rr, "INDEX", tmp_path / "INDEX.md")
+    monkeypatch.setattr(rr, "git_state", lambda: ("later-sha", True))
+    for i in (1, 2):
+        rr.write_record(RunRecord(run_id=f"RUN-{i}", kind="train", scenario="REF", seed=1,
+                                  data_hash="h", model="m", mlflow_ref="r", metrics={},
+                                  verdict="ok", sha="start-sha", dirty=False))  # fmt: skip
+    index = (tmp_path / "INDEX.md").read_text(encoding="utf-8")
+    assert index.count("| sim |") == 2
+    assert "later-sha" not in (tmp_path / "RUN-2.md").read_text(encoding="utf-8")

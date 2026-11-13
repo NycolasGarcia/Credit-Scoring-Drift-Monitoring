@@ -28,7 +28,7 @@ from src.models.factory import build_model
 from src.models.registry import register_champion, setup_tracking
 from src.models.settings import TrainingConfig, load_cost_config, load_training_config
 from src.monitoring.profile import build_profile, write_profile
-from src.reporting.run_record import RunRecord, next_run_id, write_record
+from src.reporting.run_record import RunRecord, git_state, next_run_id, write_record
 
 logger = logging.getLogger(__name__)
 PROFILE_PATH = PROJECT_ROOT / "models" / "reference_profile.json"
@@ -115,8 +115,10 @@ def finalize(champ: CandidateResult, sets: dict, cfg: TrainingConfig) -> dict:
     }
 
 
-def record(result: CandidateResult, cfg: TrainingConfig, champion_info: dict | None) -> None:
-    """Write the RUN record of one candidate."""
+def record(
+    result: CandidateResult, cfg: TrainingConfig, champion_info: dict | None, git: tuple[str, bool]
+) -> None:
+    """Write the RUN record of one candidate (``git`` = state captured at job start)."""
     is_champ = champion_info is not None
     verdict = "champion (v{})".format(champion_info["version"]) if is_champ else "candidato"
     extra = {"Calibração": result.calibration, "Brier calib_select": json.dumps(result.briers),
@@ -131,7 +133,7 @@ def record(result: CandidateResult, cfg: TrainingConfig, champion_info: dict | N
         data_hash=reference_hash(), model=result.name,
         mlflow_ref=f"training / {result.run_id}", metrics=result.metrics, verdict=verdict,
         artifacts=["mlflow: model"] + ([champion_info["profile_path"]] if is_champ else []),
-        extra=extra,
+        extra=extra, sha=git[0], dirty=git[1],
     )  # fmt: skip
     write_record(rec)
 
@@ -140,6 +142,7 @@ def main() -> None:
     """Train every configured candidate, select and register the champion, write records."""
     settings = get_settings()
     configure_logging(settings.log_level)
+    git = git_state()
     cfg = load_training_config()
     setup_tracking("training")
     sets = prepare_sets(cfg)
@@ -147,7 +150,7 @@ def main() -> None:
     champ = select_champion(results, cfg)
     info = finalize(champ, sets, cfg)
     for result in results:
-        record(result, cfg, info if result is champ else None)
+        record(result, cfg, info if result is champ else None, git)
     logger.info("training finished", extra={"champion": champ.name, "version": info["version"]})
 
 
