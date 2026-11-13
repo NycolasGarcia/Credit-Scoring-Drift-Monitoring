@@ -57,3 +57,8 @@ def test_calibrated_thresholds_match_calibration_evidence() -> None:
         cut = calib["signals"][th.signal]
         assert th.calibration_run == calib["run_id"]
         assert (th.sev1, th.sev2, th.sev3) == (cut["sev1"], cut.get("sev2"), cut.get("sev3"))
+
+
+def test_drift_evaluation_doc_is_in_sync() -> None:
+    expected = docs.render_evaluation(docs.evidence_by_scenario(), load_monitoring_config())
+    assert docs.EVALUATION_DOC.read_text(encoding="utf-8") == expected

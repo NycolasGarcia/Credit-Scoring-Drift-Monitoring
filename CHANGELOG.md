@@ -6,6 +6,27 @@ Mudanças relevantes por fase, da mais recente para a mais antiga. Formato inspi
 
 Nada ainda.
 
+## F5 — Detecção de drift e avaliação do detector (2026-11-13)
+
+### Adicionado
+- Detector por lote em três camadas: L2 (PSI com bins fixos da referência, KS, χ², Wasserstein), L3 (PSI do score, aprovação), L4 (desempenho dos rótulos que amadurecem no lote, com descolamento por segmento).
+- Motor de severidade com direção por sinal e diagnóstico pela árvore §8.7, incluindo assinatura de bug de unidade (D6) e separação D3 × D2 por segmento.
+- Calibração dos limiares por bootstrap A/A no controle (`make calibrate`): 6 limiares CALIBRADO; falso alarme composto 0,2% (SEV-1+) e 0% (SEV-2+).
+- Relatório Evidently por cenário com teste `psi_ref` registrado (PSI com bins da referência) e cruzamento exato com o PSI próprio (`make detect`).
+- Avaliação do detector contra os manifestos (§8.8) e documentos gerados `THRESHOLDS.md` e `DRIFT_EVALUATION.md` (`make drift-docs`).
+- [ADR-0009](docs/adr/0009-drift-detection-methodology.md); NV-8, NV-9 e NV-10 fechados.
+
+### Alterado
+- Ground truth dos cenários separa features injetadas de efeitos mecânicos (`secondary_features`); S1 regerado com lotes idênticos.
+
+### Corrigido
+- Leitura do PSI do score fora do tempo (F2): o 0,226 era artefato do filtro de maturação; errata no ADR-0006 e model card corrigido.
+
+### Achados
+- Diagnóstico certo em 100% dos lotes alertados nos cenários com ground truth; atraso de 2 (S1), 5 (S2), 3 (S3) e 0 (S4) lotes.
+- No dado real, o drift de entrada aparece em 2014 e a confirmação com rótulo só em 2017–2018.
+- Degradação com rótulo fica em SEV-1 nos cenários S2 e S3, o que afeta o desenho do modo conservador (F7).
+
 ## F4 — Simulador de cenários de degradação (2026-11-13)
 
 ### Adicionado

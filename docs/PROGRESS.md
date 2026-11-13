@@ -378,3 +378,63 @@ Entrada: F3 fechada, CI verde em `2d523b1`, travas OK, nenhum incidente aberto. 
 ### Veredito
 
 **PODE AVANÇAR para F5.**
+
+---
+
+## CHECKPOINT — F5 «Detecção de drift e avaliação do detector» · abertura · 2026-11-13
+
+Entrada: F4 fechada, CI verde em `a337f7f`, travas OK, nenhum incidente aberto. Escopo: L2/L3/L4 por lote, relatório Evidently por cenário, calibração no S0, avaliação contra os manifestos. ADR exigido: ADR-0009. NV a fechar: NV-8 (API do Evidently), NV-9 (PSI como convenção), NV-10 (p-valor com N grande). Rubrica: R2 (14) · RO-2, RO-3, RO-9.
+
+## CHECKPOINT — F5 «Detecção de drift e avaliação do detector» · fechamento · 2026-11-13
+
+### Hard requirements
+
+| HR | Descrição | Status | Evidência |
+|---|---|---|---|
+| HR-5.1 | Relatório Evidently HTML por cenário apontando as features driftadas | ok | `docs/evidence/drift/S0..S5_evidently.html`; S1 aponta `int_rate`, `dti`, `annual_inc` e o score; S4 aponta `annual_inc` e o score |
+| HR-5.2 | PSI e KS próprios cruzados com o Evidently | ok | `psi_ref` no Evidently = PSI próprio (diferença 0,000000 nas colunas sem nulos, 6 relatórios); KS e Wasserstein embutidos = scipy (testes) |
+| HR-5.3 | Limiares calibrados em S0, falso alarme medido | ok | [RUN-20261113-calib-S0-01](runs/RUN-20261113-calib-S0-01.md): 6 limiares CALIBRADO; falso alarme composto 0,2% (SEV-1+) e 0% (SEV-2+) |
+| HR-5.4 | Concept drift (S2) detectado por L4 | ok | S2: L2/L3 nunca alertam; L4 no lote 8, D3 em 5/5, segmento `dti` ([RUN-20261113-monitor-S2-01](runs/RUN-20261113-monitor-S2-01.md)) |
+| HR-5.5 | ADR-0009 aceito | ok | `docs/adr/0009-drift-detection-methodology.md` |
+| HR-5.6 | RUN records de todos os cenários | ok | monitor S0-01, S1-02, S2-01, S3-01, S4-01, S5-02 (todos de árvore limpa) |
+
+### Portões numéricos
+
+| Portão | Alvo | Medido | Fonte | Status |
+|---|---|---|---|---|
+| Features injetadas em S1 apontadas | 100% | 3/3 (precisão 100%) | monitor-S1-02 | ok |
+| Falso alarme em S0 | ≤ 5% SEV-1, 0% SEV-2+ | 0/12 lotes; bootstrap 0,2% / 0% | monitor-S0-01, calib-S0-01 | ok |
+| Detection delay por cenário | reportado | S1 2 · S2 5 · S3 3 · S4 0 lotes | DRIFT_EVALUATION | ok |
+| S2: L2 quieto e L4 alarmando | sim | sim | monitor-S2-01 | ok |
+| S4 classificado como D6 | sim | 7/7 lotes, fator 12 | monitor-S4-01 | ok |
+| HTML Evidently por cenário | 6 | 6 | `docs/evidence/drift/` | ok |
+| ruff / testes | 0 / verde | 0 / 151 passed | — | ok |
+
+### Estado
+
+- Caixas da fase: 11/11 → micro 100%
+- Progresso macro: 52% (F0 2 + F1 3 + F2 3 + F3 20 + F4 10 + F5 14)
+- Rubrica tocada: R2 (14) · RO-2, RO-3, RO-9
+- ADRs aceitos: ADR-0009 (+ errata no ADR-0006)
+- RUNs registrados: calib-S0-01; monitor S0-01, S1-01→S1-02, S2-01, S3-01, S4-01, S5-01→S5-02; sim S1-02→S1-03
+- NV fechados: NV-8, NV-9, NV-10
+- Limiares: 6 CALIBRADO · 0 PROPOSTO (meta de falso alarme e parâmetros D6 seguem PROPOSTO)
+- Incidentes abertos: nenhum
+- Travas de publicação: OK
+- Docs em sincronia: ok (THRESHOLDS e DRIFT_EVALUATION gerados e testados; ARCHITECTURE, README, índice, model card, CHANGELOG)
+
+### Achados
+
+- **Diagnóstico 100% certo nos cenários com ground truth:** D1 (S1), D3 (S2, com o segmento `dti` identificado), D2 (S3), D6 (S4).
+- **O sinal antecipado chega três anos antes da confirmação.** No S5, o drift de entrada aparece em 2014, mas a L4 só existe a partir de 2017 (vencimento dos contratos de 36 meses), quando observado/esperado sobe até 1,39 com o ranking preservado (D2).
+- **A degradação com rótulo fica em SEV-1.** S2 e S3 têm razão observado/esperado de no máximo 1,37 e 1,499, abaixo do SEV-2 (1,5). Um circuit breaker só em SEV-2 não dispararia: a questão foi aberta para o autor (§15) antes da F7.
+- **Errata da F2:** o PSI do score de 0,226 no OOT 2015 era um artefato do filtro de maturação (só contratos de 36 meses); na população inteira de 2015 é 0,009. ADR-0006 recebeu errata e o model card foi corrigido.
+- **Correções feitas durante a fase:**
+  - **Ground truth do S1:** passou a separar as features injetadas da parcela recalculada (efeito mecânico). O S1 foi regerado com lotes idênticos.
+  - **Severidade:** valor absoluto em todos os sinais fazia AUC que melhora disparar alerta; agora a direção é declarada por sinal.
+  - **NaN no JSON e RUN órfão:** um NaN no JSON derrubou a primeira detecção oficial depois de o RUN record ter sido escrito. O resíduo foi limpo, e o JSON passou a ser validado antes do RUN.
+  - **RUN de árvore suja:** a detecção do S1, rodada logo após regerar o cenário, encontrou a árvore suja. Foi descartada e repetida após o commit da geração.
+
+### Veredito
+
+**PODE AVANÇAR para F6.**
