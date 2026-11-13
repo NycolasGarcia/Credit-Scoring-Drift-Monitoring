@@ -59,3 +59,12 @@ Candidatos treinados na referência 2013 (train 70% / calibração 15% / teste 1
 
 - No monitoramento (F5), o PSI do score da LogReg disparar mais falsos alarmes em S0 do que o alvo.
 - Um challenger não linear superar o champion em mais de 0,005 de AUC na janela madura recente, mantendo estabilidade e calibração (gate GR-5, F7).
+
+## Errata (2026-11-13, F5)
+
+O PSI do score "test → OOT 2015" (0,2257 na LogReg e 0,2380 no XGBoost) **não mede drift natural.** O conjunto OOT contém só empréstimos maduros no snapshot, e em 2015 isso significa 100% de contratos de 36 meses; os de 60 meses, mais arriscados, ainda não venceram. A amostra fica deslocada para scores baixos por construção. Sobre todas as propostas de 2015, o PSI do score da LogReg é **0,009**; em todo o S5 (2014–2018), o máximo mensal é 0,078 ([RUN-20261113-monitor-S5-02](../runs/RUN-20261113-monitor-S5-02.md)).
+
+- **A decisão não muda.** Os dois candidatos foram medidos no mesmo subconjunto, então o desempate continua comparável. A LogReg também tem o maior AUC de teste.
+- **Uma consequência fica sem sustentação:** a frase "a queda de juros em 2015 desloca o score para baixo […] principal fonte do drift de score no OOT". Não há drift de score relevante na população inteira. A perda de calibração (observado/esperado > 1) se confirma no S5 com rótulo maduro.
+- **O sinal de reversão não disparou:** o PSI do score teve 0% de falso alarme no controle ([RUN-20261113-calib-S0-01](../runs/RUN-20261113-calib-S0-01.md)).
+

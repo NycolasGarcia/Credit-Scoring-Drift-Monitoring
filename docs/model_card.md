@@ -61,11 +61,16 @@ No teste ([RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md)): aprov
 
 **Leitura:** a aprovação próxima de 100% em regime normal reflete o **viés de seleção**, porque os dados já passaram pela política do credor de origem. O valor do modelo aparece sob degradação, quando o modo conservador (GR-4, F7) usa o ranking para cortar a cauda de risco até o teto de bad rate dos aprovados (14%, PROPOSTO).
 
-## Sensibilidade a drift (observada fora do tempo)
+## Sensibilidade a drift
 
-- **Calibração degrada com o tempo, e o ranking se mantém.** Observado/esperado vai de 1,006 (2013) a 1,113 (2014) e 1,287 (2015), com AUC estável perto de 0,69–0,70. O modelo passa a **subestimar o risco**.
-- **O score desloca:** PSI test → OOT 2015 = 0,2257, puxado pela queda de `int_rate`, a feature mais importante, sem queda correspondente de inadimplência.
-- Implicação para o monitoramento: sinais L3 (PSI do score, bad rate esperado) acendem antes de qualquer perda de AUC. Recalibração (A5) é a resposta candidata natural para esse padrão (F7).
+**Fora do tempo (dado real):**
+- **Calibração degrada, ranking se mantém.** Observado/esperado vai de 1,006 (2013) a 1,113 (2014) e 1,287 (2015) nos empréstimos maduros, com AUC estável perto de 0,69–0,70. No monitoramento da produção natural, a razão das coortes que vencem em 2017–2018 sobe de 1,03 para 1,39, com AUC entre 0,67 e 0,71 ([RUN-20261113-monitor-S5-02](runs/RUN-20261113-monitor-S5-02.md)). O modelo passa a **subestimar o risco**, um padrão de recalibração (A5, F7).
+- **O score quase não desloca:** PSI mensal do score ≤ 0,078 em 2014–2018, mesmo com drift de entrada desde 2014 (`verification_status`, `int_rate`). O valor de 0,2257 registrado na F2 era um artefato do filtro de maturação (errata no [ADR-0006](adr/0006-base-model.md)).
+
+**Cenários controlados** ([DRIFT_EVALUATION.md](DRIFT_EVALUATION.md)):
+- **Choque econômico (S1):** score e risco sobem juntos e o modelo continua calibrado. Drift sem degradação.
+- **Concept drift (S2) e prior shift (S3):** o bad rate sobe de 5 a 7 p.p. sem nenhum sinal nas entradas ou no score. Só o desempenho com rótulo maduro revela o problema, com o atraso do rótulo.
+- **Bug de unidade (S4):** a renda mensal no lugar da anual derruba a aprovação em 6 p.p. e a AUC em até 0,05. O modelo é sensível a erro de unidade em `annual_inc`, sua 3ª feature mais importante.
 
 ## Limitações
 
