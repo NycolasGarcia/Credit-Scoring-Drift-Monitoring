@@ -1,0 +1,12 @@
+annual_inc_joint
+earliest_cr_line
+emp_title
+fico_range_high
+hardship_reason
+last_fico_range_high
+last_fico_range_low
+member_id
+sec_app_earliest_cr_line
+sec_app_fico_range_high
+sec_app_fico_range_low
+zip_code

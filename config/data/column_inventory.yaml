@@ -1,0 +1,177 @@
+# Column inventory of the Lending Club accepted-loans file (151 columns).
+# Single source of truth for: model allowlist, PII handling, publication guard and data docs.
+#
+# cat  : identificador_direto | quase_identificador | texto_livre | originacao | pos_originacao | alvo | metadado
+# pii  : direto | quase | nao          (LGPD: dado pessoal identificado/identificável; nenhum "sensível" art. 5º II)
+# use  : feature | segmento | alvo | chave | metadado | descartado
+# why  : short rationale (only when not obvious)
+#
+# Evidence: data dictionary (sheet browseNotes = fields visible at listing time) and univariate
+# AUC scan on mature 2013 loans (post-origination leakage: recoveries 0.958, last_fico 0.896,
+# last_credit_pull_d 0.856, total_rec_prncp 0.845).
+
+columns:
+  # --- identificadores e texto livre --------------------------------------------------------
+  id: {cat: identificador_direto, pii: direto, use: chave, why: "pseudonimizado via HMAC; valor original nunca sai do loader"}
+  member_id: {cat: identificador_direto, pii: direto, use: descartado, why: "100% nulo no arquivo"}
+  url: {cat: identificador_direto, pii: direto, use: descartado, why: "contém o id"}
+  emp_title: {cat: texto_livre, pii: quase, use: descartado, why: "texto livre do tomador; minimização"}
+  desc: {cat: texto_livre, pii: quase, use: descartado, why: "texto livre do tomador; minimização"}
+  title: {cat: texto_livre, pii: quase, use: descartado, why: "texto livre do tomador; minimização"}
+  zip_code: {cat: quase_identificador, pii: quase, use: descartado, why: "3 dígitos de CEP; minimização (região coberta por addr_state)"}
+  addr_state: {cat: quase_identificador, pii: quase, use: segmento, why: "fora do modelo (proxy regional); usado só em fairness e monitoramento"}
+  earliest_cr_line: {cat: quase_identificador, pii: quase, use: descartado, why: "data bruta substituída pela derivada credit_history_months"}
+
+  # --- alvo e metadados ---------------------------------------------------------------------
+  loan_status: {cat: alvo, pii: nao, use: alvo}
+  issue_d: {cat: metadado, pii: nao, use: metadado, why: "safra; eixo temporal da separação"}
+  application_type: {cat: metadado, pii: nao, use: metadado, why: "escopo = Individual; Joint só existe a partir de 2015-12"}
+  policy_code: {cat: metadado, pii: nao, use: descartado, why: "constante"}
+  initial_list_status: {cat: originacao, pii: nao, use: descartado, why: "canal de investidor, não atributo do tomador"}
+  disbursement_method: {cat: originacao, pii: nao, use: descartado, why: "só existe a partir de 2018"}
+  funded_amnt: {cat: originacao, pii: nao, use: descartado, why: "redundante com loan_amnt"}
+  funded_amnt_inv: {cat: originacao, pii: nao, use: descartado, why: "processo de funding por investidores; fora da aba browseNotes"}
+
+  # --- features de originação (allowlist do modelo) -----------------------------------------
+  loan_amnt: {cat: originacao, pii: nao, use: feature}
+  term: {cat: originacao, pii: nao, use: feature}
+  int_rate: {cat: originacao, pii: nao, use: feature}
+  installment: {cat: originacao, pii: nao, use: feature}
+  grade: {cat: originacao, pii: nao, use: feature}
+  emp_length: {cat: originacao, pii: quase, use: feature, why: "também segmento de fairness"}
+  home_ownership: {cat: originacao, pii: quase, use: feature, why: "também segmento de fairness"}
+  annual_inc: {cat: originacao, pii: quase, use: feature}
+  verification_status: {cat: originacao, pii: nao, use: feature}
+  purpose: {cat: originacao, pii: nao, use: feature}
+  dti: {cat: originacao, pii: nao, use: feature}
+  delinq_2yrs: {cat: originacao, pii: nao, use: feature}
+  fico_range_low: {cat: originacao, pii: quase, use: feature}
+  inq_last_6mths: {cat: originacao, pii: nao, use: feature}
+  mths_since_last_delinq: {cat: originacao, pii: nao, use: feature, why: "nulo = nunca inadimpliu"}
+  open_acc: {cat: originacao, pii: nao, use: feature}
+  pub_rec: {cat: originacao, pii: nao, use: feature}
+  revol_bal: {cat: originacao, pii: nao, use: feature}
+  revol_util: {cat: originacao, pii: nao, use: feature}
+  total_acc: {cat: originacao, pii: nao, use: feature}
+  mort_acc: {cat: originacao, pii: nao, use: feature}
+  pub_rec_bankruptcies: {cat: originacao, pii: nao, use: feature}
+  acc_open_past_24mths: {cat: originacao, pii: nao, use: feature}
+  bc_util: {cat: originacao, pii: nao, use: feature}
+  avg_cur_bal: {cat: originacao, pii: nao, use: feature}
+  tot_hi_cred_lim: {cat: originacao, pii: nao, use: feature}
+  num_actv_rev_tl: {cat: originacao, pii: nao, use: feature}
+  percent_bc_gt_75: {cat: originacao, pii: nao, use: feature}
+  mths_since_recent_inq: {cat: originacao, pii: nao, use: feature}
+  mo_sin_old_rev_tl_op: {cat: originacao, pii: nao, use: feature}
+  tot_cur_bal: {cat: originacao, pii: nao, use: feature}
+  total_bc_limit: {cat: originacao, pii: nao, use: feature}
+
+  # --- originação, descartadas por parcimônia/redundância/qualidade -------------------------
+  sub_grade: {cat: originacao, pii: nao, use: descartado, why: "redundante com grade e int_rate"}
+  fico_range_high: {cat: originacao, pii: quase, use: descartado, why: "fico_range_low + 4"}
+  mths_since_last_record: {cat: originacao, pii: nao, use: descartado, why: "~88% nulo em 2013"}
+  mths_since_last_major_derog: {cat: originacao, pii: nao, use: descartado, why: "~80% nulo em 2013"}
+  collections_12_mths_ex_med: {cat: originacao, pii: nao, use: descartado, why: "quase constante"}
+  acc_now_delinq: {cat: originacao, pii: nao, use: descartado, why: "quase constante"}
+  chargeoff_within_12_mths: {cat: originacao, pii: nao, use: descartado, why: "quase constante"}
+  delinq_amnt: {cat: originacao, pii: nao, use: descartado, why: "quase constante"}
+  tax_liens: {cat: originacao, pii: nao, use: descartado, why: "quase constante"}
+  num_tl_120dpd_2m: {cat: originacao, pii: nao, use: descartado, why: "dicionário: 'updated in past 2 months' (ambíguo) e quase constante"}
+  num_tl_30dpd: {cat: originacao, pii: nao, use: descartado, why: "dicionário: 'updated in past 2 months' (ambíguo) e quase constante"}
+  bc_open_to_buy: {cat: originacao, pii: nao, use: descartado, why: "redundância com total_bc_limit e bc_util"}
+  mo_sin_old_il_acct: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  mo_sin_rcnt_rev_tl_op: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  mo_sin_rcnt_tl: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  mths_since_recent_bc: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  mths_since_recent_bc_dlq: {cat: originacao, pii: nao, use: descartado, why: "~78% nulo"}
+  mths_since_recent_revol_delinq: {cat: originacao, pii: nao, use: descartado, why: "~70% nulo"}
+  num_accts_ever_120_pd: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  num_actv_bc_tl: {cat: originacao, pii: nao, use: descartado, why: "redundância com num_actv_rev_tl"}
+  num_bc_sats: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  num_bc_tl: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  num_il_tl: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  num_op_rev_tl: {cat: originacao, pii: nao, use: descartado, why: "redundância com open_acc"}
+  num_rev_accts: {cat: originacao, pii: nao, use: descartado, why: "redundância com total_acc"}
+  num_rev_tl_bal_gt_0: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  num_sats: {cat: originacao, pii: nao, use: descartado, why: "redundância com open_acc"}
+  num_tl_90g_dpd_24m: {cat: originacao, pii: nao, use: descartado, why: "quase constante"}
+  num_tl_op_past_12m: {cat: originacao, pii: nao, use: descartado, why: "redundância com acc_open_past_24mths"}
+  pct_tl_nvr_dlq: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  total_bal_ex_mort: {cat: originacao, pii: nao, use: descartado, why: "redundância com tot_cur_bal"}
+  total_il_high_credit_limit: {cat: originacao, pii: nao, use: descartado, why: "parcimônia"}
+  tot_coll_amt: {cat: originacao, pii: nao, use: descartado, why: "quase constante"}
+  total_rev_hi_lim: {cat: originacao, pii: nao, use: descartado, why: "redundância com tot_hi_cred_lim"}
+
+  # --- originação, inexistentes na janela de referência (surgem em 2015-12) -----------------
+  open_acc_6m: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  open_act_il: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  open_il_12m: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  open_il_24m: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  mths_since_rcnt_il: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  total_bal_il: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  il_util: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  open_rv_12m: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  open_rv_24m: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  max_bal_bc: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  all_util: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  inq_fi: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  total_cu_tl: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+  inq_last_12m: {cat: originacao, pii: nao, use: descartado, why: "100% nulo na referência 2013"}
+
+  # --- co-tomador (aplicações Joint, fora do escopo) ----------------------------------------
+  annual_inc_joint: {cat: originacao, pii: quase, use: descartado, why: "escopo Individual"}
+  dti_joint: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  verification_status_joint: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  revol_bal_joint: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_fico_range_low: {cat: originacao, pii: quase, use: descartado, why: "escopo Individual"}
+  sec_app_fico_range_high: {cat: originacao, pii: quase, use: descartado, why: "escopo Individual"}
+  sec_app_earliest_cr_line: {cat: quase_identificador, pii: quase, use: descartado, why: "escopo Individual"}
+  sec_app_inq_last_6mths: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_mort_acc: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_open_acc: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_revol_util: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_open_act_il: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_num_rev_accts: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_chargeoff_within_12_mths: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_collections_12_mths_ex_med: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+  sec_app_mths_since_last_major_derog: {cat: originacao, pii: nao, use: descartado, why: "escopo Individual"}
+
+  # --- pós-originação (vazam o rótulo; proibidas no modelo e no contrato de entrada) --------
+  pymnt_plan: {cat: pos_originacao, pii: nao, use: descartado}
+  out_prncp: {cat: pos_originacao, pii: nao, use: descartado}
+  out_prncp_inv: {cat: pos_originacao, pii: nao, use: descartado}
+  total_pymnt: {cat: pos_originacao, pii: nao, use: descartado}
+  total_pymnt_inv: {cat: pos_originacao, pii: nao, use: descartado}
+  total_rec_prncp: {cat: pos_originacao, pii: nao, use: descartado}
+  total_rec_int: {cat: pos_originacao, pii: nao, use: descartado}
+  total_rec_late_fee: {cat: pos_originacao, pii: nao, use: descartado}
+  recoveries: {cat: pos_originacao, pii: nao, use: descartado}
+  collection_recovery_fee: {cat: pos_originacao, pii: nao, use: descartado}
+  last_pymnt_d: {cat: pos_originacao, pii: nao, use: descartado, why: "lido só para datar o snapshot"}
+  last_pymnt_amnt: {cat: pos_originacao, pii: nao, use: descartado}
+  next_pymnt_d: {cat: pos_originacao, pii: nao, use: descartado}
+  last_credit_pull_d: {cat: pos_originacao, pii: nao, use: descartado}
+  last_fico_range_high: {cat: pos_originacao, pii: quase, use: descartado}
+  last_fico_range_low: {cat: pos_originacao, pii: quase, use: descartado}
+  hardship_flag: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_type: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_reason: {cat: pos_originacao, pii: quase, use: descartado}
+  hardship_status: {cat: pos_originacao, pii: nao, use: descartado}
+  deferral_term: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_amount: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_start_date: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_end_date: {cat: pos_originacao, pii: nao, use: descartado}
+  payment_plan_start_date: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_length: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_dpd: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_loan_status: {cat: pos_originacao, pii: nao, use: descartado}
+  orig_projected_additional_accrued_interest: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_payoff_balance_amount: {cat: pos_originacao, pii: nao, use: descartado}
+  hardship_last_payment_amount: {cat: pos_originacao, pii: nao, use: descartado}
+  debt_settlement_flag: {cat: pos_originacao, pii: nao, use: descartado}
+  debt_settlement_flag_date: {cat: pos_originacao, pii: nao, use: descartado}
+  settlement_status: {cat: pos_originacao, pii: nao, use: descartado}
+  settlement_date: {cat: pos_originacao, pii: nao, use: descartado}
+  settlement_amount: {cat: pos_originacao, pii: nao, use: descartado}
+  settlement_percentage: {cat: pos_originacao, pii: nao, use: descartado}
+  settlement_term: {cat: pos_originacao, pii: nao, use: descartado}
