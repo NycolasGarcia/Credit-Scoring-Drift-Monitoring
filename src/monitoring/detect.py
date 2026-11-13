@@ -69,7 +69,8 @@ def detect_batch(ctx: DetectContext, batch: Batch, history: pd.DataFrame) -> dic
     l4 = performance_signals(observable_at(history, batch.index), ctx.profile, k, min_rows)
     severity = batch_severity(table, l3, l4, ctx.cfg)
     bugs = unit_bugs(ctx.reference, batch.applications, table, ctx.profile, ctx.cfg)
-    detail = table.head(DETAIL_ROWS).map(_round).to_dict(orient="records")
+    detail = [{k: _round(v) for k, v in row.items()}
+              for row in table.head(DETAIL_ROWS).to_dict(orient="records")]  # fmt: skip
     return {
         "batch_id": batch.batch_id, "index": batch.index, "issue_month": batch.issue_month,
         "gate_status": batch.gate_status, "rows_scored": len(batch.scored),

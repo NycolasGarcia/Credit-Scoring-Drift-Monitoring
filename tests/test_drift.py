@@ -1,5 +1,6 @@
 """Drift detection: PSI on known values, Evidently cross-check, severity, diagnosis, evaluation."""
 
+import json
 import math
 
 import numpy as np
@@ -11,6 +12,7 @@ from scipy.stats import ks_2samp
 
 from src.data.features import model_feature_columns
 from src.monitoring.calibration import bin_codes, calibrate_signal, psi_codes
+from src.monitoring.detect import Batch, DetectContext, detect_batch
 from src.monitoring.diagnosis import diagnose, unit_bug_signature
 from src.monitoring.drift import drift_table, feature_psi, wasserstein_norm
 from src.monitoring.evaluation import evaluate
@@ -168,3 +170,13 @@ def test_calibration_keeps_proposal_as_floor_and_clears_null_max() -> None:
     th = CFG.get("auc_drop")
     assert out["sev1"] >= th.sev1 and out["sev2"] > null["auc_drop"].max()
     assert out["fa_proposed_sev1"] == pytest.approx((null["auc_drop"] >= th.sev1).mean())
+
+
+def test_batch_result_is_strict_json(reference, profile) -> None:
+    apps = synthetic_batch(1500, seed=13)
+    scored = pd.DataFrame({"loan_key": apps["loan_key"], "score": 0.2, "decision": "approve"})
+    labels = pd.DataFrame({"loan_key": apps["loan_key"], "target": np.nan, "label_batch": 9})
+    hist = scored.merge(labels, on="loan_key").assign(cohort=0)
+    batch = Batch(0, "b", "2014-01", "passed", apps, scored, labels)
+    out = detect_batch(DetectContext(reference, profile, CFG), batch, hist)
+    json.dumps(out, allow_nan=False)

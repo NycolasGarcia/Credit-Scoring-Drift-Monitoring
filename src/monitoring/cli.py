@@ -120,9 +120,10 @@ def run_detect(sid: str, ctx: DetectContext, git: tuple[str, bool]) -> None:
                                EVIDENCE / f"{sid}_evidently.html")  # fmt: skip
     meta = {"base_sha256": manifest["base_sha256"], "model": manifest["model"]["version"],
             "thresholds": thresholds_sha(), "sim_run": manifest.get("run_id")}  # fmt: skip
+    body = {"scenario": sid, **meta, "evaluation": ev, "evidently": report, "batches": results}
+    json.dumps(body, allow_nan=False)  # fail before any RUN record is written
     run_id = write_record(detection_record(sid, ev, meta, git)).stem
-    write_json(EVIDENCE / f"{sid}.json", {"scenario": sid, "run_id": run_id, **meta,
-               "evaluation": ev, "evidently": report, "batches": results})  # fmt: skip
+    write_json(EVIDENCE / f"{sid}.json", {"run_id": run_id, **body})
 
 
 def main(argv: list[str] | None = None) -> int:
