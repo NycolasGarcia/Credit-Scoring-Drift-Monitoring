@@ -1,6 +1,8 @@
 # ADR-0007 — Matriz de custo e limiar de aprovação por valor esperado
 
-- **Status:** aceito (premissas de custo com status PROPOSTO)
+> **Nota 2026-11-13 — sinal de reversão disparado.** A análise de sensibilidade (`notebooks/02_modelagem.ipynb`, seção 4; função `cost_sensitivity`) mostrou o limiar ótimo variando entre 0,06 e 0,55 para LGD ∈ [0,4; 0,8] × margem ∈ [0,3; 0,7]. Ele fica dentro de 0,25–0,40 em apenas 6 das 25 combinações. A regra e o limiar vigente (0,33) continuam em uso até que o autor decida a revisão das premissas, registrada em `docs/PROGRESS.md`; a revisão será um ADR novo que supersede este.
+
+- **Status:** aceito (premissas de custo com status PROPOSTO) — **revisão pendente** (ver nota)
 - **Data:** 2026-11-12
 - **Fase:** F2
 

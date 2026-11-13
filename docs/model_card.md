@@ -47,6 +47,8 @@ Calibrado na referência (observado/esperado = 1,006 no teste). A recalibração
 
 0,33 (aprova se score < 0,33), escolhido por valor esperado com premissas de custo PROPOSTAS. No teste: aprovação de 94,3%, bad rate dos aprovados de 14,3% e US$ 445 por proposta (ADR-0007).
 
+**Sensibilidade:** o limiar é **pouco robusto** às premissas. Com LGD entre 0,4 e 0,8 e realização de margem entre 0,3 e 0,7, o ótimo varia de 0,06 a 0,55 e a aprovação de 14% a 100% (notebook `02_modelagem`, seção 4). A revisão das premissas está pendente.
+
 ## Sensibilidade a drift (observada fora do tempo)
 
 - **Calibração degrada com o tempo, e o ranking se mantém.** Observado/esperado vai de 1,006 (2013) a 1,113 (2014) e 1,287 (2015), com AUC estável perto de 0,69–0,70. O modelo passa a **subestimar o risco**.
