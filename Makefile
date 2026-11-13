@@ -7,7 +7,7 @@ define todo
 	@exit 1
 endef
 
-.PHONY: help setup lint format test train validate validate-bad simulate detect monitor \
+.PHONY: help setup lint format test data inventory eda train validate validate-bad simulate detect monitor \
         replay report rollback stack-up stack-down publish-check publish-check-all \
         publish-check-history
 
@@ -38,6 +38,15 @@ publish-check-all:
 
 publish-check-history:
 	$(RUN) python scripts/check_publication.py --history
+
+data:
+	$(RUN) python -m src.data.prepare
+
+inventory:
+	$(RUN) python -m src.data.inventory
+
+eda:
+	$(RUN) jupyter nbconvert --to notebook --execute --inplace notebooks/01_eda.ipynb
 
 train:
 	$(call todo,F2)

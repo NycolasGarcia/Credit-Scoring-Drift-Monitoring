@@ -1,0 +1,7 @@
+# Reference x production separation (ADR-0005).
+scope_application_type: Individual
+reference_start: "2013-01"      # first vintage with complete bureau fields
+reference_end: "2013-12"        # last reference vintage; every loan is mature by the snapshot
+production_start: "2014-01"     # natural production: monthly batches from here on
+holdout_fraction: 0.20          # share of the reference pool kept out of training (base of simulated scenarios)
+seed: 42
