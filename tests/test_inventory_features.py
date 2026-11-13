@@ -3,9 +3,9 @@
 import pandas as pd
 import pytest
 
-from src.config import get_settings
+from src.config import PROJECT_ROOT, get_settings
 from src.data.features import model_feature_columns, raw_feature_columns
-from src.data.inventory import PII_EXPORT_PATH, load_inventory
+from src.data.inventory import PII_EXPORT_PATH, load_inventory, render_markdown
 from src.data.load import columns_to_load
 
 EXPECTED_RAW_COLUMNS = 151
@@ -50,3 +50,8 @@ def test_loader_never_reads_free_text_or_leaky_columns() -> None:
 def test_exported_pii_list_is_in_sync() -> None:
     exported = PII_EXPORT_PATH.read_text(encoding="utf-8").split()
     assert exported == load_inventory().publish_forbidden()
+
+
+def test_inventory_doc_is_in_sync() -> None:
+    doc = (PROJECT_ROOT / "docs" / "data_inventory.md").read_text(encoding="utf-8")
+    assert doc == render_markdown()

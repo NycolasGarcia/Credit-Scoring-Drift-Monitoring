@@ -74,5 +74,34 @@ def export_pii_list(path: Path = PII_EXPORT_PATH) -> list[str]:
     return names
 
 
+DOC_HEADER = """# Inventário de colunas
+
+> Gerado por `python -m src.data.inventory` a partir de `config/data/column_inventory.yaml`.
+> Não editar à mão: altere o YAML e regenere.
+
+Legenda — **cat**: categoria do dado · **pii**: dado pessoal (LGPD) direto,
+quase-identificador ou não · **use**: destino no projeto.
+Nenhuma coluna é dado pessoal *sensível* (LGPD art. 5º, II).
+
+"""
+
+
+def render_markdown() -> str:
+    """Render the inventory as a Markdown document with a summary and one row per column."""
+    inv = load_inventory()
+    counts: dict[str, int] = {}
+    for spec in inv.columns.values():
+        counts[spec.use] = counts.get(spec.use, 0) + 1
+    summary = " · ".join(f"{k}: {v}" for k, v in sorted(counts.items()))
+    rows = [f"| `{n}` | {s.cat} | {s.pii} | {s.use} | {s.why} |" for n, s in inv.columns.items()]
+    table = ["| Coluna | cat | pii | use | Racional |", "|---|---|---|---|---|", *rows]
+    return (
+        f"{DOC_HEADER}**Total: {len(inv.columns)} colunas** — {summary}\n\n"
+        + "\n".join(table)
+        + "\n"
+    )
+
+
 if __name__ == "__main__":
     export_pii_list()
+    (PROJECT_ROOT / "docs" / "data_inventory.md").write_text(render_markdown(), encoding="utf-8")
