@@ -62,7 +62,7 @@ Execução oficial em árvore limpa, commit `df6643e`, champion v2 com limiar 0,
 | Cenário | RUN | Lotes / bloqueados | Aprovação pré → pós | Score médio pré → pós | Bad rate pré → pós |
 |---|---|---|---|---|---|
 | S0 | [RUN-20261113-sim-S0-01](runs/RUN-20261113-sim-S0-01.md) | 12 / 0 | 99,77% (todos) | 0,155 (todos) | 15,7% (todos) |
-| S1 | [RUN-20261113-sim-S1-02](runs/RUN-20261113-sim-S1-02.md) | 12 / 0 | 99,76% → 98,80% | 0,154 → 0,188 | 15,6% → 19,0% |
+| S1 | [RUN-20261113-sim-S1-03](runs/RUN-20261113-sim-S1-03.md) | 12 / 0 | 99,76% → 98,80% | 0,154 → 0,188 | 15,6% → 19,0% |
 | S2 | [RUN-20261113-sim-S2-01](runs/RUN-20261113-sim-S2-01.md) | 12 / 0 | 99,80% → 99,77% | 0,154 → 0,155 | 14,9% → 20,0% |
 | S3 | [RUN-20261113-sim-S3-01](runs/RUN-20261113-sim-S3-01.md) | 12 / 0 | 99,78% → 99,77% | 0,156 → 0,155 | 15,5% → 22,6% |
 | S4 | [RUN-20261113-sim-S4-01](runs/RUN-20261113-sim-S4-01.md) | 12 / 0 | 99,71% → 93,74% | 0,155 → 0,214 | 15,5% → 15,7% |
@@ -77,5 +77,5 @@ Execução oficial em árvore limpa, commit `df6643e`, champion v2 com limiar 0,
   - **S4 (D6):** o score salta e a aprovação cai 6 p.p., mas a inadimplência não muda. O modelo passa a recusar bons pagadores por causa de um bug.
 - **Achado para a F5 — a taxa de aprovação é um sinal fraco de saída neste modelo.** Com o limiar 0,495, que aprova quase todos (ADR-0016), o choque econômico pleno do S1 move a aprovação em só 1,7 p.p. no último lote (99,7% → 98,0%), abaixo da faixa SEV-1 proposta (± 3 p.p., §8.4). A camada L3 precisa se apoiar na distribuição do score (PSI), não só na aprovação.
 - **Nenhum lote bloqueado em nenhum cenário.** No S4 isso é intencional: o bug de 30% escapa do contrato. A quarentena fica em 4 a 33 linhas por cenário, por defeitos reais do holdout. No S1 ela cai para 4, porque recalcular a parcela após o choque também elimina incoerências de parcela que já existiam no dado. É um efeito colateral conhecido do simulador e não afeta o drift.
-- **S1 regerado na F5** ([RUN-20261113-sim-S1-02](runs/RUN-20261113-sim-S1-02.md)): o ground truth passou a incluir `installment`, que muda porque a parcela é recalculada. Os lotes saíram com hashes idênticos aos do RUN S1-01; só o manifesto mudou.
+- **S1 regerado na F5** ([RUN-20261113-sim-S1-03](runs/RUN-20261113-sim-S1-03.md)): o manifesto passou a registrar `installment` como efeito mecânico (`secondary_features`), separado das features injetadas. A parcela é recalculada quando os juros sobem, mas isso não é drift injetado. Os lotes têm hashes idênticos aos do RUN S1-01; só o manifesto mudou.
 - **Determinismo verificado no dado real:** o S2 regerado com a mesma seed reproduziu os hashes dos 12 lotes.
