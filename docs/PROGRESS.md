@@ -255,3 +255,22 @@ Decisão registrada como **ADR-0016 (proposto)**, com opções A–D e recomenda
 Pendente do autor: decisão do ADR-0016.
 
 Docs em sincronia: **ok** (data card, model card, ADR-0007/0016, índice, ARCHITECTURE, README, data_inventory).
+
+---
+
+## Nota — 2026-11-13 · ADR-0016 aceito (B + D) e champion v2
+
+**Decisão do autor:** opção B (premissas medidas + funding declarado) combinada com a opção D (apetite de risco como guardrail). O ADR-0016 supersede o ADR-0007.
+
+Sequência executada, com árvore limpa em cada run:
+
+1. **Código.** A economia modelada passou a cobrar funding sobre o saldo-ano de cada desfecho. Entrou a premissa nova de realização de juros dos maus. A config ganhou `funding_rate`, `source_run` e `risk_appetite`.
+2. **[RUN-20261113-calib-COST-02](runs/RUN-20261113-calib-COST-02.md)** estimou as premissas: LGD 0,327, juros dos bons 0,756, juros dos maus 0,564. Com funding de 5%, o limiar fica em 0,495 e o regret em 0,88%. As premissas antigas com funding teriam regret de 71%.
+3. **Config.** `config/models/cost.yaml` passou para status ESTIMADO, com `source_run` = COST-02.
+4. **[RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md)** registrou o **champion v2**: mesmo modelo, AUC 0,7001, **limiar 0,495**. No teste, aprovação de 99,8%, bad rate dos aprovados 15,5% e US$ 942 por proposta.
+5. **[RUN-20261113-calib-COST-03](runs/RUN-20261113-calib-COST-03.md)** validou a config adotada: regret de **0,88%**, abaixo do sinal de reversão de 2%, e aderência de 0,9986.
+6. **Apetite de risco.** O teto de bad rate dos aprovados de 14% ficou registrado como PROPOSTO, para o modo conservador (GR-4) da F7.
+
+**Leitura:** em regime normal o modelo aprova quase todos, por causa do viés de seleção da base. O valor do modelo aparece sob degradação. Isso vira tema explícito do vídeo e da F7.
+
+Docs em sincronia: **ok** (ADR-0016 aceito, ADR-0007 supersedido, índice, model card v2, notebook `02_modelagem` reexecutado, EXPERIMENTS regenerado).
