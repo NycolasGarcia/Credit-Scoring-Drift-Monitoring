@@ -135,6 +135,42 @@ def test_output_contract_catches_bad_scores_and_inconsistent_decisions() -> None
     assert "O03" in validate_output(scored.assign(decision=["reject", "reject"]), CFG, 0.5)
 
 
+def test_s01_null_rate_jump_warns_without_blocking(profile: dict) -> None:
+    batch = synthetic_batch()
+    batch.loc[batch.sample(frac=0.2, random_state=0).index, "mths_since_last_delinq"] = np.nan
+    result = validate_input(batch, profile, CFG)
+    assert (
+        result.soft["S01"]["triggered"]
+        and "mths_since_last_delinq" in result.soft["S01"]["columns"]
+    )
+    assert result.status == "passed"
+
+
+def test_s03_volume_outside_band_warns(profile: dict) -> None:
+    result = validate_input(synthetic_batch(n=500), profile, CFG)
+    assert result.soft["S03"]["triggered"] and result.status == "passed"
+
+
+def test_s04_extreme_utilization_tail_warns(profile: dict) -> None:
+    batch = synthetic_batch()
+    batch.loc[batch.sample(frac=0.05, random_state=0).index, "revol_util"] = 400.0
+    result = validate_input(batch, profile, CFG)
+    assert result.soft["S04"]["triggered"] and result.status == "passed"
+
+
+def test_o01_output_schema_rejects_extra_or_missing_columns() -> None:
+    scored = pd.DataFrame({"loan_key": ["a"], "score": [0.2], "decision": ["approve"],
+                           "model_version": "v"})  # fmt: skip
+    assert "O01" in validate_output(scored.assign(target=1), CFG, 0.5)
+    assert "O01" in validate_output(scored.drop(columns="model_version"), CFG, 0.5)
+
+
+def test_every_rule_in_catalog_has_a_test() -> None:
+    tested_directly = {"S01", "S03", "S04", "O01", "O02", "O03"}
+    via_defect = {d.expected_rule for d in DEFECTS.values()}
+    assert set(RULES) == tested_directly | via_defect
+
+
 def test_d6_sweep_contract_catches_full_unit_bug(profile: dict) -> None:
     rows = sweep(synthetic_batch(), profile, CFG, seed=0)
     full = next(r for r in rows if r["fraction_monthly"] == 1.0)
