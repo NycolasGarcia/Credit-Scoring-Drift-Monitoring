@@ -1,0 +1,2601 @@
+{
+  "run_id": "RUN-20261113-monitor-S4-01",
+  "scenario": "S4",
+  "base_sha256": "f426398c4c947edafe4f1b11f8b307d5ea761fc773ed6829710e0f72d1962d6b",
+  "model": "credit-scoring@champion v2",
+  "thresholds": "c7aaf9056a2c",
+  "sim_run": "RUN-20261113-sim-S4-01",
+  "evaluation": {
+    "onset": 5,
+    "false_alarm": {
+      "batches": 5,
+      "sev1_plus": 0.0,
+      "sev2_plus": 0.0
+    },
+    "post_onset": {
+      "batches": 7,
+      "sev1_plus": 1.0,
+      "sev2_plus": 1.0
+    },
+    "first_sev1": 5,
+    "delay_sev1": 0,
+    "first_sev2": 5,
+    "delay_sev2": 0,
+    "layers_expected": [
+      "L2",
+      "L3"
+    ],
+    "layers_fired": [
+      "L2",
+      "L3",
+      "L4"
+    ],
+    "layers_missed": [],
+    "layers_unexpected": [
+      "L4"
+    ],
+    "first_by_layer": {
+      "L2": 5,
+      "L3": 5,
+      "L4": 8
+    },
+    "attribution": {
+      "flagged": [
+        "annual_inc"
+      ],
+      "truth": [
+        "annual_inc"
+      ],
+      "recall": 1.0,
+      "precision": 1.0
+    },
+    "diagnosis": {
+      "expected": "D6",
+      "counts": {
+        "D6": 7
+      },
+      "accuracy": 1.0
+    }
+  },
+  "evidently": {
+    "html": "S4_evidently.html",
+    "rows_current": 41989,
+    "rows_reference": 107843,
+    "threshold": 0.1,
+    "drifted_columns": [
+      "annual_inc",
+      "score"
+    ],
+    "cross_check": [
+      {
+        "column": "annual_inc",
+        "evidently": 0.463253,
+        "own": 0.463253,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "score",
+        "evidently": 0.188001,
+        "own": 0.185534,
+        "abs_diff": 0.002467,
+        "null_share": 0.0
+      },
+      {
+        "column": "mths_since_last_delinq",
+        "evidently": 0.001511,
+        "own": 0.001005,
+        "abs_diff": 0.000506,
+        "null_share": 0.573
+      },
+      {
+        "column": "int_rate",
+        "evidently": 0.000861,
+        "own": 0.000861,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "tot_cur_bal",
+        "evidently": 0.000852,
+        "own": 0.000852,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "dti",
+        "evidently": 0.000745,
+        "own": 0.000745,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "loan_amnt",
+        "evidently": 0.000665,
+        "own": 0.000665,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "installment",
+        "evidently": 0.000657,
+        "own": 0.000657,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "revol_util",
+        "evidently": 0.000641,
+        "own": 0.000665,
+        "abs_diff": 2.5e-05,
+        "null_share": 0.0007
+      },
+      {
+        "column": "total_acc",
+        "evidently": 0.000588,
+        "own": 0.000588,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "total_bc_limit",
+        "evidently": 0.000574,
+        "own": 0.000574,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "avg_cur_bal",
+        "evidently": 0.000546,
+        "own": 0.000546,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "mo_sin_old_rev_tl_op",
+        "evidently": 0.000536,
+        "own": 0.000536,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "credit_history_months",
+        "evidently": 0.000536,
+        "own": 0.000536,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "tot_hi_cred_lim",
+        "evidently": 0.000497,
+        "own": 0.000497,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "open_acc",
+        "evidently": 0.000485,
+        "own": 0.000485,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "fico_range_low",
+        "evidently": 0.000445,
+        "own": 0.000445,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "revol_bal",
+        "evidently": 0.000432,
+        "own": 0.000432,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "acc_open_past_24mths",
+        "evidently": 0.000418,
+        "own": 0.000418,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "purpose",
+        "evidently": 0.000302,
+        "own": 0.000302,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "percent_bc_gt_75",
+        "evidently": 0.00027,
+        "own": 0.000345,
+        "abs_diff": 7.5e-05,
+        "null_share": 0.0082
+      },
+      {
+        "column": "pub_rec",
+        "evidently": 0.000248,
+        "own": 0.000248,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "emp_length",
+        "evidently": 0.000234,
+        "own": 0.000265,
+        "abs_diff": 3.1e-05,
+        "null_share": 0.043
+      },
+      {
+        "column": "bc_util",
+        "evidently": 0.00023,
+        "own": 0.000323,
+        "abs_diff": 9.3e-05,
+        "null_share": 0.0087
+      },
+      {
+        "column": "mths_since_recent_inq",
+        "evidently": 0.00022,
+        "own": 0.000272,
+        "abs_diff": 5.1e-05,
+        "null_share": 0.1055
+      },
+      {
+        "column": "pub_rec_bankruptcies",
+        "evidently": 0.000215,
+        "own": 0.000215,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "mort_acc",
+        "evidently": 0.000125,
+        "own": 0.000125,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "term",
+        "evidently": 0.000123,
+        "own": 0.000123,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "grade",
+        "evidently": 9.7e-05,
+        "own": 9.7e-05,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "delinq_2yrs",
+        "evidently": 9.4e-05,
+        "own": 9.4e-05,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "home_ownership",
+        "evidently": 8.6e-05,
+        "own": 8.6e-05,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "num_actv_rev_tl",
+        "evidently": 7.4e-05,
+        "own": 7.4e-05,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "inq_last_6mths",
+        "evidently": 6.2e-05,
+        "own": 6.2e-05,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      },
+      {
+        "column": "verification_status",
+        "evidently": 4e-05,
+        "own": 4e-05,
+        "abs_diff": 0.0,
+        "null_share": 0.0
+      }
+    ]
+  },
+  "batches": [
+    {
+      "batch_id": "S4-b00",
+      "index": 0,
+      "issue_month": "2014-01",
+      "gate_status": "partial",
+      "rows_scored": 5997,
+      "l2_top": [
+        {
+          "feature": "mths_since_recent_inq",
+          "type": "numeric",
+          "psi": 0.004231,
+          "ks_d": 0.010757,
+          "ks_p": 0.594751,
+          "wasserstein": 0.022467,
+          "chi2_p": null,
+          "importance_rank": 23
+        },
+        {
+          "feature": "installment",
+          "type": "numeric",
+          "psi": 0.003608,
+          "ks_d": 0.016214,
+          "ks_p": 0.099616,
+          "wasserstein": 0.031005,
+          "chi2_p": null,
+          "importance_rank": 26
+        },
+        {
+          "feature": "loan_amnt",
+          "type": "numeric",
+          "psi": 0.003153,
+          "ks_d": 0.012946,
+          "ks_p": 0.294086,
+          "wasserstein": 0.027819,
+          "chi2_p": null,
+          "importance_rank": 4
+        },
+        {
+          "feature": "dti",
+          "type": "numeric",
+          "psi": 0.002816,
+          "ks_d": 0.014736,
+          "ks_p": 0.167641,
+          "wasserstein": 0.019882,
+          "chi2_p": null,
+          "importance_rank": 9
+        },
+        {
+          "feature": "mths_since_last_delinq",
+          "type": "numeric",
+          "psi": 0.002416,
+          "ks_d": 0.022492,
+          "ks_p": 0.163249,
+          "wasserstein": 0.02353,
+          "chi2_p": null,
+          "importance_rank": 24
+        },
+        {
+          "feature": "revol_util",
+          "type": "numeric",
+          "psi": 0.002108,
+          "ks_d": 0.009823,
+          "ks_p": 0.639942,
+          "wasserstein": 0.011509,
+          "chi2_p": null,
+          "importance_rank": 11
+        },
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.001919,
+          "ks_d": 0.009181,
+          "ks_p": 0.720627,
+          "wasserstein": 0.014604,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "credit_history_months",
+          "type": "numeric",
+          "psi": 0.001876,
+          "ks_d": 0.006804,
+          "ks_p": 0.953387,
+          "wasserstein": 0.012266,
+          "chi2_p": null,
+          "importance_rank": 12
+        }
+      ],
+      "psi": {
+        "mths_since_recent_inq": 0.004231,
+        "installment": 0.003608,
+        "loan_amnt": 0.003153,
+        "dti": 0.002816,
+        "mths_since_last_delinq": 0.002416,
+        "revol_util": 0.002108,
+        "annual_inc": 0.001919,
+        "credit_history_months": 0.001876,
+        "revol_bal": 0.00174,
+        "open_acc": 0.001729,
+        "bc_util": 0.001631,
+        "purpose": 0.001582,
+        "acc_open_past_24mths": 0.001535,
+        "emp_length": 0.001528,
+        "total_bc_limit": 0.001445,
+        "tot_hi_cred_lim": 0.001408,
+        "tot_cur_bal": 0.00136,
+        "fico_range_low": 0.001348,
+        "total_acc": 0.001087,
+        "mo_sin_old_rev_tl_op": 0.001069,
+        "int_rate": 0.000901,
+        "avg_cur_bal": 0.000896,
+        "delinq_2yrs": 0.000894,
+        "mort_acc": 0.000874,
+        "grade": 0.000831,
+        "percent_bc_gt_75": 0.000794,
+        "num_actv_rev_tl": 0.000573,
+        "pub_rec": 0.000539,
+        "inq_last_6mths": 0.000314,
+        "pub_rec_bankruptcies": 0.000249,
+        "verification_status": 3.1e-05,
+        "term": 1.7e-05,
+        "home_ownership": 1.3e-05
+      },
+      "ks_p": {
+        "mths_since_recent_inq": 0.594751,
+        "installment": 0.099616,
+        "loan_amnt": 0.294086,
+        "dti": 0.167641,
+        "mths_since_last_delinq": 0.163249,
+        "revol_util": 0.639942,
+        "annual_inc": 0.720627,
+        "credit_history_months": 0.953387,
+        "revol_bal": 0.340344,
+        "open_acc": 0.809129,
+        "bc_util": 0.427917,
+        "acc_open_past_24mths": 0.20893,
+        "emp_length": 0.799719,
+        "total_bc_limit": 0.515949,
+        "tot_hi_cred_lim": 0.879098,
+        "tot_cur_bal": 0.669689,
+        "fico_range_low": 0.983184,
+        "total_acc": 0.412343,
+        "mo_sin_old_rev_tl_op": 0.91519,
+        "int_rate": 0.570838,
+        "avg_cur_bal": 0.722602,
+        "delinq_2yrs": 0.494729,
+        "mort_acc": 0.870925,
+        "percent_bc_gt_75": 0.933425,
+        "num_actv_rev_tl": 0.977047,
+        "pub_rec": 0.911197,
+        "inq_last_6mths": 0.939894,
+        "pub_rec_bankruptcies": 0.999325,
+        "term": 1.0
+      },
+      "l3": {
+        "score_psi": 0.001351,
+        "approval_rate": 0.997665,
+        "approval_delta_pp": -0.010905,
+        "expected_bad_rate": 0.156231
+      },
+      "l4": null,
+      "severity": {
+        "signals": {
+          "feature_psi": 0,
+          "score_psi": 0,
+          "approval_delta_pp": 0,
+          "bad_rate_ratio": 0,
+          "auc_drop": 0
+        },
+        "level": 0,
+        "flagged_features": []
+      },
+      "unit_bugs": {},
+      "diagnosis": "none"
+    },
+    {
+      "batch_id": "S4-b01",
+      "index": 1,
+      "issue_month": "2014-02",
+      "gate_status": "partial",
+      "rows_scored": 5998,
+      "l2_top": [
+        {
+          "feature": "bc_util",
+          "type": "numeric",
+          "psi": 0.004472,
+          "ks_d": 0.011976,
+          "ks_p": 0.390919,
+          "wasserstein": 0.018463,
+          "chi2_p": null,
+          "importance_rank": 16
+        },
+        {
+          "feature": "total_acc",
+          "type": "numeric",
+          "psi": 0.002865,
+          "ks_d": 0.008355,
+          "ks_p": 0.819201,
+          "wasserstein": 0.018423,
+          "chi2_p": null,
+          "importance_rank": 17
+        },
+        {
+          "feature": "credit_history_months",
+          "type": "numeric",
+          "psi": 0.002854,
+          "ks_d": 0.013547,
+          "ks_p": 0.245575,
+          "wasserstein": 0.013999,
+          "chi2_p": null,
+          "importance_rank": 12
+        },
+        {
+          "feature": "mo_sin_old_rev_tl_op",
+          "type": "numeric",
+          "psi": 0.002546,
+          "ks_d": 0.01149,
+          "ks_p": 0.437708,
+          "wasserstein": 0.015005,
+          "chi2_p": null,
+          "importance_rank": 14
+        },
+        {
+          "feature": "fico_range_low",
+          "type": "numeric",
+          "psi": 0.002003,
+          "ks_d": 0.006086,
+          "ks_p": 0.983623,
+          "wasserstein": 0.009665,
+          "chi2_p": null,
+          "importance_rank": 7
+        },
+        {
+          "feature": "revol_util",
+          "type": "numeric",
+          "psi": 0.001838,
+          "ks_d": 0.015981,
+          "ks_p": 0.108599,
+          "wasserstein": 0.017998,
+          "chi2_p": null,
+          "importance_rank": 11
+        },
+        {
+          "feature": "loan_amnt",
+          "type": "numeric",
+          "psi": 0.00178,
+          "ks_d": 0.014556,
+          "ks_p": 0.177993,
+          "wasserstein": 0.01907,
+          "chi2_p": null,
+          "importance_rank": 4
+        },
+        {
+          "feature": "avg_cur_bal",
+          "type": "numeric",
+          "psi": 0.001577,
+          "ks_d": 0.012317,
+          "ks_p": 0.351572,
+          "wasserstein": 0.015661,
+          "chi2_p": null,
+          "importance_rank": 13
+        }
+      ],
+      "psi": {
+        "bc_util": 0.004472,
+        "total_acc": 0.002865,
+        "credit_history_months": 0.002854,
+        "mo_sin_old_rev_tl_op": 0.002546,
+        "fico_range_low": 0.002003,
+        "revol_util": 0.001838,
+        "loan_amnt": 0.00178,
+        "avg_cur_bal": 0.001577,
+        "tot_cur_bal": 0.001514,
+        "mths_since_recent_inq": 0.001455,
+        "acc_open_past_24mths": 0.001327,
+        "annual_inc": 0.00123,
+        "installment": 0.001228,
+        "open_acc": 0.00119,
+        "tot_hi_cred_lim": 0.001156,
+        "total_bc_limit": 0.001136,
+        "mths_since_last_delinq": 0.001114,
+        "purpose": 0.001057,
+        "dti": 0.000959,
+        "percent_bc_gt_75": 0.000938,
+        "int_rate": 0.000928,
+        "mort_acc": 0.000928,
+        "inq_last_6mths": 0.000919,
+        "pub_rec_bankruptcies": 0.000823,
+        "revol_bal": 0.000823,
+        "emp_length": 0.000821,
+        "pub_rec": 0.00079,
+        "grade": 0.000668,
+        "home_ownership": 0.000603,
+        "num_actv_rev_tl": 0.00049,
+        "delinq_2yrs": 0.000316,
+        "verification_status": 0.000291,
+        "term": 9e-06
+      },
+      "ks_p": {
+        "bc_util": 0.390919,
+        "total_acc": 0.819201,
+        "credit_history_months": 0.245575,
+        "mo_sin_old_rev_tl_op": 0.437708,
+        "fico_range_low": 0.983623,
+        "revol_util": 0.108599,
+        "loan_amnt": 0.177993,
+        "avg_cur_bal": 0.351572,
+        "tot_cur_bal": 0.486358,
+        "mths_since_recent_inq": 0.283774,
+        "acc_open_past_24mths": 0.400377,
+        "annual_inc": 0.979285,
+        "installment": 0.113726,
+        "open_acc": 0.998658,
+        "tot_hi_cred_lim": 0.508195,
+        "total_bc_limit": 0.382452,
+        "mths_since_last_delinq": 0.427304,
+        "dti": 0.408942,
+        "percent_bc_gt_75": 0.947313,
+        "int_rate": 0.848479,
+        "mort_acc": 0.561992,
+        "inq_last_6mths": 0.380708,
+        "pub_rec_bankruptcies": 0.741574,
+        "revol_bal": 0.798082,
+        "emp_length": 0.996723,
+        "pub_rec": 0.711589,
+        "num_actv_rev_tl": 0.998678,
+        "delinq_2yrs": 0.960396,
+        "term": 1.0
+      },
+      "l3": {
+        "score_psi": 0.000328,
+        "approval_rate": 0.996499,
+        "approval_delta_pp": -0.127572,
+        "expected_bad_rate": 0.154686
+      },
+      "l4": null,
+      "severity": {
+        "signals": {
+          "feature_psi": 0,
+          "score_psi": 0,
+          "approval_delta_pp": 0,
+          "bad_rate_ratio": 0,
+          "auc_drop": 0
+        },
+        "level": 0,
+        "flagged_features": []
+      },
+      "unit_bugs": {},
+      "diagnosis": "none"
+    },
+    {
+      "batch_id": "S4-b02",
+      "index": 2,
+      "issue_month": "2014-03",
+      "gate_status": "partial",
+      "rows_scored": 5998,
+      "l2_top": [
+        {
+          "feature": "loan_amnt",
+          "type": "numeric",
+          "psi": 0.003387,
+          "ks_d": 0.017578,
+          "ks_p": 0.058937,
+          "wasserstein": 0.036538,
+          "chi2_p": null,
+          "importance_rank": 4
+        },
+        {
+          "feature": "purpose",
+          "type": "categorical",
+          "psi": 0.003329,
+          "ks_d": null,
+          "ks_p": null,
+          "wasserstein": null,
+          "chi2_p": 0.101704,
+          "importance_rank": 22
+        },
+        {
+          "feature": "installment",
+          "type": "numeric",
+          "psi": 0.002866,
+          "ks_d": 0.020347,
+          "ks_p": 0.017827,
+          "wasserstein": 0.042608,
+          "chi2_p": null,
+          "importance_rank": 26
+        },
+        {
+          "feature": "tot_cur_bal",
+          "type": "numeric",
+          "psi": 0.002386,
+          "ks_d": 0.010133,
+          "ks_p": 0.600028,
+          "wasserstein": 0.01497,
+          "chi2_p": null,
+          "importance_rank": 6
+        },
+        {
+          "feature": "total_acc",
+          "type": "numeric",
+          "psi": 0.002238,
+          "ks_d": 0.019544,
+          "ks_p": 0.025674,
+          "wasserstein": 0.025578,
+          "chi2_p": null,
+          "importance_rank": 17
+        },
+        {
+          "feature": "mths_since_recent_inq",
+          "type": "numeric",
+          "psi": 0.002093,
+          "ks_d": 0.015159,
+          "ks_p": 0.19317,
+          "wasserstein": 0.024741,
+          "chi2_p": null,
+          "importance_rank": 23
+        },
+        {
+          "feature": "tot_hi_cred_lim",
+          "type": "numeric",
+          "psi": 0.001996,
+          "ks_d": 0.011742,
+          "ks_p": 0.410248,
+          "wasserstein": 0.016755,
+          "chi2_p": null,
+          "importance_rank": 15
+        },
+        {
+          "feature": "revol_bal",
+          "type": "numeric",
+          "psi": 0.001794,
+          "ks_d": 0.008178,
+          "ks_p": 0.838517,
+          "wasserstein": 0.013028,
+          "chi2_p": null,
+          "importance_rank": 29
+        }
+      ],
+      "psi": {
+        "loan_amnt": 0.003387,
+        "purpose": 0.003329,
+        "installment": 0.002866,
+        "tot_cur_bal": 0.002386,
+        "total_acc": 0.002238,
+        "mths_since_recent_inq": 0.002093,
+        "tot_hi_cred_lim": 0.001996,
+        "revol_bal": 0.001794,
+        "fico_range_low": 0.001656,
+        "revol_util": 0.001465,
+        "bc_util": 0.001435,
+        "dti": 0.001421,
+        "total_bc_limit": 0.001372,
+        "open_acc": 0.001356,
+        "annual_inc": 0.001282,
+        "int_rate": 0.00115,
+        "acc_open_past_24mths": 0.001124,
+        "credit_history_months": 0.001096,
+        "avg_cur_bal": 0.001084,
+        "percent_bc_gt_75": 0.001045,
+        "mort_acc": 0.000838,
+        "emp_length": 0.000829,
+        "grade": 0.000784,
+        "inq_last_6mths": 0.000706,
+        "mths_since_last_delinq": 0.000591,
+        "num_actv_rev_tl": 0.000539,
+        "mo_sin_old_rev_tl_op": 0.000495,
+        "home_ownership": 0.000323,
+        "term": 0.000152,
+        "delinq_2yrs": 0.000115,
+        "verification_status": 6.2e-05,
+        "pub_rec": 1.9e-05,
+        "pub_rec_bankruptcies": 3e-06
+      },
+      "ks_p": {
+        "loan_amnt": 0.058937,
+        "installment": 0.017827,
+        "tot_cur_bal": 0.600028,
+        "total_acc": 0.025674,
+        "mths_since_recent_inq": 0.19317,
+        "tot_hi_cred_lim": 0.410248,
+        "revol_bal": 0.838517,
+        "fico_range_low": 0.837781,
+        "revol_util": 0.16043,
+        "bc_util": 0.283181,
+        "dti": 0.79979,
+        "total_bc_limit": 0.947863,
+        "open_acc": 0.803271,
+        "annual_inc": 0.74543,
+        "int_rate": 0.966041,
+        "acc_open_past_24mths": 0.988396,
+        "credit_history_months": 0.999339,
+        "avg_cur_bal": 0.854565,
+        "percent_bc_gt_75": 0.424004,
+        "mort_acc": 0.809889,
+        "emp_length": 0.801249,
+        "inq_last_6mths": 0.322107,
+        "mths_since_last_delinq": 0.490626,
+        "num_actv_rev_tl": 0.998371,
+        "mo_sin_old_rev_tl_op": 0.906433,
+        "term": 0.996478,
+        "delinq_2yrs": 0.999986,
+        "pub_rec": 1.0,
+        "pub_rec_bankruptcies": 1.0
+      },
+      "l3": {
+        "score_psi": 0.00098,
+        "approval_rate": 0.997666,
+        "approval_delta_pp": -0.010866,
+        "expected_bad_rate": 0.154745
+      },
+      "l4": null,
+      "severity": {
+        "signals": {
+          "feature_psi": 0,
+          "score_psi": 0,
+          "approval_delta_pp": 0,
+          "bad_rate_ratio": 0,
+          "auc_drop": 0
+        },
+        "level": 0,
+        "flagged_features": []
+      },
+      "unit_bugs": {},
+      "diagnosis": "none"
+    },
+    {
+      "batch_id": "S4-b03",
+      "index": 3,
+      "issue_month": "2014-04",
+      "gate_status": "partial",
+      "rows_scored": 5997,
+      "l2_top": [
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.003018,
+          "ks_d": 0.012052,
+          "ks_p": 0.377992,
+          "wasserstein": 0.021062,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "fico_range_low",
+          "type": "numeric",
+          "psi": 0.003017,
+          "ks_d": 0.010761,
+          "ks_p": 0.52229,
+          "wasserstein": 0.019392,
+          "chi2_p": null,
+          "importance_rank": 7
+        },
+        {
+          "feature": "revol_util",
+          "type": "numeric",
+          "psi": 0.002474,
+          "ks_d": 0.013316,
+          "ks_p": 0.263834,
+          "wasserstein": 0.018718,
+          "chi2_p": null,
+          "importance_rank": 11
+        },
+        {
+          "feature": "dti",
+          "type": "numeric",
+          "psi": 0.002437,
+          "ks_d": 0.011576,
+          "ks_p": 0.42827,
+          "wasserstein": 0.015183,
+          "chi2_p": null,
+          "importance_rank": 9
+        },
+        {
+          "feature": "tot_hi_cred_lim",
+          "type": "numeric",
+          "psi": 0.002271,
+          "ks_d": 0.009738,
+          "ks_p": 0.650189,
+          "wasserstein": 0.018217,
+          "chi2_p": null,
+          "importance_rank": 15
+        },
+        {
+          "feature": "total_acc",
+          "type": "numeric",
+          "psi": 0.002156,
+          "ks_d": 0.008688,
+          "ks_p": 0.780783,
+          "wasserstein": 0.013958,
+          "chi2_p": null,
+          "importance_rank": 17
+        },
+        {
+          "feature": "mths_since_last_delinq",
+          "type": "numeric",
+          "psi": 0.002071,
+          "ks_d": 0.012347,
+          "ks_p": 0.844592,
+          "wasserstein": 0.023057,
+          "chi2_p": null,
+          "importance_rank": 24
+        },
+        {
+          "feature": "installment",
+          "type": "numeric",
+          "psi": 0.002023,
+          "ks_d": 0.009449,
+          "ks_p": 0.68688,
+          "wasserstein": 0.015429,
+          "chi2_p": null,
+          "importance_rank": 26
+        }
+      ],
+      "psi": {
+        "annual_inc": 0.003018,
+        "fico_range_low": 0.003017,
+        "revol_util": 0.002474,
+        "dti": 0.002437,
+        "tot_hi_cred_lim": 0.002271,
+        "total_acc": 0.002156,
+        "mths_since_last_delinq": 0.002071,
+        "installment": 0.002023,
+        "purpose": 0.0019,
+        "avg_cur_bal": 0.001481,
+        "int_rate": 0.001411,
+        "bc_util": 0.001368,
+        "open_acc": 0.001345,
+        "credit_history_months": 0.001324,
+        "mo_sin_old_rev_tl_op": 0.001301,
+        "num_actv_rev_tl": 0.001252,
+        "total_bc_limit": 0.001157,
+        "loan_amnt": 0.001141,
+        "revol_bal": 0.0011,
+        "emp_length": 0.000967,
+        "verification_status": 0.000862,
+        "tot_cur_bal": 0.000855,
+        "acc_open_past_24mths": 0.00082,
+        "mort_acc": 0.000748,
+        "mths_since_recent_inq": 0.000473,
+        "percent_bc_gt_75": 0.000417,
+        "grade": 0.000316,
+        "delinq_2yrs": 0.00022,
+        "term": 0.000203,
+        "inq_last_6mths": 8.5e-05,
+        "pub_rec_bankruptcies": 4.2e-05,
+        "home_ownership": 3.1e-05,
+        "pub_rec": 0.0
+      },
+      "ks_p": {
+        "annual_inc": 0.377992,
+        "fico_range_low": 0.52229,
+        "revol_util": 0.263834,
+        "dti": 0.42827,
+        "tot_hi_cred_lim": 0.650189,
+        "total_acc": 0.780783,
+        "mths_since_last_delinq": 0.844592,
+        "installment": 0.68688,
+        "avg_cur_bal": 0.245835,
+        "int_rate": 0.976328,
+        "bc_util": 0.864742,
+        "open_acc": 0.973139,
+        "credit_history_months": 0.775806,
+        "mo_sin_old_rev_tl_op": 0.6377,
+        "num_actv_rev_tl": 0.768516,
+        "total_bc_limit": 0.706935,
+        "loan_amnt": 0.825234,
+        "revol_bal": 0.292012,
+        "emp_length": 0.811183,
+        "tot_cur_bal": 0.637427,
+        "acc_open_past_24mths": 0.795392,
+        "mort_acc": 0.999422,
+        "mths_since_recent_inq": 0.999518,
+        "percent_bc_gt_75": 0.999953,
+        "delinq_2yrs": 0.99513,
+        "term": 0.980288,
+        "inq_last_6mths": 1.0,
+        "pub_rec_bankruptcies": 1.0,
+        "pub_rec": 1.0
+      },
+      "l3": {
+        "score_psi": 0.001962,
+        "approval_rate": 0.996498,
+        "approval_delta_pp": -0.12763,
+        "expected_bad_rate": 0.154771
+      },
+      "l4": {
+        "n_labeled": 5997.0,
+        "auc": 0.693055,
+        "auc_drop": 0.007031,
+        "ks": 0.285016,
+        "brier": 0.127521,
+        "bad_rate_observed": 0.163248,
+        "bad_rate_expected": 0.156231,
+        "bad_rate_ratio": 1.044916,
+        "segment_gap": 0.243043,
+        "segment_feature": "fico_range_low",
+        "cohorts": [
+          0
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 0,
+          "score_psi": 0,
+          "approval_delta_pp": 0,
+          "bad_rate_ratio": 0,
+          "auc_drop": 0
+        },
+        "level": 0,
+        "flagged_features": []
+      },
+      "unit_bugs": {},
+      "diagnosis": "none"
+    },
+    {
+      "batch_id": "S4-b04",
+      "index": 4,
+      "issue_month": "2014-05",
+      "gate_status": "partial",
+      "rows_scored": 5999,
+      "l2_top": [
+        {
+          "feature": "acc_open_past_24mths",
+          "type": "numeric",
+          "psi": 0.002711,
+          "ks_d": 0.015897,
+          "ks_p": 0.111865,
+          "wasserstein": 0.032935,
+          "chi2_p": null,
+          "importance_rank": 5
+        },
+        {
+          "feature": "revol_util",
+          "type": "numeric",
+          "psi": 0.002301,
+          "ks_d": 0.010768,
+          "ks_p": 0.521538,
+          "wasserstein": 0.013047,
+          "chi2_p": null,
+          "importance_rank": 11
+        },
+        {
+          "feature": "fico_range_low",
+          "type": "numeric",
+          "psi": 0.002296,
+          "ks_d": 0.012239,
+          "ks_p": 0.359287,
+          "wasserstein": 0.01775,
+          "chi2_p": null,
+          "importance_rank": 7
+        },
+        {
+          "feature": "avg_cur_bal",
+          "type": "numeric",
+          "psi": 0.002181,
+          "ks_d": 0.011862,
+          "ks_p": 0.39756,
+          "wasserstein": 0.011877,
+          "chi2_p": null,
+          "importance_rank": 13
+        },
+        {
+          "feature": "total_bc_limit",
+          "type": "numeric",
+          "psi": 0.001999,
+          "ks_d": 0.010756,
+          "ks_p": 0.522985,
+          "wasserstein": 0.016867,
+          "chi2_p": null,
+          "importance_rank": 21
+        },
+        {
+          "feature": "mths_since_last_delinq",
+          "type": "numeric",
+          "psi": 0.001718,
+          "ks_d": 0.014169,
+          "ks_p": 0.706076,
+          "wasserstein": 0.017446,
+          "chi2_p": null,
+          "importance_rank": 24
+        },
+        {
+          "feature": "installment",
+          "type": "numeric",
+          "psi": 0.001646,
+          "ks_d": 0.013066,
+          "ks_p": 0.283907,
+          "wasserstein": 0.016097,
+          "chi2_p": null,
+          "importance_rank": 26
+        },
+        {
+          "feature": "loan_amnt",
+          "type": "numeric",
+          "psi": 0.001628,
+          "ks_d": 0.008804,
+          "ks_p": 0.766906,
+          "wasserstein": 0.014055,
+          "chi2_p": null,
+          "importance_rank": 4
+        }
+      ],
+      "psi": {
+        "acc_open_past_24mths": 0.002711,
+        "revol_util": 0.002301,
+        "fico_range_low": 0.002296,
+        "avg_cur_bal": 0.002181,
+        "total_bc_limit": 0.001999,
+        "mths_since_last_delinq": 0.001718,
+        "installment": 0.001646,
+        "loan_amnt": 0.001628,
+        "int_rate": 0.001428,
+        "dti": 0.001411,
+        "mo_sin_old_rev_tl_op": 0.001347,
+        "annual_inc": 0.001258,
+        "bc_util": 0.001234,
+        "open_acc": 0.001193,
+        "tot_cur_bal": 0.001162,
+        "percent_bc_gt_75": 0.001153,
+        "grade": 0.001013,
+        "num_actv_rev_tl": 0.000934,
+        "revol_bal": 0.000892,
+        "purpose": 0.000689,
+        "mort_acc": 0.000689,
+        "credit_history_months": 0.000581,
+        "home_ownership": 0.000477,
+        "total_acc": 0.000442,
+        "mths_since_recent_inq": 0.000371,
+        "emp_length": 0.000268,
+        "verification_status": 0.000199,
+        "inq_last_6mths": 0.000195,
+        "tot_hi_cred_lim": 0.000169,
+        "term": 0.000143,
+        "pub_rec_bankruptcies": 8.4e-05,
+        "delinq_2yrs": 5.8e-05,
+        "pub_rec": 3.5e-05
+      },
+      "ks_p": {
+        "acc_open_past_24mths": 0.111865,
+        "revol_util": 0.521538,
+        "fico_range_low": 0.359287,
+        "avg_cur_bal": 0.39756,
+        "total_bc_limit": 0.522985,
+        "mths_since_last_delinq": 0.706076,
+        "installment": 0.283907,
+        "loan_amnt": 0.766906,
+        "int_rate": 0.250017,
+        "dti": 0.821346,
+        "mo_sin_old_rev_tl_op": 0.659465,
+        "annual_inc": 0.591349,
+        "bc_util": 0.802187,
+        "open_acc": 0.999792,
+        "tot_cur_bal": 0.706434,
+        "percent_bc_gt_75": 0.999834,
+        "num_actv_rev_tl": 0.999886,
+        "revol_bal": 0.960169,
+        "mort_acc": 0.884813,
+        "credit_history_months": 0.962842,
+        "total_acc": 0.995315,
+        "mths_since_recent_inq": 0.928546,
+        "emp_length": 1.0,
+        "inq_last_6mths": 0.986848,
+        "tot_hi_cred_lim": 0.973677,
+        "term": 0.99776,
+        "pub_rec_bankruptcies": 1.0,
+        "delinq_2yrs": 1.0,
+        "pub_rec": 1.0
+      },
+      "l3": {
+        "score_psi": 0.001002,
+        "approval_rate": 0.997166,
+        "approval_delta_pp": -0.060836,
+        "expected_bad_rate": 0.156597
+      },
+      "l4": {
+        "n_labeled": 5998.0,
+        "auc": 0.700902,
+        "auc_drop": -0.000816,
+        "ks": 0.29846,
+        "brier": 0.118912,
+        "bad_rate_observed": 0.15005,
+        "bad_rate_expected": 0.154686,
+        "bad_rate_ratio": 0.970029,
+        "segment_gap": 0.273315,
+        "segment_feature": "fico_range_low",
+        "cohorts": [
+          1
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 0,
+          "score_psi": 0,
+          "approval_delta_pp": 0,
+          "bad_rate_ratio": 0,
+          "auc_drop": 0
+        },
+        "level": 0,
+        "flagged_features": []
+      },
+      "unit_bugs": {},
+      "diagnosis": "none"
+    },
+    {
+      "batch_id": "S4-b05",
+      "index": 5,
+      "issue_month": "2014-06",
+      "gate_status": "partial",
+      "rows_scored": 5999,
+      "l2_top": [
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.484425,
+          "ks_d": 0.299203,
+          "ks_p": 0.0,
+          "wasserstein": 0.422291,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "fico_range_low",
+          "type": "numeric",
+          "psi": 0.002687,
+          "ks_d": 0.017206,
+          "ks_p": 0.068308,
+          "wasserstein": 0.019547,
+          "chi2_p": null,
+          "importance_rank": 7
+        },
+        {
+          "feature": "purpose",
+          "type": "categorical",
+          "psi": 0.002664,
+          "ks_d": null,
+          "ks_p": null,
+          "wasserstein": null,
+          "chi2_p": 0.195847,
+          "importance_rank": 22
+        },
+        {
+          "feature": "avg_cur_bal",
+          "type": "numeric",
+          "psi": 0.002635,
+          "ks_d": 0.014495,
+          "ks_p": 0.181626,
+          "wasserstein": 0.028548,
+          "chi2_p": null,
+          "importance_rank": 13
+        },
+        {
+          "feature": "mths_since_last_delinq",
+          "type": "numeric",
+          "psi": 0.002451,
+          "ks_d": 0.013651,
+          "ks_p": 0.751828,
+          "wasserstein": 0.017513,
+          "chi2_p": null,
+          "importance_rank": 24
+        },
+        {
+          "feature": "loan_amnt",
+          "type": "numeric",
+          "psi": 0.002343,
+          "ks_d": 0.013102,
+          "ks_p": 0.280874,
+          "wasserstein": 0.020093,
+          "chi2_p": null,
+          "importance_rank": 4
+        },
+        {
+          "feature": "revol_util",
+          "type": "numeric",
+          "psi": 0.002177,
+          "ks_d": 0.010655,
+          "ks_p": 0.535546,
+          "wasserstein": 0.012247,
+          "chi2_p": null,
+          "importance_rank": 11
+        },
+        {
+          "feature": "total_bc_limit",
+          "type": "numeric",
+          "psi": 0.002145,
+          "ks_d": 0.008443,
+          "ks_p": 0.809288,
+          "wasserstein": 0.012535,
+          "chi2_p": null,
+          "importance_rank": 21
+        }
+      ],
+      "psi": {
+        "annual_inc": 0.484425,
+        "fico_range_low": 0.002687,
+        "purpose": 0.002664,
+        "avg_cur_bal": 0.002635,
+        "mths_since_last_delinq": 0.002451,
+        "loan_amnt": 0.002343,
+        "revol_util": 0.002177,
+        "total_bc_limit": 0.002145,
+        "tot_cur_bal": 0.001937,
+        "mths_since_recent_inq": 0.001879,
+        "total_acc": 0.001579,
+        "installment": 0.001578,
+        "revol_bal": 0.001522,
+        "dti": 0.001435,
+        "acc_open_past_24mths": 0.001397,
+        "bc_util": 0.00137,
+        "credit_history_months": 0.001277,
+        "int_rate": 0.001108,
+        "inq_last_6mths": 0.001082,
+        "tot_hi_cred_lim": 0.001065,
+        "emp_length": 0.001055,
+        "mo_sin_old_rev_tl_op": 0.00104,
+        "percent_bc_gt_75": 0.000645,
+        "pub_rec": 0.000564,
+        "mort_acc": 0.000515,
+        "num_actv_rev_tl": 0.000472,
+        "pub_rec_bankruptcies": 0.000409,
+        "open_acc": 0.000404,
+        "grade": 0.000334,
+        "home_ownership": 0.000246,
+        "term": 0.000193,
+        "verification_status": 0.00012,
+        "delinq_2yrs": 2.4e-05
+      },
+      "ks_p": {
+        "annual_inc": 0.0,
+        "fico_range_low": 0.068308,
+        "avg_cur_bal": 0.181626,
+        "mths_since_last_delinq": 0.751828,
+        "loan_amnt": 0.280874,
+        "revol_util": 0.535546,
+        "total_bc_limit": 0.809288,
+        "tot_cur_bal": 0.189027,
+        "mths_since_recent_inq": 0.977614,
+        "total_acc": 0.838471,
+        "installment": 0.48125,
+        "revol_bal": 0.280405,
+        "dti": 0.445623,
+        "acc_open_past_24mths": 0.927279,
+        "bc_util": 0.379014,
+        "credit_history_months": 0.858511,
+        "int_rate": 0.995675,
+        "inq_last_6mths": 0.837065,
+        "tot_hi_cred_lim": 0.312962,
+        "emp_length": 0.647626,
+        "mo_sin_old_rev_tl_op": 0.858544,
+        "percent_bc_gt_75": 0.931644,
+        "pub_rec": 0.897072,
+        "mort_acc": 0.770923,
+        "num_actv_rev_tl": 0.999787,
+        "pub_rec_bankruptcies": 0.981574,
+        "open_acc": 0.999907,
+        "term": 0.985181,
+        "delinq_2yrs": 1.0
+      },
+      "l3": {
+        "score_psi": 0.196939,
+        "approval_rate": 0.935989,
+        "approval_delta_pp": -6.178522,
+        "expected_bad_rate": 0.215231
+      },
+      "l4": {
+        "n_labeled": 5998.0,
+        "auc": 0.696662,
+        "auc_drop": 0.003424,
+        "ks": 0.301352,
+        "brier": 0.118611,
+        "bad_rate_observed": 0.14905,
+        "bad_rate_expected": 0.154745,
+        "bad_rate_ratio": 0.963194,
+        "segment_gap": 0.276032,
+        "segment_feature": "int_rate",
+        "cohorts": [
+          2
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 2,
+          "score_psi": 1,
+          "approval_delta_pp": 1,
+          "bad_rate_ratio": 0,
+          "auc_drop": 0
+        },
+        "level": 2,
+        "flagged_features": [
+          "annual_inc"
+        ]
+      },
+      "unit_bugs": {
+        "annual_inc": {
+          "factor": 12.0,
+          "tail_excess": 0.29683333333333334,
+          "psi": 0.48442484709795897,
+          "psi_corrected": 0.0013346823173986933
+        }
+      },
+      "diagnosis": "D6"
+    },
+    {
+      "batch_id": "S4-b06",
+      "index": 6,
+      "issue_month": "2014-07",
+      "gate_status": "partial",
+      "rows_scored": 5997,
+      "l2_top": [
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.427768,
+          "ks_d": 0.277918,
+          "ks_p": 0.0,
+          "wasserstein": 0.388857,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "tot_cur_bal",
+          "type": "numeric",
+          "psi": 0.003338,
+          "ks_d": 0.014798,
+          "ks_p": 0.164208,
+          "wasserstein": 0.015097,
+          "chi2_p": null,
+          "importance_rank": 6
+        },
+        {
+          "feature": "dti",
+          "type": "numeric",
+          "psi": 0.002185,
+          "ks_d": 0.011359,
+          "ks_p": 0.452395,
+          "wasserstein": 0.017054,
+          "chi2_p": null,
+          "importance_rank": 9
+        },
+        {
+          "feature": "revol_util",
+          "type": "numeric",
+          "psi": 0.002161,
+          "ks_d": 0.013916,
+          "ks_p": 0.219289,
+          "wasserstein": 0.023622,
+          "chi2_p": null,
+          "importance_rank": 11
+        },
+        {
+          "feature": "tot_hi_cred_lim",
+          "type": "numeric",
+          "psi": 0.002113,
+          "ks_d": 0.015296,
+          "ks_p": 0.138441,
+          "wasserstein": 0.014233,
+          "chi2_p": null,
+          "importance_rank": 15
+        },
+        {
+          "feature": "int_rate",
+          "type": "numeric",
+          "psi": 0.00205,
+          "ks_d": 0.010099,
+          "ks_p": 0.604289,
+          "wasserstein": 0.013126,
+          "chi2_p": null,
+          "importance_rank": 1
+        },
+        {
+          "feature": "revol_bal",
+          "type": "numeric",
+          "psi": 0.002032,
+          "ks_d": 0.011059,
+          "ks_p": 0.486868,
+          "wasserstein": 0.016057,
+          "chi2_p": null,
+          "importance_rank": 29
+        },
+        {
+          "feature": "mths_since_recent_inq",
+          "type": "numeric",
+          "psi": 0.001786,
+          "ks_d": 0.012769,
+          "ks_p": 0.37986,
+          "wasserstein": 0.025508,
+          "chi2_p": null,
+          "importance_rank": 23
+        }
+      ],
+      "psi": {
+        "annual_inc": 0.427768,
+        "tot_cur_bal": 0.003338,
+        "dti": 0.002185,
+        "revol_util": 0.002161,
+        "tot_hi_cred_lim": 0.002113,
+        "int_rate": 0.00205,
+        "revol_bal": 0.002032,
+        "mths_since_recent_inq": 0.001786,
+        "fico_range_low": 0.001767,
+        "installment": 0.001704,
+        "avg_cur_bal": 0.001704,
+        "bc_util": 0.001679,
+        "mths_since_last_delinq": 0.0016,
+        "acc_open_past_24mths": 0.001554,
+        "open_acc": 0.001512,
+        "total_bc_limit": 0.001336,
+        "mo_sin_old_rev_tl_op": 0.001277,
+        "purpose": 0.001185,
+        "total_acc": 0.001174,
+        "emp_length": 0.00113,
+        "percent_bc_gt_75": 0.001127,
+        "mort_acc": 0.001031,
+        "num_actv_rev_tl": 0.000881,
+        "loan_amnt": 0.000847,
+        "pub_rec": 0.000725,
+        "credit_history_months": 0.000652,
+        "inq_last_6mths": 0.000531,
+        "pub_rec_bankruptcies": 0.000529,
+        "home_ownership": 0.00034,
+        "verification_status": 0.000325,
+        "grade": 0.00028,
+        "delinq_2yrs": 2.9e-05,
+        "term": 6e-06
+      },
+      "ks_p": {
+        "annual_inc": 0.0,
+        "tot_cur_bal": 0.164208,
+        "dti": 0.452395,
+        "revol_util": 0.219289,
+        "tot_hi_cred_lim": 0.138441,
+        "int_rate": 0.604289,
+        "revol_bal": 0.486868,
+        "mths_since_recent_inq": 0.37986,
+        "fico_range_low": 0.585638,
+        "installment": 0.13019,
+        "avg_cur_bal": 0.29041,
+        "bc_util": 0.807827,
+        "mths_since_last_delinq": 0.935064,
+        "acc_open_past_24mths": 0.867511,
+        "open_acc": 0.814786,
+        "total_bc_limit": 0.150806,
+        "mo_sin_old_rev_tl_op": 0.996277,
+        "total_acc": 0.94692,
+        "emp_length": 0.974958,
+        "percent_bc_gt_75": 0.857077,
+        "mort_acc": 0.999544,
+        "num_actv_rev_tl": 0.997038,
+        "loan_amnt": 0.48084,
+        "pub_rec": 0.793407,
+        "credit_history_months": 0.989433,
+        "inq_last_6mths": 0.451125,
+        "pub_rec_bankruptcies": 0.942287,
+        "delinq_2yrs": 1.0,
+        "term": 1.0
+      },
+      "l3": {
+        "score_psi": 0.162926,
+        "approval_rate": 0.942304,
+        "approval_delta_pp": -5.547006,
+        "expected_bad_rate": 0.209502
+      },
+      "l4": {
+        "n_labeled": 5997.0,
+        "auc": 0.695199,
+        "auc_drop": 0.004887,
+        "ks": 0.292913,
+        "brier": 0.125038,
+        "bad_rate_observed": 0.15958,
+        "bad_rate_expected": 0.154771,
+        "bad_rate_ratio": 1.031071,
+        "segment_gap": 0.319212,
+        "segment_feature": "loan_amnt",
+        "cohorts": [
+          3
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 2,
+          "score_psi": 1,
+          "approval_delta_pp": 1,
+          "bad_rate_ratio": 0,
+          "auc_drop": 0
+        },
+        "level": 2,
+        "flagged_features": [
+          "annual_inc"
+        ]
+      },
+      "unit_bugs": {
+        "annual_inc": {
+          "factor": 12.0,
+          "tail_excess": 0.2753333333333333,
+          "psi": 0.42776784519018873,
+          "psi_corrected": 0.0006702637688462089
+        }
+      },
+      "diagnosis": "D6"
+    },
+    {
+      "batch_id": "S4-b07",
+      "index": 7,
+      "issue_month": "2014-08",
+      "gate_status": "partial",
+      "rows_scored": 5999,
+      "l2_top": [
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.485735,
+          "ks_d": 0.303973,
+          "ks_p": 0.0,
+          "wasserstein": 0.420452,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "mths_since_last_delinq",
+          "type": "numeric",
+          "psi": 0.003706,
+          "ks_d": 0.019829,
+          "ks_p": 0.300105,
+          "wasserstein": 0.022883,
+          "chi2_p": null,
+          "importance_rank": 24
+        },
+        {
+          "feature": "loan_amnt",
+          "type": "numeric",
+          "psi": 0.002353,
+          "ks_d": 0.014422,
+          "ks_p": 0.186045,
+          "wasserstein": 0.023169,
+          "chi2_p": null,
+          "importance_rank": 4
+        },
+        {
+          "feature": "purpose",
+          "type": "categorical",
+          "psi": 0.002166,
+          "ks_d": null,
+          "ks_p": null,
+          "wasserstein": null,
+          "chi2_p": 0.394388,
+          "importance_rank": 22
+        },
+        {
+          "feature": "total_bc_limit",
+          "type": "numeric",
+          "psi": 0.001982,
+          "ks_d": 0.015883,
+          "ks_p": 0.112423,
+          "wasserstein": 0.021585,
+          "chi2_p": null,
+          "importance_rank": 21
+        },
+        {
+          "feature": "installment",
+          "type": "numeric",
+          "psi": 0.001933,
+          "ks_d": 0.014362,
+          "ks_p": 0.189726,
+          "wasserstein": 0.025297,
+          "chi2_p": null,
+          "importance_rank": 26
+        },
+        {
+          "feature": "emp_length",
+          "type": "numeric",
+          "psi": 0.0015,
+          "ks_d": 0.009545,
+          "ks_p": 0.700511,
+          "wasserstein": 0.008328,
+          "chi2_p": null,
+          "importance_rank": 18
+        },
+        {
+          "feature": "dti",
+          "type": "numeric",
+          "psi": 0.001403,
+          "ks_d": 0.012586,
+          "ks_p": 0.326142,
+          "wasserstein": 0.015387,
+          "chi2_p": null,
+          "importance_rank": 9
+        }
+      ],
+      "psi": {
+        "annual_inc": 0.485735,
+        "mths_since_last_delinq": 0.003706,
+        "loan_amnt": 0.002353,
+        "purpose": 0.002166,
+        "total_bc_limit": 0.001982,
+        "installment": 0.001933,
+        "emp_length": 0.0015,
+        "dti": 0.001403,
+        "percent_bc_gt_75": 0.00122,
+        "mths_since_recent_inq": 0.001173,
+        "num_actv_rev_tl": 0.001122,
+        "bc_util": 0.001099,
+        "revol_util": 0.001082,
+        "credit_history_months": 0.001047,
+        "acc_open_past_24mths": 0.00099,
+        "fico_range_low": 0.000957,
+        "tot_hi_cred_lim": 0.00092,
+        "avg_cur_bal": 0.000821,
+        "open_acc": 0.000708,
+        "mo_sin_old_rev_tl_op": 0.000692,
+        "tot_cur_bal": 0.000679,
+        "total_acc": 0.000659,
+        "grade": 0.000625,
+        "int_rate": 0.000484,
+        "revol_bal": 0.000446,
+        "delinq_2yrs": 0.000412,
+        "mort_acc": 0.000393,
+        "pub_rec_bankruptcies": 0.000232,
+        "home_ownership": 0.00023,
+        "inq_last_6mths": 0.000217,
+        "pub_rec": 0.000113,
+        "verification_status": 8.1e-05,
+        "term": 4e-06
+      },
+      "ks_p": {
+        "annual_inc": 0.0,
+        "mths_since_last_delinq": 0.300105,
+        "loan_amnt": 0.186045,
+        "total_bc_limit": 0.112423,
+        "installment": 0.189726,
+        "emp_length": 0.700511,
+        "dti": 0.326142,
+        "percent_bc_gt_75": 0.56218,
+        "mths_since_recent_inq": 0.825765,
+        "num_actv_rev_tl": 0.881274,
+        "bc_util": 0.931789,
+        "revol_util": 0.809106,
+        "credit_history_months": 0.761522,
+        "acc_open_past_24mths": 0.546417,
+        "fico_range_low": 0.307802,
+        "tot_hi_cred_lim": 0.629402,
+        "avg_cur_bal": 0.961885,
+        "open_acc": 0.92751,
+        "mo_sin_old_rev_tl_op": 0.725024,
+        "tot_cur_bal": 0.786839,
+        "total_acc": 0.296386,
+        "int_rate": 0.999809,
+        "revol_bal": 0.966304,
+        "delinq_2yrs": 0.904681,
+        "mort_acc": 1.0,
+        "pub_rec_bankruptcies": 0.999642,
+        "inq_last_6mths": 0.953832,
+        "pub_rec": 1.0,
+        "term": 1.0
+      },
+      "l3": {
+        "score_psi": 0.202404,
+        "approval_rate": 0.932322,
+        "approval_delta_pp": -6.54525,
+        "expected_bad_rate": 0.217162
+      },
+      "l4": {
+        "n_labeled": 5999.0,
+        "auc": 0.70648,
+        "auc_drop": -0.006394,
+        "ks": 0.323674,
+        "brier": 0.121188,
+        "bad_rate_observed": 0.154359,
+        "bad_rate_expected": 0.156597,
+        "bad_rate_ratio": 0.98571,
+        "segment_gap": 0.310312,
+        "segment_feature": "tot_cur_bal",
+        "cohorts": [
+          4
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 2,
+          "score_psi": 1,
+          "approval_delta_pp": 1,
+          "bad_rate_ratio": 0,
+          "auc_drop": 0
+        },
+        "level": 2,
+        "flagged_features": [
+          "annual_inc"
+        ]
+      },
+      "unit_bugs": {
+        "annual_inc": {
+          "factor": 12.0,
+          "tail_excess": 0.3015,
+          "psi": 0.48573512821607295,
+          "psi_corrected": 0.0013486059046039659
+        }
+      },
+      "diagnosis": "D6"
+    },
+    {
+      "batch_id": "S4-b08",
+      "index": 8,
+      "issue_month": "2014-09",
+      "gate_status": "passed",
+      "rows_scored": 6000,
+      "l2_top": [
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.455696,
+          "ks_d": 0.294298,
+          "ks_p": 0.0,
+          "wasserstein": 0.404912,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "open_acc",
+          "type": "numeric",
+          "psi": 0.002949,
+          "ks_d": 0.008894,
+          "ks_p": 0.756068,
+          "wasserstein": 0.016513,
+          "chi2_p": null,
+          "importance_rank": 25
+        },
+        {
+          "feature": "loan_amnt",
+          "type": "numeric",
+          "psi": 0.002387,
+          "ks_d": 0.012324,
+          "ks_p": 0.350967,
+          "wasserstein": 0.019462,
+          "chi2_p": null,
+          "importance_rank": 4
+        },
+        {
+          "feature": "revol_util",
+          "type": "numeric",
+          "psi": 0.002378,
+          "ks_d": 0.013523,
+          "ks_p": 0.247974,
+          "wasserstein": 0.024091,
+          "chi2_p": null,
+          "importance_rank": 11
+        },
+        {
+          "feature": "int_rate",
+          "type": "numeric",
+          "psi": 0.001982,
+          "ks_d": 0.008057,
+          "ks_p": 0.851274,
+          "wasserstein": 0.012162,
+          "chi2_p": null,
+          "importance_rank": 1
+        },
+        {
+          "feature": "installment",
+          "type": "numeric",
+          "psi": 0.00198,
+          "ks_d": 0.016385,
+          "ks_p": 0.093504,
+          "wasserstein": 0.030134,
+          "chi2_p": null,
+          "importance_rank": 26
+        },
+        {
+          "feature": "tot_cur_bal",
+          "type": "numeric",
+          "psi": 0.001978,
+          "ks_d": 0.01071,
+          "ks_p": 0.528546,
+          "wasserstein": 0.012045,
+          "chi2_p": null,
+          "importance_rank": 6
+        },
+        {
+          "feature": "dti",
+          "type": "numeric",
+          "psi": 0.001694,
+          "ks_d": 0.011541,
+          "ks_p": 0.432061,
+          "wasserstein": 0.017412,
+          "chi2_p": null,
+          "importance_rank": 9
+        }
+      ],
+      "psi": {
+        "annual_inc": 0.455696,
+        "open_acc": 0.002949,
+        "loan_amnt": 0.002387,
+        "revol_util": 0.002378,
+        "int_rate": 0.001982,
+        "installment": 0.00198,
+        "tot_cur_bal": 0.001978,
+        "dti": 0.001694,
+        "tot_hi_cred_lim": 0.001548,
+        "total_acc": 0.00141,
+        "mo_sin_old_rev_tl_op": 0.001337,
+        "purpose": 0.001319,
+        "mths_since_last_delinq": 0.001269,
+        "revol_bal": 0.001166,
+        "fico_range_low": 0.001144,
+        "bc_util": 0.001132,
+        "total_bc_limit": 0.001054,
+        "acc_open_past_24mths": 0.001033,
+        "grade": 0.000874,
+        "percent_bc_gt_75": 0.000829,
+        "credit_history_months": 0.000722,
+        "mths_since_recent_inq": 0.000713,
+        "avg_cur_bal": 0.000693,
+        "term": 0.000689,
+        "inq_last_6mths": 0.000642,
+        "num_actv_rev_tl": 0.000536,
+        "emp_length": 0.000528,
+        "mort_acc": 0.000506,
+        "home_ownership": 0.000179,
+        "delinq_2yrs": 0.00017,
+        "pub_rec": 0.000148,
+        "pub_rec_bankruptcies": 0.000143,
+        "verification_status": 1.8e-05
+      },
+      "ks_p": {
+        "annual_inc": 0.0,
+        "open_acc": 0.756068,
+        "loan_amnt": 0.350967,
+        "revol_util": 0.247974,
+        "int_rate": 0.851274,
+        "installment": 0.093504,
+        "tot_cur_bal": 0.528546,
+        "dti": 0.432061,
+        "tot_hi_cred_lim": 0.717375,
+        "total_acc": 0.887268,
+        "mo_sin_old_rev_tl_op": 0.356671,
+        "mths_since_last_delinq": 0.917429,
+        "revol_bal": 0.852725,
+        "fico_range_low": 0.888437,
+        "bc_util": 0.146084,
+        "total_bc_limit": 0.838459,
+        "acc_open_past_24mths": 0.795392,
+        "percent_bc_gt_75": 0.412121,
+        "credit_history_months": 0.394784,
+        "mths_since_recent_inq": 0.964774,
+        "avg_cur_bal": 0.866693,
+        "term": 0.452013,
+        "inq_last_6mths": 0.96263,
+        "num_actv_rev_tl": 0.991803,
+        "emp_length": 0.998172,
+        "mort_acc": 0.99624,
+        "delinq_2yrs": 0.999315,
+        "pub_rec": 0.999993,
+        "pub_rec_bankruptcies": 0.999999
+      },
+      "l3": {
+        "score_psi": 0.186582,
+        "approval_rate": 0.936667,
+        "approval_delta_pp": -6.110788,
+        "expected_bad_rate": 0.212846
+      },
+      "l4": {
+        "n_labeled": 5999.0,
+        "auc": 0.656623,
+        "auc_drop": 0.043463,
+        "ks": 0.235573,
+        "brier": 0.13598,
+        "bad_rate_observed": 0.155526,
+        "bad_rate_expected": 0.215231,
+        "bad_rate_ratio": 0.722599,
+        "segment_gap": 0.890392,
+        "segment_feature": "annual_inc",
+        "cohorts": [
+          5
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 2,
+          "score_psi": 1,
+          "approval_delta_pp": 1,
+          "bad_rate_ratio": 1,
+          "auc_drop": 1
+        },
+        "level": 2,
+        "flagged_features": [
+          "annual_inc"
+        ]
+      },
+      "unit_bugs": {
+        "annual_inc": {
+          "factor": 12.0,
+          "tail_excess": 0.292,
+          "psi": 0.45569632330939774,
+          "psi_corrected": 0.0010399727753396919
+        }
+      },
+      "diagnosis": "D6"
+    },
+    {
+      "batch_id": "S4-b09",
+      "index": 9,
+      "issue_month": "2014-10",
+      "gate_status": "partial",
+      "rows_scored": 5998,
+      "l2_top": [
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.453831,
+          "ks_d": 0.294308,
+          "ks_p": 0.0,
+          "wasserstein": 0.394017,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "int_rate",
+          "type": "numeric",
+          "psi": 0.002901,
+          "ks_d": 0.014933,
+          "ks_p": 0.156882,
+          "wasserstein": 0.019643,
+          "chi2_p": null,
+          "importance_rank": 1
+        },
+        {
+          "feature": "purpose",
+          "type": "categorical",
+          "psi": 0.002367,
+          "ks_d": null,
+          "ks_p": null,
+          "wasserstein": null,
+          "chi2_p": 0.347992,
+          "importance_rank": 22
+        },
+        {
+          "feature": "mths_since_recent_inq",
+          "type": "numeric",
+          "psi": 0.001873,
+          "ks_d": 0.010708,
+          "ks_p": 0.600406,
+          "wasserstein": 0.02058,
+          "chi2_p": null,
+          "importance_rank": 23
+        },
+        {
+          "feature": "total_bc_limit",
+          "type": "numeric",
+          "psi": 0.001823,
+          "ks_d": 0.010895,
+          "ks_p": 0.506282,
+          "wasserstein": 0.020443,
+          "chi2_p": null,
+          "importance_rank": 21
+        },
+        {
+          "feature": "total_acc",
+          "type": "numeric",
+          "psi": 0.001621,
+          "ks_d": 0.00669,
+          "ks_p": 0.959612,
+          "wasserstein": 0.008658,
+          "chi2_p": null,
+          "importance_rank": 17
+        },
+        {
+          "feature": "mo_sin_old_rev_tl_op",
+          "type": "numeric",
+          "psi": 0.00155,
+          "ks_d": 0.011098,
+          "ks_p": 0.482269,
+          "wasserstein": 0.014194,
+          "chi2_p": null,
+          "importance_rank": 14
+        },
+        {
+          "feature": "mths_since_last_delinq",
+          "type": "numeric",
+          "psi": 0.001541,
+          "ks_d": 0.013362,
+          "ks_p": 0.776169,
+          "wasserstein": 0.020152,
+          "chi2_p": null,
+          "importance_rank": 24
+        }
+      ],
+      "psi": {
+        "annual_inc": 0.453831,
+        "int_rate": 0.002901,
+        "purpose": 0.002367,
+        "mths_since_recent_inq": 0.001873,
+        "total_bc_limit": 0.001823,
+        "total_acc": 0.001621,
+        "mo_sin_old_rev_tl_op": 0.00155,
+        "mths_since_last_delinq": 0.001541,
+        "avg_cur_bal": 0.001373,
+        "mort_acc": 0.001255,
+        "fico_range_low": 0.001247,
+        "credit_history_months": 0.001225,
+        "revol_util": 0.001209,
+        "revol_bal": 0.001204,
+        "percent_bc_gt_75": 0.001161,
+        "tot_hi_cred_lim": 0.001121,
+        "open_acc": 0.001117,
+        "dti": 0.001009,
+        "bc_util": 0.000887,
+        "acc_open_past_24mths": 0.000849,
+        "tot_cur_bal": 0.000848,
+        "grade": 0.00076,
+        "installment": 0.00073,
+        "num_actv_rev_tl": 0.000659,
+        "emp_length": 0.000516,
+        "loan_amnt": 0.000437,
+        "pub_rec": 0.000381,
+        "home_ownership": 0.00029,
+        "pub_rec_bankruptcies": 0.000267,
+        "delinq_2yrs": 0.000234,
+        "term": 0.000203,
+        "inq_last_6mths": 0.000101,
+        "verification_status": 3.8e-05
+      },
+      "ks_p": {
+        "annual_inc": 0.0,
+        "int_rate": 0.156882,
+        "mths_since_recent_inq": 0.600406,
+        "total_bc_limit": 0.506282,
+        "total_acc": 0.959612,
+        "mo_sin_old_rev_tl_op": 0.482269,
+        "mths_since_last_delinq": 0.776169,
+        "avg_cur_bal": 0.547262,
+        "mort_acc": 0.450583,
+        "fico_range_low": 0.702449,
+        "credit_history_months": 0.647691,
+        "revol_util": 0.601733,
+        "revol_bal": 0.570855,
+        "percent_bc_gt_75": 0.587113,
+        "tot_hi_cred_lim": 0.456263,
+        "open_acc": 0.879417,
+        "dti": 0.56815,
+        "bc_util": 0.597604,
+        "acc_open_past_24mths": 0.992888,
+        "tot_cur_bal": 0.890733,
+        "installment": 0.695526,
+        "num_actv_rev_tl": 0.892149,
+        "emp_length": 1.0,
+        "loan_amnt": 0.957015,
+        "pub_rec": 0.97857,
+        "pub_rec_bankruptcies": 0.998808,
+        "delinq_2yrs": 0.992869,
+        "term": 0.980288,
+        "inq_last_6mths": 0.999898
+      },
+      "l3": {
+        "score_psi": 0.17841,
+        "approval_rate": 0.939813,
+        "approval_delta_pp": -5.796128,
+        "expected_bad_rate": 0.212504
+      },
+      "l4": {
+        "n_labeled": 5997.0,
+        "auc": 0.658692,
+        "auc_drop": 0.041394,
+        "ks": 0.238363,
+        "brier": 0.134499,
+        "bad_rate_observed": 0.155244,
+        "bad_rate_expected": 0.209502,
+        "bad_rate_ratio": 0.741017,
+        "segment_gap": 0.926724,
+        "segment_feature": "annual_inc",
+        "cohorts": [
+          6
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 2,
+          "score_psi": 1,
+          "approval_delta_pp": 1,
+          "bad_rate_ratio": 1,
+          "auc_drop": 1
+        },
+        "level": 2,
+        "flagged_features": [
+          "annual_inc"
+        ]
+      },
+      "unit_bugs": {
+        "annual_inc": {
+          "factor": 12.0,
+          "tail_excess": 0.29183333333333333,
+          "psi": 0.45383070082029864,
+          "psi_corrected": 0.0020023223053473394
+        }
+      },
+      "diagnosis": "D6"
+    },
+    {
+      "batch_id": "S4-b10",
+      "index": 10,
+      "issue_month": "2014-11",
+      "gate_status": "partial",
+      "rows_scored": 5997,
+      "l2_top": [
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.451302,
+          "ks_d": 0.28972,
+          "ks_p": 0.0,
+          "wasserstein": 0.40805,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "int_rate",
+          "type": "numeric",
+          "psi": 0.002655,
+          "ks_d": 0.006685,
+          "ks_p": 0.959841,
+          "wasserstein": 0.008447,
+          "chi2_p": null,
+          "importance_rank": 1
+        },
+        {
+          "feature": "mo_sin_old_rev_tl_op",
+          "type": "numeric",
+          "psi": 0.002583,
+          "ks_d": 0.013701,
+          "ks_p": 0.234167,
+          "wasserstein": 0.019933,
+          "chi2_p": null,
+          "importance_rank": 14
+        },
+        {
+          "feature": "total_acc",
+          "type": "numeric",
+          "psi": 0.00233,
+          "ks_d": 0.009555,
+          "ks_p": 0.673355,
+          "wasserstein": 0.017072,
+          "chi2_p": null,
+          "importance_rank": 17
+        },
+        {
+          "feature": "purpose",
+          "type": "categorical",
+          "psi": 0.002301,
+          "ks_d": null,
+          "ks_p": null,
+          "wasserstein": null,
+          "chi2_p": 0.38168,
+          "importance_rank": 22
+        },
+        {
+          "feature": "bc_util",
+          "type": "numeric",
+          "psi": 0.002284,
+          "ks_d": 0.008109,
+          "ks_p": 0.849259,
+          "wasserstein": 0.011781,
+          "chi2_p": null,
+          "importance_rank": 16
+        },
+        {
+          "feature": "credit_history_months",
+          "type": "numeric",
+          "psi": 0.002113,
+          "ks_d": 0.011319,
+          "ks_p": 0.456939,
+          "wasserstein": 0.018558,
+          "chi2_p": null,
+          "importance_rank": 12
+        },
+        {
+          "feature": "dti",
+          "type": "numeric",
+          "psi": 0.002058,
+          "ks_d": 0.009974,
+          "ks_p": 0.620112,
+          "wasserstein": 0.013366,
+          "chi2_p": null,
+          "importance_rank": 9
+        }
+      ],
+      "psi": {
+        "annual_inc": 0.451302,
+        "int_rate": 0.002655,
+        "mo_sin_old_rev_tl_op": 0.002583,
+        "total_acc": 0.00233,
+        "purpose": 0.002301,
+        "bc_util": 0.002284,
+        "credit_history_months": 0.002113,
+        "dti": 0.002058,
+        "revol_bal": 0.002033,
+        "loan_amnt": 0.001982,
+        "revol_util": 0.001944,
+        "tot_cur_bal": 0.001802,
+        "installment": 0.001794,
+        "mths_since_last_delinq": 0.001694,
+        "total_bc_limit": 0.00143,
+        "percent_bc_gt_75": 0.001173,
+        "open_acc": 0.000931,
+        "avg_cur_bal": 0.000886,
+        "mths_since_recent_inq": 0.000826,
+        "emp_length": 0.000707,
+        "acc_open_past_24mths": 0.000636,
+        "tot_hi_cred_lim": 0.000585,
+        "mort_acc": 0.00058,
+        "num_actv_rev_tl": 0.00054,
+        "fico_range_low": 0.000458,
+        "grade": 0.000301,
+        "home_ownership": 0.000284,
+        "delinq_2yrs": 0.000262,
+        "pub_rec": 0.000102,
+        "term": 6.3e-05,
+        "pub_rec_bankruptcies": 5.7e-05,
+        "inq_last_6mths": 1e-05,
+        "verification_status": 3e-06
+      },
+      "ks_p": {
+        "annual_inc": 0.0,
+        "int_rate": 0.959841,
+        "mo_sin_old_rev_tl_op": 0.234167,
+        "total_acc": 0.673355,
+        "bc_util": 0.849259,
+        "credit_history_months": 0.456939,
+        "dti": 0.620112,
+        "revol_bal": 0.304958,
+        "loan_amnt": 0.320177,
+        "revol_util": 0.862936,
+        "tot_cur_bal": 0.199905,
+        "installment": 0.504089,
+        "mths_since_last_delinq": 0.746782,
+        "total_bc_limit": 0.754983,
+        "percent_bc_gt_75": 0.733045,
+        "open_acc": 0.652615,
+        "avg_cur_bal": 0.640822,
+        "mths_since_recent_inq": 0.999075,
+        "emp_length": 0.9999,
+        "acc_open_past_24mths": 0.991695,
+        "tot_hi_cred_lim": 0.414332,
+        "mort_acc": 0.997625,
+        "num_actv_rev_tl": 0.61147,
+        "fico_range_low": 0.975774,
+        "delinq_2yrs": 0.986129,
+        "pub_rec": 1.0,
+        "term": 1.0,
+        "pub_rec_bankruptcies": 1.0,
+        "inq_last_6mths": 1.0
+      },
+      "l3": {
+        "score_psi": 0.186875,
+        "approval_rate": 0.94097,
+        "approval_delta_pp": -5.680406,
+        "expected_bad_rate": 0.213148
+      },
+      "l4": {
+        "n_labeled": 5999.0,
+        "auc": 0.670324,
+        "auc_drop": 0.029763,
+        "ks": 0.260307,
+        "brier": 0.136661,
+        "bad_rate_observed": 0.15986,
+        "bad_rate_expected": 0.217162,
+        "bad_rate_ratio": 0.736132,
+        "segment_gap": 0.904703,
+        "segment_feature": "annual_inc",
+        "cohorts": [
+          7
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 2,
+          "score_psi": 1,
+          "approval_delta_pp": 1,
+          "bad_rate_ratio": 1,
+          "auc_drop": 1
+        },
+        "level": 2,
+        "flagged_features": [
+          "annual_inc"
+        ]
+      },
+      "unit_bugs": {
+        "annual_inc": {
+          "factor": 12.0,
+          "tail_excess": 0.28783333333333333,
+          "psi": 0.4513015711573826,
+          "psi_corrected": 0.0003369616986097792
+        }
+      },
+      "diagnosis": "D6"
+    },
+    {
+      "batch_id": "S4-b11",
+      "index": 11,
+      "issue_month": "2014-12",
+      "gate_status": "partial",
+      "rows_scored": 5999,
+      "l2_top": [
+        {
+          "feature": "annual_inc",
+          "type": "numeric",
+          "psi": 0.494054,
+          "ks_d": 0.299665,
+          "ks_p": 0.0,
+          "wasserstein": 0.425771,
+          "chi2_p": null,
+          "importance_rank": 3
+        },
+        {
+          "feature": "open_acc",
+          "type": "numeric",
+          "psi": 0.002676,
+          "ks_d": 0.009049,
+          "ks_p": 0.736987,
+          "wasserstein": 0.016258,
+          "chi2_p": null,
+          "importance_rank": 25
+        },
+        {
+          "feature": "avg_cur_bal",
+          "type": "numeric",
+          "psi": 0.002121,
+          "ks_d": 0.00744,
+          "ks_p": 0.90901,
+          "wasserstein": 0.02175,
+          "chi2_p": null,
+          "importance_rank": 13
+        },
+        {
+          "feature": "emp_length",
+          "type": "numeric",
+          "psi": 0.001914,
+          "ks_d": 0.009337,
+          "ks_p": 0.727528,
+          "wasserstein": 0.014296,
+          "chi2_p": null,
+          "importance_rank": 18
+        },
+        {
+          "feature": "revol_util",
+          "type": "numeric",
+          "psi": 0.001913,
+          "ks_d": 0.012221,
+          "ks_p": 0.36127,
+          "wasserstein": 0.014144,
+          "chi2_p": null,
+          "importance_rank": 11
+        },
+        {
+          "feature": "purpose",
+          "type": "categorical",
+          "psi": 0.001615,
+          "ks_d": null,
+          "ks_p": null,
+          "wasserstein": null,
+          "chi2_p": 0.721567,
+          "importance_rank": 22
+        },
+        {
+          "feature": "mths_since_recent_inq",
+          "type": "numeric",
+          "psi": 0.001505,
+          "ks_d": 0.008264,
+          "ks_p": 0.874289,
+          "wasserstein": 0.011783,
+          "chi2_p": null,
+          "importance_rank": 23
+        },
+        {
+          "feature": "mo_sin_old_rev_tl_op",
+          "type": "numeric",
+          "psi": 0.001486,
+          "ks_d": 0.015733,
+          "ks_p": 0.118681,
+          "wasserstein": 0.018913,
+          "chi2_p": null,
+          "importance_rank": 14
+        }
+      ],
+      "psi": {
+        "annual_inc": 0.494054,
+        "open_acc": 0.002676,
+        "avg_cur_bal": 0.002121,
+        "emp_length": 0.001914,
+        "revol_util": 0.001913,
+        "purpose": 0.001615,
+        "mths_since_recent_inq": 0.001505,
+        "mo_sin_old_rev_tl_op": 0.001486,
+        "int_rate": 0.001325,
+        "bc_util": 0.001308,
+        "installment": 0.001297,
+        "percent_bc_gt_75": 0.001288,
+        "revol_bal": 0.001183,
+        "credit_history_months": 0.001177,
+        "total_bc_limit": 0.001087,
+        "total_acc": 0.001062,
+        "dti": 0.000942,
+        "loan_amnt": 0.000926,
+        "tot_cur_bal": 0.000837,
+        "acc_open_past_24mths": 0.000754,
+        "term": 0.000689,
+        "mort_acc": 0.000631,
+        "tot_hi_cred_lim": 0.000602,
+        "num_actv_rev_tl": 0.000581,
+        "mths_since_last_delinq": 0.000549,
+        "verification_status": 0.000362,
+        "fico_range_low": 0.000324,
+        "grade": 0.000102,
+        "home_ownership": 9.4e-05,
+        "inq_last_6mths": 8.1e-05,
+        "pub_rec_bankruptcies": 5.7e-05,
+        "delinq_2yrs": 4.5e-05,
+        "pub_rec": 4.2e-05
+      },
+      "ks_p": {
+        "annual_inc": 0.0,
+        "open_acc": 0.736987,
+        "avg_cur_bal": 0.90901,
+        "emp_length": 0.727528,
+        "revol_util": 0.36127,
+        "mths_since_recent_inq": 0.874289,
+        "mo_sin_old_rev_tl_op": 0.118681,
+        "int_rate": 0.916689,
+        "bc_util": 0.955284,
+        "installment": 0.692777,
+        "percent_bc_gt_75": 0.25011,
+        "revol_bal": 0.359683,
+        "credit_history_months": 0.212352,
+        "total_bc_limit": 0.642926,
+        "total_acc": 0.818346,
+        "dti": 0.884585,
+        "loan_amnt": 0.929802,
+        "tot_cur_bal": 0.918065,
+        "acc_open_past_24mths": 0.945044,
+        "term": 0.452013,
+        "mort_acc": 0.985186,
+        "tot_hi_cred_lim": 0.972883,
+        "num_actv_rev_tl": 0.73555,
+        "mths_since_last_delinq": 0.916697,
+        "fico_range_low": 0.989982,
+        "inq_last_6mths": 0.999957,
+        "pub_rec_bankruptcies": 1.0,
+        "delinq_2yrs": 1.0,
+        "pub_rec": 1.0
+      },
+      "l3": {
+        "score_psi": 0.192902,
+        "approval_rate": 0.933489,
+        "approval_delta_pp": -6.428563,
+        "expected_bad_rate": 0.214723
+      },
+      "l4": {
+        "n_labeled": 6000.0,
+        "auc": 0.649455,
+        "auc_drop": 0.050631,
+        "ks": 0.232848,
+        "brier": 0.13439,
+        "bad_rate_observed": 0.1515,
+        "bad_rate_expected": 0.212846,
+        "bad_rate_ratio": 0.711781,
+        "segment_gap": 1.030856,
+        "segment_feature": "annual_inc",
+        "cohorts": [
+          8
+        ]
+      },
+      "severity": {
+        "signals": {
+          "feature_psi": 2,
+          "score_psi": 1,
+          "approval_delta_pp": 1,
+          "bad_rate_ratio": 1,
+          "auc_drop": 2
+        },
+        "level": 2,
+        "flagged_features": [
+          "annual_inc"
+        ]
+      },
+      "unit_bugs": {
+        "annual_inc": {
+          "factor": 12.0,
+          "tail_excess": 0.29783333333333334,
+          "psi": 0.4940537101021316,
+          "psi_corrected": 0.0017652000389415767
+        }
+      },
+      "diagnosis": "D6"
+    }
+  ]
+}
