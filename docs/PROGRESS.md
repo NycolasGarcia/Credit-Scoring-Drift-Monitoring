@@ -212,3 +212,46 @@ O portão "Brier pós ≤ pré" é PROPOSTO e falha por 1,5×10⁻⁶. O objetiv
 **Achado — robustez do limiar (ADR-0007):** a sensibilidade às premissas de custo (notebook `02_modelagem`, seção 4) deu limiar ótimo entre 0,06 e 0,55 e aprovação entre 14% e 100%. Ele fica dentro de 0,25–0,40 em apenas 6 das 25 combinações de LGD ∈ [0,4; 0,8] × margem ∈ [0,3; 0,7]. **O sinal de reversão do ADR-0007 disparou.** O limiar vigente (0,33) continua em uso. Recomendação ao autor: estimar LGD e realização de margem **do próprio dado**, em agregado, nos empréstimos maduros da referência (`recoveries`/`total_pymnt` para LGD; `total_rec_int`/juros contratuais para margem). Essas colunas pós-originação seriam usadas só para parametrizar custo, nunca como feature. Depois, registrar um ADR que supersede o 0007. Decisão pendente do autor.
 
 Docs em sincronia: **ok** (ADR-0007 com nota explícita, model card, ARCHITECTURE).
+
+---
+
+## Nota — 2026-11-13 · EDA aprofundada, validação da EDA e validação de custo FP/FN
+
+**Validação da EDA existente**, por cálculo independente direto do CSV bruto, sem o loader de `src/`:
+
+| Verificação | Resultado |
+|---|---|
+| Total de empréstimos | 2.260.668 |
+| Individuais | 2.139.958 |
+| Ids duplicados | 0 |
+| Bad rate 2013 / 2016 (resolvidos) | 15,60% / 23,26% |
+| % Current 2017 | 58,3% |
+| Referência + holdout | 134.804 linhas, bad rate 15,60% |
+
+Tudo bate com o notebook e com o manifesto. O notebook não tem células com erro, não tem células não executadas e não vaza ids reais.
+
+**Lacunas encontradas e fechadas** (`notebooks/01_eda.ipynb`, seções 8–15):
+
+- estatística descritiva com skew e curtose;
+- regras de qualidade por safra (impossíveis, utilização > 100%, parcela incoerente, **sentinela `tot_hi_cred_lim` = 9.999.999**);
+- outliers (3·IQR e extremos);
+- histogramas + KDE de referência × produção;
+- bad rate por decil e Information Value;
+- Pearson × Spearman (matrizes, pares redundantes, divergências não lineares, correlação com o alvo);
+- padrões temporais mensais;
+- economia realizada.
+
+Dois problemas corrigidos durante a revisão: um aviso do pandas expunha um caminho local nas saídas, e as cores da figura de KDE não batiam com a legenda.
+
+**Validação de custo FP/FN** ([RUN-20261113-calib-COST-01](runs/RUN-20261113-calib-COST-01.md), reprodutível):
+
+- Premissas medidas no caixa realizado: LGD **0,327**, realização de juros **0,756**.
+- O limiar vigente 0,33 tem **regret de 8,1%** no teste contra o ótimo realizado.
+- Com premissas empíricas, a curva de valor modelada reproduz a realizada (Pearson 0,999; regret 0,05%).
+- Nesta população já aprovada pelo credor, o ótimo econômico é aprovar quase todos até ~8% a.a. de custo de funding.
+
+Decisão registrada como **ADR-0016 (proposto)**, com opções A–D e recomendação B + D. O inventário ganhou o uso `custo` para as colunas de pagamento, com teste garantindo que nunca chegam ao modelo nem ao loader.
+
+Pendente do autor: decisão do ADR-0016.
+
+Docs em sincronia: **ok** (data card, model card, ADR-0007/0016, índice, ARCHITECTURE, README, data_inventory).
