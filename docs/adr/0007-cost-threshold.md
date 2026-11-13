@@ -2,7 +2,7 @@
 
 > **Nota 2026-11-13 — sinal de reversão disparado.** A análise de sensibilidade (`notebooks/02_modelagem.ipynb`, seção 4; função `cost_sensitivity`) mostrou o limiar ótimo variando entre 0,06 e 0,55 para LGD ∈ [0,4; 0,8] × margem ∈ [0,3; 0,7]. Ele fica dentro de 0,25–0,40 em apenas 6 das 25 combinações. A regra e o limiar vigente (0,33) continuam em uso até que o autor decida a revisão das premissas. A revisão está proposta no [ADR-0016](0016-empirical-cost-threshold.md): premissas medidas no caixa realizado (LGD 0,327; margem 0,756) e validação FP/FN contra o caixa real, em que o limiar 0,33 tem regret de 8,1% (RUN-20261113-calib-COST-01).
 
-- **Status:** aceito (premissas de custo com status PROPOSTO) — **revisão pendente** (ver nota)
+- **Status:** **supersedido por [ADR-0016](0016-empirical-cost-threshold.md)** em 2026-11-13 (premissas medidas + funding declarado; champion v2 com limiar 0,495)
 - **Data:** 2026-11-12
 - **Fase:** F2
 

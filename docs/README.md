@@ -29,5 +29,5 @@ Documentos previstos para fases seguintes: `DATA_CONTRACTS.md`, `SCENARIOS.md`, 
 | [0004](adr/0004-target-maturity-leakage.md) | Alvo, maturação do rótulo e exclusão de vazamento | aceito |
 | [0005](adr/0005-reference-production-split.md) | Separação referência × produção | aceito |
 | [0006](adr/0006-base-model.md) | Modelo base: regressão logística calibrada | aceito |
-| [0007](adr/0007-cost-threshold.md) | Matriz de custo e limiar por valor esperado | aceito — revisão proposta no 0016 |
-| [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas e revisão do limiar | **proposto** (decisão do autor) |
+| [0007](adr/0007-cost-threshold.md) | Matriz de custo e limiar por valor esperado | supersedido pelo 0016 |
+| [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas, funding e apetite de risco | aceito |

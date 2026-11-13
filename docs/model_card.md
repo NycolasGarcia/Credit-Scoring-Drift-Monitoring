@@ -1,4 +1,4 @@
-# Model Card — credit-scoring (champion v1)
+# Model Card — credit-scoring (champion v2)
 
 > **Status: rascunho (F2).** As seções de fairness e de sensibilidade a drift simulado são completadas nas fases F5 e F8. Todo número cita o RUN que o produziu.
 
@@ -7,11 +7,11 @@
 | Item | Valor |
 |---|---|
 | Modelo | Regressão logística com calibração de Platt (sigmoid) |
-| Registro | MLflow `credit-scoring` v1, alias `champion` |
-| Treino | [RUN-20261112-train-REF-02](runs/RUN-20261112-train-REF-02.md) (árvore limpa, seed 42) |
+| Registro | MLflow `credit-scoring` v2, alias `champion`. Mesmo modelo do v1; muda o limiar (ADR-0016) |
+| Treino | [RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md) (árvore limpa, seed 42); v1 em [RUN-20261112-train-REF-02](runs/RUN-20261112-train-REF-02.md) |
 | Dados | Referência = safra 2013 do Lending Club, aplicações individuais ([data card](data_card.md)) |
 | Perfil de referência | `models/reference_profile.json` (artefato do mesmo run no MLflow) |
-| Decisões | [ADR-0006](adr/0006-base-model.md) (modelo) e [ADR-0007](adr/0007-cost-threshold.md) (limiar) |
+| Decisões | [ADR-0006](adr/0006-base-model.md) (modelo) e [ADR-0016](adr/0016-empirical-cost-threshold.md) (limiar; supersede o 0007) |
 
 ## Uso pretendido
 
@@ -28,7 +28,7 @@ Estimar a probabilidade de inadimplência (*charged off*/*default*) de uma propo
 
 33 features de originação (allowlist em `config/data/column_inventory.yaml`): condições do empréstimo (`loan_amnt`, `term`, `int_rate`, `installment`, `grade`, `purpose`), perfil do tomador (`annual_inc`, `emp_length`, `home_ownership`, `verification_status`, `dti`) e histórico de bureau (FICO, utilização, inquéritos, contas, tempo de histórico). Nenhuma coluna pós-concessão, nenhum identificador direto, nenhum texto livre.
 
-## Desempenho ([RUN-20261112-train-REF-02](runs/RUN-20261112-train-REF-02.md))
+## Desempenho ([RUN-20261112-train-REF-02](runs/RUN-20261112-train-REF-02.md); idêntico no v2, [RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md))
 
 | Conjunto | n | AUC | Gini | KS | PR-AUC | Brier | Bad rate esperado | Bad rate observado |
 |---|---|---|---|---|---|---|---|---|
@@ -45,18 +45,19 @@ Calibrado na referência (observado/esperado = 1,006 no teste). A recalibração
 
 ## Limiar de decisão
 
-0,33 (aprova se score < 0,33), escolhido por valor esperado com premissas de custo PROPOSTAS. No teste: aprovação de 94,3%, bad rate dos aprovados de 14,3% e US$ 445 por proposta (ADR-0007).
+**0,495** (aprova se score < 0,495), escolhido por valor esperado ([ADR-0016](adr/0016-empirical-cost-threshold.md)).
 
-**Sensibilidade:** o limiar é **pouco robusto** às premissas. Com LGD entre 0,4 e 0,8 e realização de margem entre 0,3 e 0,7, o ótimo varia de 0,06 a 0,55 e a aprovação de 14% a 100% (notebook `02_modelagem`, seção 4).
+Premissas:
+- **medidas no caixa realizado** ([RUN-20261113-calib-COST-02](runs/RUN-20261113-calib-COST-02.md)): LGD 0,327, realização de juros dos bons 0,756 e dos maus 0,564;
+- **declarada:** custo de funding de 5% a.a.
 
-**Validação contra o caixa realizado** ([RUN-20261113-calib-COST-01](runs/RUN-20261113-calib-COST-01.md)):
+No teste ([RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md)): aprovação de 99,8%, bad rate dos aprovados de 15,5% e US$ 942 por proposta. O limiar do F1 (0,195) aprovaria 71,5% com bad rate de 10,5% e US$ 547.
 
-- As premissas medidas no dado são LGD 0,327 e realização de juros 0,756, menos pessimistas que as propostas.
-- No teste, o limiar 0,33 tem **regret de 8,1%** frente ao ótimo realizado (0,555).
-- Com as premissas empíricas, o modelo de custo reproduz o caixa real (Pearson 0,999 entre as curvas).
-- Nesta população já filtrada pelo credor, recusar rende pouco enquanto o custo de funding fica abaixo de ~8% a.a.
+**Validação contra o caixa realizado** ([RUN-20261113-calib-COST-03](runs/RUN-20261113-calib-COST-03.md)): regret de 0,88% frente ao ótimo realizado e aderência de 0,9986 entre curvas modelada e realizada.
 
-A revisão do limiar está **proposta** no ADR-0016 e aguarda decisão.
+**Histórico:** o v1 usava 0,33 com premissas propostas (LGD 0,60; margem 0,50). Esse limiar tinha regret de 8,1% no caixa bruto ([RUN-20261113-calib-COST-01](runs/RUN-20261113-calib-COST-01.md)) e era pouco robusto: com as premissas variando na faixa plausível, o ótimo ia de 0,06 a 0,55.
+
+**Leitura:** a aprovação próxima de 100% em regime normal reflete o **viés de seleção**, porque os dados já passaram pela política do credor de origem. O valor do modelo aparece sob degradação, quando o modo conservador (GR-4, F7) usa o ranking para cortar a cauda de risco até o teto de bad rate dos aprovados (14%, PROPOSTO).
 
 ## Sensibilidade a drift (observada fora do tempo)
 
@@ -70,7 +71,7 @@ A revisão do limiar está **proposta** no ADR-0016 e aguarda decisão.
 2. **Rótulo maduro só até 2015–2016:** o desempenho em safras recentes não é mensurável no snapshot (mar/2019).
 3. **Dependência da precificação do credor** (`int_rate`, `grade`): mudança de política de preço vira drift de score.
 4. **Uma única safra de referência** (2013): sazonalidade e ciclo de um só ano.
-5. **Premissas de custo PROPOSTAS:** o limiar é sensível a LGD e margem.
+5. **Premissa de funding declarada (5% a.a.):** as perdas e margens são medidas, mas o custo de funding é política. Acima de ~8% a.a., o caixa realizado da carteira vira negativo e o limiar muda radicalmente (ADR-0016).
 
 ## Fairness
 
