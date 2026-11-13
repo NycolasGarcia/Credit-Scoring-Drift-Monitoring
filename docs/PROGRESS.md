@@ -299,7 +299,7 @@ Docs em sincronia: **ok** (ADR-0016 aceito, ADR-0007 supersedido, índice, model
 | Relatório lista regra e contagem por defeito | sim | 11 regras com contagem (linhas distintas) | ok |
 | Valores PII no relatório | 0 | 0 (teste) | ok |
 | Falso bloqueio em lotes reais | — | 0/61 (holdout + 60 meses); quarentena máx. 0,049% | ok |
-| ruff / testes | 0 / verde | 0 / 111 passed | ok |
+| ruff / testes | 0 / verde | 0 / 110 passed | ok |
 
 ### Estado
 
