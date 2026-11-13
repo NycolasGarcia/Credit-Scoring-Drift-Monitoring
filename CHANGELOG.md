@@ -6,6 +6,23 @@ Mudanças relevantes por fase, da mais recente para a mais antiga. Formato inspi
 
 Nada ainda.
 
+## F4 — Simulador de cenários de degradação (2026-11-13)
+
+### Adicionado
+- Cenários configuráveis em `config/scenarios/` (validados por Pydantic): S0 controle, S1 choque econômico (D1), S2 concept drift no DTI alto (D3), S3 prior shift (D2), S4 bug de unidade em 30% das linhas (D6) e S5 produção natural (2014–2018).
+- Motor de simulação ([ADR-0017](docs/adr/0017-scenario-simulator.md)): amostragem do holdout com seed por lote, transformações de mundo real, de bug e de mecanismo do rótulo; parcela recalculada pela amortização; rótulo por oráculo que preserva P(Y|X) quando só X muda; atraso de rótulo.
+- Todos os lotes passam pelo quality gate da F3 e são pontuados pelo champion; manifesto de ground truth por cenário em `docs/evidence/scenarios/` e RUN record do tipo `sim`.
+- `make simulate [SCENARIO=S2]`; `docs/SCENARIOS.md` com narrativa econômica e resultados.
+
+### Alterado
+- `amortized_installment` extraída do contrato para ser reutilizada pelo simulador.
+- Gerador de lote sintético dos testes movido para `tests/synthetic.py`.
+
+### Achados
+- Com o limiar 0,495, a taxa de aprovação é um sinal fraco: o choque pleno do S1 a move em 1,7 p.p.; o sinal de saída precisa vir da distribuição do score (F5).
+- S2 e S3 elevam o bad rate em 5 a 7 p.p. com score e aprovação parados: só o desempenho com rótulo enxerga.
+- S4 derruba a aprovação em 6 p.p. sem mudar a inadimplência e escapa do contrato, como previsto.
+
 ## F3 — Contratos de dados e quality gate (2026-11-13)
 
 ### Adicionado

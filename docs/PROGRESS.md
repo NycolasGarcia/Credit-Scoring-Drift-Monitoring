@@ -325,3 +325,56 @@ Docs em sincronia: **ok** (ADR-0016 aceito, ADR-0007 supersedido, índice, model
 ### Veredito
 
 **PODE AVANÇAR para F4.**
+
+---
+
+## CHECKPOINT — F4 «Simulador de cenários de degradação» · abertura · 2026-11-13
+
+Entrada: F3 fechada, CI verde em `2d523b1`, travas OK, nenhum incidente aberto. Escopo: S0–S5 com manifesto, determinismo e pontuação de todos os lotes. ADR exigido: ADR-0017. Nenhum NV aberto bloqueia a fase. Rubrica: R2 (10) · RO-2, RO-11.
+
+## CHECKPOINT — F4 «Simulador de cenários de degradação» · fechamento · 2026-11-13
+
+### Hard requirements
+
+| HR | Descrição | Status | Evidência |
+|---|---|---|---|
+| HR-4.1 | ≥ 2 variáveis importantes driftadas (RO-11) | ok | S1: `int_rate` (1ª em importância), `annual_inc` (3ª), `dti` (9ª); [RUN-20261113-sim-S1-01](runs/RUN-20261113-sim-S1-01.md) |
+| HR-4.2 | Cenário de controle sem drift | ok | S0, [RUN-20261113-sim-S0-01](runs/RUN-20261113-sim-S0-01.md) |
+| HR-4.3 | ≥ 1 concept drift com mecanismo de rótulo | ok | S2: logit + 1,0 no DTI ≥ p70, rótulo visível 3 lotes depois; [RUN-20261113-sim-S2-01](runs/RUN-20261113-sim-S2-01.md) |
+| HR-4.4 | Manifesto de ground truth por cenário | ok | `docs/evidence/scenarios/S0.json` … `S5.json` |
+| HR-4.5 | Determinismo por seed | ok | `test_same_seed_same_hash_different_seed_differs`; S2 regerado no dado real com hashes idênticos nos 12 lotes |
+| HR-4.6 | Predições para todos os lotes | ok | 108/108 lotes pontuados pelo gate (0 bloqueados) |
+
+### Portões numéricos
+
+| Portão | Alvo | Medido | Status |
+|---|---|---|---|
+| Features driftadas em S1 | ≥ 2 | 3 | ok |
+| Cenários com manifesto | S0–S4 (+ S5) | 6/6 | ok |
+| Determinismo | verde | verde (teste + dado real) | ok |
+| Predições | 100% dos lotes | 108/108 | ok |
+| ruff / testes | 0 / verde | 0 / 123 passed | ok |
+
+### Estado
+
+- Caixas da fase: 12/12 → micro 100%
+- Progresso macro: 38% (F0 2 + F1 3 + F2 3 + F3 20 + F4 10)
+- Rubrica tocada: R2 (10) · RO-2, RO-11
+- ADRs aceitos: ADR-0017
+- RUNs registrados: RUN-20261113-sim-S0-01 … S5-01
+- Limiares: 0 CALIBRADO · 0 PROPOSTO em `thresholds.yaml` (F5)
+- Incidentes abertos: nenhum
+- Travas de publicação: OK
+- Docs em sincronia: ok (SCENARIOS.md com teste de sincronia, ARCHITECTURE com fluxo e módulos, README, índice, CHANGELOG)
+
+### Achados
+
+- **A taxa de aprovação é um sinal fraco neste modelo.** O choque pleno de S1 a move em 1,7 p.p., abaixo da faixa SEV-1 proposta (± 3 p.p.). A camada L3 da F5 precisa usar o PSI do score.
+- **Degradação silenciosa reproduzida:** S2 e S3 elevam o bad rate em 5 a 7 p.p. com score e aprovação parados.
+- **S4 escapa do contrato, como desenhado,** e derruba a aprovação em 6 p.p. sem alterar a inadimplência: o custo do bug é recusar bons pagadores.
+- **Censura em S5:** 0% de rótulo a partir de 2017; o bad rate de 2016 vem de 20,8% da safra.
+- **Erro operacional corrigido durante a fase:** uma verificação de determinismo sobrescreveu o manifesto oficial do S2 e o índice de RUNs ainda não commitado. O manifesto foi restaurado da cópia e as linhas do índice foram reconstruídas dos próprios RUN records, conferidas contra a saída original.
+
+### Veredito
+
+**PODE AVANÇAR para F5.**
