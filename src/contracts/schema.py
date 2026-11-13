@@ -67,11 +67,15 @@ def _column(col: str, cfg: ContractConfig) -> pa.Column:
     return pa.Column(dtype, _numeric_checks(col, cfg), nullable=nullable)
 
 
+def amortized_installment(df: pd.DataFrame) -> pd.Series:
+    """Monthly installment by the French amortization formula (loan_amnt, int_rate %, term)."""
+    r = df["int_rate"] / 100 / 12
+    return df["loan_amnt"] * r / (1 - (1 + r) ** (-df["term"]))
+
+
 def amortization_error(df: pd.DataFrame) -> pd.Series:
     """Relative gap between the stated installment and the French amortization formula."""
-    r = df["int_rate"] / 100 / 12
-    expected = df["loan_amnt"] * r / (1 - (1 + r) ** (-df["term"]))
-    return (df["installment"] / expected - 1).abs()
+    return (df["installment"] / amortized_installment(df) - 1).abs()
 
 
 def _frame_checks(cfg: ContractConfig, income_median: float) -> list[pa.Check]:
