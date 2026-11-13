@@ -53,7 +53,7 @@ eda:
 	$(RUN) jupyter nbconvert --to notebook --execute --inplace notebooks/01_eda.ipynb
 
 train:
-	$(call todo,F2)
+	$(RUN) python -m src.models.train
 
 validate:
 	$(call todo,F3)
@@ -74,7 +74,7 @@ replay:
 	$(call todo,F6)
 
 report:
-	$(call todo,F2)
+	$(RUN) python -m src.reporting.experiments
 
 rollback:
 	$(call todo,F7)

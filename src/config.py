@@ -36,7 +36,7 @@ class Settings(BaseSettings):
     reports_dir: Path = PROJECT_ROOT / "reports"
     logs_dir: Path = PROJECT_ROOT / "logs"
     pseudonymization_key: SecretStr = Field(default=SecretStr(""))
-    mlflow_tracking_uri: str = f"file:{(PROJECT_ROOT / 'mlruns').as_posix()}"
+    mlflow_tracking_uri: str = f"sqlite:///{(PROJECT_ROOT / 'mlruns' / 'mlflow.db').as_posix()}"
     pushgateway_url: str = "127.0.0.1:9091"
     log_level: str = "INFO"
     random_seed: int = 42
