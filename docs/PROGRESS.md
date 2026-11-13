@@ -199,3 +199,16 @@ O portão "Brier pós ≤ pré" é PROPOSTO e falha por 1,5×10⁻⁶. O objetiv
 ### Veredito
 
 **PODE AVANÇAR para F3**, com a exceção do portão de calibração registrada acima.
+
+---
+
+## Nota — 2026-11-13 · decisões do autor e revisão pós-F2
+
+**Aprovado pelo autor:**
+
+1. **Convenção de fonte para números de dados.** Números sobre dados que não dependem de modelo (contagens, bad rate por safra, PSI exploratório) podem citar o notebook de EDA ou `docs/evidence/data/split_manifest.json`, desde que amarrados ao sha256 do arquivo bruto. Números de modelo, monitoramento e resposta continuam exigindo RUN-id.
+2. **Portão de calibração reformulado.** "Brier pós ≤ pré" foi substituído por **"|bad rate esperado − observado| ≤ 1 pp no teste"**. Medido no champion (RUN-20261112-train-REF-02): 15,50% × 15,58% = **0,08 pp → ok**. A exceção da F2 está **encerrada**.
+
+**Achado — robustez do limiar (ADR-0007):** a sensibilidade às premissas de custo (notebook `02_modelagem`, seção 4) deu limiar ótimo entre 0,06 e 0,55 e aprovação entre 14% e 100%. Ele fica dentro de 0,25–0,40 em apenas 6 das 25 combinações de LGD ∈ [0,4; 0,8] × margem ∈ [0,3; 0,7]. **O sinal de reversão do ADR-0007 disparou.** O limiar vigente (0,33) continua em uso. Recomendação ao autor: estimar LGD e realização de margem **do próprio dado**, em agregado, nos empréstimos maduros da referência (`recoveries`/`total_pymnt` para LGD; `total_rec_int`/juros contratuais para margem). Essas colunas pós-originação seriam usadas só para parametrizar custo, nunca como feature. Depois, registrar um ADR que supersede o 0007. Decisão pendente do autor.
+
+Docs em sincronia: **ok** (ADR-0007 com nota explícita, model card, ARCHITECTURE).
