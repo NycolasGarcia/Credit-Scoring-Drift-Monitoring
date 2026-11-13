@@ -1,0 +1,18 @@
+# S3 — prior shift (D2): bad rate sobe para todos; a ordenação de risco é preservada.
+id: S3
+name: Prior shift (recessão generalizada)
+drift_type: D2
+narrative: >-
+  Recessão eleva a inadimplência de forma uniforme (logit +0,5 para todos): o ranking do
+  modelo continua válido (AUC estável), mas o bad rate observado descola do esperado.
+  Resposta adequada: recalibrar, não retreinar.
+source: holdout
+seed: 103
+label_lag: 3
+calendar_start: "2014-01"
+batches: 12
+batch_size: 6000
+schedule: {shape: sudden, onset: 4}
+transforms:
+  - {kind: logit_shift, delta: 0.5}
+expected: {layers: [L4], diagnosis: D2}

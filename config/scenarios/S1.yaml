@@ -1,0 +1,21 @@
+# S1 — choque econômico (D1, covariate shift): renda real cai, endividamento e juros sobem.
+# Features escolhidas pelo ranking de importância do champion: int_rate (1º), annual_inc (3º), dti (9º).
+id: S1
+name: Choque econômico (inflação e juros)
+drift_type: D1
+narrative: >-
+  Inflação acumulada corrói a renda real (-15%), o comprometimento de renda sobe (+25% no DTI)
+  e o custo de funding repassado eleva os juros em 3 p.p. A parcela é recalculada pela
+  amortização. P(default | X) não muda: o risco sobe só porque a população ficou mais arriscada.
+source: holdout
+seed: 101
+label_lag: 3
+calendar_start: "2014-01"
+batches: 12
+batch_size: 6000
+schedule: {shape: gradual, onset: 3, ramp: 6}
+transforms:
+  - {kind: scale, feature: annual_inc, factor: 0.85}
+  - {kind: scale, feature: dti, factor: 1.25}
+  - {kind: shift, feature: int_rate, delta: 3.0}
+expected: {layers: [L2, L3], diagnosis: D1}

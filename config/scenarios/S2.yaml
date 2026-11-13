@@ -1,0 +1,21 @@
+# S2 — concept drift (D3): X inalterado; P(default | X) sobe no segmento de DTI alto.
+id: S2
+name: Concept drift no DTI alto
+drift_type: D3
+narrative: >-
+  Desemprego atinge primeiro quem já está muito endividado: com o mesmo DTI, quem está no
+  topo da distribuição (>= p70 da referência) passa a inadimplir mais (logit +1,0). As
+  entradas não mudam, então contrato, drift de entrada e score ficam quietos; só o
+  desempenho com rótulo maduro revela o problema, com atraso de rótulo.
+source: holdout
+seed: 102
+label_lag: 3
+calendar_start: "2014-01"
+batches: 12
+batch_size: 6000
+schedule: {shape: gradual, onset: 3, ramp: 4}
+transforms:
+  - kind: logit_shift
+    delta: 1.0
+    segment: {feature: dti, min_quantile: 0.7}
+expected: {layers: [L4], diagnosis: D3}

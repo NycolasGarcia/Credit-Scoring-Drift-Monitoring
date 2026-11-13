@@ -1,0 +1,20 @@
+# S4 — bug upstream (D6): parte das propostas passa a chegar com renda mensal.
+id: S4
+name: Bug upstream (renda mensal)
+drift_type: D6
+narrative: >-
+  Um parceiro de originação, responsável por ~30% das propostas, troca o sistema e passa a
+  enviar a renda mensal no campo de renda anual. A realidade não mudou (rótulos intactos),
+  mas o dado sim. Com 30% das linhas, a mediana do lote fica dentro da banda do contrato
+  (H10), então o bug escapa da camada L0 e precisa ser reconhecido como D6 pelo detector:
+  mudança abrupta, num lote, por fator constante (÷12).
+source: holdout
+seed: 104
+label_lag: 3
+calendar_start: "2014-01"
+batches: 12
+batch_size: 6000
+schedule: {shape: sudden, onset: 5}
+transforms:
+  - {kind: unit_bug, feature: annual_inc, divisor: 12, fraction: 0.30}
+expected: {layers: [L2, L3], diagnosis: D6}

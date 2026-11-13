@@ -1,0 +1,15 @@
+# S0 — controle (teste A/A): lotes do holdout sem nenhuma alteração.
+id: S0
+name: Controle sem drift
+drift_type: none
+narrative: >-
+  Mesma população da referência, amostrada em lotes mensais. Qualquer alerta aqui é falso
+  alarme; é o cenário que calibra os limiares (F5).
+source: holdout
+seed: 100
+label_lag: 3
+calendar_start: "2014-01"
+batches: 12
+batch_size: 6000
+schedule: {shape: none}
+expected: {layers: [], diagnosis: none}
