@@ -18,6 +18,12 @@ def test_settings_load() -> None:
     assert isinstance(get_settings(), Settings)
 
 
+def test_relative_paths_are_anchored_to_project_root() -> None:
+    settings = Settings(raw_data_path="data/raw/x.csv")
+    assert settings.raw_data_path.is_absolute()
+    assert settings.raw_data_path.parts[-3:] == ("data", "raw", "x.csv")
+
+
 def test_secret_never_rendered() -> None:
     settings = Settings(pseudonymization_key="super-secret-value")
     assert "super-secret-value" not in repr(settings)

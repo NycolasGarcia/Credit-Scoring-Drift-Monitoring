@@ -3,7 +3,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -40,6 +40,12 @@ class Settings(BaseSettings):
     pushgateway_url: str = "127.0.0.1:9091"
     log_level: str = "INFO"
     random_seed: int = 42
+
+    @field_validator("raw_data_path", "data_dir", "reports_dir", "logs_dir")
+    @classmethod
+    def _anchor_to_project_root(cls, value: Path) -> Path:
+        """Relative paths are resolved against the project root, not the cwd."""
+        return value if value.is_absolute() else PROJECT_ROOT / value
 
 
 @lru_cache(maxsize=1)
