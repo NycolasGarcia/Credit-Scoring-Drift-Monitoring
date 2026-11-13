@@ -116,3 +116,24 @@ Convenção adotada nesta fase: números de dados (não de modelo) citam como fo
 ### Veredito
 
 **PODE AVANÇAR para F2.**
+
+---
+
+## Nota — 2026-11-12 · revisão de sincronia de docs da F1
+
+Revisão pós-fechamento a pedido do autor. A partir daqui, toda mudança atualiza os docs no mesmo ciclo, e cada CHECKPOINT ganha a linha "Docs em sincronia".
+
+Corrigido:
+
+- `docs/ARCHITECTURE.md`: fluxo real da preparação de dados (mermaid), tabela de componentes por módulo e configuração versionada.
+- `README.md`: passos para obter o dataset, criar o `.env` e rodar `make data`, `make eda` e `make inventory`.
+- `make help`: lista todos os alvos, agrupados.
+- `notebooks/01_eda.ipynb`: tabela de status por safra agora sobre aplicações individuais (mesma base do data card) e cardinalidade das categóricas por safra (caixa 1.6 completa).
+- `docs/data_card.md`: % Current na base individual e cardinalidade.
+- ADR-0004: errata de um percentual citado (59% → 58% em 2017, base individual); a decisão não muda.
+
+Novas salvaguardas: `tests/test_docs_sync.py` falha se um módulo de `src/` não estiver no ARCHITECTURE ou se um alvo do Makefile não estiver no `make help`.
+
+Pendente do autor: aval da convenção de fonte para números de dados da F1 (notebook/manifesto com hash do bruto em vez de RUN-id).
+
+Docs em sincronia: **ok**.
