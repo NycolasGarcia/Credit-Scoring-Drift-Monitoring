@@ -1,0 +1,42 @@
+# Data contract for application batches and scored batches (ADR-0008, docs/DATA_CONTRACTS.md).
+# Hard rules block (schema/batch scope) or quarantine rows (row scope); soft rules only warn.
+# Values marked PROPOSTO are planning choices; bounds come from the EDA (notebooks/01_eda.ipynb, s. 9-10).
+version: 1
+
+batch:
+  max_row_failure_rate: 0.01      # PROPOSTO: share of quarantined rows above which the whole batch is blocked
+  income_scale: {min_ratio: 0.5, max_ratio: 2.0}   # H10: batch median annual_inc / reference median (unit bug, D6)
+  issue_date_window: {min: "2007-06-01", max: "2019-03-01"}   # H07: data snapshot; nothing after it exists
+
+input:
+  required: [loan_key, issue_d, loan_amnt, term, int_rate, installment, grade, annual_inc, dti,
+             fico_range_low, home_ownership, verification_status, purpose]
+  integer_columns: [term]          # H02: integer by nature; every other numeric column is float
+  ranges:                          # H05: values outside are impossible or certainly erroneous
+    loan_amnt: [500, 40000]
+    int_rate: [0.01, 40]
+    installment: [0.01, 5000]
+    annual_inc: [1, 10000000]
+    dti: [0, 100]
+    fico_range_low: [300, 850]
+    emp_length: [0, 10]
+    credit_history_months: [0, 1200]
+  non_negative: [delinq_2yrs, inq_last_6mths, mths_since_last_delinq, open_acc, pub_rec, revol_bal,
+                 revol_util, total_acc, mort_acc, pub_rec_bankruptcies, acc_open_past_24mths, bc_util,
+                 avg_cur_bal, tot_hi_cred_lim, num_actv_rev_tl, percent_bc_gt_75, mths_since_recent_inq,
+                 mo_sin_old_rev_tl_op, tot_cur_bal, total_bc_limit]
+  domains:                         # H06
+    term: [36, 60]
+    grade: [A, B, C, D, E, F, G]
+  installment_tolerance: 0.05      # H08: |installment / amortized(loan_amnt, int_rate, term) - 1|
+  sentinels:                       # H09: placeholder values that are not data
+    tot_hi_cred_lim: [9999999]
+
+soft:
+  null_rate_tolerance: 0.05        # S01: absolute increase of a column's null rate vs. reference
+  volume: {min: 5000, max: 80000}  # S03: real monthly batches range 6.9k-60.5k (2013-2018)
+  utilization_ceiling: 150         # S04: revol_util / bc_util above this (%) counts as extreme tail
+  extreme_tail_max_share: 0.01     # S04: warn when the share of extreme-tail rows exceeds this
+
+output:
+  decisions: [approve, reject]
