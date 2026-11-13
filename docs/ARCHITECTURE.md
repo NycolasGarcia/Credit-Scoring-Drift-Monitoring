@@ -91,7 +91,7 @@ flowchart LR
 | `src/models/factory.py` | Factory de pipelines (dummy, logreg, xgboost) | F2 | implementado |
 | `src/models/metrics.py` | AUC, Gini, KS de crédito, PR-AUC, Brier, decisão, tabela de calibração | F2 | implementado |
 | `src/models/calibration.py` | Calibração pós-treino (Platt/isotônica) e escolha por Brier | F2 | implementado |
-| `src/models/threshold.py` | Economia por empréstimo e limiar por valor esperado | F2 | implementado |
+| `src/models/threshold.py` | Economia por empréstimo, limiar por valor esperado e sensibilidade às premissas de custo | F2 | implementado |
 | `src/models/evaluate.py` | CV, avaliação por conjunto, PSI do score, seleção do champion | F2 | implementado |
 | `src/models/champion.py` | Limiar, relatório de decisão, importância, resumo do perfil | F2 | implementado |
 | `src/models/registry.py` | Tracking MLflow (SQLite) e alias `champion` no Registry | F2 | implementado |

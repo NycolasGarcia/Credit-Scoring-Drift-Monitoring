@@ -42,6 +42,23 @@ def best_value_threshold(
     return float(grid[best]), float(values[best])
 
 
+def cost_sensitivity(
+    df: pd.DataFrame, y: np.ndarray, p: np.ndarray, base: CostConfig,
+    lgds: list[float], margins: list[float],
+) -> pd.DataFrame:  # fmt: skip
+    """Value-maximizing threshold for each (LGD, margin realization) premise pair."""
+    grid = threshold_grid(base)
+    rows = []
+    for lgd in lgds:
+        for margin in margins:
+            cost = base.model_copy(update={"lgd": lgd, "margin_realization": margin})
+            gain, loss = loan_economics(df, cost)
+            t, v = best_value_threshold(y, p, gain, loss, grid)
+            rows.append({"lgd": lgd, "margin_realization": margin, "threshold": t,
+                         "approval_rate": float(np.mean(p < t)), "value_per_app": v})  # fmt: skip
+    return pd.DataFrame(rows)
+
+
 def best_f1_threshold(y: np.ndarray, p: np.ndarray, grid: np.ndarray) -> float:
     """Threshold maximizing F1 for the bad class (flag as bad when score >= threshold)."""
     scores = [f1_score(y, (p >= t).astype(int), zero_division=0) for t in grid]

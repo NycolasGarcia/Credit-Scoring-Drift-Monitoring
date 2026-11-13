@@ -11,7 +11,12 @@ from src.models.evaluate import CandidateResult, select_champion
 from src.models.factory import build_model
 from src.models.metrics import classification_metrics, decision_metrics, ks_statistic
 from src.models.settings import CostConfig, Grid, load_cost_config, load_training_config
-from src.models.threshold import best_value_threshold, expected_value, loan_economics
+from src.models.threshold import (
+    best_value_threshold,
+    cost_sensitivity,
+    expected_value,
+    loan_economics,
+)
 
 CFG = load_training_config()
 
@@ -103,6 +108,17 @@ def test_loan_economics_and_expected_value() -> None:
     assert expected_value(y, p, gain, loss, 0.9) == -200.0
     t, v = best_value_threshold(y, p, gain, loss, np.array([0.5, 0.9]))
     assert (t, v) == (0.5, 50.0)
+
+
+def test_cost_sensitivity_moves_threshold_in_the_right_direction() -> None:
+    rng = np.random.default_rng(3)
+    n = 3000
+    p = rng.random(n) * 0.6
+    y = (rng.random(n) < p).astype(int)
+    df = pd.DataFrame({"installment": 110.0, "term": 36.0, "loan_amnt": 3000.0}, index=range(n))
+    out = cost_sensitivity(df, y, p, load_cost_config(), lgds=[0.3, 0.9], margins=[0.5])
+    low_lgd, high_lgd = out["threshold"].tolist()
+    assert low_lgd > high_lgd  # cheaper defaults -> approve more
 
 
 def test_cost_config_is_marked_proposed() -> None:
