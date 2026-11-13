@@ -1,0 +1,46 @@
+# Training configuration (ADR-0006). Values marked PROPOSTO are planning choices, not results.
+seed: 42
+internal_split:            # reference partition -> train / calibration / test (stratified by vintage x target)
+  calibration: 0.15
+  test: 0.15
+cv_folds: 5
+oot_windows:               # out-of-time evaluation on mature, labeled production loans
+  oot_2014: ["2014-01", "2014-12"]
+  oot_2015: ["2015-01", "2015-12"]
+log_features:              # right-skewed money amounts, log1p before scaling (logistic regression only)
+  - annual_inc
+  - revol_bal
+  - avg_cur_bal
+  - tot_hi_cred_lim
+  - tot_cur_bal
+  - total_bc_limit
+  - loan_amnt
+  - installment
+models:
+  dummy: {strategy: prior}
+  logreg: {C: 1.0, max_iter: 2000}
+  xgboost:
+    n_estimators: 400
+    max_depth: 4
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_weight: 5
+    reg_lambda: 1.0
+calibration_methods: [sigmoid, isotonic]
+selection:
+  auc_tie_tolerance: 0.005     # PROPOSTO: AUC gaps below this count as a tie -> prefer lower OOT score PSI
+leakage_auc_ceiling: 0.90      # PROPOSTO: above this, audit leakage before going on
+importance:
+  sample_rows: 10000
+  n_repeats: 3
+registry_model_name: credit-scoring
+# MLflow 3.18 serializes scikit-learn models with skops, which refuses non-allowlisted types
+# on load. This explicit allowlist replaces pickle (which would execute arbitrary code).
+skops_trusted_types:
+  - numpy.dtype
+  - sklearn.calibration._CalibratedClassifier
+  - sklearn.calibration._SigmoidCalibration
+  - src.models.factory._log1p_nonneg
+  - xgboost.core.Booster
+  - xgboost.sklearn.XGBClassifier
