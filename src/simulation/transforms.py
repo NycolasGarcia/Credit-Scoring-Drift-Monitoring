@@ -88,12 +88,14 @@ def logit_delta(
 
 
 def drifted_features(transforms: list[Transform]) -> list[str]:
-    """Features whose observed distribution the scenario changes (ground truth for L2).
+    """Features the scenario changes on purpose (ground truth for L2 attribution recall)."""
+    return sorted({tr.feature for tr in transforms if isinstance(tr, Scale | Shift | UnitBug)})
 
-    The installment is recomputed whenever amount, rate or term change, so it drifts too.
+
+def secondary_features(transforms: list[Transform]) -> list[str]:
+    """Features changed only as a mechanical consequence (installment recomputed by amortization).
+
+    Flagging them is not a false positive, but missing them is not a miss either.
     """
-    touched = {tr.feature for tr in transforms if isinstance(tr, Scale | Shift | UnitBug)}
     real = {tr.feature for tr in transforms if isinstance(tr, Scale | Shift)}
-    if real & AMORTIZATION_INPUTS:
-        touched.add("installment")
-    return sorted(touched)
+    return ["installment"] if real & AMORTIZATION_INPUTS else []

@@ -11,7 +11,7 @@ from src.contracts.gate import GateOutcome
 from src.data.split import content_hash
 from src.simulation.engine import TARGET, SimBatch
 from src.simulation.settings import ScenarioConfig
-from src.simulation.transforms import drifted_features
+from src.simulation.transforms import drifted_features, secondary_features
 
 TRACKED = ("annual_inc", "dti", "int_rate", "installment")
 
@@ -54,6 +54,7 @@ def ground_truth(cfg: ScenarioConfig) -> dict[str, Any]:
     return {
         "drift_type": cfg.drift_type,
         "drifted_features": drifted_features(cfg.transforms),
+        "secondary_features": secondary_features(cfg.transforms),
         "label_mechanism": [t.model_dump() for t in cfg.transforms if t.kind == "logit_shift"],
         "onset_batch": cfg.schedule.onset if cfg.schedule.shape != "none" else None,
         "expected_layers": cfg.expected.layers,

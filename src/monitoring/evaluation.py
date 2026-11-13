@@ -32,14 +32,17 @@ def alarm_rates(results: list[dict[str, Any]]) -> dict[str, float | int]:
             "sev2_plus": sum(v >= 2 for v in levels) / n if n else 0.0}  # fmt: skip
 
 
-def attribution(post: list[dict[str, Any]], truth: list[str]) -> dict[str, Any]:
-    """Recall and precision of the features flagged after the onset."""
+def attribution(
+    post: list[dict[str, Any]], truth: list[str], secondary: list[str] | None = None
+) -> dict[str, Any]:
+    """Recall over injected features; precision counts mechanical side effects as correct."""
     flagged = sorted({f for r in post for f in r["severity"]["flagged_features"]})
-    hit = set(flagged) & set(truth)
+    allowed = set(truth) | set(secondary or [])
     known = bool(truth)  # no injected feature (S0, S2, S3, S5): attribution is undefined
-    return {"flagged": flagged, "truth": truth,
-            "recall": len(hit) / len(truth) if known else None,
-            "precision": len(hit) / len(flagged) if known and flagged else None}  # fmt: skip
+    hits, correct = len(set(flagged) & set(truth)), len(set(flagged) & allowed)
+    return {"flagged": flagged, "truth": truth, "secondary": secondary or [],
+            "recall": hits / len(truth) if known else None,
+            "precision": correct / len(flagged) if known and flagged else None}  # fmt: skip
 
 
 def diagnosis_accuracy(post: list[dict[str, Any]], expected: str) -> dict[str, Any]:
@@ -73,6 +76,7 @@ def evaluate(results: list[dict[str, Any]], ground_truth: dict[str, Any]) -> dic
         "layers_unexpected": sorted(set(fired) - set(expected)),
         "first_by_layer": {lay: _first(post, lambda r, lay=lay: lay in layers_fired(r))
                            for lay in LAYERS},
-        "attribution": attribution(post, ground_truth["drifted_features"]),
+        "attribution": attribution(post, ground_truth["drifted_features"],
+                                   ground_truth.get("secondary_features")),
         "diagnosis": diagnosis_accuracy(post, ground_truth["expected_diagnosis"]),
     }  # fmt: skip

@@ -15,7 +15,7 @@ from src.monitoring.calibration import bin_codes, calibrate_signal, psi_codes
 from src.monitoring.detect import Batch, DetectContext, detect_batch
 from src.monitoring.diagnosis import diagnose, unit_bug_signature
 from src.monitoring.drift import drift_table, feature_psi, wasserstein_norm
-from src.monitoring.evaluation import evaluate
+from src.monitoring.evaluation import attribution, evaluate
 from src.monitoring.evidently_report import build_report, column_values
 from src.monitoring.performance import observable_at, segment_gap
 from src.monitoring.profile import build_profile
@@ -191,3 +191,11 @@ def test_evaluation_without_ground_truth_reports_undefined_metrics() -> None:
           "expected_layers": [], "expected_diagnosis": "unknown"}  # fmt: skip
     ev = evaluate(results, gt)
     assert ev["attribution"]["precision"] is None and ev["diagnosis"]["accuracy"] is None
+
+
+def test_attribution_does_not_penalize_secondary_features() -> None:
+    sig = dict.fromkeys(("feature_psi", "score_psi", "approval_delta_pp", "bad_rate_ratio",
+                         "auc_drop"), 0)  # fmt: skip
+    post = [{"severity": {"flagged_features": ["dti", "installment"], "signals": sig}}]
+    out = attribution(post, ["dti", "int_rate"], ["installment"])
+    assert out["recall"] == 0.5 and out["precision"] == 1.0

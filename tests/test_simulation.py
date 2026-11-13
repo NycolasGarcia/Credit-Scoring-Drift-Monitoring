@@ -18,7 +18,7 @@ from src.simulation.manifest import batch_summary, build_manifest, dumps
 from src.simulation.natural import natural_labels
 from src.simulation.record import build_record
 from src.simulation.settings import ScenarioConfig, Schedule, load_scenario, scenario_ids
-from src.simulation.transforms import drifted_features, intensity
+from src.simulation.transforms import drifted_features, intensity, secondary_features
 from tests.synthetic import synthetic_batch
 
 BASE_CFG = {"id": "S9", "name": "t", "drift_type": "none", "narrative": "t", "source": "holdout",
@@ -166,7 +166,8 @@ def test_run_record_groups_by_phase(base, profile) -> None:
     assert rec.metrics["pré-drift"]["lotes"] == 1 and rec.metrics["pós-onset"]["lotes"] == 3
 
 
-def test_ground_truth_includes_recomputed_installment() -> None:
-    assert drifted_features(load_scenario("S1").transforms) == [
-        "annual_inc", "dti", "installment", "int_rate"]  # fmt: skip
-    assert drifted_features(load_scenario("S4").transforms) == ["annual_inc"]
+def test_ground_truth_separates_injected_and_secondary_features() -> None:
+    s1 = load_scenario("S1").transforms
+    assert drifted_features(s1) == ["annual_inc", "dti", "int_rate"]
+    assert secondary_features(s1) == ["installment"]
+    assert secondary_features(load_scenario("S4").transforms) == []
