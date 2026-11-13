@@ -58,14 +58,25 @@ class Grid(BaseModel):
     step: float = Field(gt=0)
 
 
-class CostConfig(BaseModel):
-    """Decision economics premises."""
+class RiskAppetite(BaseModel):
+    """Policy cap used by the conservative mode (GR-4, F7), not by the base threshold."""
 
     status: str
+    max_bad_rate_approved: float = Field(gt=0, lt=1)
+
+
+class CostConfig(BaseModel):
+    """Decision economics premises (ADR-0016)."""
+
+    status: str
+    source_run: str | None = None
     lgd: float = Field(gt=0, le=1)
     margin_realization: float = Field(gt=0, le=1)
+    bad_interest_realization: float = Field(default=0.0, ge=0, le=1)
+    funding_rate: float = Field(default=0.0, ge=0, lt=1)
     threshold_grid: Grid
     funding_rate_grid: list[float] = Field(default_factory=lambda: [0.0])
+    risk_appetite: RiskAppetite | None = None
 
 
 def _read(path: Path) -> dict:

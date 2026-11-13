@@ -38,6 +38,7 @@ def test_premises_are_dollar_weighted() -> None:
     prem = estimate_premises(realized_economics(_loans()))
     assert prem["lgd"] == pytest.approx(0.62)
     assert prem["margin_realization"] == pytest.approx(1.0)
+    assert prem["bad_interest_realization"] == pytest.approx(0.5)
     assert (prem["n_bad"], prem["n_good"]) == (1, 1)
 
 

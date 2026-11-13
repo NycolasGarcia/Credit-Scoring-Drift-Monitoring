@@ -99,8 +99,9 @@ def test_loan_economics_and_expected_value() -> None:
     cost = CostConfig(status="PROPOSTO", lgd=0.5, margin_realization=1.0,
                       threshold_grid=Grid(start=0.1, stop=0.9, step=0.1))  # fmt: skip
     df = pd.DataFrame(
-        {"installment": [110.0, 110.0], "term": [10.0, 10.0], "loan_amnt": [1000.0, 1000.0]}
-    )
+        {"installment": [110.0, 110.0], "term": [10.0, 10.0], "loan_amnt": [1000.0, 1000.0],
+         "int_rate": [10.0, 10.0]}
+    )  # fmt: skip
     gain, loss = loan_economics(df, cost)
     assert gain.tolist() == [100.0, 100.0] and loss.tolist() == [500.0, 500.0]
     y, p = np.array([0, 1]), np.array([0.2, 0.8])
@@ -110,19 +111,37 @@ def test_loan_economics_and_expected_value() -> None:
     assert (t, v) == (0.5, 50.0)
 
 
+def test_funding_cost_reduces_gain_and_increases_loss() -> None:
+    base = CostConfig(status="ESTIMADO", lgd=0.5, margin_realization=0.8,
+                      bad_interest_realization=0.4, funding_rate=0.05,
+                      threshold_grid=Grid(start=0.1, stop=0.9, step=0.1))  # fmt: skip
+    df = pd.DataFrame({"installment": [110.0], "term": [10.0], "loan_amnt": [1000.0],
+                       "int_rate": [10.0]})  # fmt: skip
+    gain, loss = loan_economics(df, base)
+    # interest 100, balance-years 100/0.10 = 1000, funding on full schedule 0.05*1000 = 50
+    assert gain[0] == pytest.approx(100 * 0.8 - 50 * 0.8)
+    assert loss[0] == pytest.approx(1000 * 0.5 + 50 * 0.4)
+
+
 def test_cost_sensitivity_moves_threshold_in_the_right_direction() -> None:
     rng = np.random.default_rng(3)
     n = 3000
     p = rng.random(n) * 0.6
     y = (rng.random(n) < p).astype(int)
-    df = pd.DataFrame({"installment": 110.0, "term": 36.0, "loan_amnt": 3000.0}, index=range(n))
+    df = pd.DataFrame(
+        {"installment": 110.0, "term": 36.0, "loan_amnt": 3000.0, "int_rate": 15.0}, index=range(n)
+    )
     out = cost_sensitivity(df, y, p, load_cost_config(), lgds=[0.3, 0.9], margins=[0.5])
     low_lgd, high_lgd = out["threshold"].tolist()
     assert low_lgd > high_lgd  # cheaper defaults -> approve more
 
 
-def test_cost_config_is_marked_proposed() -> None:
-    assert load_cost_config().status == "PROPOSTO"
+def test_cost_config_declares_its_status_and_source() -> None:
+    cost = load_cost_config()
+    assert cost.status in {"PROPOSTO", "ESTIMADO"}
+    if cost.status == "ESTIMADO":
+        assert cost.source_run and cost.source_run.startswith("RUN-")
+    assert cost.risk_appetite is not None
 
 
 def _cand(name: str, auc: float, psi: float) -> CandidateResult:

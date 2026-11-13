@@ -1,9 +1,10 @@
 """Cost calibration and FP/FN validation job (``make cost``, ADR-0016).
 
-1. Estimate LGD and interest realization from realized cash flows on the TRAIN split.
-2. Choose the value-maximizing threshold on the CALIBRATION split with those premises.
-3. Validate on the TEST split against what each decision actually returned (realized cash):
-   modeled vs. realized value curve, regret of the chosen threshold, FP/FN money.
+1. Estimate LGD and interest realization (good and bad loans) from realized cash on TRAIN.
+2. For the configured premises and for the freshly estimated ones (same funding rate), choose
+   the value-maximizing threshold on the CALIBRATION split.
+3. Validate on the TEST split against what each decision actually returned (realized cash net
+   of funding): modeled vs. realized curve, regret of the chosen threshold, FP/FN money.
 """
 
 import json
@@ -35,6 +36,7 @@ from src.reporting.run_record import RunRecord, git_state, next_run_id, write_re
 
 logger = logging.getLogger(__name__)
 EVIDENCE = PROJECT_ROOT / "docs" / "evidence" / "models" / "cost_validation.json"
+ESTIMATED_KEYS = ("lgd", "margin_realization", "bad_interest_realization")
 
 
 def attach_economics(sets: dict[str, pd.DataFrame], econ: pd.DataFrame) -> dict[str, pd.DataFrame]:
@@ -55,7 +57,7 @@ def curves(df: pd.DataFrame, p: np.ndarray, cost: CostConfig) -> pd.DataFrame:
     """Modeled (premise-based) and realized value per application across the grid."""
     _, y = xy(df)
     gain, loss = loan_economics(df, cost)
-    net = df["net_cash"].to_numpy()
+    net = net_of_funding(df, cost.funding_rate)
     rows = [{"threshold": t, "modeled": expected_value(y.to_numpy(), p, gain, loss, t),
              "realized": realized_value(net, p, t)} for t in threshold_grid(cost)]  # fmt: skip
     return pd.DataFrame(rows)
@@ -73,7 +75,9 @@ def validate(test: pd.DataFrame, p: np.ndarray, cost: CostConfig, t_chosen: floa
         "realized_value_at_chosen": chosen,
         "regret_pct": float((best["realized"] - chosen) / best["realized"] * 100),
         "curve_pearson": float(np.corrcoef(c["modeled"], c["realized"])[0, 1]),
-        "confusion_at_chosen": confusion_costs(y, p, test["net_cash"].to_numpy(), t_chosen),
+        "confusion_at_chosen": confusion_costs(
+            y, p, net_of_funding(test, cost.funding_rate), t_chosen
+        ),
     }
 
 
@@ -84,16 +88,16 @@ def run(cfg, base_cost: CostConfig) -> dict:
     econ = realized_economics(read_cost_frame(settings.raw_data_path, key))
     sets = attach_economics(internal_split(load_partition("reference"), cfg), econ)
     premises = estimate_premises(sets["train"])
-    empirical = base_cost.model_copy(update={k: premises[k] for k in ("lgd", "margin_realization")})
+    estimated = base_cost.model_copy(update={k: premises[k] for k in ESTIMATED_KEYS})
     setup_tracking("training")
     model = load_alias(cfg.registry_model_name)
     p = {k: np.asarray(model.predict_proba(xy(sets[k])[0])[:, 1]) for k in ("calibration", "test")}
     y_cal = xy(sets["calibration"])[1].to_numpy()
     out = {"premises_train": premises}
-    for label, cost in (("proposed", base_cost), ("empirical", empirical)):
+    for label, cost in (("configured", base_cost), ("estimated", estimated)):
         gain, loss = loan_economics(sets["calibration"], cost)
         t, _ = best_value_threshold(y_cal, p["calibration"], gain, loss, threshold_grid(cost))
-        out[label] = {"lgd": cost.lgd, "margin_realization": cost.margin_realization,
+        out[label] = {**{k: getattr(cost, k) for k in (*ESTIMATED_KEYS, "funding_rate")},
                       "threshold": t, **validate(sets["test"], p["test"], cost, t)}  # fmt: skip
     out["funding_sensitivity"] = funding_sensitivity(sets["test"], p["test"], base_cost)
     return out
@@ -116,11 +120,11 @@ def record(result: dict, cfg, git: tuple[str, bool]) -> None:
     """RUN record of the cost calibration."""
     metrics = {
         label: {k: v for k, v in result[label].items() if isinstance(v, float)}
-        for label in ("proposed", "empirical")
+        for label in ("configured", "estimated")
     }
     metrics["premissas (train)"] = {k: float(v) for k, v in result["premises_train"].items()}
     extra = {f"Matriz FP/FN no teste ({k})": json.dumps(result[k]["confusion_at_chosen"])
-             for k in ("proposed", "empirical")}  # fmt: skip
+             for k in ("configured", "estimated")}  # fmt: skip
     extra["Sensibilidade ao custo de funding (teste, caixa realizado)"] = json.dumps(
         [{k: round(v, 4) for k, v in row.items()} for row in result["funding_sensitivity"]]
     )
@@ -134,9 +138,11 @@ def record(result: dict, cfg, git: tuple[str, bool]) -> None:
 
 
 def _verdict(result: dict) -> str:
-    e = result["empirical"]
-    return (f"premissas empíricas: LGD {e['lgd']:.3f}, margem {e['margin_realization']:.3f}; "
-            f"limiar {e['threshold']:.3f}; regret no teste {e['regret_pct']:.2f}%")  # fmt: skip
+    c, e = result["configured"], result["estimated"]
+    head = f"config: limiar {c['threshold']:.3f}, regret {c['regret_pct']:.2f}%"
+    est = (f"estimado: LGD {e['lgd']:.3f}, margem {e['margin_realization']:.3f}, "
+           f"juros dos maus {e['bad_interest_realization']:.3f}")  # fmt: skip
+    return f"{head} · {est} · funding {c['funding_rate']:.0%}"
 
 
 def _reference_hash() -> str:

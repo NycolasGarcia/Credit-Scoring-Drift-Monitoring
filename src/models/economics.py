@@ -56,13 +56,15 @@ def realized_economics(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def estimate_premises(econ: pd.DataFrame) -> dict[str, float]:
-    """Dollar-weighted LGD (bad loans) and interest realization (good loans), plus spread."""
+    """Dollar-weighted LGD and interest realization (good and bad loans), plus spread."""
     bad, good = econ[econ["target"] == 1], econ[econ["target"] == 0]
     lgd = float(-bad["net_cash"].sum() / bad["funded_amnt"].sum())
     margin = float(good["total_rec_int"].sum() / good["contractual_interest"].sum())
+    bad_interest = float(bad["total_rec_int"].sum() / bad["contractual_interest"].sum())
     return {
         "lgd": lgd,
         "margin_realization": margin,
+        "bad_interest_realization": bad_interest,
         "n_bad": len(bad),
         "n_good": len(good),
         "loss_rate_p25": float(bad["loss_rate"].quantile(0.25)),

@@ -1,4 +1,4 @@
-"""Decision economics and the expected-value approval threshold (ADR-0007)."""
+"""Decision economics and the expected-value approval threshold (ADR-0016)."""
 
 import numpy as np
 import pandas as pd
@@ -10,12 +10,18 @@ from src.models.settings import CostConfig
 def loan_economics(df: pd.DataFrame, cost: CostConfig) -> tuple[np.ndarray, np.ndarray]:
     """Per-loan gain if a good loan is approved and loss if a bad loan is approved.
 
-    Uses origination fields only: contractual interest = installment * term - loan_amnt.
+    Uses origination fields only. Contractual interest = installment * term - loan_amnt and,
+    since interest accrues as rate x balance-years, the full-schedule balance-years are
+    contractual interest / rate. Funding is charged on the balance-years each outcome is
+    expected to carry: ``margin_realization`` of the schedule for a good loan and
+    ``bad_interest_realization`` for a bad one (both measured on realized cash, ADR-0016).
     """
     interest = (df["installment"] * df["term"] - df["loan_amnt"]).clip(lower=0)
-    gain = (interest * cost.margin_realization).to_numpy()
-    loss = (df["loan_amnt"] * cost.lgd).to_numpy()
-    return gain, loss
+    balance_years = interest / (df["int_rate"] / 100)
+    funding = cost.funding_rate * balance_years
+    gain = interest * cost.margin_realization - funding * cost.margin_realization
+    loss = df["loan_amnt"] * cost.lgd + funding * cost.bad_interest_realization
+    return gain.to_numpy(), loss.to_numpy()
 
 
 def expected_value(
