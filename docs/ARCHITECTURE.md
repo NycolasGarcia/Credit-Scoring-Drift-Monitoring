@@ -1,6 +1,6 @@
 # Arquitetura
 
-> **Status:** preparação de dados (F1), treino (F2), quality gate (F3) e simulador de cenários (F4) implementados e descritos aqui. Detecção, observabilidade e resposta ainda estão como desenho (a confirmar nas fases F5–F7). Todo módulo de `src/` precisa aparecer neste documento; um teste garante isso (`tests/test_docs_sync.py`).
+> **Status:** preparação de dados (F1), treino (F2), quality gate (F3), simulador de cenários (F4) e detecção de drift (F5) implementados e descritos aqui. Observabilidade e resposta ainda estão como desenho (a confirmar nas fases F6–F7). Todo módulo de `src/` precisa aparecer neste documento; um teste garante isso (`tests/test_docs_sync.py`).
 
 ## Visão geral
 
@@ -93,6 +93,34 @@ flowchart LR
 
 Cenários, narrativa e resultados em [SCENARIOS.md](SCENARIOS.md); decisões no [ADR-0017](adr/0017-scenario-simulator.md).
 
+## Fluxo implementado — detecção de drift (F5)
+
+`make calibrate` calibra os limiares no controle; `make detect` roda o detector sobre os lotes de cada cenário (`src/monitoring/cli.py`). O detector vê só o que a produção vê; o manifesto de ground truth é lido apenas pela avaliação:
+
+```mermaid
+flowchart LR
+    REF[(referência<br/>+ reference_profile.json)] --> L2
+    B[(lote: applications<br/>scored · labels)] --> L2[drift.py — L2<br/>PSI bins fixos · KS · χ² · Wasserstein]
+    B --> L3[output.py — L3<br/>PSI do score · aprovação]
+    B --> H[(histórico de rótulos)]
+    H --> L4[performance.py — L4<br/>rótulos que amadurecem em t<br/>AUC · obs/esp · gap por segmento]
+    TH[[thresholds.yaml]] --> SEV
+    L2 --> SEV[severity.py<br/>SEV por sinal e por lote]
+    L3 --> SEV
+    L4 --> SEV
+    SEV --> DX[diagnosis.py<br/>D0 · D6 · D3/D2 · D1 · D4]
+    L2 --> DX
+    DX --> EVAL[evaluation.py<br/>vs. manifesto §8.8]
+    MAN[(manifesto)] --> EVAL
+    DX --> EVD[evidence.py + evidently_report.py<br/>HTML na janela do alerta<br/>cruzamento psi_ref × PSI próprio]
+    EVAL --> OUT[(docs/evidence/drift<br/>RUN monitor)]
+    EVD --> OUT
+    HO[(holdout)] --> CAL[calibration.py<br/>bootstrap A/A no S0]
+    CAL --> TH
+```
+
+Metodologia no [ADR-0009](adr/0009-drift-detection-methodology.md); limiares em [THRESHOLDS.md](THRESHOLDS.md); resultados em [DRIFT_EVALUATION.md](DRIFT_EVALUATION.md).
+
 ## Fluxos planejados
 
 ```mermaid
@@ -160,7 +188,19 @@ flowchart LR
 | `src/simulation/manifest.py` | Manifesto de ground truth com agregados e hashes por lote | F4 | implementado |
 | `src/simulation/record.py` | RUN record do tipo `sim` por cenário | F4 | implementado |
 | `src/simulation/cli.py` | `make simulate`: gera, passa pelo gate, pontua e persiste | F4 | implementado |
-| `src/monitoring/` (restante) | KS/χ²/Wasserstein, Evidently, desempenho maduro, avaliação do detector | F5 | planejado |
+| `src/monitoring/settings.py` | Configuração validada dos limiares (`thresholds.yaml`), com direção por sinal | F5 | implementado |
+| `src/monitoring/drift.py` | L2: PSI com bins da referência, KS, χ², Wasserstein normalizada por feature | F5 | implementado |
+| `src/monitoring/output.py` | L3: PSI do score, taxa de aprovação e variação, bad rate esperado | F5 | implementado |
+| `src/monitoring/performance.py` | L4: desempenho dos rótulos que amadurecem no lote, descolamento por segmento | F5 | implementado |
+| `src/monitoring/severity.py` | Severidade SEV-0..3 por sinal e por lote (§8.4) | F5 | implementado |
+| `src/monitoring/diagnosis.py` | Diagnóstico pela árvore §8.7, com assinatura de bug de unidade (D6) | F5 | implementado |
+| `src/monitoring/calibration.py` | Bootstrap A/A no controle e calibração dos limiares | F5 | implementado |
+| `src/monitoring/evidently_report.py` | Relatório Evidently com teste `psi_ref` registrado e explícito por coluna | F5 | implementado |
+| `src/monitoring/detect.py` | Detector por lote sobre um cenário (puro) | F5 | implementado |
+| `src/monitoring/evaluation.py` | Avaliação do detector contra o ground truth (falso alarme, atraso, atribuição, diagnóstico) | F5 | implementado |
+| `src/monitoring/evidence.py` | Janela do alerta, relatório Evidently, cruzamento e RUN record `monitor` | F5 | implementado |
+| `src/monitoring/cli.py` | `make calibrate` e `make detect` | F5 | implementado |
+| `src/monitoring/docs.py` | Gera `THRESHOLDS.md` e `DRIFT_EVALUATION.md` | F5 | implementado |
 | `src/observability/` | Eventos de log, métricas Pushgateway, ledger de runs | F6 | planejado |
 | `src/alerting/` | Motor de severidade e alertas | F6 | planejado |
 | `src/response/` | Policy engine, guardrails, champion/challenger, rollback | F7 | planejado |
@@ -177,6 +217,7 @@ flowchart LR
 | `config/models/training.yaml` | Partição interna, modelos, calibração, seleção, tipos confiáveis do skops |
 | `config/models/cost.yaml` | Premissas de custo (medidas + funding declarado), grade de limiar e apetite de risco |
 | `config/contracts/contract.yaml` | Faixas, domínios, tolerâncias, janelas e parâmetros soft do contrato de dados |
+| `config/monitoring/thresholds.yaml` | Limiares por sinal (SEV-1/2/3, direção, status, RUN de calibração), meta de falso alarme, parâmetros do D6 |
 | `config/scenarios/S0.yaml` … `S5.yaml` | Cenários de degradação: transformações, magnitudes, cronograma, seed, resposta esperada |
 
 ## Infraestrutura transversal

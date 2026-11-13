@@ -60,6 +60,17 @@ make simulate SCENARIO=S2      # um cenário
 
 S0 controle · S1 choque econômico (D1) · S2 concept drift (D3) · S3 prior shift (D2) · S4 bug de unidade (D6) · S5 produção natural. Lotes em `data/simulated/` (fora do git), manifestos de ground truth em `docs/evidence/scenarios/` e um RUN record por cenário. Detalhes: [SCENARIOS.md](docs/SCENARIOS.md) e [ADR-0017](docs/adr/0017-scenario-simulator.md).
 
+### Detecção de drift
+
+```bash
+make calibrate                 # bootstrap A/A no controle: falso alarme por sinal e limiares calibrados
+make detect                    # detector em todos os cenários: severidade, diagnóstico, Evidently e avaliação
+make detect SCENARIO=S2
+make drift-docs                # regenera docs/THRESHOLDS.md e docs/DRIFT_EVALUATION.md
+```
+
+Camadas L2 (drift por feature), L3 (score e aprovação) e L4 (desempenho com rótulo maduro), diagnóstico D0/D1/D2/D3/D4/D6 e um relatório HTML do Evidently por cenário em `docs/evidence/drift/`. Detalhes: [ADR-0009](docs/adr/0009-drift-detection-methodology.md), [THRESHOLDS.md](docs/THRESHOLDS.md) e [DRIFT_EVALUATION.md](docs/DRIFT_EVALUATION.md).
+
 Detalhes da separação e do alvo: [ADR-0004](docs/adr/0004-target-maturity-leakage.md), [ADR-0005](docs/adr/0005-reference-production-split.md) e [data card](docs/data_card.md).
 
 ## Documentação

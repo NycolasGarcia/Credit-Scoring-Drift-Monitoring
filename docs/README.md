@@ -6,9 +6,9 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 |---|---|---|
 | [PROGRESS.md](PROGRESS.md) | Log append-only de checkpoints por fase | vivo |
 | [../CHANGELOG.md](../CHANGELOG.md) | Mudanças por fase, em ordem cronológica | vivo |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2), quality gate (F3) e simulador (F4) implementados; demais planejados |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2), quality gate (F3), simulador (F4) e detecção (F5) implementados; demais planejados |
 | [adr/](adr/) | Decisões de arquitetura | ver índice abaixo |
-| [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino, calibração de custo e simulação) |
+| [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino, calibração, simulação e monitoramento) |
 | [incidents/](incidents/) | Incidentes e postmortems | vazio |
 | [evidence/](evidence/) | Prints e relatórios curados (somente agregados) | vivo |
 | [data_inventory.md](data_inventory.md) | Classificação das 151 colunas (gerado do YAML) | gerado |
@@ -22,8 +22,11 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [evidence/contracts/](evidence/contracts/) | Relatórios agregados do gate (mês real, lote ruim, varredura D6) | F3 |
 | [SCENARIOS.md](SCENARIOS.md) | Cenários S0–S5: o que muda, quando, narrativa econômica e resultados | F4 |
 | [evidence/scenarios/](evidence/scenarios/) | Manifestos de ground truth por cenário (agregados, hashes, RUN-id) | F4 |
+| [THRESHOLDS.md](THRESHOLDS.md) | Limiares vigentes e calibração no controle (gerado) | gerado |
+| [DRIFT_EVALUATION.md](DRIFT_EVALUATION.md) | Avaliação do detector por cenário, relatórios Evidently, p-valor × efeito (gerado) | gerado |
+| [evidence/drift/](evidence/drift/) | Resultados por lote, relatórios HTML do Evidently e calibração | F5 |
 
-Documentos previstos para fases seguintes: `DRIFT_EVALUATION.md`, `THRESHOLDS.md`, `METRICS.md`, `ALERTS.md`, `RUNBOOK.md`, `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
+Documentos previstos para fases seguintes: `METRICS.md`, `ALERTS.md`, `RUNBOOK.md`, `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
 
 ## ADRs
 
@@ -37,5 +40,6 @@ Documentos previstos para fases seguintes: `DRIFT_EVALUATION.md`, `THRESHOLDS.md
 | [0006](adr/0006-base-model.md) | Modelo base: regressão logística calibrada | aceito |
 | [0007](adr/0007-cost-threshold.md) | Matriz de custo e limiar por valor esperado | supersedido pelo 0016 |
 | [0008](adr/0008-data-contracts.md) | Contratos de dados, gate em dois níveis e quarentena | aceito |
+| [0009](adr/0009-drift-detection-methodology.md) | Metodologia de detecção de drift: PSI com bins fixos, efeito × p-valor, calibração, API do Evidently | aceito |
 | [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas, funding e apetite de risco | aceito |
 | [0017](adr/0017-scenario-simulator.md) | Desenho do simulador de cenários: amostragem, rótulo por oráculo, atraso de rótulo, S4 parcial | aceito |
