@@ -6,6 +6,7 @@ from src.config import PROJECT_ROOT
 from src.contracts.catalog import DOC as CONTRACTS_DOC
 from src.contracts.catalog import render
 from src.contracts.settings import load_contract_config
+from src.simulation.settings import load_scenario, scenario_ids
 
 ARCHITECTURE = PROJECT_ROOT / "docs" / "ARCHITECTURE.md"
 MAKEFILE = PROJECT_ROOT / "Makefile"
@@ -32,3 +33,9 @@ def test_make_help_lists_every_target() -> None:
     help_block = text.split("help:", 1)[1].split("\n\n", 1)[0]
     missing = sorted(t for t in targets if t not in help_block.split())
     assert not missing, f"targets missing from make help: {missing}"
+
+
+def test_scenarios_doc_lists_every_configured_scenario() -> None:
+    doc = (PROJECT_ROOT / "docs" / "SCENARIOS.md").read_text(encoding="utf-8")
+    missing = [s for s in scenario_ids() if f"| {s} | {load_scenario(s).name} |" not in doc]
+    assert not missing, f"scenarios missing from SCENARIOS.md: {missing}"
