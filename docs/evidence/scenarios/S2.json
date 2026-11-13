@@ -1,0 +1,379 @@
+{
+  "scenario": "S2",
+  "name": "Concept drift no DTI alto",
+  "config": {
+    "id": "S2",
+    "name": "Concept drift no DTI alto",
+    "drift_type": "D3",
+    "narrative": "Desemprego atinge primeiro quem já está muito endividado: com o mesmo DTI, quem está no topo da distribuição (>= p70 da referência) passa a inadimplir mais (logit +1,0). As entradas não mudam, então contrato, drift de entrada e score ficam quietos; só o desempenho com rótulo maduro revela o problema, com atraso de rótulo.",
+    "source": "holdout",
+    "seed": 102,
+    "label_lag": 3,
+    "calendar_start": "2014-01",
+    "batches": 12,
+    "batch_size": 6000,
+    "months": null,
+    "schedule": {
+      "shape": "gradual",
+      "onset": 3,
+      "ramp": 4,
+      "period": 2
+    },
+    "transforms": [
+      {
+        "kind": "logit_shift",
+        "delta": 1.0,
+        "segment": {
+          "feature": "dti",
+          "min_quantile": 0.7
+        }
+      }
+    ],
+    "expected": {
+      "layers": [
+        "L4"
+      ],
+      "diagnosis": "D3"
+    }
+  },
+  "config_sha256": "8b66fed63e53cb49c8ea5781688cdc8c42632ccf42077becd6b7fbb8b2e1a739",
+  "base_sha256": "f426398c4c947edafe4f1b11f8b307d5ea761fc773ed6829710e0f72d1962d6b",
+  "model": {
+    "version": "credit-scoring@champion v2",
+    "threshold": 0.495
+  },
+  "ground_truth": {
+    "drift_type": "D3",
+    "drifted_features": [],
+    "label_mechanism": [
+      {
+        "kind": "logit_shift",
+        "delta": 1.0,
+        "segment": {
+          "feature": "dti",
+          "min_quantile": 0.7
+        }
+      }
+    ],
+    "onset_batch": 3,
+    "expected_layers": [
+      "L4"
+    ],
+    "expected_diagnosis": "D3"
+  },
+  "batches": [
+    {
+      "batch_id": "S2-b00",
+      "index": 0,
+      "issue_month": "2014-01",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 4,
+      "rows_scored": 5996,
+      "mean_score": 0.154859,
+      "approval_rate": 0.997999,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.15,
+      "mean_p_oracle": 0.15486,
+      "feature_means": {
+        "annual_inc": 74120.241323,
+        "dti": 17.100653,
+        "int_rate": 14.559943,
+        "installment": 456.958547
+      },
+      "hashes": {
+        "applications": "4f4c47ee226327b77a8e0c7b834850ac19c1777fea56c1ef9f8c57f7cee34a58",
+        "labels": "aa3965f164d00008ce17b0390502c5c39b5d6a5ede4c7b7ec09ba13c870c39e2"
+      }
+    },
+    {
+      "batch_id": "S2-b01",
+      "index": 1,
+      "issue_month": "2014-02",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 3,
+      "rows_scored": 5997,
+      "mean_score": 0.153741,
+      "approval_rate": 0.997499,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.148833,
+      "mean_p_oracle": 0.153717,
+      "feature_means": {
+        "annual_inc": 72793.90807,
+        "dti": 17.061005,
+        "int_rate": 14.508257,
+        "installment": 450.225952
+      },
+      "hashes": {
+        "applications": "f3a3341a74c1087286beed0a578ecdfb75e77a5d0c81802c8be3f6463be37e11",
+        "labels": "1cdbf5654263ef3f5a2c16747577e8d5eb98931b3d574e664c2c9d382f883fc3"
+      }
+    },
+    {
+      "batch_id": "S2-b02",
+      "index": 2,
+      "issue_month": "2014-03",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 1,
+      "rows_scored": 5999,
+      "mean_score": 0.154608,
+      "approval_rate": 0.9985,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.146833,
+      "mean_p_oracle": 0.154643,
+      "feature_means": {
+        "annual_inc": 74109.490302,
+        "dti": 17.270417,
+        "int_rate": 14.490347,
+        "installment": 457.362882
+      },
+      "hashes": {
+        "applications": "6cd6a59d1c05bcee84e6054bea2db84e61c70d30e0a5f36fdec63440a8072571",
+        "labels": "dfd0255a46e5007156ee3d8792c3f5231f5c5fd39aabbe6211edb9eb78b480f4"
+      }
+    },
+    {
+      "batch_id": "S2-b03",
+      "index": 3,
+      "issue_month": "2014-04",
+      "intensity": 0.25,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 4,
+      "rows_scored": 5996,
+      "mean_score": 0.155151,
+      "approval_rate": 0.998165,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.164667,
+      "mean_p_oracle": 0.1667,
+      "feature_means": {
+        "annual_inc": 72625.252012,
+        "dti": 17.205978,
+        "int_rate": 14.547153,
+        "installment": 459.018208
+      },
+      "hashes": {
+        "applications": "e2ef74b1776ec53b9c4848ed4f35d0f82f0fdb91841eb9ea20ec5df9397014c5",
+        "labels": "540da48ae027a300e69137e586a8eaf955c5ecbf58386fee766f3c98c252f710"
+      }
+    },
+    {
+      "batch_id": "S2-b04",
+      "index": 4,
+      "issue_month": "2014-05",
+      "intensity": 0.5,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 3,
+      "rows_scored": 5997,
+      "mean_score": 0.15273,
+      "approval_rate": 0.997332,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.181,
+      "mean_p_oracle": 0.176735,
+      "feature_means": {
+        "annual_inc": 73628.719883,
+        "dti": 17.163505,
+        "int_rate": 14.412715,
+        "installment": 458.214375
+      },
+      "hashes": {
+        "applications": "d709df3f50f513de0cd4ab605039cb436b5b3e7a956f651db6d2a5430a7b845f",
+        "labels": "a2bed036ec092200fd72c175797604110067aec8f99165882c85e43e8302d2a3"
+      }
+    },
+    {
+      "batch_id": "S2-b05",
+      "index": 5,
+      "issue_month": "2014-06",
+      "intensity": 0.75,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 3,
+      "rows_scored": 5997,
+      "mean_score": 0.15774,
+      "approval_rate": 0.997165,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.200167,
+      "mean_p_oracle": 0.196335,
+      "feature_means": {
+        "annual_inc": 73023.120788,
+        "dti": 17.222583,
+        "int_rate": 14.682243,
+        "installment": 457.595917
+      },
+      "hashes": {
+        "applications": "7505ae3d9c270898e27b76422a74365fd8c9c46fcc0e135261b32741e2b9040c",
+        "labels": "a2dc8e4e288b91e1f24def1e6c11bfbf817fbd7cbcbb0d2b92ec2372826157b5"
+      }
+    },
+    {
+      "batch_id": "S2-b06",
+      "index": 6,
+      "issue_month": "2014-07",
+      "intensity": 1.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 2,
+      "rows_scored": 5998,
+      "mean_score": 0.154652,
+      "approval_rate": 0.997666,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.210167,
+      "mean_p_oracle": 0.20946,
+      "feature_means": {
+        "annual_inc": 73380.627935,
+        "dti": 17.151757,
+        "int_rate": 14.545143,
+        "installment": 455.182803
+      },
+      "hashes": {
+        "applications": "ae11c292e3c7482c67ee12c212662221c8d03bf3677ff24ae29a96dd633f62be",
+        "labels": "1eef55be0e1f96c25cf63887aee81d64b212e4c6d62f1a511cef46961589762f"
+      }
+    },
+    {
+      "batch_id": "S2-b07",
+      "index": 7,
+      "issue_month": "2014-08",
+      "intensity": 1.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 2,
+      "rows_scored": 5998,
+      "mean_score": 0.156304,
+      "approval_rate": 0.998166,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.1995,
+      "mean_p_oracle": 0.21093,
+      "feature_means": {
+        "annual_inc": 73807.137952,
+        "dti": 17.316265,
+        "int_rate": 14.554223,
+        "installment": 456.478392
+      },
+      "hashes": {
+        "applications": "d70c0243188fc62ae2985f374c20c9e2344b26978f9b164ed4550def48ac8844",
+        "labels": "5e203299999af49e551018a1de9109ae516132313edaac7893adb252a618d51b"
+      }
+    },
+    {
+      "batch_id": "S2-b08",
+      "index": 8,
+      "issue_month": "2014-09",
+      "intensity": 1.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 2,
+      "rows_scored": 5998,
+      "mean_score": 0.154181,
+      "approval_rate": 0.998166,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.211667,
+      "mean_p_oracle": 0.208778,
+      "feature_means": {
+        "annual_inc": 72656.227017,
+        "dti": 17.243537,
+        "int_rate": 14.466407,
+        "installment": 454.505958
+      },
+      "hashes": {
+        "applications": "c5a1ba17d947fa06ddcda9663f939d2f7c0186db036d502cdda9f66308db98fc",
+        "labels": "90c54348fad7a1adf289383a7de583311fe24de7d846f36d88aa1e9b4f066cfb"
+      }
+    },
+    {
+      "batch_id": "S2-b09",
+      "index": 9,
+      "issue_month": "2014-10",
+      "intensity": 1.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "passed",
+      "rows_quarantined": 0,
+      "rows_scored": 6000,
+      "mean_score": 0.153982,
+      "approval_rate": 0.998,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.215167,
+      "mean_p_oracle": 0.208842,
+      "feature_means": {
+        "annual_inc": 72717.046303,
+        "dti": 17.176702,
+        "int_rate": 14.492643,
+        "installment": 457.818072
+      },
+      "hashes": {
+        "applications": "af0b6badef69444f50cefe51bc678ea8c9c1fc48c11399de62bd74076fe91cf7",
+        "labels": "2afd3cb4208684e6309db625d0c51804db65b9f8c715e3bef5374e6e43336160"
+      }
+    },
+    {
+      "batch_id": "S2-b10",
+      "index": 10,
+      "issue_month": "2014-11",
+      "intensity": 1.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 5,
+      "rows_scored": 5995,
+      "mean_score": 0.154104,
+      "approval_rate": 0.997164,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.213833,
+      "mean_p_oracle": 0.20861,
+      "feature_means": {
+        "annual_inc": 73931.679053,
+        "dti": 17.24207,
+        "int_rate": 14.52066,
+        "installment": 458.349903
+      },
+      "hashes": {
+        "applications": "778ced15d473773389b67bdcf6fd034053de6a5429aa4a9629692b2c97276f9d",
+        "labels": "7e7a9c3756efd225918c9aee5670d7a0eb79109ab976c7394b6c28851b022860"
+      }
+    },
+    {
+      "batch_id": "S2-b11",
+      "index": 11,
+      "issue_month": "2014-12",
+      "intensity": 1.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 4,
+      "rows_scored": 5996,
+      "mean_score": 0.153265,
+      "approval_rate": 0.997665,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.2035,
+      "mean_p_oracle": 0.206477,
+      "feature_means": {
+        "annual_inc": 73502.065528,
+        "dti": 17.061668,
+        "int_rate": 14.486133,
+        "installment": 455.640587
+      },
+      "hashes": {
+        "applications": "962f147a25ed21aad7c1e8a6e252f727d97c67eb046de2db47c9805cdaaae569",
+        "labels": "5748133df3c9fcedd43121a3749764f214bf79c13f40e46c038f0715d30de57d"
+      }
+    }
+  ],
+  "run_id": "RUN-20261113-sim-S2-01"
+}

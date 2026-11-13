@@ -1,0 +1,357 @@
+{
+  "scenario": "S0",
+  "name": "Controle sem drift",
+  "config": {
+    "id": "S0",
+    "name": "Controle sem drift",
+    "drift_type": "none",
+    "narrative": "Mesma população da referência, amostrada em lotes mensais. Qualquer alerta aqui é falso alarme; é o cenário que calibra os limiares (F5).",
+    "source": "holdout",
+    "seed": 100,
+    "label_lag": 3,
+    "calendar_start": "2014-01",
+    "batches": 12,
+    "batch_size": 6000,
+    "months": null,
+    "schedule": {
+      "shape": "none",
+      "onset": 0,
+      "ramp": 1,
+      "period": 2
+    },
+    "transforms": [],
+    "expected": {
+      "layers": [],
+      "diagnosis": "none"
+    }
+  },
+  "config_sha256": "b3efb28ac0897781d14183d43e84992e8ee943b44906bea37faab41656d4b500",
+  "base_sha256": "f426398c4c947edafe4f1b11f8b307d5ea761fc773ed6829710e0f72d1962d6b",
+  "model": {
+    "version": "credit-scoring@champion v2",
+    "threshold": 0.495
+  },
+  "ground_truth": {
+    "drift_type": "none",
+    "drifted_features": [],
+    "label_mechanism": [],
+    "onset_batch": null,
+    "expected_layers": [],
+    "expected_diagnosis": "none"
+  },
+  "batches": [
+    {
+      "batch_id": "S0-b00",
+      "index": 0,
+      "issue_month": "2014-01",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 4,
+      "rows_scored": 5996,
+      "mean_score": 0.15448,
+      "approval_rate": 0.998499,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.152,
+      "mean_p_oracle": 0.154485,
+      "feature_means": {
+        "annual_inc": 72948.221597,
+        "dti": 17.350083,
+        "int_rate": 14.523267,
+        "installment": 454.924703
+      },
+      "hashes": {
+        "applications": "d35787689d60b32117c3f8a514cb6cde8261c687ee4ee6215e8431beb85000f0",
+        "labels": "44f69c9e24c76e8673174c89fe6d169bf385192722b78d61f5ea557ed09c0768"
+      }
+    },
+    {
+      "batch_id": "S0-b01",
+      "index": 1,
+      "issue_month": "2014-02",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 2,
+      "rows_scored": 5998,
+      "mean_score": 0.154473,
+      "approval_rate": 0.997166,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.158,
+      "mean_p_oracle": 0.15445,
+      "feature_means": {
+        "annual_inc": 73655.349437,
+        "dti": 17.193195,
+        "int_rate": 14.5574,
+        "installment": 453.416727
+      },
+      "hashes": {
+        "applications": "4b4f266c808fc314c8fa8bec1e757f47250c97df2518bb8e25e4fd36abe34be9",
+        "labels": "d9c47f280550f7990c6b623f75f17895d853f12845a5bb81dd28f30a0abaea41"
+      }
+    },
+    {
+      "batch_id": "S0-b02",
+      "index": 2,
+      "issue_month": "2014-03",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 1,
+      "rows_scored": 5999,
+      "mean_score": 0.154333,
+      "approval_rate": 0.998333,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.157167,
+      "mean_p_oracle": 0.154369,
+      "feature_means": {
+        "annual_inc": 72692.240485,
+        "dti": 17.286662,
+        "int_rate": 14.52842,
+        "installment": 456.634057
+      },
+      "hashes": {
+        "applications": "d85098a149b5306dd971d9eeb56890e829f054f927de681a915896e1ef60f678",
+        "labels": "b8ed7f9fa19d67466aabc596a581b9bc1279f9085511a59bcceb232dc6158064"
+      }
+    },
+    {
+      "batch_id": "S0-b03",
+      "index": 3,
+      "issue_month": "2014-04",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 4,
+      "rows_scored": 5996,
+      "mean_score": 0.155783,
+      "approval_rate": 0.997999,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.155333,
+      "mean_p_oracle": 0.155799,
+      "feature_means": {
+        "annual_inc": 72488.373143,
+        "dti": 17.331633,
+        "int_rate": 14.544033,
+        "installment": 455.062882
+      },
+      "hashes": {
+        "applications": "8bf9b323c40cf81c70ff2197c492916490b2891a56d1bd8599018e05ce0dc135",
+        "labels": "d34bfaf18499e31b82121f37eec9fb696720663483dd465b39debf97174c83b9"
+      }
+    },
+    {
+      "batch_id": "S0-b04",
+      "index": 4,
+      "issue_month": "2014-05",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "passed",
+      "rows_quarantined": 0,
+      "rows_scored": 6000,
+      "mean_score": 0.155642,
+      "approval_rate": 0.997,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.157,
+      "mean_p_oracle": 0.155642,
+      "feature_means": {
+        "annual_inc": 73500.899895,
+        "dti": 17.182198,
+        "int_rate": 14.580673,
+        "installment": 456.487258
+      },
+      "hashes": {
+        "applications": "1a9c312436896d054b0c07560119e889b074a7284f4b9b6b388af069bb57eb09",
+        "labels": "b554537781c2c25c78afc48f432961d0987d511e319b883a01c7fc5b87633e20"
+      }
+    },
+    {
+      "batch_id": "S0-b05",
+      "index": 5,
+      "issue_month": "2014-06",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 3,
+      "rows_scored": 5997,
+      "mean_score": 0.155328,
+      "approval_rate": 0.996832,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.163167,
+      "mean_p_oracle": 0.15532,
+      "feature_means": {
+        "annual_inc": 73258.182337,
+        "dti": 17.101745,
+        "int_rate": 14.566227,
+        "installment": 451.763853
+      },
+      "hashes": {
+        "applications": "26887b9105202c78644cdb4798b1e25cbb71bde9872e541c0a66d82fb2e4fc7b",
+        "labels": "d40d5ae4da56af4db877258a2d8bf47e4a7e9fad177384dd48986aadc149bb66"
+      }
+    },
+    {
+      "batch_id": "S0-b06",
+      "index": 6,
+      "issue_month": "2014-07",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 2,
+      "rows_scored": 5998,
+      "mean_score": 0.155572,
+      "approval_rate": 0.997666,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.1635,
+      "mean_p_oracle": 0.155557,
+      "feature_means": {
+        "annual_inc": 73469.43865,
+        "dti": 17.187902,
+        "int_rate": 14.508853,
+        "installment": 457.049103
+      },
+      "hashes": {
+        "applications": "a1978ebc7bc1caae62036793127c10c3744393f27ba27c412a67baee641edd0e",
+        "labels": "c878e56d3162aa884e5f6ce42ffe1973d137986a55f3fba1f79fadf8d06d2ae3"
+      }
+    },
+    {
+      "batch_id": "S0-b07",
+      "index": 7,
+      "issue_month": "2014-08",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 1,
+      "rows_scored": 5999,
+      "mean_score": 0.153353,
+      "approval_rate": 0.9985,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.153667,
+      "mean_p_oracle": 0.153343,
+      "feature_means": {
+        "annual_inc": 73499.368437,
+        "dti": 17.090308,
+        "int_rate": 14.497722,
+        "installment": 452.669057
+      },
+      "hashes": {
+        "applications": "c8901d7045c39628c91bec73afab8402fb64afe1490fcd0419e80e59c810eb06",
+        "labels": "609742b2df36672df20c34dfb9a6cc44863b32824e45e93a28b7766c11087e44"
+      }
+    },
+    {
+      "batch_id": "S0-b08",
+      "index": 8,
+      "issue_month": "2014-09",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "passed",
+      "rows_quarantined": 0,
+      "rows_scored": 6000,
+      "mean_score": 0.154299,
+      "approval_rate": 0.9975,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.159,
+      "mean_p_oracle": 0.154299,
+      "feature_means": {
+        "annual_inc": 72703.434227,
+        "dti": 17.134915,
+        "int_rate": 14.516245,
+        "installment": 459.081787
+      },
+      "hashes": {
+        "applications": "c21121beb9c4be6ff91b8e38a0a7a438697889ad46e28fd4c9b750b6972bedb8",
+        "labels": "a60a950aba00fa29321cf66d3dd89c8b5f00d1697794b46cf9cfb23b1a3e1093"
+      }
+    },
+    {
+      "batch_id": "S0-b09",
+      "index": 9,
+      "issue_month": "2014-10",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 1,
+      "rows_scored": 5999,
+      "mean_score": 0.153997,
+      "approval_rate": 0.997833,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.151333,
+      "mean_p_oracle": 0.15402,
+      "feature_means": {
+        "annual_inc": 74034.239403,
+        "dti": 17.005593,
+        "int_rate": 14.536425,
+        "installment": 457.411912
+      },
+      "hashes": {
+        "applications": "80959e174bc8ebdc77451cde701ba43bdd9997595eb601b8eb47b081efd80977",
+        "labels": "4b14a10e8d64bfa55eb4f52fbc6325e482a64850898e095bddea17658741f359"
+      }
+    },
+    {
+      "batch_id": "S0-b10",
+      "index": 10,
+      "issue_month": "2014-11",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "partial",
+      "rows_quarantined": 3,
+      "rows_scored": 5997,
+      "mean_score": 0.154136,
+      "approval_rate": 0.997832,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.160833,
+      "mean_p_oracle": 0.154143,
+      "feature_means": {
+        "annual_inc": 73371.424687,
+        "dti": 17.060483,
+        "int_rate": 14.546692,
+        "installment": 456.079873
+      },
+      "hashes": {
+        "applications": "d648554a9b3660ad4171dd90c368d1cb9100c4d61f7552d154f40d7a76452a61",
+        "labels": "6c4214fda07c4c0d84efebe26e7bcee4945b44edafdb2b24c80d9f97aeb710db"
+      }
+    },
+    {
+      "batch_id": "S0-b11",
+      "index": 11,
+      "issue_month": "2014-12",
+      "intensity": 0.0,
+      "rows": 6000,
+      "bug_rows": 0,
+      "gate_status": "passed",
+      "rows_quarantined": 0,
+      "rows_scored": 6000,
+      "mean_score": 0.154048,
+      "approval_rate": 0.997333,
+      "labeled_share": 1.0,
+      "bad_rate_true": 0.151833,
+      "mean_p_oracle": 0.154048,
+      "feature_means": {
+        "annual_inc": 73359.581758,
+        "dti": 17.18619,
+        "int_rate": 14.534255,
+        "installment": 457.00773
+      },
+      "hashes": {
+        "applications": "9c7398528fee338b304eef6785ec35962f39a618e02166976181176257a6aa6f",
+        "labels": "dfcccbdd9e27079ca199e20711ca29b5820667508e4a57cade914363d8c486e3"
+      }
+    }
+  ],
+  "run_id": "RUN-20261113-sim-S0-01"
+}

@@ -57,4 +57,24 @@ Parâmetros comuns de S0 a S4: 12 lotes de 6.000 propostas, calendário simulado
 
 ## Resultados da geração
 
-<pendente — preenchido com os RUN records da execução oficial>
+Execução oficial em árvore limpa, commit `df6643e`, champion v2 com limiar 0,495. As médias são ponderadas por linhas. O bad rate é o do rótulo simulado (S0–S4) ou do rótulo real disponível (S5).
+
+| Cenário | RUN | Lotes / bloqueados | Aprovação pré → pós | Score médio pré → pós | Bad rate pré → pós |
+|---|---|---|---|---|---|
+| S0 | [RUN-20261113-sim-S0-01](runs/RUN-20261113-sim-S0-01.md) | 12 / 0 | 99,77% (todos) | 0,155 (todos) | 15,7% (todos) |
+| S1 | [RUN-20261113-sim-S1-01](runs/RUN-20261113-sim-S1-01.md) | 12 / 0 | 99,76% → 98,80% | 0,154 → 0,188 | 15,6% → 19,0% |
+| S2 | [RUN-20261113-sim-S2-01](runs/RUN-20261113-sim-S2-01.md) | 12 / 0 | 99,80% → 99,77% | 0,154 → 0,155 | 14,9% → 20,0% |
+| S3 | [RUN-20261113-sim-S3-01](runs/RUN-20261113-sim-S3-01.md) | 12 / 0 | 99,78% → 99,77% | 0,156 → 0,155 | 15,5% → 22,6% |
+| S4 | [RUN-20261113-sim-S4-01](runs/RUN-20261113-sim-S4-01.md) | 12 / 0 | 99,71% → 93,74% | 0,155 → 0,214 | 15,5% → 15,7% |
+| S5 | [RUN-20261113-sim-S5-01](runs/RUN-20261113-sim-S5-01.md) | 60 / 0 | 99,66% (2014) → 99,30% (2018) | 0,160 (2014) → 0,141 (2018) | 14,5% (2014) → 16,2% (2016)*; 2017–2018 sem rótulo |
+
+\* Em 2016, só 20,8% das propostas têm rótulo: as de 36 meses emitidas até 2016-03. O bad rate dessa safra é de uma fatia, não da safra inteira (censura, ADR-0004).
+
+**Leitura:**
+- **Cada cenário mostra a assinatura que devia mostrar:**
+  - **S1 (D1):** score e bad rate sobem juntos. O modelo continua calibrado: score médio 0,188 contra bad rate de 19,0%.
+  - **S2 (D3) e S3 (D2):** score e aprovação ficam parados enquanto o bad rate sobe 5 a 7 p.p. Só a camada L4 consegue ver.
+  - **S4 (D6):** o score salta e a aprovação cai 6 p.p., mas a inadimplência não muda. O modelo passa a recusar bons pagadores por causa de um bug.
+- **Achado para a F5 — a taxa de aprovação é um sinal fraco de saída neste modelo.** Com o limiar 0,495, que aprova quase todos (ADR-0016), o choque econômico pleno do S1 move a aprovação em só 1,7 p.p. no último lote (99,7% → 98,0%), abaixo da faixa SEV-1 proposta (± 3 p.p., §8.4). A camada L3 precisa se apoiar na distribuição do score (PSI), não só na aprovação.
+- **Nenhum lote bloqueado em nenhum cenário.** No S4 isso é intencional: o bug de 30% escapa do contrato. A quarentena fica em 4 a 33 linhas por cenário, por defeitos reais do holdout. No S1 ela cai para 4, porque recalcular a parcela após o choque também elimina incoerências de parcela que já existiam no dado. É um efeito colateral conhecido do simulador e não afeta o drift.
+- **Determinismo verificado no dado real:** o S2 regerado com a mesma seed reproduziu os hashes dos 12 lotes.
