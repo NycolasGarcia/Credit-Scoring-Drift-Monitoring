@@ -47,6 +47,7 @@ Documentos previstos para fases seguintes: `RESPONSE_EVALUATION.md`, `CAUSAL_ANA
 | [0009](adr/0009-drift-detection-methodology.md) | Metodologia de detecção de drift: PSI com bins fixos, efeito × p-valor, calibração, API do Evidently | aceito |
 | [0010](adr/0010-observability-stack.md) | Stack de observabilidade: Pushgateway, Prometheus, Grafana como código, replay em tempo real | aceito |
 | [0011](adr/0011-severity-alert-policy.md) | Severidade e política de alertas: uma fonte para os cortes, dead man's switch | aceito |
+| [0012](adr/0012-guardrails-conservative-mode.md) | Guardrails e modo conservador: matriz declarativa, breaker com histerese, faixa cinza para revisão | aceito |
 | [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas, funding e apetite de risco | aceito |
 | [0017](adr/0017-scenario-simulator.md) | Desenho do simulador de cenários: amostragem, rótulo por oráculo, atraso de rótulo, S4 parcial | aceito |
 | [0018](adr/0018-l4-sev2-cut.md) | Corte de SEV-2 da razão observado/esperado: 1,25 por regra nula declarada antes, validado em variantes novas | aceito |
