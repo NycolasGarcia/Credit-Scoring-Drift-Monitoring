@@ -1,0 +1,532 @@
+{
+  "run_id": "RUN-20261115-response-ALL-01",
+  "scenarios": [
+    {
+      "scenario": "S1",
+      "decision_point": 5,
+      "batches": 7,
+      "policy_acts": false,
+      "refused": {},
+      "rule": "P09",
+      "situation": "Drift benigno ou só de entrada (L3 estável)",
+      "actions": [
+        "A0"
+      ],
+      "gate": {
+        "passed": false,
+        "checks": {
+          "auc_gain_recent": {
+            "value": -0.00544,
+            "limit": 0.0,
+            "passed": false
+          },
+          "auc_loss_reference": {
+            "value": 0.003819,
+            "limit": 0.01,
+            "passed": true
+          },
+          "calibration_gap_pp": {
+            "value": 0.248725,
+            "limit": 1.0,
+            "passed": true
+          },
+          "fairness_gap_increase_pp": {
+            "value": 0.082713,
+            "limit": 3.0,
+            "passed": true
+          }
+        },
+        "rows_recent": 4499,
+        "rows_reference": 16177
+      },
+      "recalibration": {
+        "a": -0.011444088464881598,
+        "b": 0.9789922229534309
+      },
+      "rows": [
+        {
+          "strategy": "não fazer nada",
+          "value": 44347375.43400559,
+          "value_per_app": 1055.8898912858474,
+          "approval_rate": 0.9856904761904762,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.1912848136428416,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 44347375.43400559
+        },
+        {
+          "strategy": "modo conservador por valor (política)",
+          "value": 44347375.43400559,
+          "value_per_app": 1055.8898912858474,
+          "approval_rate": 0.9856904761904762,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.1912848136428416,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 44347375.43400559
+        },
+        {
+          "strategy": "modo conservador por valor, forçado",
+          "value": 44651024.87523001,
+          "value_per_app": 1063.1196398864288,
+          "approval_rate": 0.9538571428571428,
+          "review_rate": 0.03183333333333333,
+          "bad_rate_approved": 0.18526284259397932,
+          "delta_vs_nothing": 303649.4412244186,
+          "value_review_recovered": 44347375.43400559
+        },
+        {
+          "strategy": "regra por valor sem correção, forçada",
+          "value": 44712894.38027584,
+          "value_per_app": 1064.5927233399009,
+          "approval_rate": 0.9587857142857142,
+          "review_rate": 0.026904761904761904,
+          "bad_rate_approved": 0.18580049169336213,
+          "delta_vs_nothing": 365518.9462702498,
+          "value_review_recovered": 44347375.43400559
+        },
+        {
+          "strategy": "teto de 14% (descartado, ADR-0019)",
+          "value": 44347375.43400559,
+          "value_per_app": 1055.8898912858474,
+          "approval_rate": 0.9856904761904762,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.1912848136428416,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 44347375.43400559
+        },
+        {
+          "strategy": "recalibrar (A5)",
+          "value": 44416337.90233881,
+          "value_per_app": 1057.5318548175908,
+          "approval_rate": 0.9865714285714285,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.19152427840525146,
+          "delta_vs_nothing": 68962.46833322197,
+          "value_review_recovered": 44416337.90233881
+        },
+        {
+          "strategy": "retreinar com gate (A6+GR-5)",
+          "value": 44347375.43400559,
+          "value_per_app": 1055.8898912858474,
+          "approval_rate": 0.9856904761904762,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.1912848136428416,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 44347375.43400559
+        },
+        {
+          "strategy": "retreinar sem gate",
+          "value": 44238046.13738695,
+          "value_per_app": 1053.2868127949273,
+          "approval_rate": 0.9745238095238096,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.18763742975812361,
+          "delta_vs_nothing": -109329.29661864042,
+          "value_review_recovered": 44238046.13738695
+        }
+      ]
+    },
+    {
+      "scenario": "S2",
+      "decision_point": 8,
+      "batches": 4,
+      "policy_acts": true,
+      "refused": {},
+      "rule": "P03",
+      "situation": "Concept drift confirmado com rótulo maduro",
+      "actions": [
+        "A4",
+        "A6",
+        "A3",
+        "A7"
+      ],
+      "gate": {
+        "passed": false,
+        "checks": {
+          "auc_gain_recent": {
+            "value": 0.005434,
+            "limit": 0.0,
+            "passed": true
+          },
+          "auc_loss_reference": {
+            "value": 0.005789,
+            "limit": 0.01,
+            "passed": true
+          },
+          "calibration_gap_pp": {
+            "value": 1.553165,
+            "limit": 1.0,
+            "passed": false
+          },
+          "fairness_gap_increase_pp": {
+            "value": 1.280975,
+            "limit": 3.0,
+            "passed": true
+          }
+        },
+        "rows_recent": 4497,
+        "rows_reference": 16177
+      },
+      "recalibration": {
+        "a": 0.4745646456826384,
+        "b": 1.103892652633289
+      },
+      "rows": [
+        {
+          "strategy": "não fazer nada",
+          "value": 10099924.328724818,
+          "value_per_app": 421.02314930696645,
+          "approval_rate": 0.997748968277127,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.20998537706287862,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 10099924.328724818
+        },
+        {
+          "strategy": "modo conservador por valor (política)",
+          "value": 13042190.245731836,
+          "value_per_app": 543.6737773867955,
+          "approval_rate": 0.8239609821168036,
+          "review_rate": 0.17378798616032348,
+          "bad_rate_approved": 0.18041080643529292,
+          "delta_vs_nothing": 2942265.917007018,
+          "value_review_recovered": 10099924.328724818
+        },
+        {
+          "strategy": "modo conservador por valor, forçado",
+          "value": 13042190.245731836,
+          "value_per_app": 543.6737773867955,
+          "approval_rate": 0.8239609821168036,
+          "review_rate": 0.17378798616032348,
+          "bad_rate_approved": 0.18041080643529292,
+          "delta_vs_nothing": 2942265.917007018,
+          "value_review_recovered": 10099924.328724818
+        },
+        {
+          "strategy": "regra por valor sem correção, forçada",
+          "value": 10613129.29164435,
+          "value_per_app": 442.4164947119242,
+          "approval_rate": 0.9678185835174455,
+          "review_rate": 0.02993038475968152,
+          "bad_rate_approved": 0.2076064952405565,
+          "delta_vs_nothing": 513204.9629195314,
+          "value_review_recovered": 10099924.328724818
+        },
+        {
+          "strategy": "teto de 14% (descartado, ADR-0019)",
+          "value": 8846048.869321663,
+          "value_per_app": 368.75438198014353,
+          "approval_rate": 0.7217474675893117,
+          "review_rate": 0.27600150068781526,
+          "bad_rate_approved": 0.1413307150283008,
+          "delta_vs_nothing": -1253875.4594031554,
+          "value_review_recovered": 10099924.328724818
+        },
+        {
+          "strategy": "recalibrar (A5)",
+          "value": 10670570.864672385,
+          "value_per_app": 444.81099106558776,
+          "approval_rate": 0.9828671474425779,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.20413096954788362,
+          "delta_vs_nothing": 570646.5359475669,
+          "value_review_recovered": 10670570.864672385
+        },
+        {
+          "strategy": "retreinar com gate (A6+GR-5)",
+          "value": 10099924.328724818,
+          "value_per_app": 421.02314930696645,
+          "approval_rate": 0.997748968277127,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.20998537706287862,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 10099924.328724818
+        },
+        {
+          "strategy": "retreinar sem gate",
+          "value": 10709018.616407927,
+          "value_per_app": 446.4137153031776,
+          "approval_rate": 0.982825461669932,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.2039699707341901,
+          "delta_vs_nothing": 609094.2876831088,
+          "value_review_recovered": 10709018.616407927
+        }
+      ]
+    },
+    {
+      "scenario": "S3",
+      "decision_point": 7,
+      "batches": 5,
+      "policy_acts": true,
+      "refused": {},
+      "rule": "P05",
+      "situation": "Prior shift relevante, ranking preservado",
+      "actions": [
+        "A4",
+        "A5",
+        "A3"
+      ],
+      "gate": {
+        "passed": false,
+        "checks": {
+          "auc_gain_recent": {
+            "value": -0.002319,
+            "limit": 0.0,
+            "passed": false
+          },
+          "auc_loss_reference": {
+            "value": 0.003817,
+            "limit": 0.01,
+            "passed": true
+          },
+          "calibration_gap_pp": {
+            "value": 5.196834,
+            "limit": 1.0,
+            "passed": false
+          },
+          "fairness_gap_increase_pp": {
+            "value": 0.179468,
+            "limit": 3.0,
+            "passed": true
+          }
+        },
+        "rows_recent": 4498,
+        "rows_reference": 16177
+      },
+      "recalibration": {
+        "a": 0.612042757744462,
+        "b": 1.0492247106314956
+      },
+      "rows": [
+        {
+          "strategy": "não fazer nada",
+          "value": 9119671.211018825,
+          "value_per_app": 304.1005439000575,
+          "approval_rate": 0.997799193037447,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.22674865488086088,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 9119671.211018825
+        },
+        {
+          "strategy": "modo conservador por valor (política)",
+          "value": 11781742.02573065,
+          "value_per_app": 392.86878607925075,
+          "approval_rate": 0.7315348961285805,
+          "review_rate": 0.2662642969088666,
+          "bad_rate_approved": 0.19359102926429028,
+          "delta_vs_nothing": 2662070.814711826,
+          "value_review_recovered": 9119671.211018825
+        },
+        {
+          "strategy": "modo conservador por valor, forçado",
+          "value": 11781742.02573065,
+          "value_per_app": 392.86878607925075,
+          "approval_rate": 0.7315348961285805,
+          "review_rate": 0.2662642969088666,
+          "bad_rate_approved": 0.19359102926429028,
+          "delta_vs_nothing": 2662070.814711826,
+          "value_review_recovered": 9119671.211018825
+        },
+        {
+          "strategy": "regra por valor sem correção, forçada",
+          "value": 9651837.05770235,
+          "value_per_app": 321.84591209117843,
+          "approval_rate": 0.9703557971256127,
+          "review_rate": 0.02744339591183434,
+          "bad_rate_approved": 0.22556701030927834,
+          "delta_vs_nothing": 532165.8466835245,
+          "value_review_recovered": 9119671.211018825
+        },
+        {
+          "strategy": "teto de 14% (descartado, ADR-0019)",
+          "value": 6167483.958510497,
+          "value_per_app": 205.6582066261128,
+          "approval_rate": 0.6292640634899463,
+          "review_rate": 0.36853512954750073,
+          "bad_rate_approved": 0.15001854697684278,
+          "delta_vs_nothing": -2952187.2525083283,
+          "value_review_recovered": 9119671.211018825
+        },
+        {
+          "strategy": "recalibrar (A5)",
+          "value": 9993164.987938654,
+          "value_per_app": 333.22768308175176,
+          "approval_rate": 0.9665210577211645,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.2164567879937899,
+          "delta_vs_nothing": 873493.7769198287,
+          "value_review_recovered": 9993164.987938654
+        },
+        {
+          "strategy": "retreinar com gate (A6+GR-5)",
+          "value": 9119671.211018825,
+          "value_per_app": 304.1005439000575,
+          "approval_rate": 0.997799193037447,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.22674865488086088,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 9119671.211018825
+        },
+        {
+          "strategy": "retreinar sem gate",
+          "value": 9376519.294683032,
+          "value_per_app": 312.6652870947024,
+          "approval_rate": 0.9951315482343526,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.22561404684515632,
+          "delta_vs_nothing": 256848.0836642068,
+          "value_review_recovered": 9376519.294683032
+        }
+      ]
+    },
+    {
+      "scenario": "S4",
+      "decision_point": 5,
+      "batches": 7,
+      "policy_acts": true,
+      "refused": {},
+      "rule": "P02",
+      "situation": "Suspeita de bug upstream",
+      "actions": [
+        "A2",
+        "A1",
+        "A3"
+      ],
+      "gate": {
+        "passed": false,
+        "checks": {
+          "auc_gain_recent": {
+            "value": -0.000284,
+            "limit": 0.0,
+            "passed": false
+          },
+          "auc_loss_reference": {
+            "value": 0.002676,
+            "limit": 0.01,
+            "passed": true
+          },
+          "calibration_gap_pp": {
+            "value": 0.59733,
+            "limit": 1.0,
+            "passed": true
+          },
+          "fairness_gap_increase_pp": {
+            "value": -0.072293,
+            "limit": 3.0,
+            "passed": true
+          }
+        },
+        "rows_recent": 4498,
+        "rows_reference": 16177
+      },
+      "recalibration": {
+        "a": -0.0641081451014251,
+        "b": 0.9890479017312939
+      },
+      "rows": [
+        {
+          "strategy": "não fazer nada",
+          "value": 34366765.52508693,
+          "value_per_app": 818.47068339534,
+          "approval_rate": 0.9373645478577722,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.14698036027338093,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 34366765.52508693
+        },
+        {
+          "strategy": "modo conservador por valor (política)",
+          "value": 34366765.52508693,
+          "value_per_app": 818.47068339534,
+          "approval_rate": 0.9373645478577722,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.14698036027338093,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 34366765.52508693
+        },
+        {
+          "strategy": "modo conservador por valor, forçado",
+          "value": 28050531.63844256,
+          "value_per_app": 668.0447650204235,
+          "approval_rate": 0.7085903450903808,
+          "review_rate": 0.22877420276739147,
+          "bad_rate_approved": 0.15467347830470876,
+          "delta_vs_nothing": -6316233.886644371,
+          "value_review_recovered": 34366765.52508693
+        },
+        {
+          "strategy": "regra por valor sem correção, forçada",
+          "value": 28091247.174692504,
+          "value_per_app": 669.0144365117651,
+          "approval_rate": 0.7099240277215462,
+          "review_rate": 0.22744052013622615,
+          "bad_rate_approved": 0.1546177328994599,
+          "delta_vs_nothing": -6275518.350394428,
+          "value_review_recovered": 34366765.52508693
+        },
+        {
+          "strategy": "teto de 14% (descartado, ADR-0019)",
+          "value": 34366765.52508693,
+          "value_per_app": 818.47068339534,
+          "approval_rate": 0.9373645478577722,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.14698036027338093,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 34366765.52508693
+        },
+        {
+          "strategy": "recalibrar (A5)",
+          "value": 34872847.064772375,
+          "value_per_app": 830.523400528052,
+          "approval_rate": 0.9434613827430994,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.14759560772434685,
+          "delta_vs_nothing": 506081.53968544304,
+          "value_review_recovered": 34872847.064772375
+        },
+        {
+          "strategy": "retreinar com gate (A6+GR-5)",
+          "value": 34366765.52508693,
+          "value_per_app": 818.47068339534,
+          "approval_rate": 0.9373645478577722,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.14698036027338093,
+          "delta_vs_nothing": 0.0,
+          "value_review_recovered": 34366765.52508693
+        },
+        {
+          "strategy": "retreinar sem gate",
+          "value": 35834011.85427016,
+          "value_per_app": 853.4142716966386,
+          "approval_rate": 0.9523446616971112,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.14786936080824248,
+          "delta_vs_nothing": 1467246.3291832283,
+          "value_review_recovered": 35834011.85427016
+        },
+        {
+          "strategy": "quarentena e corrigir a fonte",
+          "value": 32648201.315674495,
+          "value_per_app": 777.5417684554168,
+          "approval_rate": 0.8553192502798352,
+          "review_rate": 0.1428707518635833,
+          "bad_rate_approved": 0.15629002617363702,
+          "delta_vs_nothing": -1718564.209412437,
+          "value_review_recovered": 38373066.0637226
+        },
+        {
+          "strategy": "retreinar sobre o dado com bug",
+          "value": 35568913.15279389,
+          "value_per_app": 847.1007443090783,
+          "approval_rate": 0.9549167639143585,
+          "review_rate": 0.0,
+          "bad_rate_approved": 0.14949122106943336,
+          "delta_vs_nothing": 1202147.6277069598,
+          "value_review_recovered": 35568913.15279389
+        }
+      ]
+    }
+  ]
+}
