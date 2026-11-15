@@ -32,6 +32,7 @@ from src.pipeline import BatchInput, JobContext, RunMemory, run_batch
 from src.reporting.run_record import RunRecord, git_state, next_run_id, write_record
 
 PROFILE_PATH = PROJECT_ROOT / "models" / "reference_profile.json"
+EVIDENTLY = PROJECT_ROOT / "docs" / "evidence" / "drift"
 
 
 def parse_args(argv: list[str] | None) -> argparse.Namespace:
@@ -78,14 +79,17 @@ def mlflow_key(flat: str) -> str:
     return name + "/" + "_".join(part.split("=", 1)[1] for part in labels.split(","))
 
 
-def record(ctx: JobContext, state: BatchState, args: argparse.Namespace) -> None:
+def record(
+    ctx: JobContext, state: BatchState, args: argparse.Namespace, experiment_id: str
+) -> None:
     """Publish the batch: Pushgateway gauges and an MLflow child run."""
     with state.log.step("record"):
         samples = batch_samples(state, ctx.monitoring.get("feature_psi").sev1)
         if args.push:
             push(samples, get_settings().pushgateway_url, args.scenario)
         if not args.no_mlflow:
-            with mlflow.start_run(run_name=state.batch_id, nested=True):
+            with mlflow.start_run(run_name=state.batch_id, nested=True,
+                                  experiment_id=experiment_id):  # fmt: skip
                 mlflow.log_metrics({mlflow_key(k): v for k, v in as_dict(samples).items()})
                 mlflow.set_tags({"batch_id": state.batch_id, "diagnosis": state.diagnosis,
                                  "severity": str(state.severity["level"])})  # fmt: skip
@@ -108,16 +112,23 @@ def summarize(states: list[BatchState]) -> dict[str, Any]:
             "duration_max_s": durations[-1] if durations else None}  # fmt: skip
 
 
-def run(args: argparse.Namespace, run_id: str) -> dict[str, Any]:
+def run(args: argparse.Namespace, ctx: JobContext, experiment_id: str) -> dict[str, Any]:
     """Process every batch (sleeping ``interval`` between them) and return the summary."""
-    ctx, mem, states = build_context(run_id), RunMemory(), []
+    mem, states = RunMemory(), []
     for i, item in enumerate(batch_inputs(args.scenario, args.limit)):
         if i and args.interval:
             time.sleep(args.interval)
         state = run_batch(ctx, item, mem)
-        record(ctx, state, args)
+        record(ctx, state, args, experiment_id)
         states.append(state)
     return summarize(states)
+
+
+def log_parent_artifacts(paths: list[Path]) -> None:
+    """Attach the run log, summary and the scenario's Evidently report to the parent run."""
+    for path in paths:
+        if path.exists():
+            mlflow.log_artifact(str(path))
 
 
 def _record_run(run_id: str, args: argparse.Namespace, summary: dict[str, Any], git) -> None:
@@ -146,14 +157,16 @@ def main(argv: list[str] | None = None) -> int:
     )
     log_path: Path = settings.logs_dir / f"{run_id}.jsonl"
     handler = attach_run_log(log_path)
-    setup_tracking("monitoring")
-    with mlflow.start_run(run_name=run_id) if not args.no_mlflow else nullcontext():
-        summary = run(args, run_id)
+    ctx = build_context(run_id)  # loads the champion: MLflow points at `training` here
+    exp_id = setup_tracking("monitoring")  # every run below goes to `monitoring`
+    tracked = not args.no_mlflow
+    with mlflow.start_run(run_name=run_id, experiment_id=exp_id) if tracked else nullcontext():
+        summary = run(args, ctx, exp_id)
         summary_path = settings.logs_dir / f"{run_id}.summary.json"
         summary_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
         if not args.no_mlflow:
-            mlflow.log_artifact(str(summary_path))
-            mlflow.log_artifact(str(log_path))
+            report = EVIDENTLY / f"{args.scenario}_evidently.html"
+            log_parent_artifacts([summary_path, log_path, report])
     detach_run_log(handler)
     if not args.no_record:
         _record_run(run_id, args, summary, git)

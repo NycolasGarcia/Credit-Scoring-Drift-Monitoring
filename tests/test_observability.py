@@ -1,9 +1,11 @@
 """Monitoring job: step events, blocked and failing batches, metrics and private run logs."""
 
+import argparse
 import json
 import logging
 from pathlib import Path
 
+import mlflow
 import numpy as np
 import pandas as pd
 import pytest
@@ -17,7 +19,7 @@ from src.monitoring.profile import build_profile
 from src.monitoring.settings import load_monitoring_config
 from src.observability.events import attach_run_log, detach_run_log
 from src.observability.metrics import BY_NAME, build_registry
-from src.observability.runner import mlflow_key
+from src.observability.runner import mlflow_key, record
 from src.observability.samples import batch_samples
 from src.pipeline import BatchInput, JobContext, RunMemory, run_batch
 from src.simulation.bad_batch import make_bad_batch
@@ -124,3 +126,28 @@ def test_run_log_file_is_json_lines_without_pii(tmp_path: Path) -> None:
 def test_mlflow_key_flattens_labels() -> None:
     assert mlflow_key("cdm_feature_psi{feature=dti}") == "cdm_feature_psi/dti"
     assert mlflow_key("cdm_batch_index") == "cdm_batch_index"
+
+
+@pytest.fixture
+def isolated_mlflow(tmp_path: Path):
+    """Throwaway tracking store; restores the previous one afterwards."""
+    previous = mlflow.get_tracking_uri()
+    mlflow.set_tracking_uri(f"sqlite:///{(tmp_path / 'mlflow.db').as_posix()}")
+    yield
+    mlflow.set_tracking_uri(previous)
+
+
+def test_child_runs_stay_in_monitoring_experiment(
+    reference, profile, tmp_path, isolated_mlflow
+) -> None:
+    monitoring = mlflow.create_experiment("monitoring", artifact_location=tmp_path.as_uri())
+    mlflow.create_experiment("training", artifact_location=tmp_path.as_uri())
+    item = batch_folder(tmp_path, synthetic_batch(2000, seed=44))
+    state = run_batch(context(reference, profile, FixedModel(), tmp_path), item, RunMemory())
+    args = argparse.Namespace(push=False, no_mlflow=False, scenario="S9")
+    with mlflow.start_run(run_name="parent", experiment_id=monitoring):
+        mlflow.set_experiment("training")  # what loading the champion does mid-run
+        record(context(reference, profile, FixedModel(), tmp_path), state, args, monitoring)
+    children = mlflow.search_runs(experiment_ids=[monitoring], output_format="list",
+                                  filter_string="tags.batch_id = 'S9-b00'")  # fmt: skip
+    assert len(children) == 1 and children[0].data.metrics["cdm_batch_index"] == 0
