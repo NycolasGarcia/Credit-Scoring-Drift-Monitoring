@@ -195,6 +195,7 @@ flowchart LR
 | `src/monitoring/severity.py` | Severidade SEV-0..3 por sinal e por lote (§8.4) | F5 | implementado |
 | `src/monitoring/diagnosis.py` | Diagnóstico pela árvore §8.7, com assinatura de bug de unidade (D6) | F5 | implementado |
 | `src/monitoring/calibration.py` | Bootstrap A/A no controle e calibração dos limiares | F5 | implementado |
+| `src/monitoring/l4_sweep.py` | Varredura do corte SEV-2 da razão observado/esperado: escolha pela distribuição nula, validação em variantes novas | F6 | implementado |
 | `src/monitoring/evidently_report.py` | Relatório Evidently com teste `psi_ref` registrado e explícito por coluna | F5 | implementado |
 | `src/monitoring/detect.py` | Detector por lote sobre um cenário (puro) | F5 | implementado |
 | `src/monitoring/evaluation.py` | Avaliação do detector contra o ground truth (falso alarme, atraso, atribuição, diagnóstico) | F5 | implementado |
@@ -217,6 +218,7 @@ flowchart LR
 | `config/models/training.yaml` | Partição interna, modelos, calibração, seleção, tipos confiáveis do skops |
 | `config/models/cost.yaml` | Premissas de custo (medidas + funding declarado), grade de limiar e apetite de risco |
 | `config/contracts/contract.yaml` | Faixas, domínios, tolerâncias, janelas e parâmetros soft do contrato de dados |
+| `config/monitoring/l4_sweep.yaml` | Grade de cortes, regra de escolha (declarada antes da execução) e variantes de validação da varredura da L4 |
 | `config/monitoring/thresholds.yaml` | Limiares por sinal (SEV-1/2/3, direção, status, RUN de calibração), meta de falso alarme, parâmetros do D6 |
 | `config/scenarios/S0.yaml` … `S5.yaml` | Cenários de degradação: transformações, magnitudes, cronograma, seed, resposta esperada |
 

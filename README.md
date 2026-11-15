@@ -66,6 +66,7 @@ S0 controle · S1 choque econômico (D1) · S2 concept drift (D3) · S3 prior sh
 make calibrate                 # bootstrap A/A no controle: falso alarme por sinal e limiares calibrados
 make detect                    # detector em todos os cenários: severidade, diagnóstico, Evidently e avaliação
 make detect SCENARIO=S2
+make sweep-l4                  # varredura do corte SEV-2 da razão observado/esperado (regra nula + variantes novas)
 make drift-docs                # regenera docs/THRESHOLDS.md e docs/DRIFT_EVALUATION.md
 ```
 

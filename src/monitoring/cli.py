@@ -18,6 +18,7 @@ from src.models.registry import load_alias, setup_tracking
 from src.models.settings import load_training_config
 from src.monitoring.calibration import bootstrap_null, calibrate_signal, composite_false_alarm
 from src.monitoring.detect import Batch, DetectContext, detect_scenario
+from src.monitoring.docs import evidence_by_scenario
 from src.monitoring.evaluation import evaluate
 from src.monitoring.evidence import (
     alert_window,
@@ -25,10 +26,20 @@ from src.monitoring.evidence import (
     evidently_section,
     pooled_current,
 )
+from src.monitoring.l4_sweep import (
+    choose_cut,
+    detection_table,
+    load_sweep_config,
+    null_ratios,
+    null_summary,
+    run_variants,
+    side_effects,
+)
 from src.monitoring.settings import THRESHOLDS_PATH, load_monitoring_config
 from src.monitoring.severity import ALERTING
 from src.reporting.run_record import RunRecord, git_state, next_run_id, write_record
-from src.simulation.settings import scenario_ids
+from src.simulation.engine import SimContext
+from src.simulation.settings import load_scenario, scenario_ids
 
 PROFILE_PATH = PROJECT_ROOT / "models" / "reference_profile.json"
 EVIDENCE = PROJECT_ROOT / "docs" / "evidence" / "drift"
@@ -37,7 +48,7 @@ EVIDENCE = PROJECT_ROOT / "docs" / "evidence" / "drift"
 def parse_args(argv: list[str] | None) -> argparse.Namespace:
     """CLI arguments."""
     parser = argparse.ArgumentParser(description="Drift calibration and detection.")
-    parser.add_argument("command", choices=["calibrate", "detect"])
+    parser.add_argument("command", choices=["calibrate", "detect", "sweep-l4"])
     parser.add_argument("--scenario", default="all", help="scenario id or 'all' (detect)")
     return parser.parse_args(argv)
 
@@ -126,6 +137,41 @@ def run_detect(sid: str, ctx: DetectContext, git: tuple[str, bool]) -> None:
     write_json(EVIDENCE / f"{sid}.json", {"run_id": run_id, **body})
 
 
+def run_sweep(profile: dict[str, Any], git: tuple[str, bool]) -> None:
+    """SEV-2 cut sweep of the L4 ratio: null choice, fresh-variant check, side effects."""
+    cfg, th = load_sweep_config(), load_monitoring_config().get("bad_rate_ratio")
+    model, holdout = champion(), load_partition("holdout")
+    y, p = holdout["target"].to_numpy(int), scores_of(model, holdout)
+    nulls = {n: null_ratios(y, p, n, cfg.control, th) for n in cfg.control.batch_sizes}
+    chosen = choose_cut(cfg, nulls[cfg.control.batch_sizes[0]])
+    bases = {s: load_scenario(s) for s in ("S2", "S3")}
+    runs = run_variants(
+        cfg, bases, lambda vc: SimContext(vc, holdout, profile, lambda d: scores_of(model, d))
+    )
+    body = {"rule": cfg.rule.model_dump(), "cuts": cfg.cuts, "chosen": chosen,
+            "null": null_summary(nulls, cfg.cuts),
+            "detection": detection_table(runs, cfg.cuts, th),
+            "side_effects": side_effects(evidence_by_scenario(), cfg.cuts, th)}  # fmt: skip
+    json.dumps(body, allow_nan=False)
+    run_id = write_record(sweep_record(body, cfg.control.seed, git)).stem
+    write_json(EVIDENCE / "l4_cut_sweep.json", {"run_id": run_id, **body})
+
+
+def sweep_record(body: dict[str, Any], seed: int, git: tuple[str, bool]) -> RunRecord:
+    """RUN record (kind ``calib``) of the L4 cut sweep."""
+    null = body["null"][min(body["null"], key=lambda k: -int(k))]
+    metrics = {f"corte {c}": {"alarme nulo": null["alarm"][str(c)],
+                               **{f"{r['family']} detectadas": f"{r['detected']}/{r['variants']}"
+                                  for r in body["detection"] if r["cut"] == c}}
+               for c in body["cuts"]}  # fmt: skip
+    return RunRecord(
+        run_id=next_run_id("calib", "L4CUT"), kind="calib", scenario="L4CUT", seed=seed,
+        data_hash=thresholds_sha(), model="champion", mlflow_ref="—", metrics=metrics,
+        verdict=f"corte escolhido pela regra nula: {body['chosen']} (máx. nulo {null['max']:.3f})",
+        artifacts=["docs/evidence/drift/l4_cut_sweep.json"], sha=git[0], dirty=git[1],
+    )  # fmt: skip
+
+
 def main(argv: list[str] | None = None) -> int:
     """Entry point."""
     configure_logging(get_settings().log_level)
@@ -134,6 +180,9 @@ def main(argv: list[str] | None = None) -> int:
     profile = json.loads(PROFILE_PATH.read_text(encoding="utf-8"))
     if args.command == "calibrate":
         run_calibrate(profile, git)
+        return 0
+    if args.command == "sweep-l4":
+        run_sweep(profile, git)
         return 0
     reference = load_partition("reference")
     reference = reference[model_feature_columns()].assign(score=scores_of(champion(), reference))

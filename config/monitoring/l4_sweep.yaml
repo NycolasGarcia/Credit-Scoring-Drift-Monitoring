@@ -1,0 +1,21 @@
+# Varredura do corte SEV-2 da razão observado/esperado (L4).
+# A regra de escolha é declarada aqui ANTES da execução: o corte sai só da distribuição nula
+# (controle sem drift). As variantes de S2/S3 com seeds novas medem a sensibilidade do corte
+# escolhido em cenários que ele não viu; elas não participam da escolha.
+version: 1
+
+cuts: [1.25, 1.30, 1.35, 1.40, 1.45, 1.50]   # grade; todo valor fica acima do SEV-1 (1,2)
+
+control:
+  replicates: 2000
+  seed: 31                     # diferente da calibração do S0 (seed 7)
+  batch_sizes: [6000, 2000]    # 6000 = menor coorte simulada; 2000 = sensibilidade a coorte menor
+
+rule:                           # PROPOSTO, declarado antes de rodar
+  max_null_alarm: 0.0          # nenhuma réplica nula acima do corte (no tamanho 6000)
+  min_margin: 0.10             # corte >= máximo nulo (6000) + 0,10
+
+variants:                       # cenários novos, com seeds nunca usadas
+  seeds: [201, 202, 203]
+  S2_deltas: [0.5, 1.0, 1.5]   # logit no segmento dti >= p70 (o S2 oficial usa 1,0)
+  S3_deltas: [0.25, 0.5, 0.75] # logit global (o S3 oficial usa 0,5)
