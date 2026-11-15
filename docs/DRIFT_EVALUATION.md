@@ -8,12 +8,12 @@ Cada cenário tem ground truth conhecido ([SCENARIOS.md](SCENARIOS.md)); o detec
 
 | Cenário | RUN | Diagnóstico certo | 1º SEV-1 (atraso) | 1º SEV-2 (atraso) | Camadas esperadas | Camadas acionadas | Atribuição recall / precisão | Acurácia do diagnóstico | Falso alarme |
 |---|---|---|---|---|---|---|---|---|---|
-| S0 | [RUN-20261113-monitor-S0-01](runs/RUN-20261113-monitor-S0-01.md) | none | — (—) | — (—) | — | — | — / — | — | 0.0% |
-| S1 | [RUN-20261113-monitor-S1-02](runs/RUN-20261113-monitor-S1-02.md) | D1 | 5 (2) | 7 (4) | L2/L3 | L2/L3 | 100.0% / 100.0% | 100.0% | 0.0% |
-| S2 | [RUN-20261113-monitor-S2-01](runs/RUN-20261113-monitor-S2-01.md) | D3 | 8 (5) | — (—) | L4 | L4 | — / — | 100.0% | 0.0% |
-| S3 | [RUN-20261113-monitor-S3-01](runs/RUN-20261113-monitor-S3-01.md) | D2 | 7 (3) | — (—) | L4 | L4 | — / — | 100.0% | 0.0% |
-| S4 | [RUN-20261113-monitor-S4-01](runs/RUN-20261113-monitor-S4-01.md) | D6 | 5 (0) | 5 (0) | L2/L3 | L2/L3/L4 | 100.0% / 100.0% | 100.0% | 0.0% |
-| S5 | [RUN-20261113-monitor-S5-02](runs/RUN-20261113-monitor-S5-02.md) | unknown | 1 (—) | 11 (—) | L2/L3/L4 | L2/L4 | — / — | — | — |
+| S0 | [RUN-20261115-monitor-S0-01](runs/RUN-20261115-monitor-S0-01.md) | none | — (—) | — (—) | — | — | — / — | — | 0.0% |
+| S1 | [RUN-20261115-monitor-S1-01](runs/RUN-20261115-monitor-S1-01.md) | D1 | 5 (2) | 7 (4) | L2/L3 | L2/L3 | 100.0% / 100.0% | 100.0% | 0.0% |
+| S2 | [RUN-20261115-monitor-S2-01](runs/RUN-20261115-monitor-S2-01.md) | D3 | 8 (5) | 8 (5) | L4 | L4 | — / — | 100.0% | 0.0% |
+| S3 | [RUN-20261115-monitor-S3-01](runs/RUN-20261115-monitor-S3-01.md) | D2 | 7 (3) | 7 (3) | L4 | L4 | — / — | 100.0% | 0.0% |
+| S4 | [RUN-20261115-monitor-S4-01](runs/RUN-20261115-monitor-S4-01.md) | D6 | 5 (0) | 5 (0) | L2/L3 | L2/L3/L4 | 100.0% / 100.0% | 100.0% | 0.0% |
+| S5 | [RUN-20261115-monitor-S5-01](runs/RUN-20261115-monitor-S5-01.md) | unknown | 1 (—) | 11 (—) | L2/L3/L4 | L2/L4 | — / — | — | — |
 
 ## Relatórios Evidently
 
@@ -71,10 +71,11 @@ Números por lote em `docs/evidence/drift/<cenário>.json`; RUNs na tabela acima
 ## Lições
 
 1. **O sinal antecipado chega três anos antes da confirmação.** No dado real, o drift de entrada aparece em 2014; a confirmação com rótulo maduro, só em 2017–2018. Esperar a L4 para agir significa três anos de decisões com risco subestimado. É o argumento central para guardrails que agem sobre L2/L3 (F7).
-2. **Degradação com rótulo raramente passa de SEV-1.**
-   - **Cenários simulados:** S2 e S3 degradam de fato (bad rate +5 a +7 p.p.), mas a razão observado/esperado fica em no máximo 1,37 e 1,499, abaixo do corte de SEV-2 (1,5).
-   - **S5:** o SEV-2 vem do drift de entrada, não da L4.
-   - **Para a F7:** um circuit breaker que só reage a SEV-2 em L3/L4 não dispararia nesses cenários. É uma decisão de política para o autor (§15).
+2. **O corte de SEV-2 de planejamento escondia a degradação com rótulo.**
+   - **Problema:** com o SEV-2 da razão observado/esperado em 1,5, S2 e S3 degradavam de fato (bad rate +5 a +7 p.p.) e ficavam em SEV-1, porque as razões máximas eram 1,37 e 1,499. O modo conservador (GR-4), que reage a SEV-2, não dispararia.
+   - **Correção:** o corte foi refeito por uma regra declarada antes da execução, usando só a distribuição nula ([ADR-0018](adr/0018-l4-sev2-cut.md), [RUN-20261115-calib-L4CUT-01](runs/RUN-20261115-calib-L4CUT-01.md)): 1,25.
+   - **Validação:** nas variantes de S2 e S3 com seeds novas, as intensidades oficiais passam de 0/3 para 3/3 detectadas em SEV-2.
+   - **Resultado:** S2 e S3 chegam a SEV-2 já no primeiro alerta (lotes 8 e 7).
 3. **O p-valor não serve como gatilho (NV-10).** No S5, o KS rejeita em 98,3% dos pares lote–feature, enquanto o PSI passa do corte em 11,5%. No controle, rejeita em 3,4%, perto dos 5% nominais.
 4. **O Evidently concorda com o detector.** O `psi_ref` dentro do Evidently reproduz o PSI próprio sem diferença (0,000000) em todas as colunas sem nulos, nos seis relatórios.
 5. **Errata da F2.** O PSI do score de 0,226 registrado para o OOT 2015 ([ADR-0006](adr/0006-base-model.md), model card) é um artefato do filtro de maturação. No snapshot, os maduros de 2015 são 100% de 36 meses; os de 60 meses, mais arriscados, ficam de fora. Sobre todas as propostas de 2015, o PSI do score é 0,009. A estabilidade de score aqui medida no S5 é o número correto.

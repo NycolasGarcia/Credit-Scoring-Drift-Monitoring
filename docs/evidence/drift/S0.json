@@ -1,9 +1,9 @@
 {
-  "run_id": "RUN-20261113-monitor-S0-01",
+  "run_id": "RUN-20261115-monitor-S0-01",
   "scenario": "S0",
   "base_sha256": "f426398c4c947edafe4f1b11f8b307d5ea761fc773ed6829710e0f72d1962d6b",
   "model": "credit-scoring@champion v2",
-  "thresholds": "c7aaf9056a2c",
+  "thresholds": "901725d664ea",
   "sim_run": "RUN-20261113-sim-S0-01",
   "evaluation": {
     "onset": null,
@@ -33,6 +33,7 @@
     "attribution": {
       "flagged": [],
       "truth": [],
+      "secondary": [],
       "recall": null,
       "precision": null
     },

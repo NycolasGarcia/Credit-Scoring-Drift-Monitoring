@@ -1,9 +1,9 @@
 {
-  "run_id": "RUN-20261113-monitor-S3-01",
+  "run_id": "RUN-20261115-monitor-S3-01",
   "scenario": "S3",
   "base_sha256": "f426398c4c947edafe4f1b11f8b307d5ea761fc773ed6829710e0f72d1962d6b",
   "model": "credit-scoring@champion v2",
-  "thresholds": "c7aaf9056a2c",
+  "thresholds": "901725d664ea",
   "sim_run": "RUN-20261113-sim-S3-01",
   "evaluation": {
     "onset": 4,
@@ -15,12 +15,12 @@
     "post_onset": {
       "batches": 8,
       "sev1_plus": 0.625,
-      "sev2_plus": 0.0
+      "sev2_plus": 0.625
     },
     "first_sev1": 7,
     "delay_sev1": 3,
-    "first_sev2": null,
-    "delay_sev2": null,
+    "first_sev2": 7,
+    "delay_sev2": 3,
     "layers_expected": [
       "L4"
     ],
@@ -37,6 +37,7 @@
     "attribution": {
       "flagged": [],
       "truth": [],
+      "secondary": [],
       "recall": null,
       "precision": null
     },
@@ -1757,10 +1758,10 @@
           "feature_psi": 0,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
-        "level": 1,
+        "level": 2,
         "flagged_features": []
       },
       "unit_bugs": {},
@@ -1946,10 +1947,10 @@
           "feature_psi": 0,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
-        "level": 1,
+        "level": 2,
         "flagged_features": []
       },
       "unit_bugs": {},
@@ -2135,10 +2136,10 @@
           "feature_psi": 0,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
-        "level": 1,
+        "level": 2,
         "flagged_features": []
       },
       "unit_bugs": {},
@@ -2324,10 +2325,10 @@
           "feature_psi": 0,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
-        "level": 1,
+        "level": 2,
         "flagged_features": []
       },
       "unit_bugs": {},
@@ -2513,10 +2514,10 @@
           "feature_psi": 0,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
-        "level": 1,
+        "level": 2,
         "flagged_features": []
       },
       "unit_bugs": {},

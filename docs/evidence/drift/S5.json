@@ -1,9 +1,9 @@
 {
-  "run_id": "RUN-20261113-monitor-S5-02",
+  "run_id": "RUN-20261115-monitor-S5-01",
   "scenario": "S5",
   "base_sha256": "0a7c06d4be4f90c83ae2dfbf22752f9855a6986d9bcd319ea759a43f1312bd2a",
   "model": "credit-scoring@champion v2",
-  "thresholds": "c7aaf9056a2c",
+  "thresholds": "901725d664ea",
   "sim_run": "RUN-20261113-sim-S5-01",
   "evaluation": {
     "onset": null,
@@ -59,6 +59,7 @@
         "verification_status"
       ],
       "truth": [],
+      "secondary": [],
       "recall": null,
       "precision": null
     },
@@ -9680,7 +9681,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
@@ -9880,7 +9881,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
@@ -10081,7 +10082,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
@@ -10283,7 +10284,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
@@ -10486,7 +10487,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
@@ -10884,7 +10885,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
@@ -11084,7 +11085,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
@@ -11285,7 +11286,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
@@ -11484,7 +11485,7 @@
           "feature_psi": 2,
           "score_psi": 0,
           "approval_delta_pp": 0,
-          "bad_rate_ratio": 1,
+          "bad_rate_ratio": 2,
           "auc_drop": 0
         },
         "level": 2,
