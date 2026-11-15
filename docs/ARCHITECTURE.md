@@ -232,9 +232,10 @@ A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, m
 | `src/response/lifecycle.py` | Recalibração (A5) e challenger (A6) só com dado aprovado (GR-7) e rótulo maduro (GR-8), em janela recente | F7 | implementado |
 | `src/response/gate.py` | Gate de promoção (GR-5): AUC recente, perda na referência, calibração, gap de aprovação entre grupos | F7 | implementado |
 | `src/response/registry_ops.py` | Promoção e rollback por troca de aliases no MLflow Registry (GR-6) | F7 | implementado |
+| `src/response/shadow.py` | Challenger em sombra (pontua sem decidir, gate a cada rótulo que amadurece) e ensaio de promoção/rollback no registry de ensaio | F7 | implementado |
 | `src/response/compare.py` | Valor realizado de cada estratégia de resposta a partir do ponto de decisão | F7 | implementado |
 | `src/response/docs.py` | Gera `RESPONSE_EVALUATION.md` e o RUN record `response` | F7 | implementado |
-| `src/response/cli.py` | `make respond-compare` e `make rollback` | F7 | implementado |
+| `src/response/cli.py` | `make respond-compare`, `make respond-drill` e `make rollback` | F7 | implementado |
 | `src/governance/` | Fairness, checagem de privacidade, retenção | F8 | planejado |
 | `src/reporting/` (restante) | Sumários de monitoramento e de resposta | F5+ | planejado |
 
