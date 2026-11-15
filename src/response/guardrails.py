@@ -15,11 +15,10 @@ from src.response.settings import Conservative, PolicyConfig
 REASONS = {
     "R00": "aprovado: score abaixo do limiar do champion",
     "R01": "recusado: score acima do limiar do champion",
-    "R10": "revisão humana: faixa cinza do modo conservador",
+    "R10": "revisão humana: modo conservador, valor esperado não positivo com o risco corrigido",
     "R20": "revisão humana: decisão automática suspensa (kill switch)",
     "R30": "revisão humana: lote em quarentena preventiva (suspeita de dado quebrado)",
 }
-STEP = 0.005
 
 
 @dataclass
@@ -44,17 +43,17 @@ class BreakerState:
                 self.open, self.quiet, self.opened_at = False, 0, None
 
 
-def policy_threshold(
-    scores: np.ndarray, base: float, appetite: float, ratio: float | None, cfg: Conservative
-) -> float:
-    """Largest threshold whose risk-adjusted expected bad rate of approvals fits the appetite."""
-    k = max(1.0, ratio) if cfg.use_mature_ratio and ratio else 1.0
-    risk = np.minimum(1.0, k * scores)
-    for t in np.round(np.arange(base, cfg.min_threshold - 1e-9, -STEP), 6):
-        approved = scores < t
-        if approved.any() and risk[approved].mean() <= appetite:
-            return float(t)
-    return cfg.min_threshold
+def risk_correction(ratio: float | None, cfg: Conservative) -> float:
+    """Factor applied to the champion's risk: the last mature observed/expected ratio, if > 1."""
+    return max(1.0, ratio) if cfg.use_mature_ratio and ratio else 1.0
+
+
+def negative_value(
+    scores: np.ndarray, gain: np.ndarray, loss: np.ndarray, correction: float
+) -> np.ndarray:
+    """Loans whose expected value is not positive once the risk is corrected (ADR-0019)."""
+    risk = np.minimum(1.0, correction * scores)
+    return (1 - risk) * gain - risk * loss <= 0
 
 
 @dataclass(frozen=True)
@@ -63,7 +62,7 @@ class ChainInput:
 
     scores: np.ndarray
     base_threshold: float
-    policy_threshold: float
+    negative_value: np.ndarray
     kill_switch: bool
     quarantine: bool
     conservative: bool
@@ -83,7 +82,7 @@ def _quarantine(x: ChainInput):
 def _conservative(x: ChainInput):
     if not x.conservative:
         return None
-    return (x.scores >= x.policy_threshold) & (x.scores < x.base_threshold), "review", "R10"
+    return x.negative_value & (x.scores < x.base_threshold), "review", "R10"
 
 
 def _reject(x: ChainInput):

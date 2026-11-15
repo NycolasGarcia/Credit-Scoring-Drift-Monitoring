@@ -22,6 +22,7 @@ from src.observability.metrics import BY_NAME, build_registry
 from src.observability.runner import mlflow_key, record
 from src.observability.samples import batch_samples
 from src.pipeline import BatchInput, JobContext, RunMemory, run_batch
+from src.response.guardrails import REASONS
 from src.simulation.bad_batch import make_bad_batch
 from tests.synthetic import synthetic_batch
 
@@ -78,7 +79,7 @@ def test_valid_batch_emits_every_step_with_required_fields(reference, profile, t
     assert steps == ["ingest", "validate", "score", "detect", "evaluate", "alert", "respond"]
     assert all(set(e) == FIELDS for e in state.log.events)
     assert {e["step"]: e["status"] for e in state.log.events}["respond"] == "ok"
-    assert set(state.decisions["reason_code"]) <= {"R00", "R01"}
+    assert set(state.decisions["reason_code"]) <= set(REASONS)  # constant scores: AUC 0.5
     assert len(state.scored) == 2000 and state.l4 is not None
     assert state.levels["CDM_SOFT_RULES"] == 1  # 2,000 rows is below the volume band (S03)
 

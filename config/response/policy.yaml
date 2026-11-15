@@ -12,9 +12,9 @@ cool_down_batches: 2
 
 output_alerts: [CDM_SCORE_DRIFT, CDM_APPROVAL_SHIFT, CDM_BAD_RATE_RATIO, CDM_AUC_DROP]  # L3/L4
 
-conservative:               # limiar de política derivado do apetite de risco (ADR-0016, opção D)
-  use_mature_ratio: true    # corrige o risco pela última razão observado/esperado (só se > 1)
-  min_threshold: 0.05
+conservative:               # modo conservador por valor (ADR-0019): com o breaker aberto, o que o
+  use_mature_ratio: true    # champion aprovaria vai para revisão se o valor esperado não fica positivo
+                            # com o risco corrigido pela última razão observado/esperado (só se > 1)
 
 manual_review_value: 0.0    # premissa da comparação de custo: proposta em revisão não gera valor no lote
 

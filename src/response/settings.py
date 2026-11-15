@@ -37,10 +37,9 @@ class Rule(BaseModel):
 
 
 class Conservative(BaseModel):
-    """Policy threshold derived from the risk appetite."""
+    """Conservative mode by expected value with the risk corrected (ADR-0019)."""
 
     use_mature_ratio: bool
-    min_threshold: float = Field(gt=0, lt=1)
 
 
 class PolicyConfig(BaseModel):

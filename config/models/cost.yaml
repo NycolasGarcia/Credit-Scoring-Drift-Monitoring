@@ -16,8 +16,8 @@ funding_rate: 0.05
 threshold_grid: {start: 0.02, stop: 0.60, step: 0.005}
 # Funding rates for the realized-cash sensitivity.
 funding_rate_grid: [0.0, 0.03, 0.05, 0.08, 0.10]
-# Risk appetite (ADR-0016 option D): cap used by the conservative mode (GR-4, F7),
-# not by the base threshold.
+# Risk appetite (ADR-0016 option D): tracked as the expected bad rate of approved loans
+# (cdm_expected_bad_rate_approved). Not a cut: the conservative mode is by value (ADR-0019).
 risk_appetite:
   status: PROPOSTO
   max_bad_rate_approved: 0.14

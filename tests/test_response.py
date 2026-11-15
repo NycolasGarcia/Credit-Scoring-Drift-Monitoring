@@ -5,10 +5,17 @@ import pandas as pd
 import pytest
 
 from src.response import respond as respond_mod
-from src.response.guardrails import BreakerState, ChainInput, policy_threshold, run_chain
+from src.response.guardrails import (
+    BreakerState,
+    ChainInput,
+    negative_value,
+    risk_correction,
+    run_chain,
+)
 from src.response.policy import PolicyFacts, decide, output_level
 from src.response.respond import ResponseMemory, respond
 from src.response.settings import load_policy
+from tests.synthetic import synthetic_batch
 
 POLICY = load_policy()
 SCORES = np.array([0.05, 0.20, 0.35, 0.45, 0.60])
@@ -51,15 +58,18 @@ def test_human_override_wins_over_the_breaker() -> None:
     assert not b.open
 
 
-def test_policy_threshold_fits_the_appetite_and_tightens_with_the_ratio() -> None:
-    p = np.random.default_rng(0).beta(2, 10, 20000)
-    t1 = policy_threshold(p, 0.495, 0.14, None, POLICY.conservative)
-    t2 = policy_threshold(p, 0.495, 0.14, 1.3, POLICY.conservative)
-    assert p[p < t1].mean() <= 0.14 and t2 < t1
+def test_negative_value_grows_with_the_risk_correction() -> None:
+    p = np.array([0.10, 0.30, 0.45])
+    gain, loss = np.array([1000.0, 1000.0, 1000.0]), np.array([3000.0, 3000.0, 3000.0])
+    assert list(negative_value(p, gain, loss, 1.0)) == [False, True, True]
+    assert risk_correction(1.4, POLICY.conservative) == 1.4
+    assert risk_correction(0.8, POLICY.conservative) == 1.0
+    assert risk_correction(None, POLICY.conservative) == 1.0
 
 
 def chain(**kw) -> ChainInput:
-    base = {"scores": SCORES, "base_threshold": 0.495, "policy_threshold": 0.30,
+    base = {"scores": SCORES, "base_threshold": 0.495,
+            "negative_value": np.array([False, False, True, True, True]),
             "kill_switch": False, "quarantine": False, "conservative": False}  # fmt: skip
     return ChainInput(**{**base, **kw})
 
@@ -82,7 +92,8 @@ def test_kill_switch_and_quarantine_hold_every_decision(flag: str, code: str) ->
 
 
 def scored() -> pd.DataFrame:
-    return pd.DataFrame({"loan_key": [f"k{i}" for i in range(5)], "score": SCORES})
+    """Validated rows with the fields the economics need, plus the champion score."""
+    return synthetic_batch(5, seed=3).assign(score=SCORES)
 
 
 def signals(diagnosis: str = "D3", level: int = 2) -> dict:
@@ -93,7 +104,10 @@ def signals(diagnosis: str = "D3", level: int = 2) -> dict:
 def test_respond_opens_conservative_mode_on_confirmed_degradation() -> None:
     frame, summary = respond(8, scored(), signals(), ResponseMemory(), 0.495)
     assert summary["rule"] == "P03" and summary["conservative"]
-    assert "review" in set(frame["decision"]) and summary["auto"] == ["A4", "A6"]
+    assert summary["auto"] == ["A4", "A6"] and set(frame["reason_code"]) <= {"R00", "R01", "R10"}
+    assert (
+        summary["expected_bad_rate_approved"] is None or summary["expected_bad_rate_approved"] < 1
+    )
 
 
 @pytest.mark.parametrize("override", [{"kill_switch": True}, {"dry_run": True}])

@@ -21,6 +21,7 @@ class BatchState:
     log: StepLog
     report: dict[str, Any] = field(default_factory=dict)
     scored: pd.DataFrame = field(default_factory=pd.DataFrame)
+    valid: pd.DataFrame = field(default_factory=pd.DataFrame)
     table: pd.DataFrame | None = None
     l3: dict[str, Any] = field(default_factory=dict)
     l4: dict[str, Any] | None = None
@@ -87,9 +88,11 @@ def _response(s: BatchState) -> list[Sample]:
     if not r:
         return []
     out: list[Sample] = [("cdm_conservative_mode", {}, float(r["conservative"])),
-                         ("cdm_policy_threshold", {}, float(r["policy_threshold"])),
+                         ("cdm_risk_correction", {}, float(r["risk_correction"])),
                          ("cdm_kill_switch", {}, float(r["kill_switch"])),
                          ("cdm_policy_rule", {"rule": r["rule"]}, 1.0)]  # fmt: skip
+    if r["expected_bad_rate_approved"] is not None:
+        out.append(("cdm_expected_bad_rate_approved", {}, float(r["expected_bad_rate_approved"])))
     for decision in ("approve", "review", "reject"):
         out.append(
             ("cdm_decisions", {"decision": decision}, float(r["decisions"].get(decision, 0)))

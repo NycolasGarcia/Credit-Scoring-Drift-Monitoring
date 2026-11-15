@@ -113,9 +113,9 @@ def body_panels() -> list[dict[str, Any]]:
               [_target(f"cdm_decisions{{{SEL}}}", "{{decision}}")],
               defaults={"custom": {"stacking": {"mode": "normal"}, "fillOpacity": 40}},
               description="approve, review (faixa cinza, kill switch ou quarentena) e reject."),
-        panel("Resposta: modo conservador e limiar de política", "timeseries", (16, 47, 8, 8),
+        panel("Resposta: modo conservador e risco", "timeseries", (16, 47, 8, 8),
               [_target(f"cdm_conservative_mode{{{SEL}}}", "modo conservador"),
-               _target(f"cdm_policy_threshold{{{SEL}}}", "limiar de política", "B"),
+               _target(f"cdm_expected_bad_rate_approved{{{SEL}}}", "bad rate aprovados", "B"),
                _target(f"cdm_kill_switch{{{SEL}}}", "kill switch", "C")]),
     ]  # fmt: skip
 

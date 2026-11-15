@@ -99,6 +99,7 @@ def _score(ctx, item, state, data, mem, rows) -> None:
     if fails := validate_output(scored, ctx.contract, ctx.profile["threshold"]):
         raise RuntimeError(f"output contract failed: {sorted(fails)}")
     state.scored = scored
+    state.valid = valid.assign(score=scored["score"].to_numpy())
     batch = Batch(item.index, item.batch_id, item.issue_month, "passed", data["apps"], scored,
                   data["labels"])  # fmt: skip
     mem.history = pd.concat([mem.history, history_frame([batch], mem.segment_features(ctx))])
@@ -169,7 +170,7 @@ def _respond(ctx: JobContext, item: BatchInput, state: BatchState, mem: RunMemor
                "levels": state.levels, "bad_rate_ratio": ratio}  # fmt: skip
     with state.log.step("respond") as rows:
         state.decisions, state.response = respond(
-            item.index, state.scored, signals, mem.response, ctx.profile["threshold"]
+            item.index, state.valid, signals, mem.response, ctx.profile["threshold"]
         )
         counts = state.response["decisions"]
         rows.update(rows_in=len(state.scored), rows_out=counts.get("approve", 0),

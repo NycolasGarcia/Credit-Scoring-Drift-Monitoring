@@ -745,7 +745,7 @@
       "id": 14
     },
     {
-      "title": "Resposta: modo conservador e limiar de política",
+      "title": "Resposta: modo conservador e risco",
       "type": "timeseries",
       "datasource": {
         "type": "prometheus",
@@ -766,8 +766,8 @@
             "type": "prometheus",
             "uid": "cdm-prom"
           },
-          "expr": "cdm_policy_threshold{scenario=~\"$scenario\"}",
-          "legendFormat": "limiar de política",
+          "expr": "cdm_expected_bad_rate_approved{scenario=~\"$scenario\"}",
+          "legendFormat": "bad rate aprovados",
           "refId": "B"
         },
         {

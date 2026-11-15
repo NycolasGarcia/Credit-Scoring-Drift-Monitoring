@@ -76,8 +76,10 @@ CATALOG: tuple[MetricDef, ...] = (
        "Diagnóstico"),
     _m("cdm_conservative_mode", "1 se o modo conservador (GR-4) está ativo", (), "resposta",
        "Resposta"),
-    _m("cdm_policy_threshold", "Limiar de política do modo conservador no lote", (), "resposta",
-       "Resposta"),
+    _m("cdm_risk_correction", "Fator de correção do risco (última razão obs/esp, se > 1)", (),
+       "resposta", "Resposta"),
+    _m("cdm_expected_bad_rate_approved", "Bad rate esperado dos aprovados com risco corrigido "
+       "(acompanha o apetite de 14%)", (), "resposta", "Resposta"),
     _m("cdm_kill_switch", "1 se a decisão automática está suspensa (GR-9)", (), "resposta",
        "Resposta"),
     _m("cdm_policy_rule", "Regra da matriz de resposta aplicada (valor 1)", ("rule",),
