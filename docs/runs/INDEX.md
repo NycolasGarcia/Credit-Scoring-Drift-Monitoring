@@ -42,3 +42,4 @@ Observações humanas sobre os runs ficam na seção "Observações" de cada reg
 | [RUN-20261115-monitor-S0-02](RUN-20261115-monitor-S0-02.md) | 2026-11-15 | monitor | S0 | pipeline: 12 lotes · 0 bloqueados · 0 etapas com falha · alertas {} | sim |
 | [RUN-20261115-monitor-S1-02](RUN-20261115-monitor-S1-02.md) | 2026-11-15 | monitor | S1 | pipeline: 12 lotes · 0 bloqueados · 0 etapas com falha · alertas {'CDM_FEATURE_DRIFT': 'SEV-2', 'CDM_SCORE_DRIFT': 'SEV-1'} | sim |
 | [RUN-20261115-monitor-S2-02](RUN-20261115-monitor-S2-02.md) | 2026-11-15 | monitor | S2 | pipeline: 12 lotes · 0 bloqueados · 0 etapas com falha · alertas {'CDM_BAD_RATE_RATIO': 'SEV-2'} | sim |
+| [RUN-20261115-monitor-S3-02](RUN-20261115-monitor-S3-02.md) | 2026-11-15 | monitor | S3 | pipeline: 12 lotes · 0 bloqueados · 0 etapas com falha · alertas {'CDM_BAD_RATE_RATIO': 'SEV-2'} | sim |
