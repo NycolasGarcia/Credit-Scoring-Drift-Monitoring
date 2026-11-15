@@ -5,7 +5,7 @@ Steps: ingest → validate → score → detect → evaluate → alert → respo
 Each step emits a structured event (``src/observability/events.py``). A failed step does not
 hide the batch: the remaining core steps are skipped, but alert and record still run, so the
 failure becomes a metric, an alert (CDM_STEP_FAILED) and a log line. ``respond`` is the policy
-engine of F7 and is recorded as skipped until then.
+matrix of §8.5 with its guardrail chain (``src/response/``).
 """
 
 import logging
@@ -31,6 +31,7 @@ from src.monitoring.settings import MonitoringConfig
 from src.monitoring.severity import batch_severity
 from src.observability.events import StepLog
 from src.observability.samples import BatchState
+from src.response.respond import ResponseMemory, respond
 
 logger = logging.getLogger("cdm.pipeline")
 CORE = ("ingest", "validate", "score", "detect", "evaluate")
@@ -59,6 +60,7 @@ class RunMemory:
     history: pd.DataFrame = field(default_factory=pd.DataFrame)
     durations: list[float] = field(default_factory=list)
     blocked_streak: int = 0
+    response: ResponseMemory = field(default_factory=ResponseMemory)
 
     def segment_features(self, ctx: JobContext) -> list[str]:
         """Top-k numeric features kept in the history (L4 segment gap)."""
@@ -161,6 +163,19 @@ def _alert(ctx: JobContext, state: BatchState, mem: RunMemory) -> None:
     mem.durations.append(facts.duration_s)
 
 
+def _respond(ctx: JobContext, item: BatchInput, state: BatchState, mem: RunMemory) -> None:
+    ratio = (state.l4 or {}).get("bad_rate_ratio")
+    signals = {"diagnosis": state.diagnosis, "batch_level": state.severity["level"],
+               "levels": state.levels, "bad_rate_ratio": ratio}  # fmt: skip
+    with state.log.step("respond") as rows:
+        state.decisions, state.response = respond(
+            item.index, state.scored, signals, mem.response, ctx.profile["threshold"]
+        )
+        counts = state.response["decisions"]
+        rows.update(rows_in=len(state.scored), rows_out=counts.get("approve", 0),
+                    rows_quarantined=counts.get("review", 0))  # fmt: skip
+
+
 def run_batch(ctx: JobContext, item: BatchInput, mem: RunMemory) -> BatchState:
     """Run every step of one batch; failures are recorded, never swallowed silently."""
     state = BatchState(
@@ -168,6 +183,6 @@ def run_batch(ctx: JobContext, item: BatchInput, mem: RunMemory) -> BatchState:
     )
     _core(ctx, item, state, mem)
     _alert(ctx, state, mem)
-    state.log.skip("respond")  # policy engine: F7
+    _respond(ctx, item, state, mem)
     state.finished_at = time.time()
     return state

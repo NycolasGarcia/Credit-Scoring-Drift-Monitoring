@@ -225,7 +225,11 @@ A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, m
 | `src/alerting/settings.py` | Catálogo de alertas validado (`alerts.yaml`) | F6 | implementado |
 | `src/alerting/engine.py` | Nível de cada alerta a partir da severidade, do contrato, das etapas e da duração | F6 | implementado |
 | `src/alerting/rules.py` | Gera as regras do Prometheus, os testes do `promtool` e `ALERTS.md` | F6 | implementado |
-| `src/response/` | Policy engine, guardrails, champion/challenger, rollback | F7 | planejado |
+| `src/response/settings.py` | Política de resposta validada (`config/response/policy.yaml`) | F7 | implementado |
+| `src/response/policy.py` | Motor da matriz §8.5: primeira regra que casa → ações automáticas e humanas | F7 | implementado |
+| `src/response/guardrails.py` | Circuit breaker (GR-4) com histerese, limiar de política pelo apetite de risco, cadeia de guardrails com código de motivo (GR-9, A2, GR-4) | F7 | implementado |
+| `src/response/respond.py` | Etapa `respond` do job: política → breaker → cadeia → decisões finais | F7 | implementado |
+| `src/response/` (restante) | Recalibração, challenger em sombra, gate de promoção, rollback, comparação de respostas | F7 | planejado |
 | `src/governance/` | Fairness, checagem de privacidade, retenção | F8 | planejado |
 | `src/reporting/` (restante) | Sumários de monitoramento e de resposta | F5+ | planejado |
 
@@ -239,6 +243,7 @@ A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, m
 | `config/models/training.yaml` | Partição interna, modelos, calibração, seleção, tipos confiáveis do skops |
 | `config/models/cost.yaml` | Premissas de custo (medidas + funding declarado), grade de limiar e apetite de risco |
 | `config/contracts/contract.yaml` | Faixas, domínios, tolerâncias, janelas e parâmetros soft do contrato de dados |
+| `config/response/policy.yaml` | Matriz de resposta §8.5 (regras → ações auto/humanas), kill switch, override do modo conservador, dry-run |
 | `config/monitoring/alerts.yaml` | Catálogo de alertas: origem, camada, diagnóstico, ação, dono, playbook; dead man's switch |
 | `config/monitoring/l4_sweep.yaml` | Grade de cortes, regra de escolha (declarada antes da execução) e variantes de validação da varredura da L4 |
 | `config/monitoring/thresholds.yaml` | Limiares por sinal (SEV-1/2/3, direção, status, RUN de calibração), meta de falso alarme, parâmetros do D6 |

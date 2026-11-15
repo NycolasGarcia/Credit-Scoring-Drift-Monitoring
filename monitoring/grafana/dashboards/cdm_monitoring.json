@@ -704,6 +704,95 @@
         "mergeValues": true
       },
       "id": 13
+    },
+    {
+      "title": "Resposta: decisões do lote",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_decisions{scenario=~\"$scenario\"}",
+          "legendFormat": "{{decision}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 47,
+        "w": 16,
+        "h": 8
+      },
+      "description": "approve, review (faixa cinza, kill switch ou quarentena) e reject.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "stacking": {
+              "mode": "normal"
+            },
+            "fillOpacity": 40
+          }
+        },
+        "overrides": []
+      },
+      "options": {},
+      "id": 14
+    },
+    {
+      "title": "Resposta: modo conservador e limiar de política",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_conservative_mode{scenario=~\"$scenario\"}",
+          "legendFormat": "modo conservador",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_policy_threshold{scenario=~\"$scenario\"}",
+          "legendFormat": "limiar de política",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_kill_switch{scenario=~\"$scenario\"}",
+          "legendFormat": "kill switch",
+          "refId": "C"
+        }
+      ],
+      "gridPos": {
+        "x": 16,
+        "y": 47,
+        "w": 8,
+        "h": 8
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {},
+      "id": 15
     }
   ]
 }

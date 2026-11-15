@@ -28,6 +28,8 @@ class BatchState:
     diagnosis: str = "none"
     unit_bugs: dict[str, Any] = field(default_factory=dict)
     levels: dict[str, int] = field(default_factory=dict)
+    decisions: pd.DataFrame = field(default_factory=pd.DataFrame)
+    response: dict[str, Any] = field(default_factory=dict)
     finished_at: float = 0.0
 
 
@@ -80,6 +82,22 @@ def _alerts(s: BatchState) -> list[Sample]:
     return out
 
 
+def _response(s: BatchState) -> list[Sample]:
+    r = s.response
+    if not r:
+        return []
+    out: list[Sample] = [("cdm_conservative_mode", {}, float(r["conservative"])),
+                         ("cdm_policy_threshold", {}, float(r["policy_threshold"])),
+                         ("cdm_kill_switch", {}, float(r["kill_switch"])),
+                         ("cdm_policy_rule", {"rule": r["rule"]}, 1.0)]  # fmt: skip
+    for decision in ("approve", "review", "reject"):
+        out.append(
+            ("cdm_decisions", {"decision": decision}, float(r["decisions"].get(decision, 0)))
+        )
+    return out
+
+
 def batch_samples(state: BatchState, feature_sev1: float) -> list[Sample]:
     """All gauges of one batch."""
-    return [*_operational(state), *_model(state, feature_sev1), *_alerts(state)]
+    return [*_operational(state), *_model(state, feature_sev1), *_alerts(state),
+            *_response(state)]  # fmt: skip

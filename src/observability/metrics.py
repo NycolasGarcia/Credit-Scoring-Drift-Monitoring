@@ -74,6 +74,16 @@ CATALOG: tuple[MetricDef, ...] = (
        "Alertas"),
     _m("cdm_diagnosis", "Diagnóstico do lote (valor 1 no código vigente)", ("code",), "alertas",
        "Diagnóstico"),
+    _m("cdm_conservative_mode", "1 se o modo conservador (GR-4) está ativo", (), "resposta",
+       "Resposta"),
+    _m("cdm_policy_threshold", "Limiar de política do modo conservador no lote", (), "resposta",
+       "Resposta"),
+    _m("cdm_kill_switch", "1 se a decisão automática está suspensa (GR-9)", (), "resposta",
+       "Resposta"),
+    _m("cdm_policy_rule", "Regra da matriz de resposta aplicada (valor 1)", ("rule",),
+       "resposta", "Resposta"),
+    _m("cdm_decisions", "Decisões finais do lote: approve, review, reject", ("decision",),
+       "resposta", "Resposta"),
 )  # fmt: skip
 BY_NAME = {m.name: m for m in CATALOG}
 Sample = tuple[str, dict[str, str], float]

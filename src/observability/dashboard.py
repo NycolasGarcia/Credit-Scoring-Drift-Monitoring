@@ -109,6 +109,14 @@ def body_panels() -> list[dict[str, Any]]:
               overrides=severity_overrides(),
               options={"showValue": "never", "mergeValues": True},
               description="Inclui o dead man's switch (sem rótulo de cenário: o monitor é um só)."),
+        panel("Resposta: decisões do lote", "timeseries", (0, 47, 16, 8),
+              [_target(f"cdm_decisions{{{SEL}}}", "{{decision}}")],
+              defaults={"custom": {"stacking": {"mode": "normal"}, "fillOpacity": 40}},
+              description="approve, review (faixa cinza, kill switch ou quarentena) e reject."),
+        panel("Resposta: modo conservador e limiar de política", "timeseries", (16, 47, 8, 8),
+              [_target(f"cdm_conservative_mode{{{SEL}}}", "modo conservador"),
+               _target(f"cdm_policy_threshold{{{SEL}}}", "limiar de política", "B"),
+               _target(f"cdm_kill_switch{{{SEL}}}", "kill switch", "C")]),
     ]  # fmt: skip
 
 

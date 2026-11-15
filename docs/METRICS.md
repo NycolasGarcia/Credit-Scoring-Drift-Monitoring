@@ -28,3 +28,8 @@ Todas as métricas são gauges publicados pelo job no Pushgateway, no grupo `job
 | `cdm_alert_level` | gauge | `alert` | alertas | Nível do alerta (0-3), lido pelas regras do Prometheus | Alertas |
 | `cdm_alerts_firing` | gauge | `severity` | alertas | Alertas ativos no lote por severidade | Alertas |
 | `cdm_diagnosis` | gauge | `code` | alertas | Diagnóstico do lote (valor 1 no código vigente) | Diagnóstico |
+| `cdm_conservative_mode` | gauge | — | resposta | 1 se o modo conservador (GR-4) está ativo | Resposta |
+| `cdm_policy_threshold` | gauge | — | resposta | Limiar de política do modo conservador no lote | Resposta |
+| `cdm_kill_switch` | gauge | — | resposta | 1 se a decisão automática está suspensa (GR-9) | Resposta |
+| `cdm_policy_rule` | gauge | `rule` | resposta | Regra da matriz de resposta aplicada (valor 1) | Resposta |
+| `cdm_decisions` | gauge | `decision` | resposta | Decisões finais do lote: approve, review, reject | Resposta |
