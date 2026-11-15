@@ -65,8 +65,8 @@ def batch_folder(tmp_path: Path, apps: pd.DataFrame) -> BatchInput:
     folder.mkdir(parents=True, exist_ok=True)
     apps.to_parquet(folder / "applications.parquet", index=False)
     rng = np.random.default_rng(2)
-    labels = pd.DataFrame({"loan_key": apps["loan_key"], "target": (rng.random(len(apps)) < 0.2)
-                           .astype(float), "p_oracle": 0.2, "label_batch": 0})  # fmt: skip
+    labels = pd.DataFrame({"loan_key": apps["loan_key"], "target": (rng.random(len(apps)) < 0.1)
+                           .astype(float), "p_oracle": 0.1, "label_batch": 0})  # fmt: skip
     labels.to_parquet(folder / "labels.parquet", index=False)
     return BatchInput(0, "S9-b00", "2014-01", folder)
 
@@ -77,7 +77,8 @@ def test_valid_batch_emits_every_step_with_required_fields(reference, profile, t
     steps = [e["step"] for e in state.log.events]
     assert steps == ["ingest", "validate", "score", "detect", "evaluate", "alert", "respond"]
     assert all(set(e) == FIELDS for e in state.log.events)
-    assert {e["step"]: e["status"] for e in state.log.events}["respond"] == "skipped"
+    assert {e["step"]: e["status"] for e in state.log.events}["respond"] == "ok"
+    assert set(state.decisions["reason_code"]) <= {"R00", "R01"}
     assert len(state.scored) == 2000 and state.l4 is not None
     assert state.levels["CDM_SOFT_RULES"] == 1  # 2,000 rows is below the volume band (S03)
 
