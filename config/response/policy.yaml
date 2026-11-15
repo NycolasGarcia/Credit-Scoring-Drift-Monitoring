@@ -1,0 +1,74 @@
+# Política de resposta à degradação (§8.5, ADR-0012). Matriz declarativa: diagnóstico e
+# severidade -> ações. Automático só o que é reversível (§8.1, princípio 5).
+# As regras são a única fonte do modo conservador: o circuit breaker abre quando uma regra
+# pede A4 e fecha após `cool_down_batches` lotes seguidos sem esse pedido.
+version: 1
+status: PROPOSTO
+
+dry_run: false              # true: avalia e registra as ações, mas decide como o champion puro
+kill_switch: false          # GR-9: true suspende toda decisão automática (tudo vai para revisão)
+conservative_mode: auto     # auto | on | off — override humano do circuit breaker
+cool_down_batches: 2
+
+output_alerts: [CDM_SCORE_DRIFT, CDM_APPROVAL_SHIFT, CDM_BAD_RATE_RATIO, CDM_AUC_DROP]  # L3/L4
+
+conservative:               # limiar de política derivado do apetite de risco (ADR-0016, opção D)
+  use_mature_ratio: true    # corrige o risco pela última razão observado/esperado (só se > 1)
+  min_threshold: 0.05
+
+manual_review_value: 0.0    # premissa da comparação de custo: proposta em revisão não gera valor no lote
+
+rules:                      # avaliadas em ordem; a primeira que casa define as ações
+  - id: P01
+    when: {diagnosis: [D0]}
+    situation: Contrato reprovou o lote
+    actions: [{code: A2, mode: auto}, {code: A1, mode: auto}, {code: A3, mode: human}]
+  - id: P02
+    when: {diagnosis: [D6]}
+    situation: Suspeita de bug upstream
+    actions: [{code: A2, mode: auto}, {code: A1, mode: auto}, {code: A3, mode: human}]
+  - id: P03
+    when: {diagnosis: [D3], output_min_level: 2}
+    situation: Concept drift confirmado com rótulo maduro
+    actions: [{code: A4, mode: auto}, {code: A6, mode: auto}, {code: A3, mode: human},
+              {code: A7, mode: human}]
+  - id: P04
+    when: {diagnosis: [D3]}
+    situation: Concept drift em atenção
+    actions: [{code: A6, mode: auto}, {code: A3, mode: human}]
+  - id: P05
+    when: {diagnosis: [D2], output_min_level: 2}
+    situation: Prior shift relevante, ranking preservado
+    actions: [{code: A4, mode: auto}, {code: A5, mode: human}, {code: A3, mode: human}]
+  - id: P06
+    when: {diagnosis: [D2]}
+    situation: Prior shift em atenção
+    actions: [{code: A5, mode: human}]
+  - id: P07
+    when: {diagnosis: [D1, D4], output_min_level: 2}
+    situation: Decisão mudou (L3 em SEV-2) com rótulo ainda imaturo
+    actions: [{code: A4, mode: auto}, {code: A3, mode: human}]
+  - id: P08
+    when: {batch_min_level: 3}
+    situation: SEV-3 sem diagnóstico que a explique
+    actions: [{code: A9, mode: human}, {code: A1, mode: auto}]
+  - id: P09
+    when: {diagnosis: [D1, D4]}
+    situation: Drift benigno ou só de entrada (L3 estável)
+    actions: [{code: A0, mode: auto}]
+  - id: P00
+    when: {}
+    situation: Sem alerta
+    actions: [{code: A0, mode: auto}]
+
+actions:                    # catálogo §8.5
+  A0: Registrar
+  A1: Alertar
+  A2: Quarentena (lote retido para revisão)
+  A3: Abrir incidente e análise causal
+  A4: Modo conservador (circuit breaker)
+  A5: Recalibrar na janela recente madura
+  A6: Treinar challenger e rodar em sombra
+  A7: Promover challenger (gate GR-5)
+  A8: Rollback do champion (GR-6)
+  A9: Suspender decisão automática (kill switch)
