@@ -52,7 +52,7 @@ Números por lote em `docs/evidence/drift/<cenário>.json`; RUNs na tabela acima
 
 **S2 — concept drift.**
 - **Detecção:** entradas e score nunca alertam. A L4 acusa no lote 8, um atraso de 5 lotes: 3 de rótulo e 2 de rampa até o efeito ficar visível.
-- **Diagnóstico:** D3 em 5 de 5 lotes. O descolamento observado/esperado se concentra em `dti` (amplitude de 0,81 a 1,04 em logit, contra o corte de 0,5), que é exatamente o segmento injetado. O detector aponta onde está o problema sem ver o manifesto.
+- **Diagnóstico:** D3 em 4 de 4 lotes (do 8 ao 11). O descolamento observado/esperado se concentra em `dti` (amplitude de 0,81 a 1,04 em logit, contra o corte de 0,5), que é exatamente o segmento injetado. O detector aponta onde está o problema sem ver o manifesto.
 
 **S3 — prior shift.**
 - **Detecção:** a L4 acusa no lote 7, ou seja, o início (lote 4) mais o atraso de rótulo (3), o mínimo possível.
