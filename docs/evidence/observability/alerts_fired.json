@@ -1,0 +1,100 @@
+{
+  "window_minutes": 45,
+  "alerts": [
+    {
+      "alertname": "CDM_MONITOR_STALE",
+      "severity": "SEV-3",
+      "scenario": ""
+    },
+    {
+      "alertname": "CDM_FEATURE_DRIFT",
+      "severity": "SEV-1",
+      "scenario": "S1"
+    },
+    {
+      "alertname": "CDM_FEATURE_DRIFT",
+      "severity": "SEV-2",
+      "scenario": "S1"
+    },
+    {
+      "alertname": "CDM_SCORE_DRIFT",
+      "severity": "SEV-1",
+      "scenario": "S1"
+    },
+    {
+      "alertname": "CDM_BAD_RATE_RATIO",
+      "severity": "SEV-2",
+      "scenario": "S2"
+    },
+    {
+      "alertname": "CDM_BAD_RATE_RATIO",
+      "severity": "SEV-2",
+      "scenario": "S3"
+    },
+    {
+      "alertname": "CDM_APPROVAL_SHIFT",
+      "severity": "SEV-1",
+      "scenario": "S4"
+    },
+    {
+      "alertname": "CDM_AUC_DROP",
+      "severity": "SEV-1",
+      "scenario": "S4"
+    },
+    {
+      "alertname": "CDM_AUC_DROP",
+      "severity": "SEV-2",
+      "scenario": "S4"
+    },
+    {
+      "alertname": "CDM_BAD_RATE_RATIO",
+      "severity": "SEV-2",
+      "scenario": "S4"
+    },
+    {
+      "alertname": "CDM_FEATURE_DRIFT",
+      "severity": "SEV-2",
+      "scenario": "S4"
+    },
+    {
+      "alertname": "CDM_SCORE_DRIFT",
+      "severity": "SEV-1",
+      "scenario": "S4"
+    },
+    {
+      "alertname": "CDM_UNIT_BUG_SUSPECTED",
+      "severity": "SEV-2",
+      "scenario": "S4"
+    },
+    {
+      "alertname": "CDM_AUC_DROP",
+      "severity": "SEV-1",
+      "scenario": "S5"
+    },
+    {
+      "alertname": "CDM_BAD_RATE_RATIO",
+      "severity": "SEV-1",
+      "scenario": "S5"
+    },
+    {
+      "alertname": "CDM_BAD_RATE_RATIO",
+      "severity": "SEV-2",
+      "scenario": "S5"
+    },
+    {
+      "alertname": "CDM_FEATURE_DRIFT",
+      "severity": "SEV-1",
+      "scenario": "S5"
+    },
+    {
+      "alertname": "CDM_FEATURE_DRIFT",
+      "severity": "SEV-2",
+      "scenario": "S5"
+    },
+    {
+      "alertname": "CDM_SOFT_RULES",
+      "severity": "SEV-1",
+      "scenario": "S5"
+    }
+  ]
+}
