@@ -96,9 +96,10 @@ def _breaker_open(breaker: BreakerState, state: dict, period: Period, policy: Po
 
 
 def value_decider(champion: Any, base: float, cost: CostConfig, policy: PolicyConfig,
-                  forced: bool = False) -> Decider:  # fmt: skip
+                  forced: bool = False, correct: bool = True) -> Decider:  # fmt: skip
     """Conservative mode by value (ADR-0019): what the champion approves with a non-positive
-    expected value under the corrected risk goes to review."""
+    expected value under the corrected risk goes to review. ``correct=False`` keeps k = 1, to
+    separate the effect of the per-loan rule from the effect of the risk correction."""
     breaker, state = BreakerState(), {"ratio": None}
 
     def fn(period: Period, k: int):
@@ -106,7 +107,8 @@ def value_decider(champion: Any, base: float, cost: CostConfig, policy: PolicyCo
         if not _breaker_open(breaker, state, period, policy, k, forced):
             return p < base, np.zeros(len(p), bool)
         gain, loss = loan_economics(period.frame, cost)
-        neg = negative_value(p, gain, loss, risk_correction(state["ratio"], policy.conservative))
+        factor = risk_correction(state["ratio"], policy.conservative) if correct else 1.0
+        neg = negative_value(p, gain, loss, factor)
         return (p < base) & ~neg, (p < base) & neg
 
     return fn

@@ -93,6 +93,8 @@ def strategies(setup: dict, ctx: dict) -> dict:
         "não fazer nada": cmp.threshold_decider(champ, base),
         "modo conservador por valor (política)": cmp.value_decider(champ, base, cost, policy),
         "modo conservador por valor, forçado": cmp.value_decider(champ, base, cost, policy, True),
+        "regra por valor sem correção, forçada": cmp.value_decider(champ, base, cost, policy, True,
+                                                                   correct=False),
         "teto de 14% (descartado, ADR-0019)": cmp.cap_decider(champ, base, appetite, policy),
         "recalibrar (A5)": cmp.threshold_decider(recal, base, start=1, fallback=champ),
         "retreinar com gate (A6+GR-5)": cmp.threshold_decider(promoted, base, 1, champ),

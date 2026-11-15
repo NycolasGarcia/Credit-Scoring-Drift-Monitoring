@@ -8,9 +8,11 @@ from src.reporting.run_record import RunRecord
 DOC = PROJECT_ROOT / "docs" / "RESPONSE_EVALUATION.md"
 NOTES = PROJECT_ROOT / "docs" / "response_notes.md"
 HEAD = (
-    "| Estratégia | Valor (US$ mil) | Δ vs. não fazer nada (US$ mil) | Valor por proposta "
-    "(US$) | Aprovação | Revisão | Bad rate dos aprovados |\n|---|---|---|---|---|---|---|"
+    "| Estratégia | Valor, revisão perdida (US$ mil) | Δ vs. não fazer nada (US$ mil) | Valor, "
+    "revisão decidida depois (US$ mil) | Valor por proposta (US$) | Aprovação | Revisão | "
+    "Bad rate dos aprovados |\n|---|---|---|---|---|---|---|---|"
 )
+POLICY_STRATEGY = "modo conservador por valor (política)"
 INTRO = (
     "Cada estratégia decide os lotes a partir do ponto de decisão, o primeiro lote em que a "
     "matriz de resposta pede mais do que registrar. O valor usa o desfecho realizado da "
@@ -36,7 +38,8 @@ def _pct(v: float) -> str:
 
 def _row(r: dict[str, Any]) -> str:
     return (f"| {r['strategy']} | {_k(r['value'])} | {_k(r['delta_vs_nothing'])} | "
-            f"{r['value_per_app']:.0f} | {_pct(r['approval_rate'])} | {_pct(r['review_rate'])} | "
+            f"{_k(r['value_review_recovered'])} | {r['value_per_app']:.0f} | "
+            f"{_pct(r['approval_rate'])} | {_pct(r['review_rate'])} | "
             f"{_pct(r['bad_rate_approved'])} |")  # fmt: skip
 
 
@@ -81,11 +84,13 @@ def compare_record(results: list[dict[str, Any]], run_id: str, git: tuple[str, b
     """RUN record (kind ``response``): value of each strategy per scenario, in US$ thousand."""
     metrics = {s["scenario"]: {r["strategy"]: round(r["value"] / 1000, 1) for r in s["rows"]}
                for s in results}  # fmt: skip
-    best = {s["scenario"]: max(s["rows"], key=lambda r: r["value"])["strategy"] for s in results}
+    policy = {s["scenario"]: next(r for r in s["rows"] if r["strategy"] == POLICY_STRATEGY)
+              for s in results}  # fmt: skip
+    deltas = "; ".join(f"{k}: {_k(v['delta_vs_nothing'])}" for k, v in policy.items())
     return RunRecord(
         run_id=run_id, kind="response", scenario="ALL", seed=0, data_hash="—",
         model="champion", mlflow_ref="—", metrics=metrics, sha=git[0], dirty=git[1],
-        verdict="melhor estratégia por cenário: " + "; ".join(f"{k}: {v}" for k, v in best.items()),
+        verdict=f"política (modo conservador por valor) vs. não fazer nada, US$ mil — {deltas}",
         artifacts=["docs/evidence/response/compare.json", "docs/RESPONSE_EVALUATION.md"],
         notes=["Valores em US$ mil, somados do ponto de decisão ao último lote."],
     )  # fmt: skip
