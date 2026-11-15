@@ -48,6 +48,8 @@ Documentos previstos para fases seguintes: `RESPONSE_EVALUATION.md`, `CAUSAL_ANA
 | [0010](adr/0010-observability-stack.md) | Stack de observabilidade: Pushgateway, Prometheus, Grafana como código, replay em tempo real | aceito |
 | [0011](adr/0011-severity-alert-policy.md) | Severidade e política de alertas: uma fonte para os cortes, dead man's switch | aceito |
 | [0012](adr/0012-guardrails-conservative-mode.md) | Guardrails e modo conservador: matriz declarativa, breaker com histerese, faixa cinza para revisão | aceito |
+| [0013](adr/0013-retraining-gate-rollback.md) | Recalibração e retreino em janela recente, travas GR-7/GR-8, gate GR-5, rollback por aliases | aceito |
 | [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas, funding e apetite de risco | aceito |
 | [0017](adr/0017-scenario-simulator.md) | Desenho do simulador de cenários: amostragem, rótulo por oráculo, atraso de rótulo, S4 parcial | aceito |
 | [0018](adr/0018-l4-sev2-cut.md) | Corte de SEV-2 da razão observado/esperado: 1,25 por regra nula declarada antes, validado em variantes novas | aceito |
+| [0019](adr/0019-conservative-mode-by-value.md) | Modo conservador por valor esperado com risco corrigido (supersede o item 3 do 0012) | aceito |
