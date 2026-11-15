@@ -1,6 +1,6 @@
 # ADR-0016 — Premissas de custo empíricas e revisão do limiar de aprovação
 
-- **Status:** aceito em 2026-11-13 (opções B + D, decisão do autor) — supersede o ADR-0007
+- **Status:** aceito em 2026-11-13 (opções B + D, decisão do autor) — supersede o ADR-0007. Uso da opção D (teto de 14%) como corte do modo conservador supersedido pelo [ADR-0019](0019-conservative-mode-by-value.md); o teto segue como métrica de acompanhamento
 - **Data:** 2026-11-13
 - **Fase:** pós-F2 (antes de F7)
 

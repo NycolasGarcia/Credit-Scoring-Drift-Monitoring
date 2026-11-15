@@ -1,6 +1,6 @@
 # ADR-0012 — Guardrails e modo conservador
 
-- **Status:** aceito (parâmetros PROPOSTO; revisados pela comparação de custo da F7)
+- **Status:** aceito; **item 3 (limiar pelo teto de 14%) supersedido pelo [ADR-0019](0019-conservative-mode-by-value.md)** em 2026-11-15, depois que a comparação de custo disparou o sinal de reversão deste ADR
 - **Data:** 2026-11-15
 - **Fase:** F7
 
