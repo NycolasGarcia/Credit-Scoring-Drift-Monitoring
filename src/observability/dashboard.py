@@ -55,12 +55,12 @@ def header_panels() -> list[dict[str, Any]]:
         panel("Lote", "stat", (0, 0, 4, 4), [_target(f"cdm_batch_index{{{SEL}}}")]),
         panel("Mês do lote", "stat", (4, 0, 5, 4),
               [_target(f"cdm_batch_info{{{SEL}}}", "{{issue_month}}", instant=True)],
-              options={"textMode": "name", "colorMode": "none"}),
+              options={"textMode": "name", "colorMode": "none", "text": {"valueSize": 34}}),
         panel("Severidade do lote", "stat", (9, 0, 5, 4), [_target(f"cdm_batch_severity{{{SEL}}}")],
               defaults=sev),
         panel("Diagnóstico", "stat", (14, 0, 5, 4),
               [_target(f"cdm_diagnosis{{{SEL}}} == 1", "{{code}}", instant=True)],
-              options={"textMode": "name", "colorMode": "none"}),
+              options={"textMode": "name", "colorMode": "none", "text": {"valueSize": 34}}),
         panel("Segundos desde o último lote concluído", "stat", (19, 0, 5, 4),
               [_target(f"time() - max(cdm_last_success_timestamp_seconds{{{SEL}}})")],
               defaults={**_thresholds([{"color": "green", "value": None},
@@ -101,8 +101,9 @@ def body_panels() -> list[dict[str, Any]]:
               [_target(f"cdm_signal_severity{{{SEL}}}", "{{signal}}")],
               defaults={**_thresholds(SEV_COLORS), "min": 0, "max": 3}, options=hist),
         panel("Alertas disparados (Prometheus)", "state-timeline", (0, 39, 24, 8),
-              [_target(f'max by (alertname, severity) (ALERTS{{alertstate="firing",{SEL}}})',
-                       "{{alertname}} {{severity}}")],
+              [_target("max by (scenario, alertname, severity) "
+                       f'(ALERTS{{alertstate="firing",{SEL}}})',
+                       "{{scenario}} {{alertname}} {{severity}}")],
               defaults={"mappings": [{"type": "value", "options": {"1": {"text": "disparado"}}}],
                         "color": {"mode": "fixed", "fixedColor": "red"}},
               overrides=severity_overrides(),
@@ -118,7 +119,7 @@ def dashboard() -> dict[str, Any]:
         p["id"] = i
     variable = {"name": "scenario", "type": "query", "datasource": DS, "refresh": 2,
                 "query": {"query": "label_values(cdm_batch_index, scenario)", "refId": "V"},
-                "includeAll": True, "multi": False, "current": {}}  # fmt: skip
+                "includeAll": True, "allValue": ".*", "multi": False, "current": {}}  # fmt: skip
     return {"uid": "cdm-monitoring", "title": "Credit Scoring — saúde do modelo e dos dados",
             "tags": ["cdm"], "timezone": "browser", "schemaVersion": 41, "version": 1,
             "refresh": "5s", "time": {"from": "now-20m", "to": "now"},

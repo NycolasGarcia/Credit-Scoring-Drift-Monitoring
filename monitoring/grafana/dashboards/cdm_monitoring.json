@@ -27,6 +27,7 @@
           "refId": "V"
         },
         "includeAll": true,
+        "allValue": ".*",
         "multi": false,
         "current": {}
       }
@@ -98,7 +99,10 @@
       },
       "options": {
         "textMode": "name",
-        "colorMode": "none"
+        "colorMode": "none",
+        "text": {
+          "valueSize": 34
+        }
       },
       "id": 2
     },
@@ -194,7 +198,10 @@
       },
       "options": {
         "textMode": "name",
-        "colorMode": "none"
+        "colorMode": "none",
+        "text": {
+          "valueSize": 34
+        }
       },
       "id": 4
     },
@@ -615,8 +622,8 @@
             "type": "prometheus",
             "uid": "cdm-prom"
           },
-          "expr": "max by (alertname, severity) (ALERTS{alertstate=\"firing\",scenario=~\"$scenario\"})",
-          "legendFormat": "{{alertname}} {{severity}}",
+          "expr": "max by (scenario, alertname, severity) (ALERTS{alertstate=\"firing\",scenario=~\"$scenario\"})",
+          "legendFormat": "{{scenario}} {{alertname}} {{severity}}",
           "refId": "A"
         }
       ],
