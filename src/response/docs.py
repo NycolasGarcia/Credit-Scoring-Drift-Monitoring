@@ -98,6 +98,33 @@ def compare_record(results: list[dict[str, Any]], run_id: str, git: tuple[str, b
     )  # fmt: skip
 
 
+def drill_record(body: dict[str, Any], run_id: str, git: tuple[str, bool]) -> RunRecord:
+    """RUN record of the shadow evaluation and the promotion/rollback drill."""
+    passed = [r["batch"] for r in body["shadow"] if r.get("gate_passed")]
+    d = body["drill"]
+    gate = f"aprovado no lote {passed[0]}" if passed else "nunca aprovado"
+    verdict = (f"gate na sombra: {gate}"
+               f" · rollback restaurou o anterior: {d['rollback_restored_previous']}"
+               f" · rollback reversível: {d['rollback_reversible']}")  # fmt: skip
+    metrics = {f"lote {r['batch']}": {k: round(v, 4) for k, v in r["matured"].items()}
+               for r in body["shadow"] if "matured" in r}  # fmt: skip
+    return RunRecord(
+        run_id=run_id,
+        kind="response",
+        scenario="DRILL",
+        seed=0,
+        data_hash="—",
+        model=f"{d['model']} (ensaio)",
+        mlflow_ref="experimento `response`",
+        metrics=metrics,
+        verdict=verdict,
+        sha=git[0],
+        dirty=git[1],
+        artifacts=["docs/evidence/response/shadow_drill.json"],
+        extra={"cenário": body["scenario"], "challenger treinado no lote": body["trained_at"]},
+    )
+
+
 def main() -> None:
     """Regenerate the document from the committed evidence (after editing the notes)."""
     body = json.loads(EVIDENCE.read_text(encoding="utf-8"))

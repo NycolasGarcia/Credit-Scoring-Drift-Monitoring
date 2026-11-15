@@ -15,7 +15,7 @@ endef
 
 .PHONY: help setup lint format test data inventory eda cost train validate validate-bad contracts-d6 \
         contracts-doc simulate calibrate detect sweep-l4 drift-docs alerts check-rules screenshots monitor \
-        replay report rollback respond-compare stack-up stack-down stack-status publish-check publish-check-all \
+        replay report rollback respond-compare respond-drill stack-up stack-down stack-status publish-check publish-check-all \
         publish-check-history
 
 help:
@@ -25,7 +25,7 @@ help:
 	@echo contracts: validate validate-bad contracts-d6 contracts-doc
 	@echo monitor: simulate calibrate detect sweep-l4 drift-docs monitor replay rollback
 	@echo alerts:  alerts check-rules screenshots
-	@echo respond: respond-compare rollback
+	@echo respond: respond-compare respond-drill rollback
 	@echo stack:   stack-up stack-down stack-status
 	@echo publish: publish-check publish-check-all publish-check-history
 
@@ -121,6 +121,9 @@ rollback:
 
 respond-compare:
 	$(RUN) python -m src.response.cli compare
+
+respond-drill:
+	$(RUN) python -m src.response.cli drill
 
 stack-up:
 	docker compose up -d

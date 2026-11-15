@@ -18,7 +18,7 @@ from src.models.settings import load_cost_config, load_training_config
 from src.monitoring.cli import champion, load_batches
 from src.reporting.run_record import git_state, next_run_id, write_record
 from src.response import compare as cmp
-from src.response import docs
+from src.response import docs, shadow
 from src.response.gate import evaluate_gate
 from src.response.lifecycle import (
     BatchView,
@@ -149,14 +149,39 @@ def reference_test() -> pd.DataFrame:
     return internal_split(load_partition("reference"), load_training_config())["test"]
 
 
-def run_compare(git: tuple[str, bool]) -> None:
-    """Compare responses on every scenario with known outcomes; write evidence and a RUN record."""
+def context() -> dict[str, Any]:
+    """Champion, configs and the reference test shared by compare and drill."""
     cost = load_cost_config()
     profile = json.loads((PROJECT_ROOT / "models" / "reference_profile.json").read_text("utf-8"))
-    ctx = {"champ": champion(), "base": profile["threshold"], "cfg": load_lifecycle(),
-           "policy": load_policy(), "appetite": cost.risk_appetite.max_bad_rate_approved,
-           "cost": cost, "profile": profile,
-           "ref_test": reference_test()}  # fmt: skip
+    return {"champ": champion(), "base": profile["threshold"], "cfg": load_lifecycle(),
+            "policy": load_policy(), "appetite": cost.risk_appetite.max_bad_rate_approved,
+            "cost": cost, "profile": profile, "ref_test": reference_test()}  # fmt: skip
+
+
+def run_drill(git: tuple[str, bool], sid: str = "S2") -> None:
+    """Shadow the decision-point challenger, then drill promotion and rollback (GR-5, GR-6)."""
+    ctx = context()
+    setup = scenario_setup(sid, ctx["policy"])
+    challenger, _ = train_challenger(
+        challenger_rows(setup["views"], setup["t_d"], ctx["cfg"]), ctx["cfg"]
+    )
+    timeline = shadow.shadow_timeline(setup["batches"], setup["t_d"], ctx["champ"], challenger, ctx)
+    setup_tracking("response")
+    trusted = load_training_config().skops_trusted_types
+    body = {"scenario": sid, "trained_at": setup["t_d"], "shadow": timeline,
+            "drill": shadow.drill(ctx["champ"], challenger, ctx["cfg"], trusted)}  # fmt: skip
+    json.dumps(body, allow_nan=False)
+    run_id = write_record(docs.drill_record(body, next_run_id("response", "DRILL"), git)).stem
+    EVIDENCE.mkdir(parents=True, exist_ok=True)
+    out = {"run_id": run_id, **body}
+    (EVIDENCE / "shadow_drill.json").write_text(
+        json.dumps(out, indent=2, ensure_ascii=False), "utf-8"
+    )
+
+
+def run_compare(git: tuple[str, bool]) -> None:
+    """Compare responses on every scenario with known outcomes; write evidence and a RUN record."""
+    ctx = context()
     results = [compare_scenario(s, ctx) for s in SCENARIOS]
     json.dumps(results, allow_nan=False)
     rec = docs.compare_record(results, next_run_id("response", "ALL"), git)
@@ -171,7 +196,7 @@ def main(argv: list[str] | None = None) -> int:
     """Entry point."""
     configure_logging()
     p = argparse.ArgumentParser(description="Response comparison and rollback.")
-    p.add_argument("command", choices=["compare", "rollback"])
+    p.add_argument("command", choices=["compare", "drill", "rollback"])
     p.add_argument("--registry", default=load_training_config().registry_model_name)
     args = p.parse_args(argv)
     if args.command == "rollback":
@@ -179,7 +204,7 @@ def main(argv: list[str] | None = None) -> int:
         aliases = rollback(args.registry, load_lifecycle().registry["previous_alias"])
         logger.info("rollback", extra={"registry": args.registry, **aliases})
         return 0
-    run_compare(git_state())
+    (run_drill if args.command == "drill" else run_compare)(git_state())
     return 0
 
 
