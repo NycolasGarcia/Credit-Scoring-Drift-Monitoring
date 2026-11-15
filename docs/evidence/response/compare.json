@@ -1,5 +1,5 @@
 {
-  "run_id": "RUN-20261115-response-ALL-01",
+  "run_id": "RUN-20261115-response-ALL-02",
   "scenarios": [
     {
       "scenario": "S1",
@@ -141,7 +141,7 @@
         "A7"
       ],
       "gate": {
-        "passed": false,
+        "passed": true,
         "checks": {
           "auc_gain_recent": {
             "value": 0.005434,
@@ -155,8 +155,8 @@
           },
           "calibration_gap_pp": {
             "value": 1.553165,
-            "limit": 1.0,
-            "passed": false
+            "limit": 4.656467498050451,
+            "passed": true
           },
           "fairness_gap_increase_pp": {
             "value": 1.280975,
@@ -234,13 +234,13 @@
         },
         {
           "strategy": "retreinar com gate (A6+GR-5)",
-          "value": 10099924.328724818,
-          "value_per_app": 421.02314930696645,
-          "approval_rate": 0.997748968277127,
+          "value": 10709018.616407927,
+          "value_per_app": 446.4137153031776,
+          "approval_rate": 0.982825461669932,
           "review_rate": 0.0,
-          "bad_rate_approved": 0.20998537706287862,
-          "delta_vs_nothing": 0.0,
-          "value_review_recovered": 10099924.328724818
+          "bad_rate_approved": 0.2039699707341901,
+          "delta_vs_nothing": 609094.2876831088,
+          "value_review_recovered": 10709018.616407927
         },
         {
           "strategy": "retreinar sem gate",
@@ -282,8 +282,8 @@
           },
           "calibration_gap_pp": {
             "value": 5.196834,
-            "limit": 1.0,
-            "passed": false
+            "limit": 7.889012637152063,
+            "passed": true
           },
           "fairness_gap_increase_pp": {
             "value": 0.179468,

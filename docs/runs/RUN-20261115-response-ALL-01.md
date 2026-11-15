@@ -40,3 +40,4 @@ política (modo conservador por valor) vs. não fazer nada, US$ mil — S1: 0,0;
 ## Observações
 
 - Valores em US$ mil, somados do ponto de decisão ao último lote.
+- Substituído por [RUN-20261115-response-ALL-02](RUN-20261115-response-ALL-02.md): o gate passou a exigir calibração relativa ao champion (ADR-0020); só a linha "retreinar com gate" do S2 muda.
