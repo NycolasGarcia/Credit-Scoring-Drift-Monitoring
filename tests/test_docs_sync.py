@@ -45,18 +45,25 @@ def test_scenarios_doc_lists_every_configured_scenario() -> None:
 
 def test_thresholds_doc_is_in_sync() -> None:
     calib = docs._load(docs.EVIDENCE / "calibration_S0.json")
-    expected = docs.render_thresholds(load_monitoring_config(), calib)
+    sweep = docs._load(docs.EVIDENCE / "l4_cut_sweep.json")
+    expected = docs.render_thresholds(load_monitoring_config(), calib, sweep)
     assert docs.THRESHOLDS_DOC.read_text(encoding="utf-8") == expected
 
 
 def test_calibrated_thresholds_match_calibration_evidence() -> None:
     calib = docs._load(docs.EVIDENCE / "calibration_S0.json")
+    sweep = docs._load(docs.EVIDENCE / "l4_cut_sweep.json")
     for th in load_monitoring_config().thresholds:
         if th.status != "CALIBRADO":
             continue
         cut = calib["signals"][th.signal]
-        assert th.calibration_run == calib["run_id"]
-        assert (th.sev1, th.sev2, th.sev3) == (cut["sev1"], cut.get("sev2"), cut.get("sev3"))
+        expected = (cut["sev1"], cut.get("sev2"), cut.get("sev3"))
+        if th.calibration_run == sweep["run_id"]:  # SEV-2 of the L4 ratio comes from the sweep
+            assert th.signal == "bad_rate_ratio"
+            expected = (cut["sev1"], sweep["chosen"], cut.get("sev3"))
+        else:
+            assert th.calibration_run == calib["run_id"]
+        assert (th.sev1, th.sev2, th.sev3) == expected
 
 
 def test_drift_evaluation_doc_is_in_sync() -> None:

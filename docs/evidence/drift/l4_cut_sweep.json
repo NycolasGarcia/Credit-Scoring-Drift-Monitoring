@@ -1,0 +1,514 @@
+{
+  "run_id": "RUN-20261115-calib-L4CUT-01",
+  "rule": {
+    "max_null_alarm": 0.0,
+    "min_margin": 0.1
+  },
+  "cuts": [
+    1.25,
+    1.3,
+    1.35,
+    1.4,
+    1.45,
+    1.5
+  ],
+  "chosen": 1.25,
+  "null": {
+    "6000": {
+      "max": 1.1030231567161923,
+      "q99": 1.0686951959153463,
+      "alarm": {
+        "1.25": 0.0,
+        "1.3": 0.0,
+        "1.35": 0.0,
+        "1.4": 0.0,
+        "1.45": 0.0,
+        "1.5": 0.0
+      }
+    },
+    "2000": {
+      "max": 1.191759432172989,
+      "q99": 1.1312786030045738,
+      "alarm": {
+        "1.25": 0.0,
+        "1.3": 0.0,
+        "1.35": 0.0,
+        "1.4": 0.0,
+        "1.45": 0.0,
+        "1.5": 0.0
+      }
+    }
+  },
+  "detection": [
+    {
+      "cut": 1.25,
+      "family": "S2 delta=0.5",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.25,
+      "family": "S2 delta=1.0",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 5.0
+    },
+    {
+      "cut": 1.25,
+      "family": "S2 delta=1.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 5.0
+    },
+    {
+      "cut": 1.25,
+      "family": "S3 delta=0.25",
+      "detected": 2,
+      "variants": 3,
+      "median_delay": 5.5
+    },
+    {
+      "cut": 1.25,
+      "family": "S3 delta=0.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.25,
+      "family": "S3 delta=0.75",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.3,
+      "family": "S2 delta=0.5",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.3,
+      "family": "S2 delta=1.0",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 6.0
+    },
+    {
+      "cut": 1.3,
+      "family": "S2 delta=1.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 5.0
+    },
+    {
+      "cut": 1.3,
+      "family": "S3 delta=0.25",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.3,
+      "family": "S3 delta=0.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.3,
+      "family": "S3 delta=0.75",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.35,
+      "family": "S2 delta=0.5",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.35,
+      "family": "S2 delta=1.0",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 7.0
+    },
+    {
+      "cut": 1.35,
+      "family": "S2 delta=1.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 5.0
+    },
+    {
+      "cut": 1.35,
+      "family": "S3 delta=0.25",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.35,
+      "family": "S3 delta=0.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.35,
+      "family": "S3 delta=0.75",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.4,
+      "family": "S2 delta=0.5",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.4,
+      "family": "S2 delta=1.0",
+      "detected": 1,
+      "variants": 3,
+      "median_delay": 8.0
+    },
+    {
+      "cut": 1.4,
+      "family": "S2 delta=1.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 5.0
+    },
+    {
+      "cut": 1.4,
+      "family": "S3 delta=0.25",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.4,
+      "family": "S3 delta=0.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.4,
+      "family": "S3 delta=0.75",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.45,
+      "family": "S2 delta=0.5",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.45,
+      "family": "S2 delta=1.0",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.45,
+      "family": "S2 delta=1.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 6.0
+    },
+    {
+      "cut": 1.45,
+      "family": "S3 delta=0.25",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.45,
+      "family": "S3 delta=0.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 4.0
+    },
+    {
+      "cut": 1.45,
+      "family": "S3 delta=0.75",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    },
+    {
+      "cut": 1.5,
+      "family": "S2 delta=0.5",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.5,
+      "family": "S2 delta=1.0",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.5,
+      "family": "S2 delta=1.5",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 6.0
+    },
+    {
+      "cut": 1.5,
+      "family": "S3 delta=0.25",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.5,
+      "family": "S3 delta=0.5",
+      "detected": 0,
+      "variants": 3,
+      "median_delay": null
+    },
+    {
+      "cut": 1.5,
+      "family": "S3 delta=0.75",
+      "detected": 3,
+      "variants": 3,
+      "median_delay": 3.0
+    }
+  ],
+  "side_effects": [
+    {
+      "scenario": "S0",
+      "cut": 1.25,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S0",
+      "cut": 1.3,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S0",
+      "cut": 1.35,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S0",
+      "cut": 1.4,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S0",
+      "cut": 1.45,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S0",
+      "cut": 1.5,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S1",
+      "cut": 1.25,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S1",
+      "cut": 1.3,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S1",
+      "cut": 1.35,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S1",
+      "cut": 1.4,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S1",
+      "cut": 1.45,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S1",
+      "cut": 1.5,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S2",
+      "cut": 1.25,
+      "batches_with_l4": 9,
+      "batches_at_cut": 4
+    },
+    {
+      "scenario": "S2",
+      "cut": 1.3,
+      "batches_with_l4": 9,
+      "batches_at_cut": 2
+    },
+    {
+      "scenario": "S2",
+      "cut": 1.35,
+      "batches_with_l4": 9,
+      "batches_at_cut": 2
+    },
+    {
+      "scenario": "S2",
+      "cut": 1.4,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S2",
+      "cut": 1.45,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S2",
+      "cut": 1.5,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S3",
+      "cut": 1.25,
+      "batches_with_l4": 9,
+      "batches_at_cut": 5
+    },
+    {
+      "scenario": "S3",
+      "cut": 1.3,
+      "batches_with_l4": 9,
+      "batches_at_cut": 5
+    },
+    {
+      "scenario": "S3",
+      "cut": 1.35,
+      "batches_with_l4": 9,
+      "batches_at_cut": 5
+    },
+    {
+      "scenario": "S3",
+      "cut": 1.4,
+      "batches_with_l4": 9,
+      "batches_at_cut": 5
+    },
+    {
+      "scenario": "S3",
+      "cut": 1.45,
+      "batches_with_l4": 9,
+      "batches_at_cut": 3
+    },
+    {
+      "scenario": "S3",
+      "cut": 1.5,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S4",
+      "cut": 1.25,
+      "batches_with_l4": 9,
+      "batches_at_cut": 4
+    },
+    {
+      "scenario": "S4",
+      "cut": 1.3,
+      "batches_with_l4": 9,
+      "batches_at_cut": 4
+    },
+    {
+      "scenario": "S4",
+      "cut": 1.35,
+      "batches_with_l4": 9,
+      "batches_at_cut": 3
+    },
+    {
+      "scenario": "S4",
+      "cut": 1.4,
+      "batches_with_l4": 9,
+      "batches_at_cut": 1
+    },
+    {
+      "scenario": "S4",
+      "cut": 1.45,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S4",
+      "cut": 1.5,
+      "batches_with_l4": 9,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S5",
+      "cut": 1.25,
+      "batches_with_l4": 24,
+      "batches_at_cut": 9
+    },
+    {
+      "scenario": "S5",
+      "cut": 1.3,
+      "batches_with_l4": 24,
+      "batches_at_cut": 4
+    },
+    {
+      "scenario": "S5",
+      "cut": 1.35,
+      "batches_with_l4": 24,
+      "batches_at_cut": 1
+    },
+    {
+      "scenario": "S5",
+      "cut": 1.4,
+      "batches_with_l4": 24,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S5",
+      "cut": 1.45,
+      "batches_with_l4": 24,
+      "batches_at_cut": 0
+    },
+    {
+      "scenario": "S5",
+      "cut": 1.5,
+      "batches_with_l4": 24,
+      "batches_at_cut": 0
+    }
+  ]
+}

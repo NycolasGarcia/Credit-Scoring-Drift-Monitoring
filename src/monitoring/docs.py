@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from src.config import PROJECT_ROOT
+from src.monitoring.l4_sweep import sweep_markdown
 from src.monitoring.settings import MonitoringConfig, load_monitoring_config
 
 DOCS = PROJECT_ROOT / "docs"
@@ -111,7 +112,9 @@ def _d6_text(cfg: MonitoringConfig) -> str:
     )
 
 
-def render_thresholds(cfg: MonitoringConfig, calib: dict[str, Any] | None) -> str:
+def render_thresholds(
+    cfg: MonitoringConfig, calib: dict[str, Any] | None, sweep: dict[str, Any] | None = None
+) -> str:
     """THRESHOLDS.md body."""
     fa = cfg.false_alarm_target
     intro = (
@@ -121,9 +124,14 @@ def render_thresholds(cfg: MonitoringConfig, calib: dict[str, Any] | None) -> st
         f"= top-{cfg.top_k_features} da importância por permutação.\n"
     )
     calib_rows = _calibration_rows(calib) if calib else ["<pendente — `make calibrate`>"]
+    sweep_rows = (
+        ["\n## SEV-2 do bad rate observado/esperado (ADR-0018)\n", *sweep_markdown(sweep)]
+        if sweep
+        else []
+    )
     lines = [
         "# Limiares do monitoramento\n", HEADER, intro, "## Limiares vigentes\n",
-        *_current_rows(cfg), "\n## Calibração no controle (S0)\n", *calib_rows,
+        *_current_rows(cfg), "\n## Calibração no controle (S0)\n", *calib_rows, *sweep_rows,
         "\n## Racional\n", *[f"- **{t.id}** — {t.rationale}" for t in cfg.thresholds],
         "\n## Assinatura de bug de unidade (D6)\n", _d6_text(cfg), *_notes(THRESHOLDS_DOC),
     ]  # fmt: skip
@@ -184,8 +192,8 @@ def evidence_by_scenario() -> dict[str, dict[str, Any]]:
 def main() -> None:
     """Write both documents."""
     cfg = load_monitoring_config()
-    calib = _load(EVIDENCE / "calibration_S0.json")
-    THRESHOLDS_DOC.write_text(render_thresholds(cfg, calib), encoding="utf-8")
+    calib, sweep = _load(EVIDENCE / "calibration_S0.json"), _load(EVIDENCE / "l4_cut_sweep.json")
+    THRESHOLDS_DOC.write_text(render_thresholds(cfg, calib, sweep), encoding="utf-8")
     EVALUATION_DOC.write_text(render_evaluation(evidence_by_scenario(), cfg), encoding="utf-8")
 
 

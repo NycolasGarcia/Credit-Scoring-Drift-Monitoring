@@ -168,3 +168,22 @@ def run_variants(
                     }
                 )
     return runs
+
+
+def sweep_markdown(sweep: dict[str, Any]) -> list[str]:
+    """THRESHOLDS.md section: null alarm and fresh-variant detection per cut."""
+    fams = sorted({r["family"] for r in sweep["detection"]})
+    sizes = list(sweep["null"])
+    det = {(r["cut"], r["family"]): f"{r['detected']}/{r['variants']}" for r in sweep["detection"]}
+    head = ["Corte", *[f"Alarme nulo ({n})" for n in sizes], *fams]
+    rows = [f"| {' | '.join(head)} |", "|" + "---|" * len(head)]
+    for c in sweep["cuts"]:
+        null = [f"{100 * sweep['null'][n]['alarm'][str(c)]:.1f}%" for n in sizes]
+        rows.append(f"| {c} | {' | '.join([*null, *[det[(c, f)] for f in fams]])} |")
+    rule, run = sweep["rule"], sweep["run_id"]
+    maxima = ", ".join(f"{sweep['null'][n]['max']:.3f} ({n})" for n in sizes)
+    return [f"RUN: [{run}](runs/{run}.md). Regra declarada antes da execução: nenhum alarme "
+            f"nulo e corte ≥ máximo nulo + {rule['min_margin']}. Máximo nulo: {maxima}. "
+            f"Corte escolhido: **{sweep['chosen']}**. Colunas de variante: quantas variantes de "
+            "S2/S3 com seeds novas chegaram ao corte (validação; não participam da escolha).\n",
+            *rows]  # fmt: skip

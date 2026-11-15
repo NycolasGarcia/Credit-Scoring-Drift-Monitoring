@@ -11,7 +11,7 @@ Fonte: `config/monitoring/thresholds.yaml` (versão 1) e `docs/evidence/drift/ca
 | TH-FEAT-PSI | `feature_psi` | L2 | higher_is_worse | 0.100 | 0.250 | ≥ 3 top-k | CALIBRADO | [RUN-20261113-calib-S0-01](runs/RUN-20261113-calib-S0-01.md) |
 | TH-SCORE-PSI | `score_psi` | L3 | higher_is_worse | 0.100 | 0.250 | — | CALIBRADO | [RUN-20261113-calib-S0-01](runs/RUN-20261113-calib-S0-01.md) |
 | TH-APPROVAL | `approval_delta_pp` | L3 | two_sided | 3.000 | 7.000 | 12.000 | CALIBRADO | [RUN-20261113-calib-S0-01](runs/RUN-20261113-calib-S0-01.md) |
-| TH-BADRATE | `bad_rate_ratio` | L4 | symmetric_ratio | 1.200 | 1.500 | 2.000 | CALIBRADO | [RUN-20261113-calib-S0-01](runs/RUN-20261113-calib-S0-01.md) |
+| TH-BADRATE | `bad_rate_ratio` | L4 | symmetric_ratio | 1.200 | 1.250 | 2.000 | CALIBRADO | [RUN-20261115-calib-L4CUT-01](runs/RUN-20261115-calib-L4CUT-01.md) |
 | TH-AUC | `auc_drop` | L4 | higher_is_worse | 0.025 | 0.050 | 0.100 | CALIBRADO | [RUN-20261113-calib-S0-01](runs/RUN-20261113-calib-S0-01.md) |
 | TH-SEGMENT-GAP | `segment_gap` | L4 | higher_is_worse | 0.500 | — | — | CALIBRADO | [RUN-20261113-calib-S0-01](runs/RUN-20261113-calib-S0-01.md) |
 
@@ -29,6 +29,19 @@ RUN: [RUN-20261113-calib-S0-01](runs/RUN-20261113-calib-S0-01.md) · 500 réplic
 | `segment_gap` | 0.2812 | 0.3770 | 0.4315 | 0.5373 | 0.500 | 0.2% | 0.500 | — |
 
 Falso alarme composto (qualquer sinal): SEV-1+ 1.2% com os valores propostos → 0.2% calibrado; SEV-2+ 0.0%.
+
+## SEV-2 do bad rate observado/esperado (ADR-0018)
+
+RUN: [RUN-20261115-calib-L4CUT-01](runs/RUN-20261115-calib-L4CUT-01.md). Regra declarada antes da execução: nenhum alarme nulo e corte ≥ máximo nulo + 0.1. Máximo nulo: 1.103 (6000), 1.192 (2000). Corte escolhido: **1.25**. Colunas de variante: quantas variantes de S2/S3 com seeds novas chegaram ao corte (validação; não participam da escolha).
+
+| Corte | Alarme nulo (6000) | Alarme nulo (2000) | S2 delta=0.5 | S2 delta=1.0 | S2 delta=1.5 | S3 delta=0.25 | S3 delta=0.5 | S3 delta=0.75 |
+|---|---|---|---|---|---|---|---|---|
+| 1.25 | 0.0% | 0.0% | 0/3 | 3/3 | 3/3 | 2/3 | 3/3 | 3/3 |
+| 1.3 | 0.0% | 0.0% | 0/3 | 3/3 | 3/3 | 0/3 | 3/3 | 3/3 |
+| 1.35 | 0.0% | 0.0% | 0/3 | 3/3 | 3/3 | 0/3 | 3/3 | 3/3 |
+| 1.4 | 0.0% | 0.0% | 0/3 | 1/3 | 3/3 | 0/3 | 3/3 | 3/3 |
+| 1.45 | 0.0% | 0.0% | 0/3 | 0/3 | 3/3 | 0/3 | 3/3 | 3/3 |
+| 1.5 | 0.0% | 0.0% | 0/3 | 0/3 | 3/3 | 0/3 | 0/3 | 3/3 |
 
 ## Racional
 

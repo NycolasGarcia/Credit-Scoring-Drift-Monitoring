@@ -48,10 +48,10 @@ thresholds:
     layer: L4
     direction: symmetric_ratio   # max(r, 1/r): sub e superestimação do risco
     sev1: 1.2
-    sev2: 1.5
+    sev2: 1.25                   # era 1,5 (PROPOSTO); regra nula da varredura, ADR-0018
     sev3: 2.0
     status: CALIBRADO
-    calibration_run: RUN-20261113-calib-S0-01
+    calibration_run: RUN-20261115-calib-L4CUT-01
     rationale: Bad rate observado / esperado (média do score) na coorte com rótulo maduro.
   - id: TH-AUC
     signal: auc_drop
