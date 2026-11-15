@@ -1,0 +1,67 @@
+# Stack local de observabilidade (ADR-0010). Imagens com tag fixa, portas só em 127.0.0.1,
+# contêineres sem root, senha do Grafana vinda do .env.
+name: cdm
+
+services:
+  pushgateway:
+    image: prom/pushgateway:v1.11.1
+    user: "65534:65534"
+    ports: ["127.0.0.1:9091:9091"]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9091/-/healthy"]
+      interval: 10s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    user: "65534:65534"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=30d
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/rules:/etc/prometheus/rules:ro
+      - prometheus-data:/prometheus
+    ports: ["127.0.0.1:9090:9090"]
+    depends_on:
+      pushgateway:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9090/-/healthy"]
+      interval: 10s
+      retries: 5
+
+  grafana:
+    image: grafana/grafana:12.1.1
+    user: "472"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?defina GRAFANA_ADMIN_PASSWORD no .env}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"        # leitura sem login, só em 127.0.0.1 (ADR-0010)
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_RENDERING_SERVER_URL: http://renderer:8081/render
+      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 10s
+      retries: 10
+
+  renderer:
+    image: grafana/grafana-image-renderer:v4.0.10
+    expose: ["8081"]
+
+volumes:
+  prometheus-data:
+  grafana-data:
