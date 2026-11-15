@@ -4,7 +4,11 @@ Mudanças relevantes por fase, da mais recente para a mais antiga. Formato inspi
 
 ## [Não publicado]
 
-Nada ainda.
+### Adicionado
+- Varredura do corte SEV-2 da razão observado/esperado (`make sweep-l4`): regra de escolha declarada em `config/monitoring/l4_sweep.yaml` antes da execução, distribuição nula com seed nova e validação em variantes de S2/S3 que não participam da escolha.
+
+### Alterado
+- SEV-2 da razão observado/esperado: 1,5 → 1,25 ([ADR-0018](docs/adr/0018-l4-sev2-cut.md), RUN-20261115-calib-L4CUT-01). S2 e S3 passam a chegar a SEV-2 no primeiro alerta; detecção dos seis cenários refeita (RUN-20261115-monitor-S0-01 … S5-01).
 
 ## F5 — Detecção de drift e avaliação do detector (2026-11-13)
 

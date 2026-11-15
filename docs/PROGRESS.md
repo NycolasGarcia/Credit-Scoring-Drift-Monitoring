@@ -438,3 +438,17 @@ Entrada: F4 fechada, CI verde em `a337f7f`, travas OK, nenhum incidente aberto. 
 ### Veredito
 
 **PODE AVANÇAR para F6.**
+
+---
+
+## CHECKPOINT — F6 «Observabilidade: logs, métricas, dashboard e alertas» · abertura · 2026-11-15
+
+Entrada: F5 fechada, CI verde em `b6c6d96`, travas OK, nenhum incidente aberto. Escopo: job de monitoramento ponta a ponta com eventos por etapa, métricas via Pushgateway, Prometheus + Grafana como código, regras de alerta com dead man's switch, replay de cenários. ADRs exigidos: ADR-0010 (stack), ADR-0011 (severidade e alertas). NVs de que depende: NV-13 (replay no Prometheus), NV-14 (reuso da stack do TC3). Rubrica: R3 (14) · RO-3, RO-13, RO-14.
+
+**Decisão antes do trabalho da fase — SEV-2 da razão observado/esperado** ([ADR-0018](adr/0018-l4-sev2-cut.md)). A questão aberta na F5 (a degradação com rótulo ficava em SEV-1) foi resolvida por análise, sem ajustar o corte aos cenários de avaliação:
+
+1. **Regra declarada antes da execução** em `config/monitoring/l4_sweep.yaml`: o menor corte com 0% de alarme nulo e folga ≥ 0,10 sobre o máximo nulo.
+2. **[RUN-20261115-calib-L4CUT-01](runs/RUN-20261115-calib-L4CUT-01.md):** máximo nulo 1,103 (coortes de 6.000) e 1,192 (2.000). Corte escolhido: **1,25**, com 0% de alarme nulo nos dois tamanhos.
+3. **Validação em variantes novas** (seeds 201–203): nas intensidades oficiais de S2 e S3, a detecção em SEV-2 passa de 0/3 (corte 1,5) para 3/3 (corte 1,25). O concept drift fraco (logit +0,5) segue em SEV-1.
+4. **Detecção refeita** (RUN-20261115-monitor-S0-01 … S5-01): sinais e diagnósticos idênticos. Muda só a severidade dos lotes com L4 (S2 4 lotes, S3 5, S4 4, S5 9). S2 e S3 chegam a SEV-2 no primeiro alerta.
+5. O custo econômico de agir com esse corte é verificado na F7 (caixa 7.9), que pode rever o ADR-0018.
