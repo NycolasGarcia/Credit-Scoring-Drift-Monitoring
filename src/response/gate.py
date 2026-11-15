@@ -2,7 +2,7 @@
 
 1. beats the champion on the recent mature window (AUC);
 2. does not lose more than δ of AUC on the 2013 reference test;
-3. is calibrated on the recent window (|expected - observed| bad rate);
+3. is calibrated on the recent window, or at least not worse than the champion (ADR-0020);
 4. does not widen the approval-rate gap between groups (fairness proxy until F8).
 """
 
@@ -48,10 +48,12 @@ def evaluate_gate(
         yr, scores(challenger, reference)
     )
     calib = abs(pk.mean() - y.mean()) * 100
+    calib_champion = abs(pc.mean() - y.mean()) * 100
     seg = g["fairness_segment"]
     fair = approval_gap_pp(recent, pk, threshold, seg) - approval_gap_pp(recent, pc, threshold, seg)
     lim_gain, lim_loss = g["min_auc_gain_recent"], g["max_auc_loss_reference"]
-    lim_cal = g["max_calibration_gap_pp"]
+    # ADR-0020: calibrated, or at least not worse calibrated than the champion it replaces
+    lim_cal = max(g["max_calibration_gap_pp"], calib_champion)
     checks = {
         "auc_gain_recent": _check(gain, lim_gain, gain > lim_gain),
         "auc_loss_reference": _check(loss, lim_loss, loss <= lim_loss),

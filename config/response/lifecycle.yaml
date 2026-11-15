@@ -19,7 +19,8 @@ challenger:                 # A6: mesma receita do champion (training.yaml), dad
 gate:                       # GR-5: todas as condições precisam passar
   min_auc_gain_recent: 0.0          # supera o champion na janela recente madura
   max_auc_loss_reference: 0.01      # não piora mais que isso no teste de referência (2013)
-  max_calibration_gap_pp: 1.0       # |bad rate esperado - observado| na janela recente
+  max_calibration_gap_pp: 1.0       # |esperado - observado| na janela recente; vale o maior entre
+                                    # este valor e o gap do champion (ADR-0020)
   fairness_segment: home_ownership  # proxy até a F8 trazer as métricas de fairness completas
   max_fairness_gap_increase_pp: 3.0 # gap de aprovação entre grupos não cresce mais que isso
 

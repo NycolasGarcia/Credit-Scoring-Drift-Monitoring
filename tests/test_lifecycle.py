@@ -163,3 +163,28 @@ def test_decision_point_and_value_of_review() -> None:
     assert value["review"] > 0 and value["value_review_recovered"] == pytest.approx(
         nothing["value"]
     )
+
+
+class Scaled:
+    """Wrap a model and scale its default probability (to make it miscalibrated)."""
+
+    def __init__(self, base, factor: float) -> None:
+        self.base, self.factor = base, factor
+
+    def predict_proba(self, x: pd.DataFrame) -> np.ndarray:
+        p = np.minimum(1.0, self.factor * self.base.predict_proba(x)[:, 1])
+        return np.column_stack([1 - p, p])
+
+
+def test_gate_calibration_is_relative_to_the_champion() -> None:
+    data = pd.concat([batch(i).applications.assign(target=batch(i).labels["target"].to_numpy())
+                      for i in range(4)], ignore_index=True)  # fmt: skip
+    model = fit(data, LogisticRegression())
+    recent, ref = data.iloc[:4000], data.iloc[4000:8000]
+    champion = Scaled(model, 0.6)  # far from calibrated
+    better = Scaled(model, 0.85)  # still > 1 p.p. off, but closer than the champion
+    worse = Scaled(model, 0.5)
+    ok = evaluate_gate(champion, better, recent, ref, 0.5, CFG)["checks"]["calibration_gap_pp"]
+    bad = evaluate_gate(champion, worse, recent, ref, 0.5, CFG)["checks"]["calibration_gap_pp"]
+    assert ok["value"] > CFG.gate["max_calibration_gap_pp"] and ok["passed"]
+    assert not bad["passed"]
