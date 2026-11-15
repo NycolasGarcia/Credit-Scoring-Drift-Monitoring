@@ -1,0 +1,60 @@
+# Gerado por `make alerts` (src/alerting/rules.py) a partir de alerts.yaml. Não editar.
+rule_files:
+- ../rules/cdm_alerts.yml
+evaluation_interval: 5s
+tests:
+- interval: 5s
+  input_series:
+  - series: cdm_alert_level{alert="CDM_FEATURE_DRIFT",scenario="S9"}
+    values: 0 0 2 2
+  - series: cdm_alert_level{alert="CDM_SCORE_DRIFT",scenario="S9"}
+    values: 0 0 0 0
+  - series: cdm_last_success_timestamp_seconds{scenario="S9"}
+    values: 0+5x4 20x12
+  alert_rule_test:
+  - eval_time: 5s
+    alertname: CDM_FEATURE_DRIFT
+    exp_alerts: []
+  - eval_time: 10s
+    alertname: CDM_FEATURE_DRIFT
+    exp_alerts:
+    - exp_labels:
+        severity: SEV-2
+        layer: L2
+        scenario: S9
+      exp_annotations:
+        summary: Drift de entrada por feature
+        diagnosis: D1
+        action: SEV-1 registrar e revisar; SEV-2+ com score estável segue D1 benigno,
+          com score em drift vai a modo conservador (§8.7)
+        owner: time de risco de modelos
+        playbook: docs/RUNBOOK.md#cdm_feature_drift
+  - eval_time: 15s
+    alertname: CDM_SCORE_DRIFT
+    exp_alerts: []
+  - eval_time: 45s
+    alertname: CDM_MONITOR_STALE
+    exp_alerts: []
+  - eval_time: 55s
+    alertname: CDM_MONITOR_STALE
+    exp_alerts:
+    - exp_labels:
+        severity: SEV-3
+        layer: L1
+      exp_annotations:
+        summary: Monitor parado (dead man's switch)
+        diagnosis: D5
+        action: A1 alertar; restaurar o job — sem monitor, "nenhum alerta" não significa
+          "tudo bem" (GR-11)
+        owner: time de risco de modelos
+        playbook: docs/RUNBOOK.md#cdm_monitor_stale
+- interval: 5s
+  input_series:
+  - series: cdm_last_success_timestamp_seconds{scenario="S9"}
+    values: 0+5x4 20x16
+  - series: cdm_last_success_timestamp_seconds{scenario="S8"}
+    values: 0+5x20
+  alert_rule_test:
+  - eval_time: 55s
+    alertname: CDM_MONITOR_STALE
+    exp_alerts: []

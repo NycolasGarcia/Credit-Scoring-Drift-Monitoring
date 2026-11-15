@@ -1,0 +1,86 @@
+# Catálogo de alertas (ADR-0011). Os cortes numéricos dos sinais moram em thresholds.yaml;
+# aqui fica a origem de cada alerta, o que ele significa e o que fazer.
+# Gera monitoring/rules/cdm_alerts.yml e docs/ALERTS.md (make alerts).
+version: 1
+owner: time de risco de modelos          # papel, não pessoa
+runbook: docs/RUNBOOK.md
+
+staleness:                               # dead man's switch (GR-11)
+  expected_interval_seconds: 15          # intervalo do replay; em produção mensal seria ~2,6e6
+  multiple: 2
+
+slow:
+  duration_multiple: 2                   # SEV-1 se a duração do lote passa de 2x a mediana do run
+
+alerts:
+  - id: CDM_CONTRACT_BLOCKED
+    title: Lote bloqueado pelo contrato de dados
+    source: gate
+    layer: L0
+    diagnosis: D0
+    action: A2 quarentena + A1 alertar; corrigir na fonte e reprocessar (GR-1, GR-2)
+  - id: CDM_SOFT_RULES
+    title: Regra de aviso do contrato disparou
+    source: soft_rules
+    layer: L0
+    diagnosis: D0
+    action: A0 registrar; revisar a regra e a fonte no ciclo seguinte
+  - id: CDM_UNIT_BUG_SUSPECTED
+    title: Assinatura de bug de unidade (fator constante numa feature)
+    source: unit_bug
+    layer: L2
+    diagnosis: D6
+    action: A2 quarentena preventiva; confirmar com a fonte; nunca retreinar (GR-7)
+  - id: CDM_FEATURE_DRIFT
+    title: Drift de entrada por feature
+    source: signal
+    signal: feature_psi
+    layer: L2
+    diagnosis: D1
+    action: SEV-1 registrar e revisar; SEV-2+ com score estável segue D1 benigno, com score em drift vai a modo conservador (§8.7)
+  - id: CDM_SCORE_DRIFT
+    title: Drift da distribuição do score
+    source: signal
+    signal: score_psi
+    layer: L3
+    diagnosis: D4
+    action: SEV-2 com rótulo imaturo → A4 modo conservador + A3 análise causal (GR-4)
+  - id: CDM_APPROVAL_SHIFT
+    title: Taxa de aprovação fora da banda
+    source: signal
+    signal: approval_delta_pp
+    layer: L3
+    diagnosis: D4
+    action: SEV-2 → A4 modo conservador (GR-3, GR-4); conferir antes se é bug de dado (D6)
+  - id: CDM_BAD_RATE_RATIO
+    title: Bad rate observado descolado do esperado (rótulo maduro)
+    source: signal
+    signal: bad_rate_ratio
+    layer: L4
+    diagnosis: D2
+    action: AUC estável → A5 recalibrar; descolamento concentrado num segmento → D3, A6 challenger em sombra
+  - id: CDM_AUC_DROP
+    title: Queda de AUC na coorte madura
+    source: signal
+    signal: auc_drop
+    layer: L4
+    diagnosis: D3
+    action: A4 modo conservador + A6 challenger em sombra → gate de promoção (GR-5)
+  - id: CDM_STEP_FAILED
+    title: Etapa do pipeline falhou
+    source: step_failed
+    layer: L1
+    diagnosis: D5
+    action: A1 alertar; ver o evento da etapa no log do run e reprocessar o lote
+  - id: CDM_PIPELINE_SLOW
+    title: Duração do lote acima de 2x a mediana do run
+    source: slow
+    layer: L1
+    diagnosis: D5
+    action: A0 registrar; investigar volume e etapa mais lenta
+  - id: CDM_MONITOR_STALE
+    title: Monitor parado (dead man's switch)
+    source: staleness
+    layer: L1
+    diagnosis: D5
+    action: A1 alertar; restaurar o job — sem monitor, "nenhum alerta" não significa "tudo bem" (GR-11)

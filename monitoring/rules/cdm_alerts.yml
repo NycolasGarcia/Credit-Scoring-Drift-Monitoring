@@ -1,0 +1,129 @@
+# Gerado por `make alerts` (src/alerting/rules.py) a partir de alerts.yaml. Não editar.
+groups:
+- name: cdm_alerts
+  rules:
+  - alert: CDM_CONTRACT_BLOCKED
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_CONTRACT_BLOCKED"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L0
+    annotations:
+      summary: Lote bloqueado pelo contrato de dados
+      diagnosis: D0
+      action: A2 quarentena + A1 alertar; corrigir na fonte e reprocessar (GR-1, GR-2)
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_contract_blocked
+  - alert: CDM_SOFT_RULES
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_SOFT_RULES"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L0
+    annotations:
+      summary: Regra de aviso do contrato disparou
+      diagnosis: D0
+      action: A0 registrar; revisar a regra e a fonte no ciclo seguinte
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_soft_rules
+  - alert: CDM_UNIT_BUG_SUSPECTED
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_UNIT_BUG_SUSPECTED"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L2
+    annotations:
+      summary: Assinatura de bug de unidade (fator constante numa feature)
+      diagnosis: D6
+      action: A2 quarentena preventiva; confirmar com a fonte; nunca retreinar (GR-7)
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_unit_bug_suspected
+  - alert: CDM_FEATURE_DRIFT
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_FEATURE_DRIFT"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L2
+    annotations:
+      summary: Drift de entrada por feature
+      diagnosis: D1
+      action: SEV-1 registrar e revisar; SEV-2+ com score estável segue D1 benigno,
+        com score em drift vai a modo conservador (§8.7)
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_feature_drift
+  - alert: CDM_SCORE_DRIFT
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_SCORE_DRIFT"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L3
+    annotations:
+      summary: Drift da distribuição do score
+      diagnosis: D4
+      action: SEV-2 com rótulo imaturo → A4 modo conservador + A3 análise causal (GR-4)
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_score_drift
+  - alert: CDM_APPROVAL_SHIFT
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_APPROVAL_SHIFT"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L3
+    annotations:
+      summary: Taxa de aprovação fora da banda
+      diagnosis: D4
+      action: SEV-2 → A4 modo conservador (GR-3, GR-4); conferir antes se é bug de
+        dado (D6)
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_approval_shift
+  - alert: CDM_BAD_RATE_RATIO
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_BAD_RATE_RATIO"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L4
+    annotations:
+      summary: Bad rate observado descolado do esperado (rótulo maduro)
+      diagnosis: D2
+      action: AUC estável → A5 recalibrar; descolamento concentrado num segmento →
+        D3, A6 challenger em sombra
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_bad_rate_ratio
+  - alert: CDM_AUC_DROP
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_AUC_DROP"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L4
+    annotations:
+      summary: Queda de AUC na coorte madura
+      diagnosis: D3
+      action: A4 modo conservador + A6 challenger em sombra → gate de promoção (GR-5)
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_auc_drop
+  - alert: CDM_STEP_FAILED
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_STEP_FAILED"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L1
+    annotations:
+      summary: Etapa do pipeline falhou
+      diagnosis: D5
+      action: A1 alertar; ver o evento da etapa no log do run e reprocessar o lote
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_step_failed
+  - alert: CDM_PIPELINE_SLOW
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_PIPELINE_SLOW"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L1
+    annotations:
+      summary: Duração do lote acima de 2x a mediana do run
+      diagnosis: D5
+      action: A0 registrar; investigar volume e etapa mais lenta
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_pipeline_slow
+  - alert: CDM_MONITOR_STALE
+    expr: time() - max(cdm_last_success_timestamp_seconds) > 30
+    labels:
+      severity: SEV-3
+      layer: L1
+    annotations:
+      summary: Monitor parado (dead man's switch)
+      diagnosis: D5
+      action: A1 alertar; restaurar o job — sem monitor, "nenhum alerta" não significa
+        "tudo bem" (GR-11)
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_monitor_stale
