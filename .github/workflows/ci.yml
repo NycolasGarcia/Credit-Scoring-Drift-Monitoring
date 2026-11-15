@@ -31,6 +31,13 @@ jobs:
       - name: Tests
         run: uv run pytest
 
+      - name: Alert rules (promtool check + unit tests)
+        run: |
+          docker run --rm -v "$PWD/monitoring:/m:ro" --entrypoint promtool \
+            prom/prometheus:v3.5.0 check rules /m/rules/cdm_alerts.yml
+          docker run --rm -v "$PWD/monitoring:/m:ro" --entrypoint promtool \
+            prom/prometheus:v3.5.0 test rules /m/rules-tests/cdm_alerts_test.yml
+
       - name: Publication guard (tracked files)
         run: uv run python scripts/check_publication.py --all
 
