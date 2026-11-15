@@ -6,7 +6,7 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 |---|---|---|
 | [PROGRESS.md](PROGRESS.md) | Log append-only de checkpoints por fase | vivo |
 | [../CHANGELOG.md](../CHANGELOG.md) | Mudanças por fase, em ordem cronológica | vivo |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2), quality gate (F3), simulador (F4) e detecção (F5) implementados; demais planejados |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2), quality gate (F3), simulador (F4), detecção (F5) e observabilidade (F6) implementados; resposta planejada |
 | [adr/](adr/) | Decisões de arquitetura | ver índice abaixo |
 | [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino, calibração, simulação e monitoramento) |
 | [incidents/](incidents/) | Incidentes e postmortems | vazio |
@@ -25,8 +25,12 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [THRESHOLDS.md](THRESHOLDS.md) | Limiares vigentes e calibração no controle (gerado) | gerado |
 | [DRIFT_EVALUATION.md](DRIFT_EVALUATION.md) | Avaliação do detector por cenário, relatórios Evidently, p-valor × efeito (gerado) | gerado |
 | [evidence/drift/](evidence/drift/) | Resultados por lote, relatórios HTML do Evidently e calibração | F5 |
+| [METRICS.md](METRICS.md) | Catálogo de métricas do job (gerado) | gerado |
+| [ALERTS.md](ALERTS.md) | Catálogo de alertas com severidade, ação e playbook (gerado) | gerado |
+| [RUNBOOK.md](RUNBOOK.md) | Stack, job, replay, prints, solução de problemas e playbook por alerta | F6 |
+| [evidence/observability/](evidence/observability/) | Prints do painel do Grafana após os replays | F6 |
 
-Documentos previstos para fases seguintes: `METRICS.md`, `ALERTS.md`, `RUNBOOK.md`, `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
+Documentos previstos para fases seguintes: `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
 
 ## ADRs
 
@@ -41,6 +45,8 @@ Documentos previstos para fases seguintes: `METRICS.md`, `ALERTS.md`, `RUNBOOK.m
 | [0007](adr/0007-cost-threshold.md) | Matriz de custo e limiar por valor esperado | supersedido pelo 0016 |
 | [0008](adr/0008-data-contracts.md) | Contratos de dados, gate em dois níveis e quarentena | aceito |
 | [0009](adr/0009-drift-detection-methodology.md) | Metodologia de detecção de drift: PSI com bins fixos, efeito × p-valor, calibração, API do Evidently | aceito |
+| [0010](adr/0010-observability-stack.md) | Stack de observabilidade: Pushgateway, Prometheus, Grafana como código, replay em tempo real | aceito |
+| [0011](adr/0011-severity-alert-policy.md) | Severidade e política de alertas: uma fonte para os cortes, dead man's switch | aceito |
 | [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas, funding e apetite de risco | aceito |
 | [0017](adr/0017-scenario-simulator.md) | Desenho do simulador de cenários: amostragem, rótulo por oráculo, atraso de rótulo, S4 parcial | aceito |
 | [0018](adr/0018-l4-sev2-cut.md) | Corte de SEV-2 da razão observado/esperado: 1,25 por regra nula declarada antes, validado em variantes novas | aceito |

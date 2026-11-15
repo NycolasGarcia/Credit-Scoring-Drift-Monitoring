@@ -1,6 +1,6 @@
 # Arquitetura
 
-> **Status:** preparação de dados (F1), treino (F2), quality gate (F3), simulador de cenários (F4) e detecção de drift (F5) implementados e descritos aqui. Observabilidade e resposta ainda estão como desenho (a confirmar nas fases F6–F7). Todo módulo de `src/` precisa aparecer neste documento; um teste garante isso (`tests/test_docs_sync.py`).
+> **Status:** preparação de dados (F1), treino (F2), quality gate (F3), simulador de cenários (F4), detecção de drift (F5) e observabilidade (F6) implementados e descritos aqui. A resposta à degradação ainda está como desenho (F7). Todo módulo de `src/` precisa aparecer neste documento; um teste garante isso (`tests/test_docs_sync.py`).
 
 ## Visão geral
 
@@ -121,25 +121,38 @@ flowchart LR
 
 Metodologia no [ADR-0009](adr/0009-drift-detection-methodology.md); limiares em [THRESHOLDS.md](THRESHOLDS.md); resultados em [DRIFT_EVALUATION.md](DRIFT_EVALUATION.md).
 
-## Fluxos planejados
+## Fluxo implementado — job de monitoramento e observabilidade (F6)
+
+`make monitor` / `make replay` executam `src/observability/runner.py`, que roda `src/pipeline.py` lote a lote. Decisões: [ADR-0010](adr/0010-observability-stack.md) (stack) e [ADR-0011](adr/0011-severity-alert-policy.md) (alertas).
 
 ```mermaid
 flowchart LR
-    subgraph Monitoramento [Monitoramento por lote — contrato em F3; demais etapas F4 a F7]
-        B[(Lote mensal)] --> V{Contrato}
-        V -- reprovado --> Q[(Quarentena)]
-        V -- aprovado --> S[score]
-        S --> D[detect: L2/L3]
-        S --> E[evaluate: L4 com rótulo maduro]
-        D --> A[alert]
-        E --> A
-        A --> G[response: guardrails — F7]
+    subgraph Job [Job por lote — src/pipeline.py]
+        I[ingest] --> V[validate<br/>contrato F3]
+        V --> S[score<br/>champion + contrato de saída]
+        S --> D[detect<br/>L2 · L3 · assinatura D6]
+        D --> E[evaluate<br/>L4 · severidade · diagnóstico]
+        E --> A[alert<br/>alerting/engine.py]
+        A --> R[respond<br/>F7: pulado]
+        R --> REC[record]
     end
-    M[(Registry: champion)] --> S
-    P[(reference_profile.json)] --> D
-    G --> O[(Logs · Métricas · RUN records)]
-    Q --> O
+    EV[[events.py<br/>evento JSON por etapa]] -.-> LOG[(logs/run_id.jsonl)]
+    REC --> PGW[(Pushgateway)]
+    REC --> MLF[(MLflow `monitoring`<br/>run pai + filho por lote)]
+    PGW --> PROM[(Prometheus<br/>rules/cdm_alerts.yml)]
+    PROM --> GRAF[Grafana<br/>dashboard como código]
+    PROM --> ALR[ALERTS<br/>inclui dead man's switch]
+    ALR --> GRAF
+    TH[[thresholds.yaml]] --> E
+    AY[[alerts.yaml]] --> A
+    AY --> RULES[alerting/rules.py] --> PROM
 ```
+
+Um único lugar decide os níveis. As regras do Prometheus só leem `cdm_alert_level`, e o único alerta avaliado só no Prometheus é o dead man's switch. Catálogos gerados: [METRICS.md](METRICS.md) e [ALERTS.md](ALERTS.md); operação: [RUNBOOK.md](RUNBOOK.md).
+
+## Fluxo planejado — resposta (F7)
+
+A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, modo conservador, recalibração, challenger, rollback.
 
 ## Componentes
 
@@ -202,8 +215,16 @@ flowchart LR
 | `src/monitoring/evidence.py` | Janela do alerta, relatório Evidently, cruzamento e RUN record `monitor` | F5 | implementado |
 | `src/monitoring/cli.py` | `make calibrate` e `make detect` | F5 | implementado |
 | `src/monitoring/docs.py` | Gera `THRESHOLDS.md` e `DRIFT_EVALUATION.md` | F5 | implementado |
-| `src/observability/` | Eventos de log, métricas Pushgateway, ledger de runs | F6 | planejado |
-| `src/alerting/` | Motor de severidade e alertas | F6 | planejado |
+| `src/pipeline.py` | Job por lote: ingest → validate → score → detect → evaluate → alert → respond → record; falha de etapa vira alerta | F6 | implementado |
+| `src/observability/events.py` | Evento estruturado por etapa e log JSON por run com filtro de privacidade | F6 | implementado |
+| `src/observability/metrics.py` | Catálogo de métricas (gera `METRICS.md`) e publicação no Pushgateway | F6 | implementado |
+| `src/observability/samples.py` | Estado do lote → amostras das métricas do catálogo | F6 | implementado |
+| `src/observability/runner.py` | `make monitor` / `make replay`: laço de lotes, publicação, MLflow, resumo e RUN record | F6 | implementado |
+| `src/observability/dashboard.py` | Dashboard do Grafana como código (JSON gerado e testado) | F6 | implementado |
+| `src/observability/screenshots.py` | `make screenshots`: prints do painel pela API de render do Grafana | F6 | implementado |
+| `src/alerting/settings.py` | Catálogo de alertas validado (`alerts.yaml`) | F6 | implementado |
+| `src/alerting/engine.py` | Nível de cada alerta a partir da severidade, do contrato, das etapas e da duração | F6 | implementado |
+| `src/alerting/rules.py` | Gera as regras do Prometheus, os testes do `promtool` e `ALERTS.md` | F6 | implementado |
 | `src/response/` | Policy engine, guardrails, champion/challenger, rollback | F7 | planejado |
 | `src/governance/` | Fairness, checagem de privacidade, retenção | F8 | planejado |
 | `src/reporting/` (restante) | Sumários de monitoramento e de resposta | F5+ | planejado |
@@ -218,6 +239,7 @@ flowchart LR
 | `config/models/training.yaml` | Partição interna, modelos, calibração, seleção, tipos confiáveis do skops |
 | `config/models/cost.yaml` | Premissas de custo (medidas + funding declarado), grade de limiar e apetite de risco |
 | `config/contracts/contract.yaml` | Faixas, domínios, tolerâncias, janelas e parâmetros soft do contrato de dados |
+| `config/monitoring/alerts.yaml` | Catálogo de alertas: origem, camada, diagnóstico, ação, dono, playbook; dead man's switch |
 | `config/monitoring/l4_sweep.yaml` | Grade de cortes, regra de escolha (declarada antes da execução) e variantes de validação da varredura da L4 |
 | `config/monitoring/thresholds.yaml` | Limiares por sinal (SEV-1/2/3, direção, status, RUN de calibração), meta de falso alarme, parâmetros do D6 |
 | `config/scenarios/S0.yaml` … `S5.yaml` | Cenários de degradação: transformações, magnitudes, cronograma, seed, resposta esperada |
@@ -226,4 +248,5 @@ flowchart LR
 
 - `scripts/check_publication.py`: guarda de publicação (ADR-0002), executada pelos hooks e pelo CI.
 - `Makefile`: interface única de comandos (`make help`).
+- `docker-compose.yml` + `monitoring/` (Prometheus, regras e seus testes do `promtool`, provisionamento e dashboard do Grafana): stack local, imagens com tag fixa, portas só em `127.0.0.1` (ADR-0010).
 - Dados, modelos, logs e relatórios ficam fora do git (`/data`, `/models`, `/mlruns`, `/logs`, `/reports`).

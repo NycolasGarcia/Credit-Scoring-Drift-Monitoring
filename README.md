@@ -72,6 +72,19 @@ make drift-docs                # regenera docs/THRESHOLDS.md e docs/DRIFT_EVALUA
 
 Camadas L2 (drift por feature), L3 (score e aprovação) e L4 (desempenho com rótulo maduro), diagnóstico D0/D1/D2/D3/D4/D6 e um relatório HTML do Evidently por cenário em `docs/evidence/drift/`. Detalhes: [ADR-0009](docs/adr/0009-drift-detection-methodology.md), [THRESHOLDS.md](docs/THRESHOLDS.md) e [DRIFT_EVALUATION.md](docs/DRIFT_EVALUATION.md).
 
+### Observabilidade (job, métricas, painel e alertas)
+
+```bash
+make stack-up                  # Pushgateway, Prometheus, Grafana (http://127.0.0.1:3000) e renderer
+make replay SCENARIO=S4        # job lote a lote publicando métricas; alertas disparam no Prometheus
+make monitor SCENARIO=S2       # mesmo job sem pausa e sem publicar (logs + MLflow + RUN record)
+make screenshots SCENARIO=S4   # prints do painel em docs/evidence/observability/
+make alerts && make check-rules  # regenera regras/catálogos/dashboard e testa as regras com promtool
+make stack-down
+```
+
+Cada etapa do job (ingest → validate → score → detect → evaluate → alert → respond → record) emite um evento JSON em `logs/<run_id>.jsonl`; métricas e alertas estão catalogados em [METRICS.md](docs/METRICS.md) e [ALERTS.md](docs/ALERTS.md), com um playbook por alerta no [RUNBOOK.md](docs/RUNBOOK.md). Decisões: [ADR-0010](docs/adr/0010-observability-stack.md) e [ADR-0011](docs/adr/0011-severity-alert-policy.md).
+
 Detalhes da separação e do alvo: [ADR-0004](docs/adr/0004-target-maturity-leakage.md), [ADR-0005](docs/adr/0005-reference-production-split.md) e [data card](docs/data_card.md).
 
 ## Documentação
