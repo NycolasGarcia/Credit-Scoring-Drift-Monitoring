@@ -53,3 +53,4 @@ Documentos previstos para fases seguintes: `RESPONSE_EVALUATION.md`, `CAUSAL_ANA
 | [0017](adr/0017-scenario-simulator.md) | Desenho do simulador de cenários: amostragem, rótulo por oráculo, atraso de rótulo, S4 parcial | aceito |
 | [0018](adr/0018-l4-sev2-cut.md) | Corte de SEV-2 da razão observado/esperado: 1,25 por regra nula declarada antes, validado em variantes novas | aceito |
 | [0019](adr/0019-conservative-mode-by-value.md) | Modo conservador por valor esperado com risco corrigido (supersede o item 3 do 0012) | aceito |
+| [0020](adr/0020-relative-calibration-gate.md) | Calibração do gate relativa ao champion (supersede o critério absoluto do 0013) | aceito |

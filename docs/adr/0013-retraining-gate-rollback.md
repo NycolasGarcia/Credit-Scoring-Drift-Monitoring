@@ -1,6 +1,6 @@
 # ADR-0013 — Recalibração, retreino com gate de promoção e rollback
 
-- **Status:** aceito (parâmetros PROPOSTO em `config/response/lifecycle.yaml`)
+- **Status:** aceito (parâmetros PROPOSTO em `config/response/lifecycle.yaml`); **critério de calibração do gate supersedido pelo [ADR-0020](0020-relative-calibration-gate.md)** em 2026-11-15
 - **Data:** 2026-11-15
 - **Fase:** F7
 
