@@ -1,0 +1,28 @@
+# Ciclo de vida do modelo na resposta (ADR-0013): recalibração (A5), challenger (A6),
+# gate de promoção (GR-5) e rollback (GR-6). Valores PROPOSTO.
+version: 1
+status: PROPOSTO
+
+recalibration:              # A5: Platt sobre o logit do champion, na janela recente madura
+  window_cohorts: 1         # só a coorte madura mais recente: rótulo de antes do drift dilui a correção
+  min_labels: 2000
+
+challenger:                 # A6: mesma receita do champion (training.yaml), dado recente
+  model: logreg
+  window_cohorts: 3         # coortes maduras mais recentes usadas no treino
+  calibration: sigmoid
+  calibration_share: 0.25   # parte da janela usada só para calibrar
+  evaluation_share: 0.25    # parte final da janela (mais recente) usada só no gate
+  min_rows: 8000            # abaixo disso o treino é recusado
+  accepted_gate_status: [passed, partial]   # GR-7: carimbo do contrato aprovado
+
+gate:                       # GR-5: todas as condições precisam passar
+  min_auc_gain_recent: 0.0          # supera o champion na janela recente madura
+  max_auc_loss_reference: 0.01      # não piora mais que isso no teste de referência (2013)
+  max_calibration_gap_pp: 1.0       # |bad rate esperado - observado| na janela recente
+  fairness_segment: home_ownership  # proxy até a F8 trazer as métricas de fairness completas
+  max_fairness_gap_increase_pp: 3.0 # gap de aprovação entre grupos não cresce mais que isso
+
+registry:
+  previous_alias: champion_previous # para onde vai o champion substituído (GR-6)
+  drill_model_name: credit-scoring-drill  # modelo de ensaio: demonstrações não tocam o champion real
