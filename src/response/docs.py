@@ -1,5 +1,6 @@
 """RESPONSE_EVALUATION.md and the RUN record of the response comparison (caixa 7.9)."""
 
+import json
 from typing import Any
 
 from src.config import PROJECT_ROOT
@@ -7,6 +8,7 @@ from src.reporting.run_record import RunRecord
 
 DOC = PROJECT_ROOT / "docs" / "RESPONSE_EVALUATION.md"
 NOTES = PROJECT_ROOT / "docs" / "response_notes.md"
+EVIDENCE = PROJECT_ROOT / "docs" / "evidence" / "response" / "compare.json"
 HEAD = (
     "| Estratégia | Valor, revisão perdida (US$ mil) | Δ vs. não fazer nada (US$ mil) | Valor, "
     "revisão decidida depois (US$ mil) | Valor por proposta (US$) | Aprovação | Revisão | "
@@ -94,3 +96,13 @@ def compare_record(results: list[dict[str, Any]], run_id: str, git: tuple[str, b
         artifacts=["docs/evidence/response/compare.json", "docs/RESPONSE_EVALUATION.md"],
         notes=["Valores em US$ mil, somados do ponto de decisão ao último lote."],
     )  # fmt: skip
+
+
+def main() -> None:
+    """Regenerate the document from the committed evidence (after editing the notes)."""
+    body = json.loads(EVIDENCE.read_text(encoding="utf-8"))
+    write_doc(body)
+
+
+if __name__ == "__main__":
+    main()
