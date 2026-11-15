@@ -452,3 +452,58 @@ Entrada: F5 fechada, CI verde em `b6c6d96`, travas OK, nenhum incidente aberto. 
 3. **Validação em variantes novas** (seeds 201–203): nas intensidades oficiais de S2 e S3, a detecção em SEV-2 passa de 0/3 (corte 1,5) para 3/3 (corte 1,25). O concept drift fraco (logit +0,5) segue em SEV-1.
 4. **Detecção refeita** (RUN-20261115-monitor-S0-01 … S5-01): sinais e diagnósticos idênticos. Muda só a severidade dos lotes com L4 (S2 4 lotes, S3 5, S4 4, S5 9). S2 e S3 chegam a SEV-2 no primeiro alerta.
 5. O custo econômico de agir com esse corte é verificado na F7 (caixa 7.9), que pode rever o ADR-0018.
+
+## CHECKPOINT — F6 «Observabilidade: logs, métricas, dashboard e alertas» · fechamento · 2026-11-15
+
+### Hard requirements
+
+| HR | Descrição | Status | Evidência |
+|---|---|---|---|
+| HR-6.1 | Logs de execução centralizados (sucesso/falha por etapa + resultados de drift) | ok | `logs/<run_id>.jsonl`, um evento por etapa e lote; artefato do run pai no MLflow; exemplo versionado em `docs/evidence/observability/run_log_S4.jsonl` (96 eventos, só agregados) |
+| HR-6.2 | MLflow com runs de monitoramento + dashboard Grafana como código | ok | Experimento `monitoring`: RUN-20261115-monitor-S0-03 … S5-03 (108 runs por lote + HTML do Evidently no run pai); `monitoring/grafana/dashboards/cdm_monitoring.json` gerado e testado |
+| HR-6.3 | Métricas de saúde documentadas (status, latência, volume, alertas) | ok | [METRICS.md](METRICS.md): 22 gauges, com status e duração por etapa, linhas por estágio e alertas por severidade |
+| HR-6.4 | Alertas disparados e visíveis | ok | `docs/evidence/observability/alerts_fired.json` e `all_alertas_disparados.png`; prints por cenário |
+| HR-6.5 | ADR-0010 e ADR-0011 aceitos | ok | `docs/adr/0010-observability-stack.md`, `docs/adr/0011-severity-alert-policy.md` |
+
+### Portões numéricos
+
+| Portão | Alvo | Medido | Fonte | Status |
+|---|---|---|---|---|
+| Serviços do Compose | healthy | 4/4 (Pushgateway, Prometheus, Grafana, renderer) | `make stack-status` | ok |
+| Alvos do Prometheus | UP | 2/2 | `/api/v1/targets` | ok |
+| Painéis com dados | ≥ 6 | 13 (5 indicadores + 8 gráficos) | prints por cenário | ok |
+| Alerta de cada severidade | ≥ 1 por SEV | SEV-1 (S1 score), SEV-2 (S1 feature, S2/S3 bad rate), SEV-3 (dead man's switch) | `alerts_fired.json` | ok |
+| SEV-2+ no S0 | 0 | 0 (nenhum alerta) | RUN-20261115-monitor-S0-02 | ok |
+| Dead man's switch | demonstrado | `promtool test rules` + disparo real após o replay | CI, `all_alertas_disparados.png` | ok |
+| Métricas de RO-14 | status, latência, volume, alertas | todas | METRICS.md | ok |
+| Regras | `promtool check` + `test` | 11 regras, testes verdes | `make check-rules`, CI | ok |
+| ruff / testes | 0 / verde | 0 / 179 passed | — | ok |
+
+### Estado
+
+- Caixas da fase: 12/12 → micro 100%
+- Progresso macro: 66% (F0 2 + F1 3 + F2 3 + F3 20 + F4 10 + F5 14 + F6 14)
+- Rubrica tocada: R3 (14) · RO-3, RO-13, RO-14
+- ADRs aceitos: ADR-0010, ADR-0011 (e ADR-0018 na abertura)
+- RUNs registrados: calib-L4CUT-01; monitor S0-01 … S5-01 (redetecção com o corte novo); monitor S0-02 … S5-02 (replays); monitor S0-03 … S5-03 (job com MLflow correto)
+- NV fechados: NV-13 (verificado), NV-14 (não utilizado: stack montada do zero)
+- Limiares: 6 CALIBRADO · 0 PROPOSTO
+- Incidentes abertos: nenhum
+- Travas de publicação: OK
+- Docs em sincronia: ok (METRICS, ALERTS, regras, testes do promtool e dashboard gerados e testados; RUNBOOK, ARCHITECTURE, README, índice, CHANGELOG)
+
+### Achados
+
+- **O dead man's switch disparou entre os replays.** Cada transição entre cenários (prints, commit, carga do modelo) passou de 30 s sem lote concluído. É a semântica correta do GR-11: o monitor estava de fato parado. A regra ficou global (sem rótulo de cenário) depois que o primeiro teste mostrou que, por cenário, cada fim de replay gerava um "monitor parado" falso.
+- **Bug: runs por lote no experimento errado.** Carregar o champion depois de abrir o run pai trocava o experimento ativo do MLflow, e os 120 runs por lote dos replays foram para o `training`.
+  - **Correção:** contexto montado antes, `experiment_id` explícito e teste de regressão.
+  - **Limpeza:** os 120 runs foram removidos do `training` (exclusão lógica).
+  - **Refeito:** o job rodou de novo em modo `monitor` (-03), com resumos idênticos aos dos replays.
+- **Grafana com leitura anônima** (Viewer, só em 127.0.0.1). Assim, os prints saem do renderer sem que nenhuma credencial circule em script; a administração continua exigindo a senha do `.env` (ADR-0010).
+- **Correção da F5:** no S2, o diagnóstico D3 cobre 4 de 4 lotes alertados (do 8 ao 11), não "5 de 5" como dizia a leitura. A acurácia de 100% não muda.
+- **Duração do job:** mediana de 1,6 s por lote nos simulados e 2,9 s no S5; `detect` é a etapa dominante.
+- **S5 dispara a regra de aviso do contrato (SEV-1)** em parte dos meses reais. Fica registrado; a investigação da regra específica vai para o game day da F7.
+
+### Veredito
+
+**PODE AVANÇAR para F7.**

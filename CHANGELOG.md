@@ -4,11 +4,28 @@ Mudanças relevantes por fase, da mais recente para a mais antiga. Formato inspi
 
 ## [Não publicado]
 
+Nada ainda.
+
+## F6 — Observabilidade: logs, métricas, dashboard e alertas (2026-11-15)
+
 ### Adicionado
+- Job de monitoramento por lote (`src/pipeline.py`): ingest → validate → score → detect → evaluate → alert → respond → record, com evento JSON por etapa e log por execução sem PII.
+- Métricas no Pushgateway (22 gauges catalogados em `docs/METRICS.md`), MLflow `monitoring` com run pai por execução e run filho por lote, relatório Evidently anexado.
+- Stack local via Compose (Prometheus, Pushgateway, Grafana, renderer), dashboard como código com 13 painéis e prints gerados pela API de render (`make screenshots`).
+- Catálogo de alertas (`config/monitoring/alerts.yaml`) com regras do Prometheus e testes do `promtool` gerados, dead man's switch e playbook por alerta no `docs/RUNBOOK.md`; `make check-rules` também no CI.
+- `make monitor`, `make replay`, `make alerts`, `make check-rules`, `make screenshots`, `make stack-status`; [ADR-0010](docs/adr/0010-observability-stack.md) e [ADR-0011](docs/adr/0011-severity-alert-policy.md).
 - Varredura do corte SEV-2 da razão observado/esperado (`make sweep-l4`): regra de escolha declarada em `config/monitoring/l4_sweep.yaml` antes da execução, distribuição nula com seed nova e validação em variantes de S2/S3 que não participam da escolha.
 
 ### Alterado
 - SEV-2 da razão observado/esperado: 1,5 → 1,25 ([ADR-0018](docs/adr/0018-l4-sev2-cut.md), RUN-20261115-calib-L4CUT-01). S2 e S3 passam a chegar a SEV-2 no primeiro alerta; detecção dos seis cenários refeita (RUN-20261115-monitor-S0-01 … S5-01).
+- Dead man's switch global, não por cenário: o monitor é um só.
+
+### Corrigido
+- Runs por lote do MLflow iam para o experimento `training` ao carregar o champion depois de abrir o run pai; agora ficam em `monitoring` (teste de regressão).
+- Leitura da F5: no S2, D3 cobre 4 de 4 lotes alertados, não 5.
+
+### Achados
+- Os seis cenários disparam os alertas esperados; o S0 não dispara nenhum. O dead man's switch dispara nas transições entre replays (monitor de fato parado por mais de 30 s).
 
 ## F5 — Detecção de drift e avaliação do detector (2026-11-13)
 
