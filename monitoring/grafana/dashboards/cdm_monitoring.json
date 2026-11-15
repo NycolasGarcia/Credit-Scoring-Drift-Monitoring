@@ -1,0 +1,702 @@
+{
+  "uid": "cdm-monitoring",
+  "title": "Credit Scoring — saúde do modelo e dos dados",
+  "tags": [
+    "cdm"
+  ],
+  "timezone": "browser",
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "5s",
+  "time": {
+    "from": "now-20m",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "scenario",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "cdm-prom"
+        },
+        "refresh": 2,
+        "query": {
+          "query": "label_values(cdm_batch_index, scenario)",
+          "refId": "V"
+        },
+        "includeAll": true,
+        "multi": false,
+        "current": {}
+      }
+    ]
+  },
+  "panels": [
+    {
+      "title": "Lote",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_batch_index{scenario=~\"$scenario\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {},
+      "id": 1
+    },
+    {
+      "title": "Mês do lote",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_batch_info{scenario=~\"$scenario\"}",
+          "legendFormat": "{{issue_month}}",
+          "refId": "A",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "gridPos": {
+        "x": 4,
+        "y": 0,
+        "w": 5,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "textMode": "name",
+        "colorMode": "none"
+      },
+      "id": 2
+    },
+    {
+      "title": "Severidade do lote",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_batch_severity{scenario=~\"$scenario\"}",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 9,
+        "y": 0,
+        "w": 5,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "orange",
+                "value": 2
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "min": 0,
+          "max": 3
+        },
+        "overrides": []
+      },
+      "options": {},
+      "id": 3
+    },
+    {
+      "title": "Diagnóstico",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_diagnosis{scenario=~\"$scenario\"} == 1",
+          "legendFormat": "{{code}}",
+          "refId": "A",
+          "instant": true,
+          "range": false
+        }
+      ],
+      "gridPos": {
+        "x": 14,
+        "y": 0,
+        "w": 5,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "textMode": "name",
+        "colorMode": "none"
+      },
+      "id": 4
+    },
+    {
+      "title": "Segundos desde o último lote concluído",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "time() - max(cdm_last_success_timestamp_seconds{scenario=~\"$scenario\"})",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 19,
+        "y": 0,
+        "w": 5,
+        "h": 4
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": {},
+      "id": 5
+    },
+    {
+      "title": "Saúde do pipeline (status por etapa)",
+      "type": "status-history",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_step_status{scenario=~\"$scenario\"}",
+          "legendFormat": "{{step}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 12,
+        "h": 7
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "ok",
+                  "color": "green"
+                },
+                "0": {
+                  "text": "falhou",
+                  "color": "red"
+                },
+                "-1": {
+                  "text": "pulada",
+                  "color": "gray"
+                }
+              }
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "options": {
+        "showValue": "never",
+        "rowHeight": 0.9,
+        "legend": {
+          "showLegend": false
+        }
+      },
+      "id": 6
+    },
+    {
+      "title": "Duração por etapa",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_step_duration_seconds{scenario=~\"$scenario\"}",
+          "legendFormat": "{{step}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 4,
+        "w": 12,
+        "h": 7
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "stacking": {
+              "mode": "normal"
+            },
+            "fillOpacity": 30
+          }
+        },
+        "overrides": []
+      },
+      "options": {},
+      "id": 7
+    },
+    {
+      "title": "Volume e quarentena",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_batch_rows{scenario=~\"$scenario\"}",
+          "legendFormat": "{{stage}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_gate_blocked{scenario=~\"$scenario\"}",
+          "legendFormat": "lote bloqueado",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 11,
+        "w": 12,
+        "h": 7
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {},
+      "id": 8
+    },
+    {
+      "title": "Score e aprovação",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_score_psi{scenario=~\"$scenario\"}",
+          "legendFormat": "PSI do score",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_approval_rate{scenario=~\"$scenario\"}",
+          "legendFormat": "taxa de aprovação",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_expected_bad_rate{scenario=~\"$scenario\"}",
+          "legendFormat": "bad rate esperado",
+          "refId": "C"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 11,
+        "w": 12,
+        "h": 7
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {},
+      "id": 9
+    },
+    {
+      "title": "PSI por feature e lote",
+      "type": "status-history",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_feature_psi{scenario=~\"$scenario\"}",
+          "legendFormat": "{{feature}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 18,
+        "w": 24,
+        "h": 14
+      },
+      "description": "Bins fixos da referência; amarelo ≥ 0,10 (SEV-1), vermelho ≥ 0,25.",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 0.25
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 3
+        },
+        "overrides": []
+      },
+      "options": {
+        "showValue": "never",
+        "rowHeight": 0.95
+      },
+      "id": 10
+    },
+    {
+      "title": "Desempenho com rótulo maduro",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_bad_rate_ratio{scenario=~\"$scenario\"}",
+          "legendFormat": "observado / esperado",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_auc_mature{scenario=~\"$scenario\"}",
+          "legendFormat": "AUC madura",
+          "refId": "B"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 12,
+        "h": 7
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "points",
+            "pointSize": 8
+          }
+        },
+        "overrides": []
+      },
+      "options": {},
+      "id": 11
+    },
+    {
+      "title": "Severidade por sinal",
+      "type": "status-history",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_signal_severity{scenario=~\"$scenario\"}",
+          "legendFormat": "{{signal}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 12,
+        "y": 32,
+        "w": 12,
+        "h": 7
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "orange",
+                "value": 2
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "min": 0,
+          "max": 3
+        },
+        "overrides": []
+      },
+      "options": {
+        "showValue": "never",
+        "rowHeight": 0.9
+      },
+      "id": 12
+    },
+    {
+      "title": "Alertas disparados (Prometheus)",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "max by (alertname, severity) (ALERTS{alertstate=\"firing\",scenario=~\"$scenario\"})",
+          "legendFormat": "{{alertname}} {{severity}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 39,
+        "w": 24,
+        "h": 8
+      },
+      "description": "Inclui o dead man's switch (sem rótulo de cenário: o monitor é um só).",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "disparado"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "red"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*SEV-1.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "yellow"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*SEV-2.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "orange"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*SEV-3.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showValue": "never",
+        "mergeValues": true
+      },
+      "id": 13
+    }
+  ]
+}
