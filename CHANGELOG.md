@@ -6,6 +6,29 @@ Mudanças relevantes por fase, da mais recente para a mais antiga. Formato inspi
 
 Nada ainda.
 
+## F7 — Resposta à degradação: guardrails, playbooks e retreino controlado (2026-11-17)
+
+### Adicionado
+- Etapa `respond` do job com a matriz de resposta declarativa (`config/response/policy.yaml`): diagnóstico e severidade → ações automáticas e humanas, circuit breaker com histerese, cadeia de guardrails (kill switch, quarentena, modo conservador, limiar) com código de motivo por decisão, modo `dry_run` e controles relidos a cada lote, sem deploy.
+- Modo conservador por valor esperado com o risco corrigido pela última razão observado/esperado ([ADR-0019](docs/adr/0019-conservative-mode-by-value.md)) e fila de revisão limitada a 15% do lote, com o excedente recusado pelo motivo R11 ([ADR-0021](docs/adr/0021-review-queue-capacity.md)).
+- Ciclo de vida do modelo: recalibração e challenger em janela recente, só com dado aprovado no contrato e rótulo maduro (GR-7, GR-8), gate de promoção (GR-5), promoção e rollback por aliases (GR-6); [ADR-0012](docs/adr/0012-guardrails-conservative-mode.md) e [ADR-0013](docs/adr/0013-retraining-gate-rollback.md).
+- Comparação de respostas por cenário com o valor realizado (`make respond-compare` → `docs/RESPONSE_EVALUATION.md`), avaliação em sombra e ensaio de promoção/rollback no registry de ensaio (`make respond-drill`).
+- Game day na visão do operador (`make gameday-watch`, `make gameday`, `make gameday-shadow`) e o primeiro postmortem, [INC-0001](docs/incidents/0001-s2-concept-drift-dti.md).
+- Métricas e painéis de resposta no Grafana (modo conservador, correção de risco, decisões por tipo, regra da política).
+
+### Alterado
+- O teto de 14% de bad rate deixou de ser o corte do modo conservador (ADR-0019); passou a ser só métrica de acompanhamento.
+- O critério de calibração do gate passou a ser relativo ao champion ([ADR-0020](docs/adr/0020-relative-calibration-gate.md)).
+- A6 (challenger em sombra) passou a ser ação humana, com comando no playbook ([ADR-0022](docs/adr/0022-challenger-shadow-human.md)).
+- RUNBOOK: triagem com o ramo de rótulo maduro separando D2 de D3 pela concentração em segmento, seção de resposta (comandos, controles, códigos de motivo), playbooks com a ação automática de cada alerta, promoção/rollback e procedimento de game day.
+
+### Corrigido
+- A leitura da comparação de respostas dizia que o gate reprovava o challenger do S2, o que deixou de valer com o ADR-0020.
+
+### Achados
+- O modo conservador por valor rende +US$ 2,94 mi no S2 e +US$ 2,66 mi no S3; forçado sobre o bug do S4, custaria US$ 6,3 mi (RUN-20261117-response-ALL-01).
+- No game day, o concept drift no DTI alto não derrubou a AUC: a separação entre D2 e D3 precisa olhar o segmento.
+
 ## F6 — Observabilidade: logs, métricas, dashboard e alertas (2026-11-15)
 
 ### Adicionado

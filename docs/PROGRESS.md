@@ -507,3 +507,69 @@ Entrada: F5 fechada, CI verde em `b6c6d96`, travas OK, nenhum incidente aberto. 
 ### Veredito
 
 **PODE AVANÇAR para F7.**
+
+## CHECKPOINT — F7 «Resposta à degradação: guardrails, playbooks e retreino controlado» · abertura · 2026-11-15
+
+> Registrada em 2026-11-17, junto com o fechamento: a abertura não foi escrita no dia em que a fase começou. O conteúdo abaixo reconstitui o veredito de entrada a partir do fechamento da F6 e do primeiro commit da fase.
+
+1. **Pré-requisitos:** F6 fechada com veredito "PODE AVANÇAR"; SEV-2 da razão observado/esperado em 1,25 (ADR-0018), o que faz S2 e S3 chegarem a SEV-2, condição para um circuit breaker em SEV-2.
+2. **ADRs previstos:** 0012 (guardrails e modo conservador) e 0013 (retreino, gate e rollback).
+3. **Dependência aberta:** NV-11 (base legal da revisão de decisão automatizada) segue como hipótese até a F8.
+
+## CHECKPOINT — F7 «Resposta à degradação: guardrails, playbooks e retreino controlado» · fechamento · 2026-11-17
+
+### Hard requirements
+
+| HR | Descrição | Status | Evidência |
+|---|---|---|---|
+| HR-7.1 | Todos os GR de §8.6 implementados e testados | ok | GR-1/2 (`test_contracts`, `test_blocked_batch_skips_scoring_and_raises_contract_alert`), GR-3/4 (`test_policy_matrix_rows`, `test_breaker_opens_and_closes_after_cool_down`), GR-5 (`test_gate_rejects_a_worse_challenger`), GR-6 (`test_promote_then_rollback_restores_and_is_reversible`), GR-7/8 (`test_training_refuses_*`), GR-9 (`test_kill_switch_*`), GR-10 (`test_run_log_file_is_json_lines_without_pii`), GR-11 (`test_staleness_is_prometheus_only` + `promtool test rules`) |
+| HR-7.2 | Matriz §8.5 executável (policy engine), não só documentada | ok | `config/response/policy.yaml` + `src/response/policy.py`, aplicada pela etapa `respond` do job a cada lote |
+| HR-7.3 | Champion/challenger com gate (GR-5) e rollback (GR-6) demonstrados | ok | [RUN-20261115-response-DRILL-01](runs/RUN-20261115-response-DRILL-01.md): gate aprovado na sombra no lote 9; rollback restaura e é reversível; registry real intacto (champion v2) |
+| HR-7.4 | Comparação de respostas com custo por cenário | ok | [RESPONSE_EVALUATION.md](RESPONSE_EVALUATION.md), [RUN-20261117-response-ALL-01](runs/RUN-20261117-response-ALL-01.md) |
+| HR-7.5 | ≥ 1 game day com postmortem INC-0001 | ok | [INC-0001](incidents/0001-s2-concept-drift-dti.md), [RUN-20261117-gameday-S2-01](runs/RUN-20261117-gameday-S2-01.md) |
+| HR-7.6 | ADR-0012 e ADR-0013 aceitos | ok | e também 0019, 0020, 0021 e 0022 |
+
+### Portões numéricos
+
+| Portão | Alvo | Medido | Fonte | Status |
+|---|---|---|---|---|
+| GR com teste | 100% | 11/11 | suíte (ver HR-7.1) | ok |
+| Gate rejeita challenger pior | ≥ 1 em teste | teste sintético + S1 (evitou −US$ 109 mil) | `test_gate_rejects_a_worse_challenger`, RUN-20261117-response-ALL-01 | ok |
+| Rollback em 1 comando | `make rollback` | troca de aliases, reversível | RUN-20261115-response-DRILL-01 | ok |
+| Tabela de respostas com custo | S1, S2, S3, S4 | 4/4 | RUN-20261117-response-ALL-01 | ok |
+| INC-0001 fechado com itens de ação | sim | fechado; 5 itens (3 feitos na F7, 2 abertos com dono) | INC-0001 | ok |
+| ruff / testes | 0 / verde | 0 / 218 passed | — | ok |
+| Regras do Prometheus | `promtool check` + `test` | não reexecutado (Docker parado); `monitoring/rules/` sem mudança desde o fechamento da F6 | `git diff cc52835 HEAD -- monitoring/rules` vazio | ok |
+
+### Estado
+
+- Caixas da fase: 13/13 → micro 100%
+- Progresso macro: 73% (F0 2 + F1 3 + F2 3 + F3 20 + F4 10 + F5 14 + F6 14 + F7 7)
+- Rubrica tocada: R3 (4) · R4 (3) · prescrição da Etapa 4
+- ADRs aceitos: 0012, 0013, 0019 (supersede o item 3 do 0012), 0020 (supersede o critério de calibração do 0013), 0021 (altera o item 4 do 0012), 0022 (supersede o item 6 do 0013)
+- RUNs registrados: response-ALL-01 e ALL-02 de 2026-11-15 (substituídos), response-DRILL-01, gameday-S2-01, response-ALL-01 de 2026-11-17
+- Limiares de detecção: 6 CALIBRADO · 0 PROPOSTO. Parâmetros da resposta (histerese de 2 lotes, capacidade da fila de 15%, janelas e volumes mínimos do ciclo de vida, critérios do gate) seguem PROPOSTO
+- Incidentes abertos: nenhum (INC-0001 fechado; itens 3 e 5 abertos com dono)
+- Travas de publicação: OK
+- Docs em sincronia: ok (ARCHITECTURE, README, índice de docs, RUNBOOK, RESPONSE_EVALUATION gerado e testado, ADRs com notas de status, CHANGELOG)
+
+### Achados
+
+- **A resposta certa depende do diagnóstico, e a matriz acerta qual é** (RUN-20261117-response-ALL-01):
+  - **D3 (S2):** o modo conservador por valor rende +US$ 2,94 mi.
+  - **D2 (S3):** rende +US$ 2,66 mi, e a recalibração, sozinha, +US$ 0,87 mi.
+  - **D1 (S1):** a política não age, e é o certo.
+  - **D6 (S4):** a quarentena retém o lote; forçar o modo conservador sobre o bug custaria US$ 6,3 mi.
+- **O teto de 14% do apetite de risco destruía valor** (−US$ 1,25 mi no S2, −US$ 2,95 mi no S3) e foi trocado pelo corte de valor esperado com risco corrigido (ADR-0019, decisão do autor).
+- **O gate absoluto de calibração reprovava challengers estritamente melhores** que o champion; passou a ser relativo (ADR-0020). Com isso, o challenger do S2 é aprovado e rende +US$ 0,61 mi.
+- **Game day (INC-0001):** diagnóstico D3 no segmento `dti` correto contra o ground truth; modo conservador automático no lote do alerta; challenger aprovado no gate no lote seguinte. Quatro problemas do sistema apareceram:
+  - **Árvore errada para concept drift:** a árvore de decisão separava D2 de D3 pela AUC, que não cai nesse tipo de concept drift. Corrigida na triagem do RUNBOOK.
+  - **A6 declarada sem existir:** a matriz declarava A6 automática sem que o job a executasse. Agora é humana, com comando (ADR-0022).
+  - **Fila sem dimensão:** a fila de revisão não tinha capacidade declarada. Agora tem 15% do lote, com o excedente recusado (ADR-0021); o ganho do modo conservador deixa de depender do revisor (+US$ 1,07 mi no S2 e +US$ 2,13 mi no S3 mesmo com a fila decidida depois como o champion decidiria).
+  - **Rampa sem aviso:** a rampa do concept drift passou sem SEV-1. Fica como item de ação 3.
+- **Doc fora de sincronia corrigido no fechamento:** a leitura humana da comparação ainda dizia que o gate reprovava o challenger do S2, o que deixou de ser verdade com o ADR-0020.
+- **Pendência herdada da F6 não coberta:** a investigação da regra de aviso do contrato que dispara no S5 estava prevista para o game day, mas o game day foi feito no S2. Fica para a F8, junto com a análise causal da produção natural.
+
+### Veredito
+
+**PODE AVANÇAR para F8.**
