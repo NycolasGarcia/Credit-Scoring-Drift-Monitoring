@@ -40,14 +40,14 @@ DRIFT = PROJECT_ROOT / "docs" / "evidence" / "drift"
 SCENARIOS = ("S1", "S2", "S3", "S4")
 
 
-def _frame(apps: pd.DataFrame, scored: pd.DataFrame, labels: pd.DataFrame) -> pd.DataFrame:
+def labeled_frame(apps: pd.DataFrame, scored: pd.DataFrame, labels: pd.DataFrame) -> pd.DataFrame:
+    """Validated applications of a batch with their (simulated) outcome."""
     valid = apps[apps["loan_key"].isin(scored["loan_key"])]
     return valid.merge(labels[["loan_key", "target"]], on="loan_key")
 
 
-def true_frames(sid: str, batches, model, profile, t_d: int) -> list[pd.DataFrame]:
+def true_frames(cfg, batches, model, profile, t_d: int) -> list[pd.DataFrame]:
     """S4 with the source fixed: the same rows rebuilt without the unit bug (determinism)."""
-    cfg = load_scenario(sid)
     clean = cfg.model_copy(
         update={"transforms": [t for t in cfg.transforms if t.kind != "unit_bug"]}
     )
@@ -56,7 +56,7 @@ def true_frames(sid: str, batches, model, profile, t_d: int) -> list[pd.DataFram
     out = []
     for b in batches[t_d:]:
         sim = simulate_batch(ctx, b.index)
-        out.append(_frame(to_application_batch(sim.applications), b.scored, b.labels))
+        out.append(labeled_frame(to_application_batch(sim.applications), b.scored, b.labels))
     return out
 
 
@@ -65,7 +65,8 @@ def scenario_setup(sid: str, policy) -> dict[str, Any]:
     _, batches = load_batches(sid)
     evidence = json.loads((DRIFT / f"{sid}.json").read_text(encoding="utf-8"))["batches"]
     t_d, acts = cmp.decision_point(evidence, policy)
-    periods = [cmp.Period(b.index, _frame(b.applications, b.scored, b.labels), evidence[b.index])
+    periods = [cmp.Period(b.index, labeled_frame(b.applications, b.scored, b.labels),
+                          evidence[b.index])
                for b in batches[t_d:]]  # fmt: skip
     views = [BatchView(b.index, b.gate_status, b.applications, b.scored, b.labels) for b in batches]
     return {"batches": batches, "evidence": evidence, "t_d": t_d, "periods": periods,
@@ -106,8 +107,9 @@ def strategies(setup: dict, ctx: dict) -> dict:
 def s4_extras(setup: dict, champ, base: float, cfg, profile) -> list[tuple[str, list, Any]]:
     """Fix the source (hold t_d, then the true data) and retrain on the bugged data."""
     t_d, views = setup["t_d"], setup["views"]
+    scenario = setup.get("scenario") or load_scenario("S4")
     fixed = [cmp.Period(p.index, f, p.evidence) for p, f in
-             zip(setup["periods"], true_frames("S4", setup["batches"], champ, profile, t_d),
+             zip(setup["periods"], true_frames(scenario, setup["batches"], champ, profile, t_d),
                  strict=True)]  # fmt: skip
 
     def held_then_fixed(period, k):

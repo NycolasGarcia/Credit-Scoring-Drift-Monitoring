@@ -209,6 +209,9 @@ A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, m
 | `src/monitoring/diagnosis.py` | Diagnóstico pela árvore §8.7, com assinatura de bug de unidade (D6) | F5 | implementado |
 | `src/monitoring/calibration.py` | Bootstrap A/A no controle e calibração dos limiares | F5 | implementado |
 | `src/monitoring/l4_sweep.py` | Varredura do corte SEV-2 da razão observado/esperado: escolha pela distribuição nula, validação em variantes novas | F6 | implementado |
+| `src/monitoring/robustness.py` | Estudo de robustez: variantes com seeds novas e magnitude × m, intervalo de Wilson, regra de leitura declarada antes | entre F7 e F8 | implementado |
+| `src/monitoring/robustness_run.py` | `make robustness`: simulador → gate → score → detector → avaliação e comparação de respostas por variante, em memória | entre F7 e F8 | implementado |
+| `src/monitoring/robustness_doc.py` | Gera `docs/ROBUSTNESS.md` e o RUN record `calib` ROBUST | entre F7 e F8 | implementado |
 | `src/monitoring/evidently_report.py` | Relatório Evidently com teste `psi_ref` registrado e explícito por coluna | F5 | implementado |
 | `src/monitoring/detect.py` | Detector por lote sobre um cenário (puro) | F5 | implementado |
 | `src/monitoring/evaluation.py` | Avaliação do detector contra o ground truth (falso alarme, atraso, atribuição, diagnóstico) | F5 | implementado |

@@ -18,7 +18,7 @@ define todo
 endef
 
 .PHONY: help setup lint format test data inventory eda cost train validate validate-bad contracts-d6 \
-        contracts-doc simulate calibrate detect sweep-l4 drift-docs alerts check-rules screenshots monitor \
+        contracts-doc simulate calibrate detect sweep-l4 robustness drift-docs alerts check-rules screenshots monitor \
         replay report rollback respond-compare respond-drill gameday-watch gameday gameday-shadow stack-up stack-down stack-status publish-check publish-check-all \
         publish-check-history
 
@@ -27,7 +27,7 @@ help:
 	@echo data:    data inventory eda
 	@echo model:   train report cost
 	@echo contracts: validate validate-bad contracts-d6 contracts-doc
-	@echo monitor: simulate calibrate detect sweep-l4 drift-docs monitor replay rollback
+	@echo monitor: simulate calibrate detect sweep-l4 robustness drift-docs monitor replay rollback
 	@echo alerts:  alerts check-rules screenshots
 	@echo respond: respond-compare respond-drill rollback gameday-watch gameday gameday-shadow
 	@echo stack:   stack-up stack-down stack-status
@@ -92,6 +92,9 @@ detect:
 
 sweep-l4:
 	$(RUN) python -m src.monitoring.cli sweep-l4
+
+robustness:
+	$(RUN) python -m src.monitoring.robustness_run
 
 drift-docs:
 	$(RUN) python -m src.monitoring.docs
