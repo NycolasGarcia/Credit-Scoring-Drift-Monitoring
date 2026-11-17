@@ -62,3 +62,4 @@ Observações humanas sobre os runs ficam na seção "Observações" de cada reg
 | [RUN-20261117-monitor-S5-01](RUN-20261117-monitor-S5-01.md) | 2026-11-17 | monitor | S5 | pipeline: 60 lotes · 0 bloqueados · 0 etapas com falha · alertas {'CDM_AUC_DROP': 'SEV-1', 'CDM_BAD_RATE_RATIO': 'SEV-2', 'CDM_FAIRNESS_GAP': 'SEV-2', 'CDM_FEATURE_DRIFT': 'SEV-2', 'CDM_SOFT_RULES': 'SEV-1'} | sim |
 | [RUN-20261117-calib-ROBUST-02](RUN-20261117-calib-ROBUST-02.md) | 2026-11-17 | calib | ROBUST | fora da regra na magnitude oficial ou no controle: S2 m=1 | sim |
 | [RUN-20261117-monitor-S0-01](RUN-20261117-monitor-S0-01.md) | 2026-11-17 | monitor | S0 | pipeline: 12 lotes · 0 bloqueados · 0 etapas com falha · alertas {} | sim |
+| [RUN-20261117-monitor-S1-01](RUN-20261117-monitor-S1-01.md) | 2026-11-17 | monitor | S1 | pipeline: 12 lotes · 0 bloqueados · 0 etapas com falha · alertas {'CDM_FEATURE_DRIFT': 'SEV-2', 'CDM_SCORE_DRIFT': 'SEV-1'} | sim |
