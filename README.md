@@ -85,6 +85,19 @@ make stack-down
 
 Cada etapa do job (ingest → validate → score → detect → evaluate → alert → respond → record) emite um evento JSON em `logs/<run_id>.jsonl`; métricas e alertas estão catalogados em [METRICS.md](docs/METRICS.md) e [ALERTS.md](docs/ALERTS.md), com um playbook por alerta no [RUNBOOK.md](docs/RUNBOOK.md). Decisões: [ADR-0010](docs/adr/0010-observability-stack.md) e [ADR-0011](docs/adr/0011-severity-alert-policy.md).
 
+### Resposta à degradação
+
+```bash
+make respond-compare           # valor de cada resposta (nada, conservador, recalibrar, retreinar) por cenário
+make respond-drill             # challenger em sombra + ensaio de promoção e rollback no registry de ensaio
+make gameday-watch SCENARIO=S2 # game day: job na visão do operador, parando no 1º alerta SEV-2+
+make gameday-shadow SCENARIO=S2 AT=8  # challenger treinado no lote do alerta, avaliado em sombra
+make gameday SCENARIO=S2       # execução completa do game day com RUN record
+make rollback                  # troca os aliases champion e champion_previous no MLflow Registry
+```
+
+A etapa `respond` do job aplica a matriz de resposta declarativa (`config/response/policy.yaml`): diagnóstico e severidade definem as ações automáticas (registrar, quarentena, modo conservador por valor) e as humanas (incidente, challenger, recalibração, promoção). Cada decisão de crédito sai com um código de motivo. Resultados em [RESPONSE_EVALUATION.md](docs/RESPONSE_EVALUATION.md), incidente do game day em [INC-0001](docs/incidents/0001-s2-concept-drift-dti.md) e operação no [RUNBOOK.md](docs/RUNBOOK.md). Decisões: ADRs [0012](docs/adr/0012-guardrails-conservative-mode.md), [0013](docs/adr/0013-retraining-gate-rollback.md), [0019](docs/adr/0019-conservative-mode-by-value.md), [0020](docs/adr/0020-relative-calibration-gate.md), [0021](docs/adr/0021-review-queue-capacity.md) e [0022](docs/adr/0022-challenger-shadow-human.md).
+
 Detalhes da separação e do alvo: [ADR-0004](docs/adr/0004-target-maturity-leakage.md), [ADR-0005](docs/adr/0005-reference-production-split.md) e [data card](docs/data_card.md).
 
 ## Documentação

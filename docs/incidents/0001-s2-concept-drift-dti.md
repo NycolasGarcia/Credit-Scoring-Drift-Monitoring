@@ -1,6 +1,6 @@
 # INC-0001 — Bad rate acima do esperado no segmento de DTI alto (game day S2)
 
-- **Status:** fechado (postmortem concluído; itens de ação abertos abaixo)
+- **Status:** fechado (postmortem concluído; itens 1, 2 e 4 resolvidos na F7, itens 3 e 5 em aberto)
 - **Severidade:** SEV-2
 - **Cenário / RUN:** S2 · [RUN-20261117-gameday-S2-01](../runs/RUN-20261117-gameday-S2-01.md)
 - **Simulado:** sim (game day, §11.7)
@@ -98,10 +98,10 @@ Fonte: [RUN-20261115-response-ALL-02](../runs/RUN-20261115-response-ALL-02.md), 
 
 | # | Ação | Dono | Prazo | Status |
 |---|---|---|---|---|
-| 1 | Reescrever o ramo L4 da árvore §8.7 para separar D2 de D3 pela concentração em segmento, como o detector e o playbook já fazem | autor | F7 (7.11) | aberto |
-| 2 | Decidir entre executar A6 no job (treino em sombra disparado pela regra) ou reclassificar A6 como humana, e documentar o comando no playbook | autor | F7 (7.11) | aberto |
+| 1 | Reescrever o ramo L4 da árvore §8.7 para separar D2 de D3 pela concentração em segmento, como o detector e o playbook já fazem | autor | F7 (7.11) | feito: triagem no [RUNBOOK](../RUNBOOK.md#triagem-de-um-alerta-árvore-de-decisão) |
+| 2 | Decidir entre executar A6 no job (treino em sombra disparado pela regra) ou reclassificar A6 como humana, e documentar o comando no playbook | autor | F7 (7.11) | feito: A6 humana ([ADR-0022](../adr/0022-challenger-shadow-human.md)), `make gameday-shadow` |
 | 3 | Avaliar um alerta de tendência da razão observado/esperado (subidas consecutivas abaixo do SEV-1), calibrado no S0 antes de entrar | autor | backlog | aberto |
-| 4 | Declarar a capacidade da fila de revisão e o comportamento quando ela estoura (ADR-0012 e RUNBOOK) | autor | F7 (7.11) | aberto |
+| 4 | Declarar a capacidade da fila de revisão e o comportamento quando ela estoura (ADR-0012 e RUNBOOK) | autor | F7 (7.11) | feito: 15% do lote, excedente recusado com R11 ([ADR-0021](../adr/0021-review-queue-capacity.md), [RUN-20261117-response-ALL-01](../runs/RUN-20261117-response-ALL-01.md)) |
 | 5 | Ligar este incidente à análise causal (DAG e mecanismo) | autor | F8 (8.6) | aberto |
 
 > Postmortem sem culpa: o foco é o sistema, não as pessoas.

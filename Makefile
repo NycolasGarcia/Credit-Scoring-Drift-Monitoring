@@ -130,7 +130,7 @@ respond-drill:
 	$(RUN) python -m src.response.cli drill
 
 gameday-watch:
-	$(RUN) python -m src.response.gameday --scenario $(GAMEDAY_SCENARIO) --until-sev $(UNTIL_SEV)
+	$(RUN) python -m src.response.gameday --scenario $(GAMEDAY_SCENARIO) --until-sev $(UNTIL_SEV) --limit $(LIMIT)
 
 gameday:
 	$(RUN) python -m src.response.gameday --scenario $(GAMEDAY_SCENARIO) --record
