@@ -15,6 +15,8 @@ output_alerts: [CDM_SCORE_DRIFT, CDM_APPROVAL_SHIFT, CDM_BAD_RATE_RATIO, CDM_AUC
 conservative:               # modo conservador por valor (ADR-0019): com o breaker aberto, o que o
   use_mature_ratio: true    # champion aprovaria vai para revisão se o valor esperado não fica positivo
                             # com o risco corrigido pela última razão observado/esperado (só se > 1)
+  review_capacity: 0.15     # PROPOSTO (ADR-0021): fila de revisão = 15% do lote; o excedente de
+                            # menor valor esperado é recusado com o motivo R11
 
 manual_review_value: 0.0    # premissa da comparação de custo: proposta em revisão não gera valor no lote
 
@@ -30,12 +32,12 @@ rules:                      # avaliadas em ordem; a primeira que casa define as 
   - id: P03
     when: {diagnosis: [D3], output_min_level: 2}
     situation: Concept drift confirmado com rótulo maduro
-    actions: [{code: A4, mode: auto}, {code: A6, mode: auto}, {code: A3, mode: human},
+    actions: [{code: A4, mode: auto}, {code: A6, mode: human}, {code: A3, mode: human},
               {code: A7, mode: human}]
   - id: P04
     when: {diagnosis: [D3]}
     situation: Concept drift em atenção
-    actions: [{code: A6, mode: auto}, {code: A3, mode: human}]
+    actions: [{code: A6, mode: human}, {code: A3, mode: human}]
   - id: P05
     when: {diagnosis: [D2], output_min_level: 2}
     situation: Prior shift relevante, ranking preservado

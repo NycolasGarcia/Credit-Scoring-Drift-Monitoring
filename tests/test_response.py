@@ -9,6 +9,7 @@ from src.response.guardrails import (
     BreakerState,
     ChainInput,
     negative_value,
+    review_overflow,
     risk_correction,
     run_chain,
 )
@@ -85,6 +86,27 @@ def test_conservative_mode_sends_the_gray_zone_to_review() -> None:
     assert list(reason) == ["R00", "R00", "R10", "R10", "R01"]
 
 
+def test_review_overflow_refuses_the_lowest_expected_values() -> None:
+    candidates = np.array([True, True, False, True, True])
+    value = np.array([-5.0, -1.0, 9.0, -50.0, -2.0])
+    assert list(review_overflow(candidates, value, 2)) == [True, False, False, True, False]
+    assert not review_overflow(candidates, value, 4).any()
+    assert not review_overflow(candidates, value, None).any()
+
+
+def test_full_review_queue_refuses_the_excess_with_its_own_reason() -> None:
+    value = np.array([10.0, 5.0, -1.0, -30.0, -40.0])
+    decision, reason = run_chain(chain(conservative=True, value=value, review_capacity=1))
+    assert list(decision) == ["approve", "approve", "review", "reject", "reject"]
+    assert list(reason) == ["R00", "R00", "R10", "R11", "R01"]
+
+
+def test_review_capacity_is_a_share_of_the_batch() -> None:
+    assert POLICY.conservative.capacity(6000) == int(POLICY.conservative.review_capacity * 6000)
+    unlimited = POLICY.conservative.model_copy(update={"review_capacity": None})
+    assert unlimited.capacity(6000) is None
+
+
 @pytest.mark.parametrize(("flag", "code"), [("kill_switch", "R20"), ("quarantine", "R30")])
 def test_kill_switch_and_quarantine_hold_every_decision(flag: str, code: str) -> None:
     decision, reason = run_chain(chain(conservative=True, **{flag: True}))
@@ -104,7 +126,8 @@ def signals(diagnosis: str = "D3", level: int = 2) -> dict:
 def test_respond_opens_conservative_mode_on_confirmed_degradation() -> None:
     frame, summary = respond(8, scored(), signals(), ResponseMemory(), 0.495)
     assert summary["rule"] == "P03" and summary["conservative"]
-    assert summary["auto"] == ["A4", "A6"] and set(frame["reason_code"]) <= {"R00", "R01", "R10"}
+    assert summary["auto"] == ["A4"] and summary["human"] == ["A6", "A3", "A7"]
+    assert set(frame["reason_code"]) <= {"R00", "R01", "R10", "R11"}
     assert (
         summary["expected_bad_rate_approved"] is None or summary["expected_bad_rate_approved"] < 1
     )

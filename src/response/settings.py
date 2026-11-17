@@ -40,6 +40,11 @@ class Conservative(BaseModel):
     """Conservative mode by expected value with the risk corrected (ADR-0019)."""
 
     use_mature_ratio: bool
+    review_capacity: float | None = Field(None, gt=0, le=1)  # share of the batch (ADR-0021)
+
+    def capacity(self, rows: int) -> int | None:
+        """Review slots of a batch with ``rows`` applications (None = unlimited)."""
+        return None if self.review_capacity is None else int(self.review_capacity * rows)
 
 
 class PolicyConfig(BaseModel):

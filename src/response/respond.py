@@ -19,7 +19,7 @@ from src.response.guardrails import (
     BreakerState,
     ChainInput,
     decisions_frame,
-    negative_value,
+    expected_value,
     risk_correction,
 )  # fmt: skip
 from src.response.policy import PolicyFacts, decide, output_level
@@ -40,11 +40,11 @@ def _chain_input(
     scores = valid["score"].to_numpy(float) if len(valid) else np.empty(0)
     k = risk_correction(mem.last_ratio, policy.conservative)
     gain, loss = loan_economics(valid, load_cost_config()) if len(valid) else (scores, scores)
-    live = not policy.dry_run
-    x = ChainInput(scores, base, negative_value(scores, gain, loss, k),
-                   kill_switch=live and policy.kill_switch,
+    live, ev = not policy.dry_run, expected_value(scores, gain, loss, k)
+    x = ChainInput(scores, base, ev <= 0, kill_switch=live and policy.kill_switch,
                    quarantine=live and decision.wants_quarantine,
-                   conservative=live and mem.breaker.open)  # fmt: skip
+                   conservative=live and mem.breaker.open, value=ev,
+                   review_capacity=policy.conservative.capacity(len(scores)))  # fmt: skip
     return x, k
 
 

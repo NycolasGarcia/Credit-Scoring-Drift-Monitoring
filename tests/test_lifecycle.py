@@ -159,10 +159,15 @@ def test_decision_point_and_value_of_review() -> None:
     model = FixedScores(s)
     recover = cmp.threshold_decider(model, 0.495)
     nothing = cmp.run_strategy([p], recover, cost, recover)
-    value = cmp.run_strategy([p], cmp.value_decider(model, 0.495, cost, policy), cost, recover)
+    unlimited = policy.model_copy(update={"conservative": policy.conservative.model_copy(
+        update={"review_capacity": None})})  # fmt: skip
+    value = cmp.run_strategy([p], cmp.value_decider(model, 0.495, cost, unlimited), cost, recover)
     assert value["review"] > 0 and value["value_review_recovered"] == pytest.approx(
         nothing["value"]
-    )
+    )  # without a cap, a review decided later by the champion undoes the conservative mode
+    capped = cmp.run_strategy([p], cmp.value_decider(model, 0.495, cost, policy), cost, recover)
+    assert capped["review"] <= policy.conservative.capacity(len(s))
+    assert capped["value"] == pytest.approx(value["value"])  # review and refusal are both 0
 
 
 class Scaled:

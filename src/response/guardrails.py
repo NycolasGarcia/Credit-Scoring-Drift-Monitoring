@@ -16,6 +16,7 @@ REASONS = {
     "R00": "aprovado: score abaixo do limiar do champion",
     "R01": "recusado: score acima do limiar do champion",
     "R10": "revisão humana: modo conservador, valor esperado não positivo com o risco corrigido",
+    "R11": "recusado: modo conservador, fila de revisão cheia e valor esperado entre os piores",
     "R20": "revisão humana: decisão automática suspensa (kill switch)",
     "R30": "revisão humana: lote em quarentena preventiva (suspeita de dado quebrado)",
 }
@@ -48,12 +49,33 @@ def risk_correction(ratio: float | None, cfg: Conservative) -> float:
     return max(1.0, ratio) if cfg.use_mature_ratio and ratio else 1.0
 
 
+def expected_value(
+    scores: np.ndarray, gain: np.ndarray, loss: np.ndarray, correction: float
+) -> np.ndarray:
+    """Expected value per loan with the champion's risk multiplied by ``correction``."""
+    risk = np.minimum(1.0, correction * scores)
+    return (1 - risk) * gain - risk * loss
+
+
 def negative_value(
     scores: np.ndarray, gain: np.ndarray, loss: np.ndarray, correction: float
 ) -> np.ndarray:
     """Loans whose expected value is not positive once the risk is corrected (ADR-0019)."""
-    risk = np.minimum(1.0, correction * scores)
-    return (1 - risk) * gain - risk * loss <= 0
+    return expected_value(scores, gain, loss, correction) <= 0
+
+
+def review_overflow(candidates: np.ndarray, value: np.ndarray, capacity: int | None) -> np.ndarray:
+    """Candidates beyond the review capacity: the ones with the lowest expected value (ADR-0021).
+
+    The queue keeps the cases a reviewer can most plausibly rescue (expected value closest to
+    zero); the rest is refused, which keeps the value of the conservative mode intact.
+    """
+    over = np.zeros(len(candidates), bool)
+    if capacity is None or candidates.sum() <= capacity:
+        return over
+    idx = np.flatnonzero(candidates)
+    over[idx[np.argsort(-value[idx], kind="stable")[capacity:]]] = True
+    return over
 
 
 @dataclass(frozen=True)
@@ -66,6 +88,8 @@ class ChainInput:
     kill_switch: bool
     quarantine: bool
     conservative: bool
+    value: np.ndarray | None = None
+    review_capacity: int | None = None
 
 
 Handler = Callable[[ChainInput], tuple[np.ndarray, str, str] | None]
@@ -77,6 +101,13 @@ def _kill_switch(x: ChainInput):
 
 def _quarantine(x: ChainInput):
     return (np.ones(len(x.scores), bool), "review", "R30") if x.quarantine else None
+
+
+def _overflow(x: ChainInput):
+    if not x.conservative or x.value is None:
+        return None
+    candidates = x.negative_value & (x.scores < x.base_threshold)
+    return review_overflow(candidates, x.value, x.review_capacity), "reject", "R11"
 
 
 def _conservative(x: ChainInput):
@@ -93,7 +124,9 @@ def _approve(x: ChainInput):
     return np.ones(len(x.scores), bool), "approve", "R00"
 
 
-CHAIN: tuple[Handler, ...] = (_kill_switch, _quarantine, _conservative, _reject, _approve)
+CHAIN: tuple[Handler, ...] = (
+    _kill_switch, _quarantine, _overflow, _conservative, _reject, _approve,
+)  # fmt: skip
 
 
 def run_chain(x: ChainInput) -> tuple[np.ndarray, np.ndarray]:

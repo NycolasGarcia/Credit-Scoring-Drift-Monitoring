@@ -227,7 +227,7 @@ A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, m
 | `src/alerting/rules.py` | Gera as regras do Prometheus, os testes do `promtool` e `ALERTS.md` | F6 | implementado |
 | `src/response/settings.py` | Política de resposta validada (`config/response/policy.yaml`) | F7 | implementado |
 | `src/response/policy.py` | Motor da matriz §8.5: primeira regra que casa → ações automáticas e humanas | F7 | implementado |
-| `src/response/guardrails.py` | Circuit breaker (GR-4) com histerese, corte por valor esperado com risco corrigido (ADR-0019), cadeia de guardrails com código de motivo (GR-9, A2, GR-4) | F7 | implementado |
+| `src/response/guardrails.py` | Circuit breaker (GR-4) com histerese, corte por valor esperado com risco corrigido (ADR-0019), fila de revisão com capacidade e excedente recusado (ADR-0021), cadeia de guardrails com código de motivo (GR-9, A2, GR-4) | F7 | implementado |
 | `src/response/respond.py` | Etapa `respond` do job: política → breaker → cadeia → decisões finais | F7 | implementado |
 | `src/response/lifecycle.py` | Recalibração (A5) e challenger (A6) só com dado aprovado (GR-7) e rótulo maduro (GR-8), em janela recente | F7 | implementado |
 | `src/response/gate.py` | Gate de promoção (GR-5): AUC recente, perda na referência, calibração, gap de aprovação entre grupos | F7 | implementado |

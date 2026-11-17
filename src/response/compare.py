@@ -17,7 +17,12 @@ import pandas as pd
 from src.models.settings import CostConfig
 from src.models.threshold import loan_economics
 from src.response.gate import scores
-from src.response.guardrails import BreakerState, negative_value, risk_correction
+from src.response.guardrails import (
+    BreakerState,
+    expected_value,
+    review_overflow,
+    risk_correction,
+)  # fmt: skip
 from src.response.policy import PolicyFacts, decide
 from src.response.settings import PolicyConfig
 
@@ -108,8 +113,10 @@ def value_decider(champion: Any, base: float, cost: CostConfig, policy: PolicyCo
             return p < base, np.zeros(len(p), bool)
         gain, loss = loan_economics(period.frame, cost)
         factor = risk_correction(state["ratio"], policy.conservative) if correct else 1.0
-        neg = negative_value(p, gain, loss, factor)
-        return (p < base) & ~neg, (p < base) & neg
+        ev = expected_value(p, gain, loss, factor)
+        held = (p < base) & (ev <= 0)
+        over = review_overflow(held, ev, policy.conservative.capacity(len(p)))
+        return (p < base) & ~held, held & ~over
 
     return fn
 
