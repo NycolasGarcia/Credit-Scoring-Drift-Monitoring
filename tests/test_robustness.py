@@ -51,6 +51,8 @@ def test_declared_reading_rule() -> None:
                                           "false_alarm": True}  # fmt: skip
     missed = summarize_cell([_row(None, 0, 0)] * 2 + [_row(8, 4, 4)] * 3, 2)
     assert verdict(missed, CFG.reading)["detection"] is False  # 3/5 < 80%
+    control = summarize_cell([_row(None, 0, 0)] * 5, 2)
+    assert verdict(control, CFG.reading, control=True)["detection"] is None
     noisy = summarize_cell([_row(8, 4, 4, pre_sev2=1)] + [_row(8, 4, 4)] * 4, 2)
     assert verdict(noisy, CFG.reading)["false_alarm"] is False
 
@@ -64,7 +66,8 @@ def test_response_summary_requires_gain_in_every_seed() -> None:
 
 def test_contract_blocked_batches_are_counted_apart_from_the_detector() -> None:
     def res(i, level, diag, gate="passed"):
-        return {"index": i, "severity": {"level": level}, "gate_status": gate, "diagnosis": diag}
+        sev = {"level": level}
+        return {"index": i, "severity": sev, "gate_status": gate, "diagnosis": diag}
 
     results = [res(0, 0, "none"), res(1, 2, "D6"), res(2, 2, "D0", "blocked")]
     ev = {"onset": 1, "first_sev1": 1, "first_sev2": 1, "attribution": {"recall": 1.0},

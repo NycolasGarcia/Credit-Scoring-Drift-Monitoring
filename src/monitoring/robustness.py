@@ -74,29 +74,26 @@ def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float] | None:
     return max(0.0, c - h), min(1.0, c + h)
 
 
+def first_alert(results: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Index, level and diagnosis of the first alerting batch (to explain misdiagnoses)."""
+    r = next((r for r in results if r["severity"]["level"] >= 1), None)
+    return r and {"index": r["index"], "level": r["severity"]["level"], "diagnosis": r["diagnosis"]}
+
+
 def detection_row(scenario: str, m: float, seed: int, results, evaluation) -> dict[str, Any]:
     """What one variant tells about the detector (aggregates only)."""
-    onset = evaluation["onset"]
+    onset, diag = evaluation["onset"], evaluation["diagnosis"]
     pre = [r for r in results if onset is None or r["index"] < onset]
-    diag = evaluation["diagnosis"]
     post = [r for r in results if onset is not None and r["index"] >= onset]
     blocked = sum(r["gate_status"] == "blocked" for r in post)  # caught by the contract (L0)
-    alerting = sum(diag["counts"].values()) - blocked  # the detector's own alerting batches
-    return {
-        "scenario": scenario,
-        "m": m,
-        "seed": seed,
-        "onset": onset,
-        "first_sev1": evaluation["first_sev1"],
-        "first_sev2": evaluation["first_sev2"],
-        "pre_batches": len(pre),
-        "pre_sev1": sum(r["severity"]["level"] >= 1 for r in pre),
-        "pre_sev2": sum(r["severity"]["level"] >= 2 for r in pre),
-        "alerting": alerting,
-        "blocked": blocked,
-        "correct": diag["counts"].get(diag["expected"], 0),
-        "recall": evaluation["attribution"]["recall"],
-    }
+    return {"scenario": scenario, "m": m, "seed": seed, "onset": onset,
+            "first_sev1": evaluation["first_sev1"], "first_sev2": evaluation["first_sev2"],
+            "pre_batches": len(pre), "pre_sev1": sum(r["severity"]["level"] >= 1 for r in pre),
+            "pre_sev2": sum(r["severity"]["level"] >= 2 for r in pre),
+            "alerting": sum(diag["counts"].values()) - blocked,  # the detector's own alerts
+            "blocked": blocked, "correct": diag["counts"].get(diag["expected"], 0),
+            "recall": evaluation["attribution"]["recall"], "diagnoses": diag["counts"],
+            "first_alert": first_alert(results)}  # fmt: skip
 
 
 def summarize_cell(rows: list[dict[str, Any]], level: int) -> dict[str, Any]:
@@ -120,9 +117,9 @@ def summarize_cell(rows: list[dict[str, Any]], level: int) -> dict[str, Any]:
     }
 
 
-def verdict(cell: dict[str, Any], rule: Reading) -> dict[str, bool | None]:
-    """Declared rule applied to one (scenario, m) cell."""
-    det = cell["detected"] / cell["seeds"] >= rule.min_detection_share
+def verdict(cell: dict[str, Any], rule: Reading, control: bool = False) -> dict[str, bool | None]:
+    """Declared rule applied to one (scenario, m) cell; detection does not apply to the control."""
+    det = None if control else cell["detected"] / cell["seeds"] >= rule.min_detection_share
     ci = cell["diagnosis_ci"]
     fa = cell["pre_sev2"] / cell["pre_batches"] if cell["pre_batches"] else 0.0
     return {
@@ -141,7 +138,8 @@ def detection_summary(rows: list[dict[str, Any]], cfg: RobustnessConfig) -> list
                 [r for r in rows if r["scenario"] == sid and r["m"] == m],
                 cfg.reading.detected_level,
             )
-            out.append({"scenario": sid, "m": m, **cell, "verdict": verdict(cell, cfg.reading)})
+            v = verdict(cell, cfg.reading, control=sid == cfg.control)
+            out.append({"scenario": sid, "m": m, **cell, "verdict": v})
     return out
 
 
