@@ -18,9 +18,10 @@ conservative:               # modo conservador por valor (ADR-0019): com o break
   review_capacity: 0.15     # PROPOSTO (ADR-0021): fila de revisão = 15% do lote; o excedente de
                             # menor valor esperado é recusado com o motivo R11
   fairness:                 # ADR-0015: o modo conservador não abre gap de aprovação acima de
-    segment: home_ownership #   max_gap_pp entre grupos; aprova de volta, no grupo mais cortado,
-    max_gap_pp: 7.0         #   as propostas retidas de maior valor esperado (motivo R12)
+    segments: [home_ownership, emp_length]  # max_gap_pp entre grupos; aprova de volta, no
+    max_gap_pp: 7.0         #   grupo mais cortado, as retidas de maior valor esperado (R12)
     min_group_rows: 200     #   grupos menores no lote não entram no cálculo
+    passes: 3               #   addr_state fica só monitorado: está fora do modelo de propósito
 
 manual_review_value: 0.0    # premissa da comparação de custo: proposta em revisão não gera valor no lote
 

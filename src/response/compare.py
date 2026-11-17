@@ -14,9 +14,10 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from src.governance.fairness import load_fairness
 from src.models.settings import CostConfig
 from src.models.threshold import loan_economics
-from src.response.fairness_cap import relief
+from src.response.fairness_cap import relieve
 from src.response.gate import scores
 from src.response.guardrails import (
     BreakerState,
@@ -120,8 +121,7 @@ def value_decider(champion: Any, base: float, cost: CostConfig, policy: PolicyCo
         approved, review = (p < base) & ~held, held & ~over
         cap = policy.conservative.fairness
         if cap is not None:  # ADR-0015, same rule as the job
-            labels = period.frame[cap.segment].astype("string").fillna("desconhecido").to_numpy()
-            back = relief(approved, held, ev, labels, cap)
+            back = relieve(approved, held, ev, period.frame, cap, load_fairness().segments)
             approved, review = approved | back, review & ~back
         return approved, review
 

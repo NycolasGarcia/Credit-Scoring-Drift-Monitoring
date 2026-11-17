@@ -10,7 +10,9 @@ kill switch and the quarantine are never touched.
 import math
 
 import numpy as np
+import pandas as pd
 
+from src.governance.fairness import Segment, groups
 from src.response.settings import FairnessCap
 
 
@@ -39,3 +41,14 @@ def relief(approved, held, value, groups, cap: FairnessCap) -> np.ndarray:
         idx = np.flatnonzero(mask & held)
         out[idx[np.argsort(-value[idx], kind="stable")[:need]]] = True
     return out
+
+
+def relieve(approved, held, value, frame: pd.DataFrame, cap: FairnessCap,
+            segments: dict[str, Segment]) -> np.ndarray:  # fmt: skip
+    """Held rows to approve so every capped segment fits the cap (a few passes over them)."""
+    back = np.zeros(len(approved), bool)
+    labels = {col: groups(frame, col, segments[col]).to_numpy() for col in cap.segments}
+    for _ in range(cap.passes):
+        for col in cap.segments:
+            back |= relief(approved | back, held & ~back, value, labels[col], cap)
+    return back

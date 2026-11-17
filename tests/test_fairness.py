@@ -12,11 +12,11 @@ from src.governance.fairness import (
     load_fairness,
     segment_table,
 )
-from src.response.fairness_cap import relief
+from src.response.fairness_cap import relief, relieve
 from src.response.settings import FairnessCap
 
 CFG = load_fairness()
-CAP = FairnessCap(segment="g", max_gap_pp=10.0, min_group_rows=2)
+CAP = FairnessCap(segments=["home_ownership"], max_gap_pp=10.0, min_group_rows=2)
 
 
 def test_emp_length_bands_and_unknown() -> None:
@@ -69,3 +69,16 @@ def test_cramers_v_bounds() -> None:
     a = pd.Series(list("xxyy") * 10)
     assert cramers_v(a, a) == 1.0
     assert cramers_v(a, pd.Series(list("xyxy") * 10)) < 0.1
+
+
+def test_relieve_caps_every_listed_segment() -> None:
+    frame = pd.DataFrame({"home_ownership": ["RENT", "OWN"] * 20,
+                          "emp_length": [np.nan] * 10 + [5.0] * 30})  # fmt: skip
+    approved = np.array([False] * 10 + [True] * 30)  # "desconhecido" 0%, the rest 100%
+    held = ~approved
+    cap = FairnessCap(segments=["home_ownership", "emp_length"], max_gap_pp=10.0,
+                      min_group_rows=5)  # fmt: skip
+    back = relieve(approved, held, np.zeros(40), frame, cap, CFG.segments)
+    labels = groups(frame, "emp_length", CFG.segments["emp_length"]).to_numpy()
+    assert approval_gap(approved | back, labels, 5) <= 0.10 + 1e-9
+    assert not back[10:].any()  # only held rows come back

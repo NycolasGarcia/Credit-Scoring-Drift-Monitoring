@@ -16,7 +16,7 @@ import pandas as pd
 from src.governance.fairness import fairness_drift, load_fairness
 from src.models.settings import load_cost_config
 from src.models.threshold import loan_economics
-from src.response.fairness_cap import relief
+from src.response.fairness_cap import relieve
 from src.response.guardrails import (
     BreakerState,
     ChainInput,
@@ -57,8 +57,7 @@ def _apply_cap(frame: pd.DataFrame, valid: pd.DataFrame, x: ChainInput, policy) 
         return frame
     held = frame["reason_code"].isin(["R10", "R11"]).to_numpy()
     approved = (frame["decision"] == "approve").to_numpy()
-    labels = valid[cap.segment].astype("string").fillna("desconhecido").to_numpy()
-    back = relief(approved, held, x.value, labels, cap)
+    back = relieve(approved, held, x.value, valid, cap, load_fairness().segments)
     frame.loc[back, ["decision", "reason_code"]] = ["approve", "R12"]
     return frame
 

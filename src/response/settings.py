@@ -39,9 +39,10 @@ class Rule(BaseModel):
 class FairnessCap(BaseModel):
     """Largest approval gap between groups the conservative mode may open (ADR-0015)."""
 
-    segment: str
+    segments: list[str]  # grouped as in config/governance/fairness.yaml
     max_gap_pp: float = Field(gt=0)
     min_group_rows: int = Field(ge=1)
+    passes: int = Field(3, ge=1)  # giving back in one segment can move another; a few passes
 
 
 class Conservative(BaseModel):

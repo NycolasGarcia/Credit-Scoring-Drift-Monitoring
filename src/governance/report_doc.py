@@ -17,6 +17,10 @@ def _p(v: float | None, digits: int = 1) -> str:
     return "—" if v is None else f"{100 * v:.{digits}f}%".replace(".", ",")
 
 
+def _int(v: int) -> str:
+    return f"{v:,}".replace(",", ".")
+
+
 def _n(v: float | None, digits: int = 3) -> str:
     return "—" if v is None else f"{v:.{digits}f}".replace(".", ",")
 
@@ -26,16 +30,16 @@ def group_rows(table: dict[str, dict[str, Any]]) -> list[str]:
     rows = ["| Grupo | Propostas | Aprovação | Aprovação dos bons | Aprovação dos maus | Bad rate "
             "| Calibração (obs/esp) | AUC |", "|---|---|---|---|---|---|---|---|"]  # fmt: skip
     for g, m in table.items():
-        rows.append(f"| {g} | {m['n']:,} | {_p(m['approval_rate'])} | "
+        rows.append(f"| {g} | {_int(m['n'])} | {_p(m['approval_rate'])} | "
                     f"{_p(m['good_approval_rate'])} | {_p(m['bad_approval_rate'])} | "
                     f"{_p(m['bad_rate'])} | {_n(m['calibration_ratio'], 2)} | "
-                    f"{_n(m['auc'])} |".replace(",", "."))  # fmt: skip
+                    f"{_n(m['auc'])} |")  # fmt: skip
     return rows
 
 
 def reference_part(ref: dict[str, Any], min_size: int) -> list[str]:
     """Normal regime: champion on the 2013 test split."""
-    out = [f"## Regime normal (teste de 2013, {ref['rows']:,} propostas)\n".replace(",", "."),
+    out = [f"## Regime normal (teste de 2013, {_int(ref['rows'])} propostas)\n",
            f"O champion aprova {_p(ref['approval_rate'])} das propostas no limiar da política. "
            f"Gaps entre grupos com pelo menos {min_size} propostas.\n"]  # fmt: skip
     for col, s in ref["segments"].items():
@@ -72,7 +76,7 @@ def scenario_part(s: dict[str, Any]) -> list[str]:
         out.append(f"| {name} | {delta} | {_gap_stats(r['per_batch'], 'home_ownership')} | "
                    f"{_gap_stats(r['per_batch'], 'emp_length')} | "
                    f"{_gap_stats(r['per_batch'], 'addr_state')} |")  # fmt: skip
-    for name in list(s["strategies"])[1:]:
+    for name in ("conservador sem limite", "conservador com limite (política)"):
         out += [
             f"\nPor grupo de `home_ownership`, {name}:\n",
             *group_rows(s["strategies"][name]["home_ownership"]),

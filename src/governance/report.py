@@ -31,7 +31,13 @@ from src.response import cli as rcli
 from src.response import compare as cmp
 from src.response.gate import scores
 
-STRATEGIES = ("champion puro", "conservador sem limite", "conservador com limite (política)")
+POLICY = "conservador com limite (política)"
+# Discarded alternatives of ADR-0015 (None = no cap).
+ALTERNATIVES = {
+    "conservador sem limite": None,
+    "limite só em home_ownership": ["home_ownership"],
+    "limite nos três segmentos": ["home_ownership", "emp_length", "addr_state"],
+}
 
 
 def reference_section(ctx: dict[str, Any], cfg) -> dict[str, Any]:
@@ -45,23 +51,23 @@ def reference_section(ctx: dict[str, Any], cfg) -> dict[str, Any]:
     return out
 
 
+def _with_segments(pol, segments: list[str] | None):
+    """Copy of the policy with another set of capped segments (None = no cap)."""
+    cap = pol.conservative.fairness
+    new = None if segments is None else cap.model_copy(update={"segments": segments})
+    return pol.model_copy(
+        update={"conservative": pol.conservative.model_copy(update={"fairness": new})}
+    )
+
+
 def deciders(ctx: dict[str, Any]) -> dict[str, cmp.Decider]:
-    """The three decisions compared under the conservative mode."""
-    pol = ctx["policy"]
-    uncapped = pol.model_copy(
-        update={"conservative": pol.conservative.model_copy(update={"fairness": None})}
-    )
-    return dict(
-        zip(
-            STRATEGIES,
-            (
-                cmp.threshold_decider(ctx["champ"], ctx["base"]),
-                cmp.value_decider(ctx["champ"], ctx["base"], ctx["cost"], uncapped),
-                cmp.value_decider(ctx["champ"], ctx["base"], ctx["cost"], pol),
-            ),
-            strict=True,
-        )
-    )
+    """Plain champion, the current policy and the discarded alternatives of ADR-0015."""
+    pol, champ, base, cost = ctx["policy"], ctx["champ"], ctx["base"], ctx["cost"]
+    out = {"champion puro": cmp.threshold_decider(champ, base)}
+    for name, segments in ALTERNATIVES.items():
+        out[name] = cmp.value_decider(champ, base, cost, _with_segments(pol, segments))
+    out[POLICY] = cmp.value_decider(champ, base, cost, pol)
+    return out
 
 
 def run_decider(fn, periods, ctx: dict[str, Any], cfg) -> dict[str, Any]:
@@ -85,7 +91,7 @@ def scenario_section(sid: str, ctx: dict[str, Any], cfg) -> dict[str, Any]:
     """The three decisions over the batches after the decision point of one scenario."""
     setup = rcli.scenario_setup(sid, ctx["policy"])
     runs = {n: run_decider(fn, setup["periods"], ctx, cfg) for n, fn in deciders(ctx).items()}
-    base = runs[STRATEGIES[0]]["value"]
+    base = runs["champion puro"]["value"]
     for r in runs.values():
         r["delta_vs_champion"] = r["value"] - base
     return {"scenario": sid, "decision_point": setup["t_d"], "strategies": runs}
