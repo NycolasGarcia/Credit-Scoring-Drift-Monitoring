@@ -227,7 +227,7 @@ A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, m
 | `src/alerting/rules.py` | Gera as regras do Prometheus, os testes do `promtool` e `ALERTS.md` | F6 | implementado |
 | `src/response/settings.py` | Política de resposta validada (`config/response/policy.yaml`) | F7 | implementado |
 | `src/response/policy.py` | Motor da matriz §8.5: primeira regra que casa → ações automáticas e humanas | F7 | implementado |
-| `src/response/guardrails.py` | Circuit breaker (GR-4) com histerese, limiar de política pelo apetite de risco, cadeia de guardrails com código de motivo (GR-9, A2, GR-4) | F7 | implementado |
+| `src/response/guardrails.py` | Circuit breaker (GR-4) com histerese, corte por valor esperado com risco corrigido (ADR-0019), cadeia de guardrails com código de motivo (GR-9, A2, GR-4) | F7 | implementado |
 | `src/response/respond.py` | Etapa `respond` do job: política → breaker → cadeia → decisões finais | F7 | implementado |
 | `src/response/lifecycle.py` | Recalibração (A5) e challenger (A6) só com dado aprovado (GR-7) e rótulo maduro (GR-8), em janela recente | F7 | implementado |
 | `src/response/gate.py` | Gate de promoção (GR-5): AUC recente, perda na referência, calibração, gap de aprovação entre grupos | F7 | implementado |
@@ -236,6 +236,7 @@ A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, m
 | `src/response/compare.py` | Valor realizado de cada estratégia de resposta a partir do ponto de decisão | F7 | implementado |
 | `src/response/docs.py` | Gera `RESPONSE_EVALUATION.md` e o RUN record `response` | F7 | implementado |
 | `src/response/cli.py` | `make respond-compare`, `make respond-drill` e `make rollback` | F7 | implementado |
+| `src/response/gameday.py` | `make gameday-watch` / `make gameday`: o job lote a lote na visão do operador (sem manifesto), parando no primeiro alerta da severidade pedida (§11.7) | F7 | implementado |
 | `src/governance/` | Fairness, checagem de privacidade, retenção | F8 | planejado |
 | `src/reporting/` (restante) | Sumários de monitoramento e de resposta | F5+ | planejado |
 
