@@ -657,3 +657,9 @@ Trabalho fora das fases, decidido pelo autor depois da autoavaliação do fecham
 ### Veredito
 
 **PODE AVANÇAR para F9.**
+
+## CHECKPOINT — F9 «Consolidação e entrega» · abertura · 2026-11-17
+
+1. **Pré-requisitos:** F8 fechada com veredito "PODE AVANÇAR"; CI verde no último push (`b6aaf96`).
+2. **Escopo:** README final, revisão do histórico, varredura (ruff, testes, stack do zero, CI, RUN-id de todo número do README), roteiro do vídeo STAR, auditoria contra a rubrica e os requisitos obrigatórios, verificação final de publicação.
+3. **Dependências do autor:** gravação do vídeo (9.5); Docker em execução para validar a stack do zero e tirar os prints dos painéis de fairness (exceção herdada da F8); push final e visibilidade do repositório.
