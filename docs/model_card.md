@@ -1,6 +1,6 @@
 # Model Card — credit-scoring (champion v2)
 
-> **Status: rascunho (F2).** As seções de fairness e de sensibilidade a drift simulado são completadas nas fases F5 e F8. Todo número cita o RUN que o produziu.
+> **Status: final (F8).** Todo número cita o RUN que o produziu. Projeto acadêmico: o modelo não decide crédito de ninguém; "produção" é simulada ([GOVERNANCE.md](GOVERNANCE.md)).
 
 ## Identificação
 
@@ -19,7 +19,8 @@ Estimar a probabilidade de inadimplência (*charged off*/*default*) de uma propo
 
 ## Usos não pretendidos
 
-- Decisão de crédito **totalmente automatizada sem revisão humana** de casos limítrofes. O modo conservador (F7) envia a faixa cinza para revisão, em linha com o direito de revisão de decisão automatizada (a confirmar na F8).
+- **Decisão de crédito real.** É um trabalho acadêmico, sem validação regulatória nem revisão jurídica.
+- Decisão de crédito **totalmente automatizada sem revisão humana** de casos limítrofes. O modo conservador envia a faixa limítrofe para revisão (motivo R10), além do mínimo do direito de revisão de decisão automatizada (LGPD art. 20; Lei 12.414/2011, art. 5º, VI; [ADR-0014](adr/0014-privacy-legal-basis-retention.md)).
 - Aplicações conjuntas, outros produtos de crédito ou populações fora da política de originação do credor de origem.
 - Precificação: o modelo usa `int_rate` e `grade` como entrada e não pode ser usado para defini-los.
 - Qualquer inferência sobre atributos protegidos.
@@ -59,7 +60,7 @@ No teste ([RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md)): aprov
 
 **Histórico:** o v1 usava 0,33 com premissas propostas (LGD 0,60; margem 0,50). Esse limiar tinha regret de 8,1% no caixa bruto ([RUN-20261113-calib-COST-01](runs/RUN-20261113-calib-COST-01.md)) e era pouco robusto: com as premissas variando na faixa plausível, o ótimo ia de 0,06 a 0,55.
 
-**Leitura:** a aprovação próxima de 100% em regime normal reflete o **viés de seleção**, porque os dados já passaram pela política do credor de origem. O valor do modelo aparece sob degradação, quando o modo conservador (GR-4, F7) usa o ranking para cortar a cauda de risco até o teto de bad rate dos aprovados (14%, PROPOSTO).
+**Leitura:** a aprovação próxima de 100% em regime normal reflete o **viés de seleção**, porque os dados já passaram pela política do credor de origem. O valor do modelo aparece sob degradação: o modo conservador usa o ranking para reter as propostas de valor esperado não positivo com o risco corrigido pela última razão observado/esperado ([ADR-0019](adr/0019-conservative-mode-by-value.md)). O teto de bad rate de 14% foi descartado por destruir valor.
 
 ## Sensibilidade a drift
 
@@ -72,6 +73,11 @@ No teste ([RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md)): aprov
 - **Concept drift (S2) e prior shift (S3):** o bad rate sobe de 5 a 7 p.p. sem nenhum sinal nas entradas ou no score. Só o desempenho com rótulo maduro revela o problema, com o atraso do rótulo.
 - **Bug de unidade (S4):** a renda mensal no lugar da anual derruba a aprovação em 6 p.p. e a AUC em até 0,05. O modelo é sensível a erro de unidade em `annual_inc`, sua 3ª feature mais importante.
 
+**Limites de detecção** (5 seeds novos e 4 magnitudes, [RUN-20261117-calib-ROBUST-02](runs/RUN-20261117-calib-ROBUST-02.md)):
+- **Na magnitude oficial,** os quatro mecanismos são detectados em 5 de 5 seeds, sem nenhum falso alarme no controle.
+- **Passam sem detecção:** o concept drift com metade da intensidade (logit +0,5 no segmento) e o bug de unidade em 7,5% das linhas. O bug em 15% das linhas já é reconhecido como D6.
+- **No concept drift,** quando o primeiro alerta chega cedo, ainda na rampa, ele pode ser lido como prior shift por um lote.
+
 ## Limitações
 
 1. **Viés de seleção:** treinado só em empréstimos aprovados pelo credor. O risco dos recusados é desconhecido (*reject inference*).
@@ -80,10 +86,28 @@ No teste ([RUN-20261113-train-REF-02](runs/RUN-20261113-train-REF-02.md)): aprov
 4. **Uma única safra de referência** (2013): sazonalidade e ciclo de um só ano.
 5. **Premissa de funding declarada (5% a.a.):** as perdas e margens são medidas, mas o custo de funding é política. Acima de ~8% a.a., o caixa realizado da carteira vira negativo e o limiar muda radicalmente (ADR-0016).
 
+## Resposta à degradação
+
+Medida nos cenários com desfecho conhecido. Valores contra não fazer nada, mediana e faixa em 5 seeds novos ([RUN-20261117-calib-ROBUST-02](runs/RUN-20261117-calib-ROBUST-02.md)):
+
+| Cenário | Resposta da política | Valor | Alternativa de modelo |
+|---|---|---|---|
+| Choque econômico (S1) | só registrar (o modelo continua calibrado) | 0 | retreinar sem gate perde em 4 de 5 seeds; o gate recusa os 5 |
+| Concept drift (S2) | modo conservador | +US$ 2,09 mi (1,84 a 2,75) | recalibrar +0,46 mi (5/5); retreinar com gate de 0 a +0,58 mi (gate aprova em 3/5) |
+| Prior shift (S3) | modo conservador + recalibrar (humano) | +US$ 2,23 mi (2,18 a 2,36) | recalibrar +0,27 mi (0,05 a 0,67) |
+| Bug de unidade (S4) | quarentena e corrigir a fonte | — | forçar o modo conservador perderia de 6,25 a 6,77 mi |
+
+Decisões: [ADR-0012](adr/0012-guardrails-conservative-mode.md), [ADR-0013](adr/0013-retraining-gate-rollback.md), [ADR-0019](adr/0019-conservative-mode-by-value.md), [ADR-0020](adr/0020-relative-calibration-gate.md), [ADR-0021](adr/0021-review-queue-capacity.md) e [ADR-0022](adr/0022-challenger-shadow-human.md). Game day e postmortem: [INC-0001](incidents/0001-s2-concept-drift-dti.md).
+
 ## Fairness
 
-*Pendente (F8).* Atributos disponíveis para análise: `addr_state` (fora do modelo), `emp_length` e `home_ownership`. O dataset não tem gênero nem idade.
+Detalhes em [FAIRNESS.md](FAIRNESS.md) ([RUN-20261117-fairness-ALL-01](runs/RUN-20261117-fairness-ALL-01.md)) e no [ADR-0015](adr/0015-bias-mitigation.md). O dataset não tem gênero nem idade; os grupos disponíveis são `home_ownership`, faixas de `emp_length` e `addr_state` (este fora do modelo).
+
+- **Regime normal:** gap de aprovação entre grupos abaixo de 0,3 p.p. em todos os segmentos. Calibração por grupo entre 0,95 e 1,09 em `home_ownership` e `emp_length`. A AUC é menor em RENT (0,68) do que em MORTGAGE (0,71).
+- **Modo conservador sem mitigação:** o corte cai mais sobre quem aluga (13 a 19 p.p. a menos de aprovação, em média) e sobre quem não informou o tempo de emprego (cerca de 40 p.p.).
+- **Mitigação:** nenhum grupo de `home_ownership` ou `emp_length` fica mais de 7 p.p. abaixo do mais aprovado (motivo R12). Custa 7% do ganho do modo conservador no S2 e 4% no S3.
+- **Gap regional:** só monitorado. Na produção natural, com o modo conservador ativo, ele cresce de 6 a 11 p.p. e dispara o alerta de fairness ([RUN-20261117-monitor-S5-01](runs/RUN-20261117-monitor-S5-01.md)).
 
 ## Manutenção
 
-Monitorado por lote mensal (F3–F6). Respostas à degradação, como recalibração, challenger, rollback e modo conservador, seguem a política de F7. Retreino só com rótulo maduro e dado aprovado no contrato (GR-7, GR-8).
+Monitorado por lote mensal: contrato de dados, drift de entrada e de score, desempenho com rótulo maduro e fairness por grupo, com alertas e playbooks ([RUNBOOK.md](RUNBOOK.md)). As respostas à degradação seguem a matriz de `config/response/policy.yaml`. Retreino só com rótulo maduro e dado aprovado no contrato (GR-7, GR-8), e promoção só pelo gate (GR-5), com rollback em um comando (GR-6). Retenção dos dados e artefatos no [plano de governança](GOVERNANCE.md).
