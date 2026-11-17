@@ -1,0 +1,2862 @@
+{
+  "run_id": "RUN-20261117-calib-ROBUST-01",
+  "config": {
+    "version": 1,
+    "status": "PROPOSTO",
+    "seeds": [
+      301,
+      302,
+      303,
+      304,
+      305
+    ],
+    "magnitudes": [
+      0.25,
+      0.5,
+      1.0,
+      1.5
+    ],
+    "scenarios": [
+      "S1",
+      "S2",
+      "S3",
+      "S4"
+    ],
+    "control": "S0",
+    "compare_magnitude": 1.0,
+    "reading": {
+      "detected_level": 2,
+      "min_detection_share": 0.8,
+      "min_diagnosis_lower": 0.8,
+      "max_false_alarm_sev2": 0.0,
+      "response_min_positive": 1.0
+    }
+  },
+  "thresholds": "901725d664ea",
+  "detection": [
+    {
+      "scenario": "S0",
+      "m": 0.0,
+      "seed": 301,
+      "onset": null,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 12,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S0",
+      "m": 0.0,
+      "seed": 302,
+      "onset": null,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 12,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S0",
+      "m": 0.0,
+      "seed": 303,
+      "onset": null,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 12,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S0",
+      "m": 0.0,
+      "seed": 304,
+      "onset": null,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 12,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S0",
+      "m": 0.0,
+      "seed": 305,
+      "onset": null,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 12,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S1",
+      "m": 0.25,
+      "seed": 301,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S1",
+      "m": 0.25,
+      "seed": 302,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S1",
+      "m": 0.25,
+      "seed": 303,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S1",
+      "m": 0.25,
+      "seed": 304,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S1",
+      "m": 0.25,
+      "seed": 305,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S1",
+      "m": 0.5,
+      "seed": 301,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": 0.3333333333333333,
+      "diagnoses": {
+        "D1": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 0.5,
+      "seed": 302,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": 0.3333333333333333,
+      "diagnoses": {
+        "D1": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 0.5,
+      "seed": 303,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": 0.3333333333333333,
+      "diagnoses": {
+        "D1": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 0.5,
+      "seed": 304,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": 0.3333333333333333,
+      "diagnoses": {
+        "D1": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 0.5,
+      "seed": 305,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": 0.3333333333333333,
+      "diagnoses": {
+        "D1": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.0,
+      "seed": 301,
+      "onset": 3,
+      "first_sev1": 5,
+      "first_sev2": 7,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.0,
+      "seed": 302,
+      "onset": 3,
+      "first_sev1": 5,
+      "first_sev2": 7,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.0,
+      "seed": 303,
+      "onset": 3,
+      "first_sev1": 5,
+      "first_sev2": 7,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.0,
+      "seed": 304,
+      "onset": 3,
+      "first_sev1": 5,
+      "first_sev2": 7,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.0,
+      "seed": 305,
+      "onset": 3,
+      "first_sev1": 5,
+      "first_sev2": 7,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.5,
+      "seed": 301,
+      "onset": 3,
+      "first_sev1": 4,
+      "first_sev2": 5,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 8,
+      "blocked": 0,
+      "correct": 8,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 8
+      },
+      "first_alert": {
+        "index": 4,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.5,
+      "seed": 302,
+      "onset": 3,
+      "first_sev1": 4,
+      "first_sev2": 6,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 8,
+      "blocked": 0,
+      "correct": 8,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 8
+      },
+      "first_alert": {
+        "index": 4,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.5,
+      "seed": 303,
+      "onset": 3,
+      "first_sev1": 4,
+      "first_sev2": 6,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 8,
+      "blocked": 0,
+      "correct": 8,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 8
+      },
+      "first_alert": {
+        "index": 4,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.5,
+      "seed": 304,
+      "onset": 3,
+      "first_sev1": 4,
+      "first_sev2": 6,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 8,
+      "blocked": 0,
+      "correct": 8,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 8
+      },
+      "first_alert": {
+        "index": 4,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.5,
+      "seed": 305,
+      "onset": 3,
+      "first_sev1": 4,
+      "first_sev2": 6,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 8,
+      "blocked": 0,
+      "correct": 8,
+      "recall": 1.0,
+      "diagnoses": {
+        "D1": 8
+      },
+      "first_alert": {
+        "index": 4,
+        "level": 1,
+        "diagnosis": "D1"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 0.25,
+      "seed": 301,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 0.25,
+      "seed": 302,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 0.25,
+      "seed": 303,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 0.25,
+      "seed": 304,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 0.25,
+      "seed": 305,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 0.5,
+      "seed": 301,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 0.5,
+      "seed": 302,
+      "onset": 3,
+      "first_sev1": 10,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 1,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {
+        "D2": 1
+      },
+      "first_alert": {
+        "index": 10,
+        "level": 1,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 0.5,
+      "seed": 303,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 0.5,
+      "seed": 304,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 0.5,
+      "seed": 305,
+      "onset": 3,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S2",
+      "m": 1.0,
+      "seed": 301,
+      "onset": 3,
+      "first_sev1": 8,
+      "first_sev2": 8,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 4,
+      "blocked": 0,
+      "correct": 4,
+      "recall": null,
+      "diagnoses": {
+        "D3": 4
+      },
+      "first_alert": {
+        "index": 8,
+        "level": 2,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.0,
+      "seed": 302,
+      "onset": 3,
+      "first_sev1": 8,
+      "first_sev2": 9,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 4,
+      "blocked": 0,
+      "correct": 4,
+      "recall": null,
+      "diagnoses": {
+        "D3": 4
+      },
+      "first_alert": {
+        "index": 8,
+        "level": 1,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.0,
+      "seed": 303,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": 9,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 4,
+      "recall": null,
+      "diagnoses": {
+        "D2": 1,
+        "D3": 4
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.0,
+      "seed": 304,
+      "onset": 3,
+      "first_sev1": 8,
+      "first_sev2": 8,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 4,
+      "blocked": 0,
+      "correct": 4,
+      "recall": null,
+      "diagnoses": {
+        "D3": 4
+      },
+      "first_alert": {
+        "index": 8,
+        "level": 2,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.0,
+      "seed": 305,
+      "onset": 3,
+      "first_sev1": 9,
+      "first_sev2": 9,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 3,
+      "blocked": 0,
+      "correct": 3,
+      "recall": null,
+      "diagnoses": {
+        "D3": 3
+      },
+      "first_alert": {
+        "index": 9,
+        "level": 2,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.5,
+      "seed": 301,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D3": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.5,
+      "seed": 302,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": 8,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D3": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.5,
+      "seed": 303,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D3": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.5,
+      "seed": 304,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D3": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.5,
+      "seed": 305,
+      "onset": 3,
+      "first_sev1": 7,
+      "first_sev2": 8,
+      "pre_batches": 3,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D3": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 0.25,
+      "seed": 301,
+      "onset": 4,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S3",
+      "m": 0.25,
+      "seed": 302,
+      "onset": 4,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S3",
+      "m": 0.25,
+      "seed": 303,
+      "onset": 4,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S3",
+      "m": 0.25,
+      "seed": 304,
+      "onset": 4,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S3",
+      "m": 0.25,
+      "seed": 305,
+      "onset": 4,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": null,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S3",
+      "m": 0.5,
+      "seed": 301,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 8,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 4,
+      "blocked": 0,
+      "correct": 4,
+      "recall": null,
+      "diagnoses": {
+        "D2": 4
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 0.5,
+      "seed": 302,
+      "onset": 4,
+      "first_sev1": 8,
+      "first_sev2": null,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 4,
+      "blocked": 0,
+      "correct": 4,
+      "recall": null,
+      "diagnoses": {
+        "D2": 4
+      },
+      "first_alert": {
+        "index": 8,
+        "level": 1,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 0.5,
+      "seed": 303,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 2,
+      "blocked": 0,
+      "correct": 2,
+      "recall": null,
+      "diagnoses": {
+        "D2": 2
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 0.5,
+      "seed": 304,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 9,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 4,
+      "blocked": 0,
+      "correct": 4,
+      "recall": null,
+      "diagnoses": {
+        "D2": 4
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 0.5,
+      "seed": 305,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": null,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 4,
+      "blocked": 0,
+      "correct": 4,
+      "recall": null,
+      "diagnoses": {
+        "D2": 4
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 1,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.0,
+      "seed": 301,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.0,
+      "seed": 302,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.0,
+      "seed": 303,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.0,
+      "seed": 304,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.0,
+      "seed": 305,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.5,
+      "seed": 301,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.5,
+      "seed": 302,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.5,
+      "seed": 303,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.5,
+      "seed": 304,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.5,
+      "seed": 305,
+      "onset": 4,
+      "first_sev1": 7,
+      "first_sev2": 7,
+      "pre_batches": 4,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 5,
+      "blocked": 0,
+      "correct": 5,
+      "recall": null,
+      "diagnoses": {
+        "D2": 5
+      },
+      "first_alert": {
+        "index": 7,
+        "level": 2,
+        "diagnosis": "D2"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 0.25,
+      "seed": 301,
+      "onset": 5,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S4",
+      "m": 0.25,
+      "seed": 302,
+      "onset": 5,
+      "first_sev1": 8,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 1,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {
+        "D3": 1
+      },
+      "first_alert": {
+        "index": 8,
+        "level": 1,
+        "diagnosis": "D3"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 0.25,
+      "seed": 303,
+      "onset": 5,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S4",
+      "m": 0.25,
+      "seed": 304,
+      "onset": 5,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S4",
+      "m": 0.25,
+      "seed": 305,
+      "onset": 5,
+      "first_sev1": null,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 0,
+      "blocked": 0,
+      "correct": 0,
+      "recall": 0.0,
+      "diagnoses": {},
+      "first_alert": null
+    },
+    {
+      "scenario": "S4",
+      "m": 0.5,
+      "seed": 301,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 0.5,
+      "seed": 302,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 0.5,
+      "seed": 303,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 0.5,
+      "seed": 304,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 0.5,
+      "seed": 305,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": null,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 1,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.0,
+      "seed": 301,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.0,
+      "seed": 302,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.0,
+      "seed": 303,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.0,
+      "seed": 304,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.0,
+      "seed": 305,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.5,
+      "seed": 301,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.5,
+      "seed": 302,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.5,
+      "seed": 303,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.5,
+      "seed": 304,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 6,
+      "blocked": 1,
+      "correct": 6,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 6,
+        "D0": 1
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.5,
+      "seed": 305,
+      "onset": 5,
+      "first_sev1": 5,
+      "first_sev2": 5,
+      "pre_batches": 5,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "alerting": 7,
+      "blocked": 0,
+      "correct": 7,
+      "recall": 1.0,
+      "diagnoses": {
+        "D6": 7
+      },
+      "first_alert": {
+        "index": 5,
+        "level": 2,
+        "diagnosis": "D6"
+      }
+    }
+  ],
+  "cells": [
+    {
+      "scenario": "S0",
+      "m": 0.0,
+      "seeds": 5,
+      "detected": 0,
+      "sev1_detected": 0,
+      "median_delay": null,
+      "diagnosis_correct": 0,
+      "diagnosis_alerting": 0,
+      "diagnosis_ci": null,
+      "blocked": 0,
+      "pre_batches": 60,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": null,
+        "diagnosis": null,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 0.25,
+      "seeds": 5,
+      "detected": 0,
+      "sev1_detected": 0,
+      "median_delay": null,
+      "diagnosis_correct": 0,
+      "diagnosis_alerting": 0,
+      "diagnosis_ci": null,
+      "blocked": 0,
+      "pre_batches": 15,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": false,
+        "diagnosis": null,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 0.5,
+      "seeds": 5,
+      "detected": 0,
+      "sev1_detected": 5,
+      "median_delay": null,
+      "diagnosis_correct": 25,
+      "diagnosis_alerting": 25,
+      "diagnosis_ci": [
+        0.8668035060468213,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 15,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": false,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.0,
+      "seeds": 5,
+      "detected": 5,
+      "sev1_detected": 5,
+      "median_delay": 4.0,
+      "diagnosis_correct": 35,
+      "diagnosis_alerting": 35,
+      "diagnosis_ci": [
+        0.9010957324106112,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 15,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": true,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S1",
+      "m": 1.5,
+      "seeds": 5,
+      "detected": 5,
+      "sev1_detected": 5,
+      "median_delay": 3.0,
+      "diagnosis_correct": 40,
+      "diagnosis_alerting": 40,
+      "diagnosis_ci": [
+        0.9123754607496077,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 15,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": true,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 0.25,
+      "seeds": 5,
+      "detected": 0,
+      "sev1_detected": 0,
+      "median_delay": null,
+      "diagnosis_correct": 0,
+      "diagnosis_alerting": 0,
+      "diagnosis_ci": null,
+      "blocked": 0,
+      "pre_batches": 15,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": false,
+        "diagnosis": null,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 0.5,
+      "seeds": 5,
+      "detected": 0,
+      "sev1_detected": 1,
+      "median_delay": null,
+      "diagnosis_correct": 0,
+      "diagnosis_alerting": 1,
+      "diagnosis_ci": [
+        0.0,
+        0.7934567085261071
+      ],
+      "blocked": 0,
+      "pre_batches": 15,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": false,
+        "diagnosis": false,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.0,
+      "seeds": 5,
+      "detected": 5,
+      "sev1_detected": 5,
+      "median_delay": 6.0,
+      "diagnosis_correct": 19,
+      "diagnosis_alerting": 20,
+      "diagnosis_ci": [
+        0.7638641064874331,
+        0.9911187805671268
+      ],
+      "blocked": 0,
+      "pre_batches": 15,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": true,
+        "diagnosis": false,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S2",
+      "m": 1.5,
+      "seeds": 5,
+      "detected": 5,
+      "sev1_detected": 5,
+      "median_delay": 4.0,
+      "diagnosis_correct": 25,
+      "diagnosis_alerting": 25,
+      "diagnosis_ci": [
+        0.8668035060468213,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 15,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": true,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 0.25,
+      "seeds": 5,
+      "detected": 0,
+      "sev1_detected": 0,
+      "median_delay": null,
+      "diagnosis_correct": 0,
+      "diagnosis_alerting": 0,
+      "diagnosis_ci": null,
+      "blocked": 0,
+      "pre_batches": 20,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": false,
+        "diagnosis": null,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 0.5,
+      "seeds": 5,
+      "detected": 3,
+      "sev1_detected": 5,
+      "median_delay": 4.0,
+      "diagnosis_correct": 18,
+      "diagnosis_alerting": 18,
+      "diagnosis_ci": [
+        0.8241154494176252,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 20,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": false,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.0,
+      "seeds": 5,
+      "detected": 5,
+      "sev1_detected": 5,
+      "median_delay": 3.0,
+      "diagnosis_correct": 25,
+      "diagnosis_alerting": 25,
+      "diagnosis_ci": [
+        0.8668035060468213,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 20,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": true,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S3",
+      "m": 1.5,
+      "seeds": 5,
+      "detected": 5,
+      "sev1_detected": 5,
+      "median_delay": 3.0,
+      "diagnosis_correct": 25,
+      "diagnosis_alerting": 25,
+      "diagnosis_ci": [
+        0.8668035060468213,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 20,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": true,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 0.25,
+      "seeds": 5,
+      "detected": 0,
+      "sev1_detected": 1,
+      "median_delay": null,
+      "diagnosis_correct": 0,
+      "diagnosis_alerting": 1,
+      "diagnosis_ci": [
+        0.0,
+        0.7934567085261071
+      ],
+      "blocked": 0,
+      "pre_batches": 25,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": false,
+        "diagnosis": false,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 0.5,
+      "seeds": 5,
+      "detected": 0,
+      "sev1_detected": 5,
+      "median_delay": null,
+      "diagnosis_correct": 35,
+      "diagnosis_alerting": 35,
+      "diagnosis_ci": [
+        0.9010957324106112,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 25,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": false,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.0,
+      "seeds": 5,
+      "detected": 5,
+      "sev1_detected": 5,
+      "median_delay": 0.0,
+      "diagnosis_correct": 35,
+      "diagnosis_alerting": 35,
+      "diagnosis_ci": [
+        0.9010957324106112,
+        1.0
+      ],
+      "blocked": 0,
+      "pre_batches": 25,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": true,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    },
+    {
+      "scenario": "S4",
+      "m": 1.5,
+      "seeds": 5,
+      "detected": 5,
+      "sev1_detected": 5,
+      "median_delay": 0.0,
+      "diagnosis_correct": 34,
+      "diagnosis_alerting": 34,
+      "diagnosis_ci": [
+        0.8984820937803899,
+        1.0
+      ],
+      "blocked": 1,
+      "pre_batches": 25,
+      "pre_sev1": 0,
+      "pre_sev2": 0,
+      "verdict": {
+        "detection": true,
+        "diagnosis": true,
+        "false_alarm": true
+      }
+    }
+  ],
+  "responses": [
+    {
+      "scenario": "S1",
+      "seed": 301,
+      "decision_point": 5,
+      "policy_acts": false,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": 403046.08632461727,
+        "regra por valor sem correção, forçada": 348600.42037376016,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": 38179.19870825857,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 264785.4548649043
+      }
+    },
+    {
+      "scenario": "S1",
+      "seed": 302,
+      "decision_point": 5,
+      "policy_acts": false,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": 361184.0156737119,
+        "regra por valor sem correção, forçada": 351508.98632638156,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": 4560.056246437132,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": -82051.90960342437
+      }
+    },
+    {
+      "scenario": "S1",
+      "seed": 303,
+      "decision_point": 5,
+      "policy_acts": false,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": 372064.0719030425,
+        "regra por valor sem correção, forçada": 337687.14549167454,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": -100523.91923872381,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": -128647.26227081567
+      }
+    },
+    {
+      "scenario": "S1",
+      "seed": 304,
+      "decision_point": 5,
+      "policy_acts": false,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": 415396.87781491876,
+        "regra por valor sem correção, forçada": 228906.96353252232,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": -52182.23907022178,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": -258222.6169319898
+      }
+    },
+    {
+      "scenario": "S1",
+      "seed": 305,
+      "decision_point": 5,
+      "policy_acts": false,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": 44034.683432638645,
+        "regra por valor sem correção, forçada": 58980.041609443724,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": -51870.6702234447,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": -231200.24115255475
+      }
+    },
+    {
+      "scenario": "S2",
+      "seed": 301,
+      "decision_point": 8,
+      "policy_acts": true,
+      "gate_passed": true,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2607408.7760217693,
+        "modo conservador por valor, forçado": 2607408.7760217693,
+        "regra por valor sem correção, forçada": 318715.50399741903,
+        "teto de 14% (descartado, ADR-0019)": -2529827.5079522524,
+        "recalibrar (A5)": 455859.5438616723,
+        "retreinar com gate (A6+GR-5)": 578744.9958299268,
+        "retreinar sem gate": 578744.9958299268
+      }
+    },
+    {
+      "scenario": "S2",
+      "seed": 302,
+      "decision_point": 8,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2016528.858904248,
+        "modo conservador por valor, forçado": 2575116.5442539994,
+        "regra por valor sem correção, forçada": 414686.75298256986,
+        "teto de 14% (descartado, ADR-0019)": -2258322.484421633,
+        "recalibrar (A5)": 317284.3842314705,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 315889.0545914769
+      }
+    },
+    {
+      "scenario": "S2",
+      "seed": 303,
+      "decision_point": 7,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2191560.579991713,
+        "modo conservador por valor, forçado": 2940296.7506968677,
+        "regra por valor sem correção, forçada": 604875.0182591956,
+        "teto de 14% (descartado, ADR-0019)": -1410651.6241283119,
+        "recalibrar (A5)": 347642.6989596989,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 80418.55085435323
+      }
+    },
+    {
+      "scenario": "S2",
+      "seed": 304,
+      "decision_point": 8,
+      "policy_acts": true,
+      "gate_passed": true,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2855027.439126175,
+        "modo conservador por valor, forçado": 2855027.439126175,
+        "regra por valor sem correção, forçada": 524169.3135171514,
+        "teto de 14% (descartado, ADR-0019)": -2168234.7440270428,
+        "recalibrar (A5)": 803341.4268256873,
+        "retreinar com gate (A6+GR-5)": 444374.0612985864,
+        "retreinar sem gate": 444374.0612985864
+      }
+    },
+    {
+      "scenario": "S2",
+      "seed": 305,
+      "decision_point": 9,
+      "policy_acts": true,
+      "gate_passed": true,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2055904.0190954339,
+        "modo conservador por valor, forçado": 2055904.0190954339,
+        "regra por valor sem correção, forçada": 322074.1950185746,
+        "teto de 14% (descartado, ADR-0019)": -1594976.9838541653,
+        "recalibrar (A5)": 550803.2599242982,
+        "retreinar com gate (A6+GR-5)": 573977.0309153944,
+        "retreinar sem gate": 573977.0309153944
+      }
+    },
+    {
+      "scenario": "S3",
+      "seed": 301,
+      "decision_point": 7,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2475878.1629241183,
+        "modo conservador por valor, forçado": 2475878.1629241183,
+        "regra por valor sem correção, forçada": 384598.0810836628,
+        "teto de 14% (descartado, ADR-0019)": -2739956.7531738523,
+        "recalibrar (A5)": 270283.6583955623,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 267933.31341178156
+      }
+    },
+    {
+      "scenario": "S3",
+      "seed": 302,
+      "decision_point": 7,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2467641.1992275417,
+        "modo conservador por valor, forçado": 2467641.1992275417,
+        "regra por valor sem correção, forçada": 468986.29199526645,
+        "teto de 14% (descartado, ADR-0019)": -2983821.9588079806,
+        "recalibrar (A5)": 116854.58388397098,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 262183.7026878856
+      }
+    },
+    {
+      "scenario": "S3",
+      "seed": 303,
+      "decision_point": 7,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2378243.8491134625,
+        "modo conservador por valor, forçado": 2378243.8491134625,
+        "regra por valor sem correção, forçada": 452404.70698962733,
+        "teto de 14% (descartado, ADR-0019)": -2143509.1079018824,
+        "recalibrar (A5)": 50373.48283682205,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 47595.26834542677
+      }
+    },
+    {
+      "scenario": "S3",
+      "seed": 304,
+      "decision_point": 7,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2459609.699053427,
+        "modo conservador por valor, forçado": 2459609.699053427,
+        "regra por valor sem correção, forçada": 371237.4115331527,
+        "teto de 14% (descartado, ADR-0019)": -3126112.0933969896,
+        "recalibrar (A5)": 668241.2464204226,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 86184.54116389714
+      }
+    },
+    {
+      "scenario": "S3",
+      "seed": 305,
+      "decision_point": 7,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 2665075.7066211775,
+        "modo conservador por valor, forçado": 2665075.7066211775,
+        "regra por valor sem correção, forçada": 362807.23279356584,
+        "teto de 14% (descartado, ADR-0019)": -2434106.948259239,
+        "recalibrar (A5)": 662324.57722326,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 129194.43663016707
+      }
+    },
+    {
+      "scenario": "S4",
+      "seed": 301,
+      "decision_point": 5,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": -6252041.313390501,
+        "regra por valor sem correção, forçada": -6222771.29064611,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": -387210.1756334752,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": -923568.7180751935,
+        "quarentena e corrigir a fonte": -1712111.076592967,
+        "retreinar sobre o dado com bug": 763476.4283570349
+      }
+    },
+    {
+      "scenario": "S4",
+      "seed": 302,
+      "decision_point": 5,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": -6753840.704127647,
+        "regra por valor sem correção, forçada": -6741822.501190156,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": 2497.843945659697,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 580781.643658109,
+        "quarentena e corrigir a fonte": -2422933.3604993224,
+        "retreinar sobre o dado com bug": 943527.3065766543
+      }
+    },
+    {
+      "scenario": "S4",
+      "seed": 303,
+      "decision_point": 5,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": -6690004.010498267,
+        "regra por valor sem correção, forçada": -6593228.320584584,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": -556585.4871222451,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": 1521189.9755777046,
+        "quarentena e corrigir a fonte": -2096057.765156217,
+        "retreinar sobre o dado com bug": 1303938.7465911359
+      }
+    },
+    {
+      "scenario": "S4",
+      "seed": 304,
+      "decision_point": 5,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": -6335242.095783256,
+        "regra por valor sem correção, forçada": -6318796.460393768,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": 395582.7926202789,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": -606642.9700915366,
+        "quarentena e corrigir a fonte": -1736967.990763083,
+        "retreinar sobre o dado com bug": 872630.5738263801
+      }
+    },
+    {
+      "scenario": "S4",
+      "seed": 305,
+      "decision_point": 5,
+      "policy_acts": true,
+      "gate_passed": false,
+      "refused": [],
+      "deltas": {
+        "modo conservador por valor (política)": 0.0,
+        "modo conservador por valor, forçado": -6591249.285410956,
+        "regra por valor sem correção, forçada": -6542090.571415916,
+        "teto de 14% (descartado, ADR-0019)": 0.0,
+        "recalibrar (A5)": -232629.5014123246,
+        "retreinar com gate (A6+GR-5)": 0.0,
+        "retreinar sem gate": -1865542.626155302,
+        "quarentena e corrigir a fonte": -1760452.7387860566,
+        "retreinar sobre o dado com bug": 1214105.7696260884
+      }
+    }
+  ],
+  "response_summary": [
+    {
+      "scenario": "S1",
+      "strategy": "modo conservador por valor (política)",
+      "seeds": 5,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S1",
+      "strategy": "modo conservador por valor, forçado",
+      "seeds": 5,
+      "median": 372064.0719030425,
+      "min": 44034.683432638645,
+      "max": 415396.87781491876,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S1",
+      "strategy": "regra por valor sem correção, forçada",
+      "seeds": 5,
+      "median": 337687.14549167454,
+      "min": 58980.041609443724,
+      "max": 351508.98632638156,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S1",
+      "strategy": "teto de 14% (descartado, ADR-0019)",
+      "seeds": 5,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S1",
+      "strategy": "recalibrar (A5)",
+      "seeds": 5,
+      "median": -51870.6702234447,
+      "min": -100523.91923872381,
+      "max": 38179.19870825857,
+      "positive": 2,
+      "robust": false
+    },
+    {
+      "scenario": "S1",
+      "strategy": "retreinar com gate (A6+GR-5)",
+      "seeds": 5,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S1",
+      "strategy": "retreinar sem gate",
+      "seeds": 5,
+      "median": -128647.26227081567,
+      "min": -258222.6169319898,
+      "max": 264785.4548649043,
+      "positive": 1,
+      "robust": false
+    },
+    {
+      "scenario": "S2",
+      "strategy": "modo conservador por valor (política)",
+      "seeds": 5,
+      "median": 2191560.579991713,
+      "min": 2016528.858904248,
+      "max": 2855027.439126175,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S2",
+      "strategy": "modo conservador por valor, forçado",
+      "seeds": 5,
+      "median": 2607408.7760217693,
+      "min": 2055904.0190954339,
+      "max": 2940296.7506968677,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S2",
+      "strategy": "regra por valor sem correção, forçada",
+      "seeds": 5,
+      "median": 414686.75298256986,
+      "min": 318715.50399741903,
+      "max": 604875.0182591956,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S2",
+      "strategy": "teto de 14% (descartado, ADR-0019)",
+      "seeds": 5,
+      "median": -2168234.7440270428,
+      "min": -2529827.5079522524,
+      "max": -1410651.6241283119,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S2",
+      "strategy": "recalibrar (A5)",
+      "seeds": 5,
+      "median": 455859.5438616723,
+      "min": 317284.3842314705,
+      "max": 803341.4268256873,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S2",
+      "strategy": "retreinar com gate (A6+GR-5)",
+      "seeds": 5,
+      "median": 444374.0612985864,
+      "min": 0.0,
+      "max": 578744.9958299268,
+      "positive": 3,
+      "robust": false
+    },
+    {
+      "scenario": "S2",
+      "strategy": "retreinar sem gate",
+      "seeds": 5,
+      "median": 444374.0612985864,
+      "min": 80418.55085435323,
+      "max": 578744.9958299268,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S3",
+      "strategy": "modo conservador por valor (política)",
+      "seeds": 5,
+      "median": 2467641.1992275417,
+      "min": 2378243.8491134625,
+      "max": 2665075.7066211775,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S3",
+      "strategy": "modo conservador por valor, forçado",
+      "seeds": 5,
+      "median": 2467641.1992275417,
+      "min": 2378243.8491134625,
+      "max": 2665075.7066211775,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S3",
+      "strategy": "regra por valor sem correção, forçada",
+      "seeds": 5,
+      "median": 384598.0810836628,
+      "min": 362807.23279356584,
+      "max": 468986.29199526645,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S3",
+      "strategy": "teto de 14% (descartado, ADR-0019)",
+      "seeds": 5,
+      "median": -2739956.7531738523,
+      "min": -3126112.0933969896,
+      "max": -2143509.1079018824,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S3",
+      "strategy": "recalibrar (A5)",
+      "seeds": 5,
+      "median": 270283.6583955623,
+      "min": 50373.48283682205,
+      "max": 668241.2464204226,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S3",
+      "strategy": "retreinar com gate (A6+GR-5)",
+      "seeds": 5,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S3",
+      "strategy": "retreinar sem gate",
+      "seeds": 5,
+      "median": 129194.43663016707,
+      "min": 47595.26834542677,
+      "max": 267933.31341178156,
+      "positive": 5,
+      "robust": true
+    },
+    {
+      "scenario": "S4",
+      "strategy": "modo conservador por valor (política)",
+      "seeds": 5,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S4",
+      "strategy": "modo conservador por valor, forçado",
+      "seeds": 5,
+      "median": -6591249.285410956,
+      "min": -6753840.704127647,
+      "max": -6252041.313390501,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S4",
+      "strategy": "regra por valor sem correção, forçada",
+      "seeds": 5,
+      "median": -6542090.571415916,
+      "min": -6741822.501190156,
+      "max": -6222771.29064611,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S4",
+      "strategy": "teto de 14% (descartado, ADR-0019)",
+      "seeds": 5,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S4",
+      "strategy": "recalibrar (A5)",
+      "seeds": 5,
+      "median": -232629.5014123246,
+      "min": -556585.4871222451,
+      "max": 395582.7926202789,
+      "positive": 2,
+      "robust": false
+    },
+    {
+      "scenario": "S4",
+      "strategy": "retreinar com gate (A6+GR-5)",
+      "seeds": 5,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S4",
+      "strategy": "retreinar sem gate",
+      "seeds": 5,
+      "median": -606642.9700915366,
+      "min": -1865542.626155302,
+      "max": 1521189.9755777046,
+      "positive": 2,
+      "robust": false
+    },
+    {
+      "scenario": "S4",
+      "strategy": "quarentena e corrigir a fonte",
+      "seeds": 5,
+      "median": -1760452.7387860566,
+      "min": -2422933.3604993224,
+      "max": -1712111.076592967,
+      "positive": 0,
+      "robust": false
+    },
+    {
+      "scenario": "S4",
+      "strategy": "retreinar sobre o dado com bug",
+      "seeds": 5,
+      "median": 943527.3065766543,
+      "min": 763476.4283570349,
+      "max": 1303938.7465911359,
+      "positive": 5,
+      "robust": true
+    }
+  ]
+}

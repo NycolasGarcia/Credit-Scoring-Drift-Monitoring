@@ -4,7 +4,14 @@ Mudanças relevantes por fase, da mais recente para a mais antiga. Formato inspi
 
 ## [Não publicado]
 
-Nada ainda.
+### Adicionado
+- Estudo de robustez (`make robustness` → `docs/ROBUSTNESS.md`, RUN-20261117-calib-ROBUST-01): cada cenário repetido com 5 seeds novos e 4 magnitudes (0,25 a 1,5 vezes a oficial), pelo mesmo caminho da produção (simulador, contrato, score, detector), com a comparação de respostas por seed na magnitude oficial. Regra de leitura declarada em `config/monitoring/robustness.yaml` antes da execução.
+
+### Achados
+- Nenhum falso alarme no controle nem antes do início do drift; detecção de 5/5 na magnitude oficial nos quatro cenários.
+- O S2 falha a regra de diagnóstico declarada (19 de 20 lotes; limite inferior de 76% contra 80%): num seed, o primeiro alerta, em SEV-1 na rampa, foi lido como D2.
+- Os valores do seed oficial ficaram no lado favorável: o modo conservador rende mediana de +US$ 2,19 mi no S2 (oficial 2,94) e a recalibração, +US$ 0,27 mi no S3 (oficial 0,87). O sinal de toda resposta se mantém em todos os seeds.
+- Limites de sensibilidade: concept drift com logit +0,5 e bug de unidade em 7,5% das linhas passam sem detecção.
 
 ## F7 — Resposta à degradação: guardrails, playbooks e retreino controlado (2026-11-17)
 

@@ -573,3 +573,22 @@ Entrada: F5 fechada, CI verde em `b6c6d96`, travas OK, nenhum incidente aberto. 
 ### Veredito
 
 **PODE AVANÇAR para F8.**
+
+## REGISTRO — Estudo de robustez (entre F7 e F8) · 2026-11-17
+
+Trabalho fora das fases, decidido pelo autor depois da autoavaliação do fechamento da F7: os números de entregável vinham de um seed por cenário.
+
+1. **Regra declarada antes da execução** em `config/monitoring/robustness.yaml` (commit `c85d34b`): 5 seeds novos, magnitudes de 0,25 a 1,5 vezes a oficial, detecção robusta com ≥ 80% das seeds em SEV-2+, diagnóstico robusto com limite inferior de Wilson ≥ 80% e nenhum SEV-2 antes do início do drift.
+2. **Execução:** [RUN-20261117-calib-ROBUST-01](runs/RUN-20261117-calib-ROBUST-01.md) → [ROBUSTNESS.md](ROBUSTNESS.md). Duas execuções anteriores não viraram RUN:
+   - **A primeira** parou num lote bloqueado pelo contrato, um caso que o estudo ainda não tratava (`6e74bb5`).
+   - **A segunda** aplicava ao controle o critério de detecção e foi descartada antes do commit (`b43378b`). Os números eram idênticos.
+3. **Resultado contra a regra:**
+   - **Dentro da regra:** controle e magnitude oficial de S1, S3 e S4.
+   - **Fora:** o diagnóstico do S2 (19/20; limite inferior de 76%).
+   - **Valores:** o sinal de toda resposta se mantém em todos os seeds, mas os valores do seed oficial ficaram no lado favorável (S2: 2,94 contra mediana de 2,19 mi; recalibração no S3: 0,87 contra 0,27 mi).
+4. **Docs atualizados:**
+   - leituras humanas de DRIFT_EVALUATION e RESPONSE_EVALUATION;
+   - item 3 do INC-0001;
+   - índice e CHANGELOG.
+   - Os ADRs aceitos mantêm os números do seed oficial como registro histórico.
+5. **Para a F8/F9:** citar mediana e faixa, não o valor de um seed; declarar como limitação a falha do S2 na regra e os limites de sensibilidade.

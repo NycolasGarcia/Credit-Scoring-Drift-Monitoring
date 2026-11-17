@@ -25,6 +25,7 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [THRESHOLDS.md](THRESHOLDS.md) | Limiares vigentes e calibração no controle (gerado) | gerado |
 | [DRIFT_EVALUATION.md](DRIFT_EVALUATION.md) | Avaliação do detector por cenário, relatórios Evidently, p-valor × efeito (gerado) | gerado |
 | [evidence/drift/](evidence/drift/) | Resultados por lote, relatórios HTML do Evidently e calibração | F5 |
+| [ROBUSTNESS.md](ROBUSTNESS.md) | Robustez do detector e das respostas com seeds novos e 4 magnitudes, contra regra declarada antes (gerado) | gerado |
 | [METRICS.md](METRICS.md) | Catálogo de métricas do job (gerado) | gerado |
 | [ALERTS.md](ALERTS.md) | Catálogo de alertas com severidade, ação e playbook (gerado) | gerado |
 | [RUNBOOK.md](RUNBOOK.md) | Stack, job, replay, prints, solução de problemas e playbook por alerta | F6 |

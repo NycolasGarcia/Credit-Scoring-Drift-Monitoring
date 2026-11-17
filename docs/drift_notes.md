@@ -4,6 +4,8 @@ Números por lote em `docs/evidence/drift/<cenário>.json`; RUNs na tabela acima
 
 **Os diagnósticos saíram certos em todos os cenários com ground truth.** Todo lote que alertou após o início do drift recebeu o diagnóstico esperado: D1 no S1, D3 no S2, D2 no S3 e D6 no S4. No controle (S0), nenhum dos 12 lotes alertou; no bootstrap, o falso alarme foi de 0,2% em SEV-1 e 0% em SEV-2 ([THRESHOLDS.md](THRESHOLDS.md)).
 
+**Com 5 seeds novos por cenário ([ROBUSTNESS.md](ROBUSTNESS.md), RUN-20261117-calib-ROBUST-01), a leitura se mantém com uma exceção.** A detecção na magnitude oficial é de 5/5 nos quatro cenários e nenhum lote alarma antes do início do drift. O diagnóstico segue certo em todos os lotes do S1, S3 e S4. No S2, acerta 19 de 20: num seed, o primeiro alerta chegou em SEV-1, ainda na rampa, e foi lido como D2 antes de virar D3 no lote seguinte. O estudo também mede os limites de sensibilidade: concept drift com logit +0,5 e bug de unidade em 7,5% das linhas passam sem detecção.
+
 **S1 — choque econômico.**
 - **Detecção:** L2 dispara no lote 5, com metade da intensidade; `int_rate` acusa primeiro. SEV-2 vem no lote 7, quando o PSI do score passa de 0,10 (0,131).
 - **Diagnóstico:** a L4 fica quieta, porque o modelo continua calibrado, e o diagnóstico é D1 em 7 de 7 lotes. Drift sem degradação: o caso em que retreinar seria um erro.

@@ -6,11 +6,11 @@
   - **A política não age** (regra P09, só registrar), e é o certo: o modelo continua calibrado.
   - **Forçar respostas não compensa:** retreinar sem gate perderia US$ 109 mil, e recalibrar dá +US$ 69 mil, o que é ruído.
 - **D3, concept drift (S2).**
-  - **Resultado:** o modo conservador por valor rende **+US$ 2,94 mi**, com 14,6% das propostas em revisão (fila limitada a 15% do lote, [ADR-0021](adr/0021-review-queue-capacity.md)).
+  - **Resultado:** o modo conservador por valor rende **+US$ 2,94 mi**, com 14,6% das propostas em revisão (fila limitada a 15% do lote, [ADR-0021](adr/0021-review-queue-capacity.md)). Em 5 seeds novos, a mediana é **+US$ 2,19 mi** (de 2,02 a 2,86): o seed oficial ficou no lado favorável ([ROBUSTNESS.md](ROBUSTNESS.md)).
   - **De onde vem o ganho:** a regra por valor sem correção de risco rende +US$ 0,51 mi. Portanto, cerca de 83% do ganho vem da correção pela razão observado/esperado.
   - **Alternativas de modelo:** recalibrar dá +US$ 0,57 mi. O challenger passa no gate com calibração relativa ([ADR-0020](adr/0020-relative-calibration-gate.md)) e rende +US$ 0,61 mi a partir do lote seguinte.
 - **D2, prior shift (S3).**
-  - **Resultado:** o modo conservador por valor rende **+US$ 2,66 mi** (15,0% em revisão), e a recalibração, sozinha, **+US$ 0,87 mi**.
+  - **Resultado:** o modo conservador por valor rende **+US$ 2,66 mi** (15,0% em revisão), e a recalibração, sozinha, **+US$ 0,87 mi**. Em 5 seeds novos, as medianas são **+US$ 2,47 mi** (de 2,38 a 2,67) e **+US$ 0,27 mi** (de 0,05 a 0,67): o ganho da recalibração é real, mas o do seed oficial está acima de todos os seeds novos.
   - **Combinação:** a matriz recomenda as duas (A4 automático e A5 humano). O efeito combinado não foi simulado.
 - **D6, bug de unidade (S4).**
   - **A política retém o lote e manda corrigir a fonte.**
