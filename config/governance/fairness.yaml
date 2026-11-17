@@ -1,0 +1,20 @@
+# Análise de vieses (F8). Grupos disponíveis no dado: não há gênero nem idade.
+# addr_state fica fora do modelo e serve como possível proxy regional; home_ownership e
+# emp_length entram no modelo e também são segmentos de fairness (inventário de colunas).
+version: 1
+status: PROPOSTO
+
+segments:
+  home_ownership: {kind: category}
+  emp_length:                       # anos de emprego, em faixas
+    kind: bands
+    edges: [1, 5, 10]               # [0,1) · [1,5) · [5,10) · 10+ ; nulo vira "desconhecido"
+  addr_state: {kind: category}
+
+min_group_size: 1000                # grupos menores entram na tabela, mas não no cálculo de gap
+min_batch_group_rows: 200           # o mesmo, por lote do job (lotes de 6.000 propostas)
+scenarios: [S2, S3]                 # cenários em que o modo conservador age (fairness drift)
+
+alert:                              # §8.4: aumento do gap de aprovação entre grupos (p.p.)
+  sev1_gap_increase_pp: 3.0
+  sev2_gap_increase_pp: 7.0

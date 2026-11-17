@@ -204,6 +204,14 @@ Regra geral, pela [triagem](#triagem-de-um-alerta-árvore-de-decisão): primeiro
 - **Fazer:** descartar D6. Depois, challenger em sombra (`make gameday-shadow AT=<lote>`) e gate, como em `CDM_BAD_RATE_RATIO` com D3.
 - **Escalar:** SEV-2 ou mais.
 
+### CDM_FAIRNESS_GAP
+
+- **Significa:** a decisão do lote abriu um gap de aprovação entre grupos (`home_ownership`, faixas de `emp_length` ou `addr_state`) maior que o do champion puro no mesmo lote: SEV-1 acima de 3 p.p. de aumento, SEV-2 acima de 7 p.p. Em regime normal o champion aprova quase todos, então o gap aparece quando o modo conservador age.
+- **Automático:** no modo conservador, o limite do [ADR-0015](adr/0015-bias-mitigation.md) já devolve, em `home_ownership`, as propostas retidas de maior valor esperado até o gap caber em 7 p.p. (motivo R12). Os outros segmentos são só monitorados.
+- **Olhar:** os painéis "Fairness" (gap da política contra o champion, por segmento) e `fairness` na resposta do lote no log.
+- **Fazer:** se o alerta vem de `emp_length` ou `addr_state`, registrar e verificar no relatório de vieses se o gap acompanha diferença de risco observado entre os grupos. Se vier de `home_ownership` acima do limite, o limite não está agindo: conferir `conservative.fairness` em `config/response/policy.yaml`.
+- **Escalar:** SEV-2 em dois lotes seguidos abre revisão de fairness (A3), com a análise registrada no incidente.
+
 ### Promoção e rollback
 
 Não é um alerta, e sim o fim do caminho de D3:

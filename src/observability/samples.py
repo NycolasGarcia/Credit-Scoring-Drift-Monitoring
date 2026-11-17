@@ -97,6 +97,18 @@ def _response(s: BatchState) -> list[Sample]:
         out.append(
             ("cdm_decisions", {"decision": decision}, float(r["decisions"].get(decision, 0)))
         )
+    return out + _fairness(r.get("fairness"))
+
+
+def _fairness(fair: dict | None) -> list[Sample]:
+    out: list[Sample] = []
+    for seg, v in (fair or {}).get("segments", {}).items():
+        for kind in ("policy", "champion"):
+            if v[f"{kind}_pp"] is not None:
+                out.append(("cdm_fairness_gap_pp", {"segment": seg, "decision": kind},
+                            float(v[f"{kind}_pp"])))  # fmt: skip
+        if v["increase_pp"] is not None:
+            out.append(("cdm_fairness_gap_increase_pp", {"segment": seg}, float(v["increase_pp"])))
     return out
 
 

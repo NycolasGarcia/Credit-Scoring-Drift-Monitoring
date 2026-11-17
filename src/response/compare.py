@@ -16,6 +16,7 @@ import pandas as pd
 
 from src.models.settings import CostConfig
 from src.models.threshold import loan_economics
+from src.response.fairness_cap import relief
 from src.response.gate import scores
 from src.response.guardrails import (
     BreakerState,
@@ -116,7 +117,13 @@ def value_decider(champion: Any, base: float, cost: CostConfig, policy: PolicyCo
         ev = expected_value(p, gain, loss, factor)
         held = (p < base) & (ev <= 0)
         over = review_overflow(held, ev, policy.conservative.capacity(len(p)))
-        return (p < base) & ~held, held & ~over
+        approved, review = (p < base) & ~held, held & ~over
+        cap = policy.conservative.fairness
+        if cap is not None:  # ADR-0015, same rule as the job
+            labels = period.frame[cap.segment].astype("string").fillna("desconhecido").to_numpy()
+            back = relief(approved, held, ev, labels, cap)
+            approved, review = approved | back, review & ~back
+        return approved, review
 
     return fn
 

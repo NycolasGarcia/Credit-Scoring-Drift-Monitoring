@@ -13,7 +13,9 @@ ALERTS_DOC = PROJECT_ROOT / "docs" / "ALERTS.md"
 HEADER = "# Gerado por `make alerts` (src/alerting/rules.py) a partir de alerts.yaml. Não editar.\n"
 STATIC = {"gate": "SEV-2 · SEV-3 com 2 lotes bloqueados seguidos", "soft_rules": "SEV-1",
           "unit_bug": "SEV-2", "step_failed": "SEV-2", "slow": "SEV-1",
-          "staleness": "SEV-3"}  # fmt: skip
+          "staleness": "SEV-3",
+          "fairness": "SEV-1 se o gap cresce > 3 p.p.; SEV-2 se > 7 p.p. "
+                      "(`config/governance/fairness.yaml`)"}  # fmt: skip
 
 
 def _annotations(alert: Alert, cfg: AlertConfig) -> dict[str, str]:

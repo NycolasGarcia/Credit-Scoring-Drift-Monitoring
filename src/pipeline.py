@@ -173,6 +173,8 @@ def _respond(ctx: JobContext, item: BatchInput, state: BatchState, mem: RunMemor
             item.index, state.valid, signals, mem.response, ctx.profile["threshold"]
         )
         counts = state.response["decisions"]
+        fair = state.response.get("fairness") or {}
+        state.levels["CDM_FAIRNESS_GAP"] = int(fair.get("level", 0))
         rows.update(rows_in=len(state.scored), rows_out=counts.get("approve", 0),
                     rows_quarantined=counts.get("review", 0))  # fmt: skip
 

@@ -93,6 +93,18 @@ groups:
       action: A4 modo conservador + A6 challenger em sombra → gate de promoção (GR-5)
       owner: time de risco de modelos
       playbook: docs/RUNBOOK.md#cdm_auc_drop
+  - alert: CDM_FAIRNESS_GAP
+    expr: max by (scenario) (cdm_alert_level{alert="CDM_FAIRNESS_GAP"}) >= 1
+    labels:
+      severity: SEV-{{ $value }}
+      layer: L3
+    annotations:
+      summary: A decisão abriu gap de aprovação entre grupos (fairness drift)
+      diagnosis: D4
+      action: A1 alertar; conferir o segmento e o limite do modo conservador (ADR-0015);
+        SEV-2 → A3 revisão de fairness
+      owner: time de risco de modelos
+      playbook: docs/RUNBOOK.md#cdm_fairness_gap
   - alert: CDM_STEP_FAILED
     expr: max by (scenario) (cdm_alert_level{alert="CDM_STEP_FAILED"}) >= 1
     labels:

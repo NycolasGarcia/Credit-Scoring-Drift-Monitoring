@@ -17,6 +17,7 @@ REASONS = {
     "R01": "recusado: score acima do limiar do champion",
     "R10": "revisão humana: modo conservador, valor esperado não positivo com o risco corrigido",
     "R11": "recusado: modo conservador, fila de revisão cheia e valor esperado entre os piores",
+    "R12": "aprovado: limite de gap de aprovação entre grupos no modo conservador (ADR-0015)",
     "R20": "revisão humana: decisão automática suspensa (kill switch)",
     "R30": "revisão humana: lote em quarentena preventiva (suspeita de dado quebrado)",
 }

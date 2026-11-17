@@ -117,6 +117,10 @@ def body_panels() -> list[dict[str, Any]]:
               [_target(f"cdm_conservative_mode{{{SEL}}}", "modo conservador"),
                _target(f"cdm_expected_bad_rate_approved{{{SEL}}}", "bad rate aprovados", "B"),
                _target(f"cdm_kill_switch{{{SEL}}}", "kill switch", "C")]),
+        panel("Fairness: gap de aprovação entre grupos (p.p.)", "timeseries", (0, 55, 16, 8),
+              [_target(f"cdm_fairness_gap_pp{{{SEL}}}", "{{segment}} · {{decision}}")]),
+        panel("Fairness: aumento do gap causado pela política (p.p.)", "timeseries",
+              (16, 55, 8, 8), [_target(f"cdm_fairness_gap_increase_pp{{{SEL}}}", "{{segment}}")]),
     ]  # fmt: skip
 
 

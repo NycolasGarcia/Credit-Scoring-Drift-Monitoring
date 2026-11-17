@@ -86,6 +86,10 @@ CATALOG: tuple[MetricDef, ...] = (
        "resposta", "Resposta"),
     _m("cdm_decisions", "Decisões finais do lote: approve, review, reject", ("decision",),
        "resposta", "Resposta"),
+    _m("cdm_fairness_gap_pp", "Gap de aprovação entre grupos (p.p.) da política e do champion "
+       "puro, por segmento", ("segment", "decision"), "resposta", "Fairness"),
+    _m("cdm_fairness_gap_increase_pp", "Aumento do gap de aprovação causado pela política (p.p.)",
+       ("segment",), "resposta", "Fairness"),
 )  # fmt: skip
 BY_NAME = {m.name: m for m in CATALOG}
 Sample = tuple[str, dict[str, str], float]

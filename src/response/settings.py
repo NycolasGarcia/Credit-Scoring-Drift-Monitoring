@@ -36,11 +36,20 @@ class Rule(BaseModel):
     actions: list[Action]
 
 
+class FairnessCap(BaseModel):
+    """Largest approval gap between groups the conservative mode may open (ADR-0015)."""
+
+    segment: str
+    max_gap_pp: float = Field(gt=0)
+    min_group_rows: int = Field(ge=1)
+
+
 class Conservative(BaseModel):
     """Conservative mode by expected value with the risk corrected (ADR-0019)."""
 
     use_mature_ratio: bool
     review_capacity: float | None = Field(None, gt=0, le=1)  # share of the batch (ADR-0021)
+    fairness: FairnessCap | None = None  # ADR-0015
 
     def capacity(self, rows: int) -> int | None:
         """Review slots of a batch with ``rows`` applications (None = unlimited)."""

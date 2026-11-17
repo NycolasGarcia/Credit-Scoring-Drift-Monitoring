@@ -9,7 +9,9 @@ from pydantic import BaseModel, Field, model_validator
 from src.config import PROJECT_ROOT
 
 ALERTS_PATH = PROJECT_ROOT / "config" / "monitoring" / "alerts.yaml"
-Source = Literal["signal", "gate", "soft_rules", "unit_bug", "step_failed", "slow", "staleness"]
+Source = Literal[
+    "signal", "gate", "soft_rules", "unit_bug", "step_failed", "slow", "staleness", "fairness"
+]
 
 
 class Staleness(BaseModel):

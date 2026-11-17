@@ -13,8 +13,10 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from src.governance.fairness import fairness_drift, load_fairness
 from src.models.settings import load_cost_config
 from src.models.threshold import loan_economics
+from src.response.fairness_cap import relief
 from src.response.guardrails import (
     BreakerState,
     ChainInput,
@@ -48,6 +50,27 @@ def _chain_input(
     return x, k
 
 
+def _apply_cap(frame: pd.DataFrame, valid: pd.DataFrame, x: ChainInput, policy) -> pd.DataFrame:
+    """ADR-0015: give back held applications until no group exceeds the approval-gap cap."""
+    cap = policy.conservative.fairness
+    if cap is None or not x.conservative or not len(frame):
+        return frame
+    held = frame["reason_code"].isin(["R10", "R11"]).to_numpy()
+    approved = (frame["decision"] == "approve").to_numpy()
+    labels = valid[cap.segment].astype("string").fillna("desconhecido").to_numpy()
+    back = relief(approved, held, x.value, labels, cap)
+    frame.loc[back, ["decision", "reason_code"]] = ["approve", "R12"]
+    return frame
+
+
+def _fairness(frame: pd.DataFrame, valid: pd.DataFrame, base: float) -> dict[str, Any] | None:
+    """Fairness drift of the batch: approval gap of the decisions vs. the plain champion."""
+    if not len(frame):
+        return None
+    policy = (frame["decision"] == "approve").to_numpy()
+    return fairness_drift(valid, policy, valid["score"].to_numpy() < base, load_fairness())
+
+
 def _tracking(frame: pd.DataFrame, k: float) -> float | None:
     """Expected bad rate of the approved loans with the corrected risk (vs. the 14% appetite)."""
     approved = frame[frame["decision"] == "approve"] if len(frame) else frame
@@ -67,10 +90,12 @@ def respond(
     mem.breaker.update(decision.wants_conservative, policy, t)
     x, k = _chain_input(valid, base, decision, mem, policy)
     frame = decisions_frame(valid["loan_key"], x) if len(valid) else pd.DataFrame()
+    frame = _apply_cap(frame, valid, x, policy)
     counts = frame["decision"].value_counts().to_dict() if len(frame) else {}
     return frame, {"rule": decision.rule_id, "situation": decision.situation,
                    "auto": decision.codes("auto"), "human": decision.codes("human"),
                    "conservative": mem.breaker.open, "risk_correction": k,
                    "expected_bad_rate_approved": _tracking(frame, k),
                    "kill_switch": policy.kill_switch, "dry_run": policy.dry_run,
+                   "fairness": _fairness(frame, valid, base),
                    "decisions": {key: int(v) for key, v in counts.items()}}  # fmt: skip

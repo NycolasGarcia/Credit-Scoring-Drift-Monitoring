@@ -34,3 +34,5 @@ Todas as métricas são gauges publicados pelo job no Pushgateway, no grupo `job
 | `cdm_kill_switch` | gauge | — | resposta | 1 se a decisão automática está suspensa (GR-9) | Resposta |
 | `cdm_policy_rule` | gauge | `rule` | resposta | Regra da matriz de resposta aplicada (valor 1) | Resposta |
 | `cdm_decisions` | gauge | `decision` | resposta | Decisões finais do lote: approve, review, reject | Resposta |
+| `cdm_fairness_gap_pp` | gauge | `segment`, `decision` | resposta | Gap de aprovação entre grupos (p.p.) da política e do champion puro, por segmento | Fairness |
+| `cdm_fairness_gap_increase_pp` | gauge | `segment` | resposta | Aumento do gap de aprovação causado pela política (p.p.) | Fairness |

@@ -793,6 +793,70 @@
       },
       "options": {},
       "id": 15
+    },
+    {
+      "title": "Fairness: gap de aprovação entre grupos (p.p.)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_fairness_gap_pp{scenario=~\"$scenario\"}",
+          "legendFormat": "{{segment}} · {{decision}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 0,
+        "y": 55,
+        "w": 16,
+        "h": 8
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {},
+      "id": 16
+    },
+    {
+      "title": "Fairness: aumento do gap causado pela política (p.p.)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cdm-prom"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "cdm-prom"
+          },
+          "expr": "cdm_fairness_gap_increase_pp{scenario=~\"$scenario\"}",
+          "legendFormat": "{{segment}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": {
+        "x": 16,
+        "y": 55,
+        "w": 8,
+        "h": 8
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {},
+      "id": 17
     }
   ]
 }

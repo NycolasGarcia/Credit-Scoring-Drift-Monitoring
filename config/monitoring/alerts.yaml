@@ -66,6 +66,12 @@ alerts:
     layer: L4
     diagnosis: D3
     action: A4 modo conservador + A6 challenger em sombra → gate de promoção (GR-5)
+  - id: CDM_FAIRNESS_GAP
+    title: A decisão abriu gap de aprovação entre grupos (fairness drift)
+    source: fairness
+    layer: L3
+    diagnosis: D4
+    action: A1 alertar; conferir o segmento e o limite do modo conservador (ADR-0015); SEV-2 → A3 revisão de fairness
   - id: CDM_STEP_FAILED
     title: Etapa do pipeline falhou
     source: step_failed
