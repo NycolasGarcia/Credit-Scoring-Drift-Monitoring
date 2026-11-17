@@ -244,6 +244,7 @@ A etapa `respond` passa a aplicar a política declarativa (§8.5): guardrails, m
 | `src/governance/fairness.py` | Métricas por grupo (aprovação, igualdade de oportunidade, calibração, AUC), gaps, fairness drift por lote e força de proxy (Cramér's V) | F8 | implementado |
 | `src/governance/report.py` | `make fairness`: vieses no regime normal, força de proxy da região e fairness drift no modo conservador (S2/S3), com e sem o limite | F8 | implementado |
 | `src/governance/report_doc.py` | Gera `docs/FAIRNESS.md` e o RUN record `fairness` | F8 | implementado |
+| `src/governance/retention.py` | `make retention`: expurgo por idade do que tem prazo e existe no repositório (quarentena e logs), simulação por padrão (ADR-0014) | F8 | implementado |
 | `src/governance/` | Fairness, checagem de privacidade, retenção | F8 | planejado |
 | `src/reporting/` (restante) | Sumários de monitoramento e de resposta | F5+ | planejado |
 

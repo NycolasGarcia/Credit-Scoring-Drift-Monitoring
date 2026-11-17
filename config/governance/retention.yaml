@@ -1,0 +1,42 @@
+# Plano de retenção (ADR-0014). Premissas de política do autor para o cenário acadêmico da
+# fintech em produção, ancoradas em texto legal conferido (NV-11): LGPD art. 16 (eliminação ao
+# fim do tratamento, com exceções) e CDC art. 43 §1º (informação negativa por até 5 anos).
+# Itens com `path` e `days` existem neste repositório e são expurgados por `make retention`.
+version: 1
+status: PROPOSTO
+
+items:
+  - id: RET-01
+    data: Proposta, features de originação e decisão com código de motivo
+    period: duração do contrato + 5 anos
+    basis: contestação e revisão de decisão (LGPD art. 18 e 20); referência do CDC art. 43 §1º
+    mechanism: produção (cenário); eliminação ou anonimização ao fim do prazo
+  - id: RET-02
+    data: Partições pseudonimizadas de treino e referência
+    period: vida útil do modelo treinado com elas + 5 anos
+    basis: auditoria do modelo e reprodução de decisões contestadas
+    mechanism: produção (cenário); neste projeto, local em data/processed e nunca versionado
+  - id: RET-03
+    data: Artefatos de modelo e perfil de referência
+    period: vida útil do modelo + 5 anos
+    basis: explicar decisões tomadas pelo modelo (LGPD art. 20 §1º)
+    mechanism: MLflow Registry; sem dado pessoal além dos parâmetros
+  - id: RET-04
+    data: Linhas em quarentena (valores brutos inválidos)
+    period: 90 dias
+    basis: só para corrigir a fonte e reprocessar; LGPD art. 6º, III (necessidade)
+    mechanism: make retention (expurgo por idade do arquivo)
+    path: data/quarantine
+    days: 90
+  - id: RET-05
+    data: Logs de execução do job (só agregados e ids pseudonimizados)
+    period: 1 ano
+    basis: auditoria operacional; GR-10 garante que não há linha de dado
+    mechanism: make retention (expurgo por idade do arquivo)
+    path: logs
+    days: 365
+  - id: RET-06
+    data: RUN records, relatórios de monitoramento e evidências agregadas
+    period: sem prazo
+    basis: não são dado pessoal (só agregados; testes de privacidade garantem)
+    mechanism: versionados no repositório
