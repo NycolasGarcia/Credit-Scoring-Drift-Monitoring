@@ -40,3 +40,4 @@ política (modo conservador por valor) vs. não fazer nada, US$ mil — S1: 0,0;
 ## Observações
 
 - Valores em US$ mil, somados do ponto de decisão ao último lote.
+- Substituído por [RUN-20261117-response-ALL-01](RUN-20261117-response-ALL-01.md): a fila de revisão passou a ter capacidade de 15% do lote (ADR-0021); só a taxa de revisão e o valor com a revisão decidida depois das linhas do modo conservador mudam.

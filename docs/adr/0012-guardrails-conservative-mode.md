@@ -1,6 +1,6 @@
 # ADR-0012 — Guardrails e modo conservador
 
-- **Status:** aceito; **item 3 (limiar pelo teto de 14%) supersedido pelo [ADR-0019](0019-conservative-mode-by-value.md)** em 2026-11-15, depois que a comparação de custo disparou o sinal de reversão deste ADR
+- **Status:** aceito; **item 3 (limiar pelo teto de 14%) supersedido pelo [ADR-0019](0019-conservative-mode-by-value.md)** em 2026-11-15, depois que a comparação de custo disparou o sinal de reversão deste ADR; **item 4 (toda a faixa cinza vai para revisão) alterado pelo [ADR-0021](0021-review-queue-capacity.md)** em 2026-11-17: a fila tem capacidade e o excedente de pior valor esperado é recusado (R11)
 - **Data:** 2026-11-15
 - **Fase:** F7
 

@@ -57,3 +57,5 @@ Documentos previstos para fases seguintes: `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`
 | [0018](adr/0018-l4-sev2-cut.md) | Corte de SEV-2 da razão observado/esperado: 1,25 por regra nula declarada antes, validado em variantes novas | aceito |
 | [0019](adr/0019-conservative-mode-by-value.md) | Modo conservador por valor esperado com risco corrigido (supersede o item 3 do 0012) | aceito |
 | [0020](adr/0020-relative-calibration-gate.md) | Calibração do gate relativa ao champion (supersede o critério absoluto do 0013) | aceito |
+| [0021](adr/0021-review-queue-capacity.md) | Fila de revisão com capacidade de 15% do lote e excedente recusado (R11) | aceito |
+| [0022](adr/0022-challenger-shadow-human.md) | Challenger em sombra (A6) como ação humana, com comando no playbook | aceito |

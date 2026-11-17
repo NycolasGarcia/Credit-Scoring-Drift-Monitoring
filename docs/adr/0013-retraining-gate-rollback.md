@@ -1,6 +1,6 @@
 # ADR-0013 — Recalibração, retreino com gate de promoção e rollback
 
-- **Status:** aceito (parâmetros PROPOSTO em `config/response/lifecycle.yaml`); **critério de calibração do gate supersedido pelo [ADR-0020](0020-relative-calibration-gate.md)** em 2026-11-15
+- **Status:** aceito (parâmetros PROPOSTO em `config/response/lifecycle.yaml`); **critério de calibração do gate supersedido pelo [ADR-0020](0020-relative-calibration-gate.md)** em 2026-11-15; **item 6 (A6 automático) supersedido pelo [ADR-0022](0022-challenger-shadow-human.md)** em 2026-11-17: A6 é ação humana
 - **Data:** 2026-11-15
 - **Fase:** F7
 
