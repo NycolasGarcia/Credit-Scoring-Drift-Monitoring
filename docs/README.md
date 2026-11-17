@@ -6,9 +6,9 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 |---|---|---|
 | [PROGRESS.md](PROGRESS.md) | Log append-only de checkpoints por fase | vivo |
 | [../CHANGELOG.md](../CHANGELOG.md) | Mudanças por fase, em ordem cronológica | vivo |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2), quality gate (F3), simulador (F4), detecção (F5) e observabilidade (F6) implementados; resposta planejada |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2), quality gate (F3), simulador (F4), detecção (F5), observabilidade (F6) e resposta (F7) implementados |
 | [adr/](adr/) | Decisões de arquitetura | ver índice abaixo |
-| [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino, calibração, simulação e monitoramento) |
+| [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino, calibração, simulação, monitoramento e resposta) |
 | [incidents/](incidents/) | Incidentes e postmortems | vazio |
 | [evidence/](evidence/) | Prints e relatórios curados (somente agregados) | vivo |
 | [data_inventory.md](data_inventory.md) | Classificação das 151 colunas (gerado do YAML) | gerado |
@@ -29,8 +29,11 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [ALERTS.md](ALERTS.md) | Catálogo de alertas com severidade, ação e playbook (gerado) | gerado |
 | [RUNBOOK.md](RUNBOOK.md) | Stack, job, replay, prints, solução de problemas e playbook por alerta | F6 |
 | [evidence/observability/](evidence/observability/) | Prints do painel do Grafana após os replays | F6 |
+| [RESPONSE_EVALUATION.md](RESPONSE_EVALUATION.md) | Comparação de respostas por cenário, com valor em US$ (gerado) | gerado |
+| [response_notes.md](response_notes.md) | Leitura humana da comparação de respostas (incluída no RESPONSE_EVALUATION) | F7 |
+| [evidence/response/](evidence/response/) | Comparação de respostas, avaliação em sombra e ensaio de promoção/rollback | F7 |
 
-Documentos previstos para fases seguintes: `RESPONSE_EVALUATION.md`, `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
+Documentos previstos para fases seguintes: `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
 
 ## ADRs
 
