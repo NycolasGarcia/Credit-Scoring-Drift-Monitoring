@@ -1,0 +1,94 @@
+{
+  "run_id": "RUN-20261115-response-DRILL-01",
+  "scenario": "S2",
+  "trained_at": 8,
+  "shadow": [
+    {
+      "batch": 9,
+      "approval_champion": 0.998,
+      "approval_challenger": 0.9801666666666666,
+      "matured": {
+        "rows": 5998.0,
+        "auc_champion": 0.723036644218653,
+        "auc_challenger": 0.7283637994514642,
+        "ratio_champion": 1.3594169866108021,
+        "ratio_challenger": 1.13434245260105
+      },
+      "gate_passed": true,
+      "gate_checks": {
+        "auc_gain_recent": true,
+        "auc_loss_reference": true,
+        "calibration_gap_pp": true,
+        "fairness_gap_increase_pp": true
+      }
+    },
+    {
+      "batch": 10,
+      "approval_champion": 0.9971643035863219,
+      "approval_challenger": 0.9791492910758965,
+      "matured": {
+        "rows": 5998.0,
+        "auc_champion": 0.7087570693727305,
+        "auc_challenger": 0.7139060245211376,
+        "ratio_champion": 1.2767849248975316,
+        "ratio_challenger": 1.0668193970345394
+      },
+      "gate_passed": true,
+      "gate_checks": {
+        "auc_gain_recent": true,
+        "auc_loss_reference": true,
+        "calibration_gap_pp": true,
+        "fairness_gap_increase_pp": true
+      }
+    },
+    {
+      "batch": 11,
+      "approval_champion": 0.9976651100733822,
+      "approval_challenger": 0.973815877251501,
+      "matured": {
+        "rows": 5998.0,
+        "auc_champion": 0.718679289017132,
+        "auc_challenger": 0.724146285823218,
+        "ratio_champion": 1.37222115655528,
+        "ratio_challenger": 1.1482037995387606
+      },
+      "gate_passed": true,
+      "gate_checks": {
+        "auc_gain_recent": true,
+        "auc_loss_reference": true,
+        "calibration_gap_pp": true,
+        "fairness_gap_increase_pp": true
+      }
+    }
+  ],
+  "drill": {
+    "model": "credit-scoring-drill",
+    "versions": {
+      "champion_copy": "1",
+      "challenger": "2"
+    },
+    "steps": [
+      {
+        "step": "inicial",
+        "champion": "1"
+      },
+      {
+        "step": "promoção (A7)",
+        "champion": "2",
+        "champion_previous": "1"
+      },
+      {
+        "step": "rollback (GR-6)",
+        "champion": "1",
+        "champion_previous": "2"
+      },
+      {
+        "step": "rollback do rollback",
+        "champion": "2",
+        "champion_previous": "1"
+      }
+    ],
+    "rollback_restored_previous": true,
+    "rollback_reversible": true
+  }
+}
