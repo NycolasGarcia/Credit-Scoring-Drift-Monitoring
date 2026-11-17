@@ -592,3 +592,13 @@ Trabalho fora das fases, decidido pelo autor depois da autoavaliação do fecham
    - índice e CHANGELOG.
    - Os ADRs aceitos mantêm os números do seed oficial como registro histórico.
 5. **Para a F8/F9:** citar mediana e faixa, não o valor de um seed; declarar como limitação a falha do S2 na regra e os limites de sensibilidade.
+
+## CHECKPOINT — F8 «Governança, LGPD, vieses e causalidade» · abertura · 2026-11-17
+
+1. **Pré-requisitos:** F7 fechada com veredito "PODE AVANÇAR"; estudo de robustez registrado (RUN-20261117-calib-ROBUST-01), que define como os números entram nos entregáveis: mediana e faixa, não o valor de um seed.
+2. **ADRs previstos:** 0014 (PII, base legal e retenção) e 0015 (mitigação de vieses).
+3. **Dependências:**
+   - **NV-11** (artigos da LGPD, do CDC e da Lei do Cadastro Positivo) precisa ser fechado contra o texto vigente antes de qualquer citação legal.
+   - **Prazos de retenção** são decisão do autor (§15).
+4. **Grupos disponíveis para fairness:** `addr_state` (49 estados, fora do modelo), `home_ownership` e `emp_length` (no modelo). Não há gênero nem idade no dado.
+5. **Pendências herdadas:** item 5 do INC-0001 (ligar à análise causal); investigação da regra de aviso do contrato que dispara no S5 (vinda da F6); painel de fairness previsto na caixa 6.6.
