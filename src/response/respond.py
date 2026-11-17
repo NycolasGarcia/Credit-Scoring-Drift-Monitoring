@@ -77,6 +77,13 @@ def _tracking(frame: pd.DataFrame, k: float) -> float | None:
     return float(np.minimum(1.0, k * approved["score"]).mean()) if len(approved) else None
 
 
+def _summary(decision, mem: ResponseMemory, k: float, policy: PolicyConfig) -> dict[str, Any]:
+    return {"rule": decision.rule_id, "situation": decision.situation,
+            "auto": decision.codes("auto"), "human": decision.codes("human"),
+            "conservative": mem.breaker.open, "risk_correction": k,
+            "kill_switch": policy.kill_switch, "dry_run": policy.dry_run}  # fmt: skip
+
+
 def respond(
     t: int, valid: pd.DataFrame, signals: dict[str, Any], mem: ResponseMemory, base: float
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
@@ -91,11 +98,10 @@ def respond(
     x, k = _chain_input(valid, base, decision, mem, policy)
     frame = decisions_frame(valid["loan_key"], x) if len(valid) else pd.DataFrame()
     frame = _apply_cap(frame, valid, x, policy)
-    counts = frame["decision"].value_counts().to_dict() if len(frame) else {}
-    return frame, {"rule": decision.rule_id, "situation": decision.situation,
-                   "auto": decision.codes("auto"), "human": decision.codes("human"),
-                   "conservative": mem.breaker.open, "risk_correction": k,
-                   "expected_bad_rate_approved": _tracking(frame, k),
-                   "kill_switch": policy.kill_switch, "dry_run": policy.dry_run,
-                   "fairness": _fairness(frame, valid, base),
-                   "decisions": {key: int(v) for key, v in counts.items()}}  # fmt: skip
+    return frame, _summary(decision, mem, k, policy) | {
+        "expected_bad_rate_approved": _tracking(frame, k),
+        "fairness": _fairness(frame, valid, base),
+        "decisions": {d: int(n) for d, n in frame["decision"].value_counts().items()}
+        if len(frame)
+        else {},
+    }
