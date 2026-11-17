@@ -1,0 +1,345 @@
+{
+  "run_id": "RUN-20261117-gameday-S2-01",
+  "batches": [
+    {
+      "batch": 0,
+      "issue_month": "2014-01",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {},
+      "max_level": 0,
+      "diagnosis": "none",
+      "score_psi": 0.0031,
+      "approval_rate": 0.998,
+      "bad_rate_ratio": null,
+      "auc_mature": null,
+      "segment_feature": null,
+      "segment_gap": null,
+      "rule": "P00",
+      "auto": [
+        "A0"
+      ],
+      "human": [],
+      "conservative": false,
+      "risk_correction": 1.0,
+      "decisions": {
+        "approve": 5984,
+        "reject": 12
+      }
+    },
+    {
+      "batch": 1,
+      "issue_month": "2014-02",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {},
+      "max_level": 0,
+      "diagnosis": "none",
+      "score_psi": 0.0017,
+      "approval_rate": 0.9975,
+      "bad_rate_ratio": null,
+      "auc_mature": null,
+      "segment_feature": null,
+      "segment_gap": null,
+      "rule": "P00",
+      "auto": [
+        "A0"
+      ],
+      "human": [],
+      "conservative": false,
+      "risk_correction": 1.0,
+      "decisions": {
+        "approve": 5982,
+        "reject": 15
+      }
+    },
+    {
+      "batch": 2,
+      "issue_month": "2014-03",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {},
+      "max_level": 0,
+      "diagnosis": "none",
+      "score_psi": 0.0021,
+      "approval_rate": 0.9985,
+      "bad_rate_ratio": null,
+      "auc_mature": null,
+      "segment_feature": null,
+      "segment_gap": null,
+      "rule": "P00",
+      "auto": [
+        "A0"
+      ],
+      "human": [],
+      "conservative": false,
+      "risk_correction": 1.0,
+      "decisions": {
+        "approve": 5990,
+        "reject": 9
+      }
+    },
+    {
+      "batch": 3,
+      "issue_month": "2014-04",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {},
+      "max_level": 0,
+      "diagnosis": "none",
+      "score_psi": 0.0021,
+      "approval_rate": 0.9982,
+      "bad_rate_ratio": 0.9693,
+      "auc_mature": 0.6926,
+      "segment_feature": "int_rate",
+      "segment_gap": 0.2701,
+      "rule": "P00",
+      "auto": [
+        "A0"
+      ],
+      "human": [],
+      "conservative": false,
+      "risk_correction": 1.0,
+      "decisions": {
+        "approve": 5985,
+        "reject": 11
+      }
+    },
+    {
+      "batch": 4,
+      "issue_month": "2014-05",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {},
+      "max_level": 0,
+      "diagnosis": "none",
+      "score_psi": 0.002,
+      "approval_rate": 0.9973,
+      "bad_rate_ratio": 0.9686,
+      "auc_mature": 0.7018,
+      "segment_feature": "loan_amnt",
+      "segment_gap": 0.284,
+      "rule": "P00",
+      "auto": [
+        "A0"
+      ],
+      "human": [],
+      "conservative": false,
+      "risk_correction": 1.0,
+      "decisions": {
+        "approve": 5981,
+        "reject": 16
+      }
+    },
+    {
+      "batch": 5,
+      "issue_month": "2014-06",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {},
+      "max_level": 0,
+      "diagnosis": "none",
+      "score_psi": 0.0019,
+      "approval_rate": 0.9972,
+      "bad_rate_ratio": 0.9499,
+      "auc_mature": 0.681,
+      "segment_feature": "int_rate",
+      "segment_gap": 0.2581,
+      "rule": "P00",
+      "auto": [
+        "A0"
+      ],
+      "human": [],
+      "conservative": false,
+      "risk_correction": 1.0,
+      "decisions": {
+        "approve": 5980,
+        "reject": 17
+      }
+    },
+    {
+      "batch": 6,
+      "issue_month": "2014-07",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {},
+      "max_level": 0,
+      "diagnosis": "none",
+      "score_psi": 0.0011,
+      "approval_rate": 0.9977,
+      "bad_rate_ratio": 1.062,
+      "auc_mature": 0.6948,
+      "segment_feature": "int_rate",
+      "segment_gap": 0.2661,
+      "rule": "P00",
+      "auto": [
+        "A0"
+      ],
+      "human": [],
+      "conservative": false,
+      "risk_correction": 1.062,
+      "decisions": {
+        "approve": 5984,
+        "reject": 14
+      }
+    },
+    {
+      "batch": 7,
+      "issue_month": "2014-08",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {},
+      "max_level": 0,
+      "diagnosis": "none",
+      "score_psi": 0.0008,
+      "approval_rate": 0.9982,
+      "bad_rate_ratio": 1.1857,
+      "auc_mature": 0.7214,
+      "segment_feature": "dti",
+      "segment_gap": 0.4848,
+      "rule": "P00",
+      "auto": [
+        "A0"
+      ],
+      "human": [],
+      "conservative": false,
+      "risk_correction": 1.1857,
+      "decisions": {
+        "approve": 5987,
+        "reject": 11
+      }
+    },
+    {
+      "batch": 8,
+      "issue_month": "2014-09",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {
+        "CDM_BAD_RATE_RATIO": 2
+      },
+      "max_level": 2,
+      "diagnosis": "D3",
+      "score_psi": 0.0023,
+      "approval_rate": 0.9982,
+      "bad_rate_ratio": 1.2696,
+      "auc_mature": 0.714,
+      "segment_feature": "dti",
+      "segment_gap": 0.8059,
+      "rule": "P03",
+      "auto": [
+        "A4",
+        "A6"
+      ],
+      "human": [
+        "A3",
+        "A7"
+      ],
+      "conservative": true,
+      "risk_correction": 1.2696,
+      "decisions": {
+        "approve": 5132,
+        "review": 855,
+        "reject": 11
+      }
+    },
+    {
+      "batch": 9,
+      "issue_month": "2014-10",
+      "gate": "passed",
+      "failed_steps": [],
+      "alerts": {
+        "CDM_BAD_RATE_RATIO": 2
+      },
+      "max_level": 2,
+      "diagnosis": "D3",
+      "score_psi": 0.0008,
+      "approval_rate": 0.998,
+      "bad_rate_ratio": 1.3594,
+      "auc_mature": 0.723,
+      "segment_feature": "dti",
+      "segment_gap": 1.0388,
+      "rule": "P03",
+      "auto": [
+        "A4",
+        "A6"
+      ],
+      "human": [
+        "A3",
+        "A7"
+      ],
+      "conservative": true,
+      "risk_correction": 1.3594,
+      "decisions": {
+        "approve": 4764,
+        "review": 1224,
+        "reject": 12
+      }
+    },
+    {
+      "batch": 10,
+      "issue_month": "2014-11",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {
+        "CDM_BAD_RATE_RATIO": 2
+      },
+      "max_level": 2,
+      "diagnosis": "D3",
+      "score_psi": 0.0019,
+      "approval_rate": 0.9972,
+      "bad_rate_ratio": 1.2768,
+      "auc_mature": 0.7088,
+      "segment_feature": "dti",
+      "segment_gap": 0.8584,
+      "rule": "P03",
+      "auto": [
+        "A4",
+        "A6"
+      ],
+      "human": [
+        "A3",
+        "A7"
+      ],
+      "conservative": true,
+      "risk_correction": 1.2768,
+      "decisions": {
+        "approve": 5121,
+        "review": 857,
+        "reject": 17
+      }
+    },
+    {
+      "batch": 11,
+      "issue_month": "2014-12",
+      "gate": "partial",
+      "failed_steps": [],
+      "alerts": {
+        "CDM_BAD_RATE_RATIO": 2
+      },
+      "max_level": 2,
+      "diagnosis": "D3",
+      "score_psi": 0.002,
+      "approval_rate": 0.9977,
+      "bad_rate_ratio": 1.3722,
+      "auc_mature": 0.7187,
+      "segment_feature": "dti",
+      "segment_gap": 1.0093,
+      "rule": "P03",
+      "auto": [
+        "A4",
+        "A6"
+      ],
+      "human": [
+        "A3",
+        "A7"
+      ],
+      "conservative": true,
+      "risk_correction": 1.3722,
+      "decisions": {
+        "approve": 4749,
+        "review": 1233,
+        "reject": 14
+      }
+    }
+  ]
+}
