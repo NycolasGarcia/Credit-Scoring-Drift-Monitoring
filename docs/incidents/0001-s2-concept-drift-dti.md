@@ -1,6 +1,6 @@
 # INC-0001 — Bad rate acima do esperado no segmento de DTI alto (game day S2)
 
-- **Status:** fechado (postmortem concluído; itens 1, 2 e 4 resolvidos na F7, itens 3 e 5 em aberto)
+- **Status:** fechado (postmortem concluído; itens 1, 2 e 4 resolvidos na F7, item 5 na F8, item 3 em aberto)
 - **Severidade:** SEV-2
 - **Cenário / RUN:** S2 · [RUN-20261117-gameday-S2-01](../runs/RUN-20261117-gameday-S2-01.md)
 - **Simulado:** sim (game day, §11.7)
@@ -56,7 +56,7 @@ Segundo o manifesto ([evidence/scenarios/S2.json](../evidence/scenarios/S2.json)
 - **O que mudou:** quem tem DTI no topo da distribuição (≥ p70 da referência) passou a inadimplir mais, com logit +1,0. A mudança é gradual a partir do lote 3 e fica completa no lote 6.
 - **O que não mudou:** as entradas e o score. Por isso só L4 podia ver o problema.
 
-O diagnóstico do operador (D3, segmento `dti`, sem drift de entrada) **bateu com o ground truth** em tipo, feature e camada. A narrativa econômica (desemprego atinge primeiro quem já está endividado) e o DAG causal entram na análise causal da F8 (caixa 8.6), que vai referenciar este incidente.
+O diagnóstico do operador (D3, segmento `dti`, sem drift de entrada) **bateu com o ground truth** em tipo, feature e camada. A narrativa econômica (desemprego atinge primeiro quem já está endividado) e o grafo causal estão na [análise causal](../CAUSAL_ANALYSIS.md#6-causa-raiz-do-inc-0001).
 
 ## Ação tomada
 
@@ -102,6 +102,6 @@ Fonte: [RUN-20261115-response-ALL-02](../runs/RUN-20261115-response-ALL-02.md), 
 | 2 | Decidir entre executar A6 no job (treino em sombra disparado pela regra) ou reclassificar A6 como humana, e documentar o comando no playbook | autor | F7 (7.11) | feito: A6 humana ([ADR-0022](../adr/0022-challenger-shadow-human.md)), `make gameday-shadow` |
 | 3 | Avaliar um alerta de tendência da razão observado/esperado (subidas consecutivas abaixo do SEV-1), calibrado no S0 antes de entrar | autor | backlog | aberto; o estudo de robustez mede o custo de esperar o SEV-2 (+US$ 0,56 e +0,75 mi em 2 de 5 seeds do S2, [ROBUSTNESS.md](../ROBUSTNESS.md)) |
 | 4 | Declarar a capacidade da fila de revisão e o comportamento quando ela estoura (ADR-0012 e RUNBOOK) | autor | F7 (7.11) | feito: 15% do lote, excedente recusado com R11 ([ADR-0021](../adr/0021-review-queue-capacity.md), [RUN-20261117-response-ALL-01](../runs/RUN-20261117-response-ALL-01.md)) |
-| 5 | Ligar este incidente à análise causal (DAG e mecanismo) | autor | F8 (8.6) | aberto |
+| 5 | Ligar este incidente à análise causal (DAG e mecanismo) | autor | F8 (8.6) | feito: [CAUSAL_ANALYSIS.md](../CAUSAL_ANALYSIS.md), seção 6 |
 
 > Postmortem sem culpa: o foco é o sistema, não as pessoas.

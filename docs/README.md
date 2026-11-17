@@ -25,6 +25,7 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [THRESHOLDS.md](THRESHOLDS.md) | Limiares vigentes e calibração no controle (gerado) | gerado |
 | [DRIFT_EVALUATION.md](DRIFT_EVALUATION.md) | Avaliação do detector por cenário, relatórios Evidently, p-valor × efeito (gerado) | gerado |
 | [evidence/drift/](evidence/drift/) | Resultados por lote, relatórios HTML do Evidently e calibração | F5 |
+| [CAUSAL_ANALYSIS.md](CAUSAL_ANALYSIS.md) | Grafo causal, mecanismo × sinal por camada, validação contra o ground truth, hipóteses da produção natural e causa raiz do INC-0001 | F8 |
 | [GOVERNANCE.md](GOVERNANCE.md) | Plano de privacidade, base legal, retenção, vieses e RIPD (acadêmico: separa a situação real do projeto do cenário da fintech) | F8 |
 | [FAIRNESS.md](FAIRNESS.md) | Análise de vieses no regime normal e no modo conservador, com a mitigação (gerado) | gerado |
 | [ROBUSTNESS.md](ROBUSTNESS.md) | Robustez do detector e das respostas com seeds novos e 4 magnitudes, contra regra declarada antes (gerado) | gerado |
@@ -36,7 +37,7 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [response_notes.md](response_notes.md) | Leitura humana da comparação de respostas (incluída no RESPONSE_EVALUATION) | F7 |
 | [evidence/response/](evidence/response/) | Comparação de respostas, avaliação em sombra e ensaio de promoção/rollback | F7 |
 
-Documentos previstos para fases seguintes: `CAUSAL_ANALYSIS.md`, `video_script.md`.
+Documento previsto para a fase seguinte: `video_script.md`.
 
 ## ADRs
 
