@@ -33,4 +33,4 @@
 fora da regra na magnitude oficial ou no controle: S2 m=1
 
 ## Observações
-
+- Substituído por [RUN-20261117-calib-ROBUST-02](RUN-20261117-calib-ROBUST-02.md): o modo conservador passou a limitar o gap de aprovação entre grupos (ADR-0015). Detecção e respostas de modelo idênticas; mudam só as linhas do modo conservador.

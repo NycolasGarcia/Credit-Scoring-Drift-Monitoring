@@ -85,11 +85,11 @@ Gate do challenger (GR-5): **reprovado** — `auc_gain_recent` -0.0003 (limite 0
   - **A política não age** (regra P09, só registrar), e é o certo: o modelo continua calibrado.
   - **Forçar respostas não compensa:** retreinar sem gate perderia US$ 109 mil, e recalibrar dá +US$ 69 mil, o que é ruído.
 - **D3, concept drift (S2).**
-  - **Resultado:** o modo conservador por valor rende **+US$ 2,94 mi**, com 14,6% das propostas em revisão (fila limitada a 15% do lote, [ADR-0021](adr/0021-review-queue-capacity.md)). Em 5 seeds novos, a mediana é **+US$ 2,19 mi** (de 2,02 a 2,86): o seed oficial ficou no lado favorável ([ROBUSTNESS.md](ROBUSTNESS.md)).
-  - **De onde vem o ganho:** a regra por valor sem correção de risco rende +US$ 0,51 mi. Portanto, cerca de 83% do ganho vem da correção pela razão observado/esperado.
+  - **Resultado:** o modo conservador por valor rende **+US$ 2,74 mi**, com 10,9% das propostas em revisão (fila limitada a 15% do lote, [ADR-0021](adr/0021-review-queue-capacity.md)), já com o limite de gap entre grupos ([ADR-0015](adr/0015-bias-mitigation.md)), que custa US$ 205 mil aqui. Em 5 seeds novos, a mediana é **+US$ 2,09 mi** (de 1,84 a 2,75; [ROBUSTNESS.md](ROBUSTNESS.md)).
+  - **De onde vem o ganho:** a regra por valor sem correção de risco rende +US$ 0,42 mi. Portanto, cerca de 85% do ganho vem da correção pela razão observado/esperado.
   - **Alternativas de modelo:** recalibrar dá +US$ 0,57 mi. O challenger passa no gate com calibração relativa ([ADR-0020](adr/0020-relative-calibration-gate.md)) e rende +US$ 0,61 mi a partir do lote seguinte.
 - **D2, prior shift (S3).**
-  - **Resultado:** o modo conservador por valor rende **+US$ 2,66 mi** (15,0% em revisão), e a recalibração, sozinha, **+US$ 0,87 mi**. Em 5 seeds novos, as medianas são **+US$ 2,47 mi** (de 2,38 a 2,67) e **+US$ 0,27 mi** (de 0,05 a 0,67): o ganho da recalibração é real, mas o do seed oficial está acima de todos os seeds novos.
+  - **Resultado:** o modo conservador por valor rende **+US$ 2,54 mi** (8,8% em revisão; o limite de gap custa US$ 118 mil), e a recalibração, sozinha, **+US$ 0,87 mi**. Em 5 seeds novos, as medianas são **+US$ 2,23 mi** (de 2,18 a 2,36) e **+US$ 0,27 mi** (de 0,05 a 0,67): os dois ganhos são reais, mas os do seed oficial estão acima de todos os seeds novos.
   - **Combinação:** a matriz recomenda as duas (A4 automático e A5 humano). O efeito combinado não foi simulado.
 - **D6, bug de unidade (S4).**
   - **A política retém o lote e manda corrigir a fonte.**
@@ -112,5 +112,5 @@ Gate do challenger (GR-5): **reprovado** — `auc_gain_recent` -0.0003 (limite 0
 - **Custo da equipe de revisão não modelado.**
 - **Revisão em dois extremos:** perdida, ou decidida depois como o champion decidiria.
   - **Sem teto de fila:** decidir depois "como o champion" anulava o ganho, porque o champion aprova de volta toda a faixa de valor negativo.
-  - **Com o teto de 15% ([ADR-0021](adr/0021-review-queue-capacity.md)):** o excedente de pior valor esperado é recusado na hora, e o ganho sobrevive mesmo nesse extremo: +US$ 1,07 mi no S2 e +US$ 2,13 mi no S3.
+  - **Com o teto de 15% ([ADR-0021](adr/0021-review-queue-capacity.md)):** o excedente de pior valor esperado é recusado na hora, e o ganho sobrevive mesmo nesse extremo: +US$ 1,07 mi no S2 e +US$ 2,14 mi no S3.
 - **Cenários simulados:** os desfechos vêm do oráculo do [ADR-0017](adr/0017-scenario-simulator.md).

@@ -2,7 +2,9 @@
 
 Os números dos cenários oficiais vêm de um seed por cenário. Este estudo repete cada cenário com 5 seeds novos e 4 magnitudes, com a regra de leitura declarada antes da execução (commit `c85d34b`, anterior a qualquer resultado).
 
-Uma primeira execução completa foi descartada antes do commit: o veredito do RUN aplicava ao controle (S0) o critério de detecção, que não vale para ele. Os números eram idênticos aos desta.
+Uma primeira execução completa foi descartada antes do commit: o veredito do RUN aplicava ao controle (S0) o critério de detecção, que não vale para ele. Os números eram idênticos aos do RUN-20261117-calib-ROBUST-01.
+
+Este documento reflete o RUN-20261117-calib-ROBUST-02, já com o limite de gap entre grupos do modo conservador ([ADR-0015](adr/0015-bias-mitigation.md)). A detecção e as respostas de modelo são idênticas às do ROBUST-01; mudam só as linhas do modo conservador.
 
 ### O que se sustenta
 
@@ -16,8 +18,8 @@ Uma primeira execução completa foi descartada antes do commit: o veredito do R
   - **S1, S3 e S4:** certo em todos os lotes alertados (35/35, 25/25 e 35/35).
   - **S2:** 19 de 20.
 - **As respostas mantêm o sinal em todos os seeds.**
-  - **Modo conservador por valor (política):** rende entre US$ 2,02 e 2,86 mi no S2 e entre US$ 2,38 e 2,67 mi no S3.
-  - **Forçado sobre o bug do S4:** perde entre US$ 6,25 e 6,75 mi.
+  - **Modo conservador por valor (política, com o limite de fairness):** rende entre US$ 1,84 e 2,75 mi no S2 (mediana de 2,09) e entre US$ 2,18 e 2,36 mi no S3 (mediana de 2,23).
+  - **Forçado sobre o bug do S4:** perde entre US$ 6,25 e 6,77 mi.
   - **Recalibrar:** ganha em todos os seeds do S2 e do S3.
   - **Gate:** nunca deixou o retreino perder valor (mínimo de US$ 0 com gate). No S1, recusou os 5 challengers, e retreinar sem gate perderia em 4 de 5.
 - **A armadilha do retreino sobre o bug também é robusta:** rende entre +US$ 0,76 e +1,30 mi em todos os seeds enquanto o bug persiste. Só a precedência do D6 e a trava GR-7 impedem esse caminho.
@@ -30,12 +32,12 @@ Uma primeira execução completa foi descartada antes do commit: o veredito do R
    - **Consequência operacional:** um lote com a recomendação humana errada (regra P06, recalibrar). Nenhuma ação automática errada, porque a P06 não aciona o modo conservador.
    - **Leitura correta:** "diagnóstico certo em todos os lotes" vale para o seed oficial. Em seeds novos, o D3 pode ser lido como D2 no primeiro alerta, quando ele chega cedo, em SEV-1.
 2. **Os valores do seed oficial ficaram no lado favorável.**
-   - **Modo conservador no S2:** +US$ 2,94 mi no oficial, acima de todos os seeds novos (mediana de 2,19 mi).
+   - **Modo conservador:** no S3, o oficial (+US$ 2,54 mi, [RUN-20261117-response-ALL-02](runs/RUN-20261117-response-ALL-02.md)) fica acima de todos os seeds novos (mediana de 2,23 mi); no S2, o oficial (+US$ 2,74 mi) fica perto do máximo (mediana de 2,09 mi).
    - **Recalibração no S3:** +US$ 0,87 mi no oficial, acima do máximo dos seeds novos (mediana de 0,27 mi, faixa de 0,05 a 0,67 mi).
    - **O que citar:** a mediana e a faixa, não o valor de um seed.
 3. **A política deixa valor na mesa quando o SEV-2 atrasa.**
    - **Onde:** nos seeds 302 e 303 do S2, o primeiro sinal de L4 (SEV-1) chegou um e dois lotes antes do SEV-2.
-   - **Quanto:** forçar o modo conservador desde esse sinal renderia +US$ 0,56 e +0,75 mi a mais.
+   - **Quanto:** forçar o modo conservador desde esse sinal renderia +US$ 0,52 e +0,72 mi a mais.
    - **Por que a regra não muda agora:** é o tema do item de ação 3 do [INC-0001](incidents/0001-s2-concept-drift-dti.md) (aviso na rampa). O controle sem nenhum SEV-1 sugere que agir em SEV-1 no L4 custaria pouco em falso alarme, mas a mudança exige decisão própria, com regra declarada antes.
 4. **Retreinar com gate é instável no S2.** O gate aprovou o challenger em 3 de 5 seeds, então o ganho vai de US$ 0 a +0,58 mi. A resposta de modelo mais estável no S2 é recalibrar (5 de 5 com ganho).
 
