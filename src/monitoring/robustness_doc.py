@@ -21,7 +21,9 @@ def _ci(cell: dict[str, Any]) -> str:
     if ci is None:
         return "—"
     k, n = cell["diagnosis_correct"], cell["diagnosis_alerting"]
-    return f"{k}/{n} ({_pct(k / n)}; IC {_pct(ci[0])} a {_pct(ci[1])})"
+    out = f"{k}/{n} ({_pct(k / n)}; IC {_pct(ci[0])} a {_pct(ci[1])})"
+    blocked = cell["blocked"]
+    return out + (f"; +{blocked} lote(s) bloqueado(s) pelo contrato" if blocked else "")
 
 
 def _m(v: float) -> str:

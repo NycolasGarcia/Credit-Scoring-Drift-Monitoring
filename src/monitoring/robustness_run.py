@@ -32,6 +32,7 @@ from src.monitoring.robustness import (
 )
 from src.monitoring.robustness_doc import robustness_record, write_doc
 from src.monitoring.settings import load_monitoring_config
+from src.monitoring.severity import ALERTING
 from src.reporting.run_record import git_state, next_run_id, write_record
 from src.response import cli as rcli
 from src.response import compare as cmp
@@ -116,11 +117,25 @@ def response_row(sid: str, vcfg: ScenarioConfig, batches: list[Batch], results, 
             "deltas": {n: t["value"] - base for n, t in totals.items()}}  # fmt: skip
 
 
+def blocked_result(b: Batch) -> dict[str, Any]:
+    """A batch the contract blocked: nothing scored, contract SEV-2 and D0, as in the job."""
+    severity = {"signals": dict.fromkeys(ALERTING, 0), "level": 2, "flagged_features": []}
+    return {"batch_id": b.batch_id, "index": b.index, "issue_month": b.issue_month,
+            "gate_status": "blocked", "rows_scored": 0, "l3": {}, "l4": None,
+            "severity": severity, "unit_bugs": {}, "diagnosis": "D0"}  # fmt: skip
+
+
+def detect_variant(dctx: DetectContext, batches: list[Batch]) -> list[dict[str, Any]]:
+    """Detector over the batches the gate let through; blocked batches keep their place."""
+    found = {r["index"]: r for r in detect_scenario(dctx, [b for b in batches if len(b.scored)])}
+    return [found.get(b.index) or blocked_result(b) for b in batches]
+
+
 def run_variant(sid: str, m: float, seed: int, cfg: RobustnessConfig, shared) -> tuple:
     """Detection row and (at the official magnitude) response row of one variant."""
     vcfg = variant(load_scenario(sid), 1.0 if sid == cfg.control else m, seed)
     batches = production_view(vcfg, shared)
-    results = detect_scenario(shared["dctx"], batches)
+    results = detect_variant(shared["dctx"], batches)
     row = detection_row(sid, m, seed, results, evaluate(results, ground_truth(vcfg)))
     compare = sid in cfg.scenarios and m == cfg.compare_magnitude
     resp = response_row(sid, vcfg, batches, results, shared["rctx"]) if compare else None

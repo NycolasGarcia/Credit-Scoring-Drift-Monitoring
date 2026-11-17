@@ -79,7 +79,9 @@ def detection_row(scenario: str, m: float, seed: int, results, evaluation) -> di
     onset = evaluation["onset"]
     pre = [r for r in results if onset is None or r["index"] < onset]
     diag = evaluation["diagnosis"]
-    alerting = sum(diag["counts"].values())
+    post = [r for r in results if onset is not None and r["index"] >= onset]
+    blocked = sum(r["gate_status"] == "blocked" for r in post)  # caught by the contract (L0)
+    alerting = sum(diag["counts"].values()) - blocked  # the detector's own alerting batches
     return {
         "scenario": scenario,
         "m": m,
@@ -91,6 +93,7 @@ def detection_row(scenario: str, m: float, seed: int, results, evaluation) -> di
         "pre_sev1": sum(r["severity"]["level"] >= 1 for r in pre),
         "pre_sev2": sum(r["severity"]["level"] >= 2 for r in pre),
         "alerting": alerting,
+        "blocked": blocked,
         "correct": diag["counts"].get(diag["expected"], 0),
         "recall": evaluation["attribution"]["recall"],
     }
@@ -110,6 +113,7 @@ def summarize_cell(rows: list[dict[str, Any]], level: int) -> dict[str, Any]:
         "diagnosis_correct": k,
         "diagnosis_alerting": n,
         "diagnosis_ci": list(ci) if ci else None,
+        "blocked": sum(r.get("blocked", 0) for r in rows),
         "pre_batches": sum(r["pre_batches"] for r in rows),
         "pre_sev1": sum(r["pre_sev1"] for r in rows),
         "pre_sev2": sum(r["pre_sev2"] for r in rows),

@@ -3,6 +3,7 @@
 import pytest
 
 from src.monitoring.robustness import (
+    detection_row,
     load_robustness,
     response_summary,
     summarize_cell,
@@ -59,3 +60,14 @@ def test_response_summary_requires_gain_in_every_seed() -> None:
     by = {r["strategy"]: r for r in response_summary(rows, CFG.reading)}
     assert by["a"]["positive"] == 2 and not by["a"]["robust"] and by["a"]["median"] == 3.0
     assert by["b"]["robust"]
+
+
+def test_contract_blocked_batches_are_counted_apart_from_the_detector() -> None:
+    def res(i, level, diag, gate="passed"):
+        return {"index": i, "severity": {"level": level}, "gate_status": gate, "diagnosis": diag}
+
+    results = [res(0, 0, "none"), res(1, 2, "D6"), res(2, 2, "D0", "blocked")]
+    ev = {"onset": 1, "first_sev1": 1, "first_sev2": 1, "attribution": {"recall": 1.0},
+          "diagnosis": {"expected": "D6", "counts": {"D6": 1, "D0": 1}}}  # fmt: skip
+    row = detection_row("S4", 1.5, 304, results, ev)
+    assert row["blocked"] == 1 and row["alerting"] == 1 and row["correct"] == 1
