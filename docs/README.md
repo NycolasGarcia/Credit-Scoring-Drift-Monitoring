@@ -25,6 +25,8 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [THRESHOLDS.md](THRESHOLDS.md) | Limiares vigentes e calibração no controle (gerado) | gerado |
 | [DRIFT_EVALUATION.md](DRIFT_EVALUATION.md) | Avaliação do detector por cenário, relatórios Evidently, p-valor × efeito (gerado) | gerado |
 | [evidence/drift/](evidence/drift/) | Resultados por lote, relatórios HTML do Evidently e calibração | F5 |
+| [GOVERNANCE.md](GOVERNANCE.md) | Plano de privacidade, base legal, retenção, vieses e RIPD (acadêmico: separa a situação real do projeto do cenário da fintech) | F8 |
+| [FAIRNESS.md](FAIRNESS.md) | Análise de vieses no regime normal e no modo conservador, com a mitigação (gerado) | gerado |
 | [ROBUSTNESS.md](ROBUSTNESS.md) | Robustez do detector e das respostas com seeds novos e 4 magnitudes, contra regra declarada antes (gerado) | gerado |
 | [METRICS.md](METRICS.md) | Catálogo de métricas do job (gerado) | gerado |
 | [ALERTS.md](ALERTS.md) | Catálogo de alertas com severidade, ação e playbook (gerado) | gerado |
@@ -34,7 +36,7 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [response_notes.md](response_notes.md) | Leitura humana da comparação de respostas (incluída no RESPONSE_EVALUATION) | F7 |
 | [evidence/response/](evidence/response/) | Comparação de respostas, avaliação em sombra e ensaio de promoção/rollback | F7 |
 
-Documentos previstos para fases seguintes: `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`, `video_script.md`.
+Documentos previstos para fases seguintes: `CAUSAL_ANALYSIS.md`, `video_script.md`.
 
 ## ADRs
 
@@ -53,6 +55,8 @@ Documentos previstos para fases seguintes: `CAUSAL_ANALYSIS.md`, `GOVERNANCE.md`
 | [0011](adr/0011-severity-alert-policy.md) | Severidade e política de alertas: uma fonte para os cortes, dead man's switch | aceito |
 | [0012](adr/0012-guardrails-conservative-mode.md) | Guardrails e modo conservador: matriz declarativa, breaker com histerese, faixa cinza para revisão | aceito |
 | [0013](adr/0013-retraining-gate-rollback.md) | Recalibração e retreino em janela recente, travas GR-7/GR-8, gate GR-5, rollback por aliases | aceito |
+| [0014](adr/0014-privacy-legal-basis-retention.md) | Dados pessoais, base legal e retenção (situação acadêmica real × plano da fintech) | aceito |
+| [0015](adr/0015-bias-mitigation.md) | Mitigação de vieses: limite de gap de aprovação no modo conservador | aceito |
 | [0016](adr/0016-empirical-cost-threshold.md) | Premissas de custo empíricas, funding e apetite de risco | aceito |
 | [0017](adr/0017-scenario-simulator.md) | Desenho do simulador de cenários: amostragem, rótulo por oráculo, atraso de rótulo, S4 parcial | aceito |
 | [0018](adr/0018-l4-sev2-cut.md) | Corte de SEV-2 da razão observado/esperado: 1,25 por regra nula declarada antes, validado em variantes novas | aceito |
