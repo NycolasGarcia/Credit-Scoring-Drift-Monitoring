@@ -1,5 +1,5 @@
 {
-  "window_minutes": 45,
+  "window_minutes": 36,
   "alerts": [
     {
       "alertname": "CDM_MONITOR_STALE",
@@ -27,7 +27,22 @@
       "scenario": "S2"
     },
     {
+      "alertname": "CDM_FAIRNESS_GAP",
+      "severity": "SEV-1",
+      "scenario": "S2"
+    },
+    {
       "alertname": "CDM_BAD_RATE_RATIO",
+      "severity": "SEV-2",
+      "scenario": "S3"
+    },
+    {
+      "alertname": "CDM_FAIRNESS_GAP",
+      "severity": "SEV-1",
+      "scenario": "S3"
+    },
+    {
+      "alertname": "CDM_FAIRNESS_GAP",
       "severity": "SEV-2",
       "scenario": "S3"
     },
@@ -78,6 +93,16 @@
     },
     {
       "alertname": "CDM_BAD_RATE_RATIO",
+      "severity": "SEV-2",
+      "scenario": "S5"
+    },
+    {
+      "alertname": "CDM_FAIRNESS_GAP",
+      "severity": "SEV-1",
+      "scenario": "S5"
+    },
+    {
+      "alertname": "CDM_FAIRNESS_GAP",
       "severity": "SEV-2",
       "scenario": "S5"
     },
