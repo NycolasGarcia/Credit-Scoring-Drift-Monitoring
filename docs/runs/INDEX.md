@@ -57,3 +57,4 @@ Observações humanas sobre os runs ficam na seção "Observações" de cada reg
 | [RUN-20261117-gameday-S2-01](RUN-20261117-gameday-S2-01.md) | 2026-11-17 | gameday | S2 | primeiro SEV-1 no lote 8 · primeiro SEV-2 no lote 8 · modo conservador desde o lote 8 | sim |
 | [RUN-20261117-response-ALL-01](RUN-20261117-response-ALL-01.md) | 2026-11-17 | response | ALL | política (modo conservador por valor) vs. não fazer nada, US$ mil — S1: 0,0; S2: 2.942,3; S3: 2.662,1; S4: 0,0 | sim |
 | [RUN-20261117-calib-ROBUST-01](RUN-20261117-calib-ROBUST-01.md) | 2026-11-17 | calib | ROBUST | fora da regra na magnitude oficial ou no controle: S2 m=1 | sim |
+| [RUN-20261117-fairness-ALL-01](RUN-20261117-fairness-ALL-01.md) | 2026-11-17 | fairness | ALL | S2: custo do limite US$ 205 mil; S3: custo do limite US$ 118 mil | sim |

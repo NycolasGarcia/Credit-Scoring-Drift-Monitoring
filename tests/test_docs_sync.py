@@ -7,6 +7,7 @@ from src.config import PROJECT_ROOT
 from src.contracts.catalog import DOC as CONTRACTS_DOC
 from src.contracts.catalog import render
 from src.contracts.settings import load_contract_config
+from src.governance import report_doc as fairness_doc
 from src.monitoring import docs, robustness_doc
 from src.monitoring.settings import load_monitoring_config
 from src.response import docs as response_docs
@@ -71,6 +72,11 @@ def test_calibrated_thresholds_match_calibration_evidence() -> None:
 def test_drift_evaluation_doc_is_in_sync() -> None:
     expected = docs.render_evaluation(docs.evidence_by_scenario(), load_monitoring_config())
     assert docs.EVALUATION_DOC.read_text(encoding="utf-8") == expected
+
+
+def test_fairness_doc_is_in_sync() -> None:
+    body = json.loads(fairness_doc.EVIDENCE.read_text(encoding="utf-8"))
+    assert fairness_doc.DOC.read_text(encoding="utf-8") == fairness_doc.render(body)
 
 
 def test_robustness_doc_is_in_sync() -> None:

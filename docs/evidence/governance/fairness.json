@@ -1,0 +1,1294 @@
+{
+  "run_id": "RUN-20261117-fairness-ALL-01",
+  "config": {
+    "version": 1,
+    "status": "PROPOSTO",
+    "segments": {
+      "home_ownership": {
+        "kind": "category",
+        "edges": null
+      },
+      "emp_length": {
+        "kind": "bands",
+        "edges": [
+          1.0,
+          5.0,
+          10.0
+        ]
+      },
+      "addr_state": {
+        "kind": "category",
+        "edges": null
+      }
+    },
+    "min_group_size": 1000,
+    "min_batch_group_rows": 200,
+    "scenarios": [
+      "S2",
+      "S3"
+    ],
+    "alert": {
+      "sev1_gap_increase_pp": 3.0,
+      "sev2_gap_increase_pp": 7.0
+    }
+  },
+  "reference": {
+    "rows": 16177,
+    "approval_rate": 0.9982691475551709,
+    "segments": {
+      "home_ownership": {
+        "groups": {
+          "MORTGAGE": {
+            "n": 8665,
+            "approval_rate": 0.9994229659549914,
+            "good_approval_rate": 0.9998655733297486,
+            "bad_approval_rate": 0.9967373572593801,
+            "bad_rate": 0.14148874783612234,
+            "expected_bad_rate": 0.1402516713487658,
+            "calibration_ratio": 1.00882040460167,
+            "auc": 0.7140348899707836
+          },
+          "OWN": {
+            "n": 1335,
+            "approval_rate": 0.998501872659176,
+            "good_approval_rate": 0.9991015274034142,
+            "bad_approval_rate": 0.9954954954954955,
+            "bad_rate": 0.1662921348314607,
+            "expected_bad_rate": 0.1620075968633313,
+            "calibration_ratio": 1.0264465250462533,
+            "auc": 0.6922448054523526
+          },
+          "RENT": {
+            "n": 6177,
+            "approval_rate": 0.996600291403594,
+            "good_approval_rate": 0.9976489028213166,
+            "bad_approval_rate": 0.9916123019571296,
+            "bad_rate": 0.17370892018779344,
+            "expected_bad_rate": 0.17411519363889574,
+            "calibration_ratio": 0.9976666398686327,
+            "auc": 0.6777335247905997
+          }
+        },
+        "gaps": {
+          "approval_rate": 0.002822674551397397,
+          "good_approval_rate": 0.002216670508431995,
+          "calibration_ratio": 0.028779885177620645
+        }
+      },
+      "emp_length": {
+        "groups": {
+          "0-1": {
+            "n": 1110,
+            "approval_rate": 0.9972972972972973,
+            "good_approval_rate": 0.9978540772532188,
+            "bad_approval_rate": 0.9943820224719101,
+            "bad_rate": 0.16036036036036036,
+            "expected_bad_rate": 0.15481708633579655,
+            "calibration_ratio": 1.0358053116471946,
+            "auc": 0.6874668466991367
+          },
+          "1-5": {
+            "n": 4265,
+            "approval_rate": 0.998124267291911,
+            "good_approval_rate": 0.9983333333333333,
+            "bad_approval_rate": 0.9969924812030075,
+            "bad_rate": 0.1559202813599062,
+            "expected_bad_rate": 0.15338941188465527,
+            "calibration_ratio": 1.0164996360841,
+            "auc": 0.6927218045112782
+          },
+          "10+": {
+            "n": 5571,
+            "approval_rate": 0.9991024950637228,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 0.9936467598475223,
+            "bad_rate": 0.14126727697002334,
+            "expected_bad_rate": 0.14934639222106172,
+            "calibration_ratio": 0.9459035124257992,
+            "auc": 0.7077164245069334
+          },
+          "5-10": {
+            "n": 4514,
+            "approval_rate": 0.9986708019494904,
+            "good_approval_rate": 0.9992063492063492,
+            "bad_approval_rate": 0.9959128065395095,
+            "bad_rate": 0.16260522817899867,
+            "expected_bad_rate": 0.1561553103386492,
+            "calibration_ratio": 1.0413045052797867,
+            "auc": 0.6968437783832879
+          },
+          "desconhecido": {
+            "n": 717,
+            "approval_rate": 0.9916317991631799,
+            "good_approval_rate": 0.9946428571428572,
+            "bad_approval_rate": 0.9808917197452229,
+            "bad_rate": 0.21896792189679218,
+            "expected_bad_rate": 0.20100947796942184,
+            "calibration_ratio": 1.0893412793704296,
+            "auc": 0.6824727024567788
+          }
+        },
+        "gaps": {
+          "approval_rate": 0.0018051977664255148,
+          "good_approval_rate": 0.0021459227467811592,
+          "calibration_ratio": 0.09540099285398751
+        }
+      },
+      "addr_state": {
+        "groups": {
+          "AK": {
+            "n": 49,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.10204081632653061,
+            "expected_bad_rate": 0.1614935482908209,
+            "calibration_ratio": 0.6318569218800828,
+            "auc": 0.7954545454545455
+          },
+          "AL": {
+            "n": 189,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.17989417989417988,
+            "expected_bad_rate": 0.1758305691576565,
+            "calibration_ratio": 1.023110945701824,
+            "auc": 0.5996204933586338
+          },
+          "AR": {
+            "n": 126,
+            "approval_rate": 0.9920634920634921,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 0.9583333333333334,
+            "bad_rate": 0.19047619047619047,
+            "expected_bad_rate": 0.15844170001098498,
+            "calibration_ratio": 1.2021847181833096,
+            "auc": 0.6360294117647058
+          },
+          "AZ": {
+            "n": 361,
+            "approval_rate": 0.9944598337950139,
+            "good_approval_rate": 0.9967637540453075,
+            "bad_approval_rate": 0.9807692307692307,
+            "bad_rate": 0.1440443213296399,
+            "expected_bad_rate": 0.15088554344611538,
+            "calibration_ratio": 0.9546595256230188,
+            "auc": 0.671396564600448
+          },
+          "CA": {
+            "n": 2617,
+            "approval_rate": 0.9988536492166603,
+            "good_approval_rate": 0.9991051454138703,
+            "bad_approval_rate": 0.9973821989528796,
+            "bad_rate": 0.14596866641192205,
+            "expected_bad_rate": 0.15018839870170966,
+            "calibration_ratio": 0.971903740060719,
+            "auc": 0.7208943860758752
+          },
+          "CO": {
+            "n": 365,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.10136986301369863,
+            "expected_bad_rate": 0.1522981374077035,
+            "calibration_ratio": 0.6656014626254462,
+            "auc": 0.6283783783783784
+          },
+          "CT": {
+            "n": 245,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.1673469387755102,
+            "expected_bad_rate": 0.14809230262968964,
+            "calibration_ratio": 1.1300178051385121,
+            "auc": 0.757532281205165
+          },
+          "DC": {
+            "n": 39,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.05128205128205128,
+            "expected_bad_rate": 0.1412447844670005,
+            "calibration_ratio": 0.3630721762617187,
+            "auc": 0.608108108108108
+          },
+          "DE": {
+            "n": 43,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.18604651162790697,
+            "expected_bad_rate": 0.15234632565470305,
+            "calibration_ratio": 1.2212077372288341,
+            "auc": 0.6428571428571429
+          },
+          "FL": {
+            "n": 1038,
+            "approval_rate": 0.9990366088631984,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 0.9945054945054945,
+            "bad_rate": 0.17533718689788053,
+            "expected_bad_rate": 0.15529692417507207,
+            "calibration_ratio": 1.1290448141794251,
+            "auc": 0.7292864845434939
+          },
+          "GA": {
+            "n": 508,
+            "approval_rate": 0.9940944881889764,
+            "good_approval_rate": 0.9955056179775281,
+            "bad_approval_rate": 0.9841269841269841,
+            "bad_rate": 0.12401574803149606,
+            "expected_bad_rate": 0.16052233005154815,
+            "calibration_ratio": 0.7725763013262466,
+            "auc": 0.7515962190119494
+          },
+          "HI": {
+            "n": 84,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.20238095238095238,
+            "expected_bad_rate": 0.17656663324672928,
+            "calibration_ratio": 1.1462015708151998,
+            "auc": 0.7690956979806848
+          },
+          "IL": {
+            "n": 680,
+            "approval_rate": 0.9985294117647059,
+            "good_approval_rate": 0.9982698961937716,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.15,
+            "expected_bad_rate": 0.14742596525826177,
+            "calibration_ratio": 1.0174598466235512,
+            "auc": 0.6572528665445417
+          },
+          "IN": {
+            "n": 269,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.1449814126394052,
+            "expected_bad_rate": 0.16633334969073127,
+            "calibration_ratio": 0.8716316535978721,
+            "auc": 0.6800445930880713
+          },
+          "KS": {
+            "n": 155,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.16129032258064516,
+            "expected_bad_rate": 0.14969409541701154,
+            "calibration_ratio": 1.0774661627857087,
+            "auc": 0.7126153846153847
+          },
+          "KY": {
+            "n": 136,
+            "approval_rate": 0.9926470588235294,
+            "good_approval_rate": 0.9903846153846154,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.23529411764705882,
+            "expected_bad_rate": 0.16200838726430192,
+            "calibration_ratio": 1.4523576317267939,
+            "auc": 0.7145432692307692
+          },
+          "LA": {
+            "n": 192,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.11979166666666667,
+            "expected_bad_rate": 0.15128874799757974,
+            "calibration_ratio": 0.7918081698222729,
+            "auc": 0.7558528428093645
+          },
+          "MA": {
+            "n": 356,
+            "approval_rate": 0.9915730337078652,
+            "good_approval_rate": 0.9936305732484076,
+            "bad_approval_rate": 0.9761904761904762,
+            "bad_rate": 0.11797752808988764,
+            "expected_bad_rate": 0.1451948337950978,
+            "calibration_ratio": 0.8125463214233929,
+            "auc": 0.7171671216257204
+          },
+          "MD": {
+            "n": 348,
+            "approval_rate": 0.9971264367816092,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 0.9811320754716981,
+            "bad_rate": 0.15229885057471265,
+            "expected_bad_rate": 0.1611347324918886,
+            "calibration_ratio": 0.9451646347095234,
+            "auc": 0.6681164055004798
+          },
+          "MI": {
+            "n": 402,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.16169154228855723,
+            "expected_bad_rate": 0.15851461750216525,
+            "calibration_ratio": 1.0200418411655228,
+            "auc": 0.7095640264779731
+          },
+          "MN": {
+            "n": 267,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.1348314606741573,
+            "expected_bad_rate": 0.152614318267033,
+            "calibration_ratio": 0.8834784455691725,
+            "auc": 0.699013949013949
+          },
+          "MO": {
+            "n": 254,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.2047244094488189,
+            "expected_bad_rate": 0.15854888426129438,
+            "calibration_ratio": 1.2912384114379862,
+            "auc": 0.7290555978674791
+          },
+          "MS": {
+            "n": 1,
+            "approval_rate": 1.0,
+            "good_approval_rate": null,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 1.0,
+            "expected_bad_rate": 0.46508892101615357,
+            "calibration_ratio": 2.1501264700417746,
+            "auc": null
+          },
+          "MT": {
+            "n": 36,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.027777777777777776,
+            "expected_bad_rate": 0.1506189311146908,
+            "calibration_ratio": 0.18442421262853084,
+            "auc": 0.8285714285714285
+          },
+          "NC": {
+            "n": 429,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.20745920745920746,
+            "expected_bad_rate": 0.1652957430260591,
+            "calibration_ratio": 1.2550789491687104,
+            "auc": 0.757468605419696
+          },
+          "NE": {
+            "n": 1,
+            "approval_rate": 1.0,
+            "good_approval_rate": null,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 1.0,
+            "expected_bad_rate": 0.19327772236227103,
+            "calibration_ratio": 5.173902029565752,
+            "auc": null
+          },
+          "NH": {
+            "n": 87,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.06896551724137931,
+            "expected_bad_rate": 0.13166294404400436,
+            "calibration_ratio": 0.5238035480835798,
+            "auc": 0.7037037037037037
+          },
+          "NJ": {
+            "n": 628,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.16560509554140126,
+            "expected_bad_rate": 0.14519590626124207,
+            "calibration_ratio": 1.1405631178294944,
+            "auc": 0.6955005871990605
+          },
+          "NM": {
+            "n": 84,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.15476190476190477,
+            "expected_bad_rate": 0.1641634396333985,
+            "calibration_ratio": 0.9427306415332868,
+            "auc": 0.5612134344528711
+          },
+          "NV": {
+            "n": 242,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.16942148760330578,
+            "expected_bad_rate": 0.15314343063097702,
+            "calibration_ratio": 1.1062928844238398,
+            "auc": 0.6703070015774785
+          },
+          "NY": {
+            "n": 1311,
+            "approval_rate": 0.9984744469870328,
+            "good_approval_rate": 0.9990850869167429,
+            "bad_approval_rate": 0.9954128440366973,
+            "bad_rate": 0.16628527841342486,
+            "expected_bad_rate": 0.15510995284441134,
+            "calibration_ratio": 1.0720477658852965,
+            "auc": 0.6876243316517958
+          },
+          "OH": {
+            "n": 532,
+            "approval_rate": 0.9962406015037594,
+            "good_approval_rate": 0.9977628635346756,
+            "bad_approval_rate": 0.9882352941176471,
+            "bad_rate": 0.15977443609022557,
+            "expected_bad_rate": 0.16342623642965268,
+            "calibration_ratio": 0.9776547485935709,
+            "auc": 0.6977233846558758
+          },
+          "OK": {
+            "n": 148,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.20945945945945946,
+            "expected_bad_rate": 0.15464055539742508,
+            "calibration_ratio": 1.3544924157906069,
+            "auc": 0.7049903501516405
+          },
+          "OR": {
+            "n": 230,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.12173913043478261,
+            "expected_bad_rate": 0.15149616216952294,
+            "calibration_ratio": 0.8035789731660499,
+            "auc": 0.747878359264498
+          },
+          "PA": {
+            "n": 542,
+            "approval_rate": 0.996309963099631,
+            "good_approval_rate": 0.9977728285077951,
+            "bad_approval_rate": 0.989247311827957,
+            "bad_rate": 0.17158671586715868,
+            "expected_bad_rate": 0.1573873667335221,
+            "calibration_ratio": 1.0902191162374422,
+            "auc": 0.7132217352779174
+          },
+          "RI": {
+            "n": 71,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.19718309859154928,
+            "expected_bad_rate": 0.15707240180562285,
+            "calibration_ratio": 1.2553643818063178,
+            "auc": 0.6240601503759399
+          },
+          "SC": {
+            "n": 177,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.11864406779661017,
+            "expected_bad_rate": 0.17075921186717005,
+            "calibration_ratio": 0.6948033227566127,
+            "auc": 0.7509157509157509
+          },
+          "SD": {
+            "n": 38,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.18421052631578946,
+            "expected_bad_rate": 0.14810372014734663,
+            "calibration_ratio": 1.2437940527930063,
+            "auc": 0.751152073732719
+          },
+          "TN": {
+            "n": 234,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.18376068376068377,
+            "expected_bad_rate": 0.17200270163431958,
+            "calibration_ratio": 1.0683592874684134,
+            "auc": 0.6195056617557531
+          },
+          "TX": {
+            "n": 1301,
+            "approval_rate": 0.9969254419677172,
+            "good_approval_rate": 0.9991087344028521,
+            "bad_approval_rate": 0.9832402234636871,
+            "bad_rate": 0.13758647194465795,
+            "expected_bad_rate": 0.15610990467967484,
+            "calibration_ratio": 0.8813436420128146,
+            "auc": 0.6739561238411057
+          },
+          "UT": {
+            "n": 129,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.1937984496124031,
+            "expected_bad_rate": 0.14188631215021896,
+            "calibration_ratio": 1.3658713562674272,
+            "auc": 0.6684615384615384
+          },
+          "VA": {
+            "n": 492,
+            "approval_rate": 0.9979674796747967,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 0.9878048780487805,
+            "bad_rate": 0.16666666666666666,
+            "expected_bad_rate": 0.15787812227767245,
+            "calibration_ratio": 1.055666638684346,
+            "auc": 0.6959845330160619
+          },
+          "VT": {
+            "n": 19,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.15789473684210525,
+            "expected_bad_rate": 0.1566058889334189,
+            "calibration_ratio": 1.0082298815035897,
+            "auc": 0.7291666666666666
+          },
+          "WA": {
+            "n": 421,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.18527315914489312,
+            "expected_bad_rate": 0.15588853963062496,
+            "calibration_ratio": 1.1884976251871655,
+            "auc": 0.6928309785452642
+          },
+          "WI": {
+            "n": 181,
+            "approval_rate": 0.994475138121547,
+            "good_approval_rate": 0.9937106918238994,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.12154696132596685,
+            "expected_bad_rate": 0.15174714325253968,
+            "calibration_ratio": 0.8009835224620124,
+            "auc": 0.6949685534591195
+          },
+          "WV": {
+            "n": 75,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.17333333333333334,
+            "expected_bad_rate": 0.1658150279377063,
+            "calibration_ratio": 1.0453415199402283,
+            "auc": 0.6823821339950372
+          },
+          "WY": {
+            "n": 45,
+            "approval_rate": 1.0,
+            "good_approval_rate": 1.0,
+            "bad_approval_rate": 1.0,
+            "bad_rate": 0.15555555555555556,
+            "expected_bad_rate": 0.14475487042494087,
+            "calibration_ratio": 1.0746136216274333,
+            "auc": 0.5864661654135339
+          }
+        },
+        "gaps": {
+          "approval_rate": 0.002111166895481298,
+          "good_approval_rate": 0.0009149130832570851,
+          "calibration_ratio": 0.24770117216661058
+        }
+      }
+    }
+  },
+  "proxy_addr_state": {
+    "home_ownership": 0.19293050770521633,
+    "tot_cur_bal": 0.10386888878642836,
+    "tot_hi_cred_lim": 0.09944690358892937,
+    "avg_cur_bal": 0.08975979129691333,
+    "mort_acc": 0.08424294682549345,
+    "annual_inc": 0.05297865827946245,
+    "dti": 0.051492878805731654,
+    "mths_since_recent_inq": 0.047407005457717956,
+    "total_acc": 0.042261012237633934,
+    "verification_status": 0.04036840131014557
+  },
+  "scenarios": [
+    {
+      "scenario": "S2",
+      "decision_point": 8,
+      "strategies": {
+        "champion puro": {
+          "value": 10099924.328724818,
+          "per_batch": [
+            {
+              "home_ownership": 0.0035056967572304476,
+              "emp_length": 0.0035087719298245723,
+              "addr_state": 0.0045045045045044585,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.0026269702276707774,
+              "emp_length": 0.0039215686274509665,
+              "addr_state": 0.004784688995215336,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.0020404047489609445,
+              "emp_length": 0.003831417624521105,
+              "addr_state": 0.004854368932038833,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.002442367601246165,
+              "emp_length": 0.007843137254901933,
+              "addr_state": 0.002105263157894721,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 12811,
+              "approval_rate": 0.9983607837015065,
+              "good_approval_rate": 0.9994166828699202,
+              "bad_approval_rate": 0.994059405940594,
+              "bad_rate": 0.19709624541409726,
+              "expected_bad_rate": 0.13967307072259944,
+              "calibration_ratio": 1.4111255977578119,
+              "auc": 0.7296926708031487
+            },
+            "OWN": {
+              "n": 2081,
+              "approval_rate": 0.9985583853916387,
+              "good_approval_rate": 1.0,
+              "bad_approval_rate": 0.9932126696832579,
+              "bad_rate": 0.21239788563190773,
+              "expected_bad_rate": 0.15711966763893156,
+              "calibration_ratio": 1.35182239641703,
+              "auc": 0.7158562913596471
+            },
+            "RENT": {
+              "n": 9097,
+              "approval_rate": 0.9967022095196219,
+              "good_approval_rate": 0.9980011422044546,
+              "bad_approval_rate": 0.9923554706163402,
+              "bad_rate": 0.2300758491810487,
+              "expected_bad_rate": 0.17315385385202722,
+              "calibration_ratio": 1.328736519937151,
+              "auc": 0.7118045029486939
+            }
+          },
+          "delta_vs_champion": 0.0
+        },
+        "conservador sem limite": {
+          "value": 13042190.245731836,
+          "per_batch": [
+            {
+              "home_ownership": 0.12563703054500608,
+              "emp_length": 0.4142232658057103,
+              "addr_state": 0.061425061425061434,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.1445540111591731,
+              "emp_length": 0.3943083183926691,
+              "addr_state": 0.07234306578052474,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.11859942376574717,
+              "emp_length": 0.3692705427221664,
+              "addr_state": 0.05622499537917591,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.13561540788709814,
+              "emp_length": 0.45227914403099867,
+              "addr_state": 0.09550025050392075,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 12811,
+              "approval_rate": 0.8794005151822653,
+              "good_approval_rate": 0.8991833560178883,
+              "bad_approval_rate": 0.7988118811881189,
+              "bad_rate": 0.19709624541409726,
+              "expected_bad_rate": 0.13967307072259944,
+              "calibration_ratio": 1.4111255977578119,
+              "auc": 0.7296926708031487
+            },
+            "OWN": {
+              "n": 2081,
+              "approval_rate": 0.814512253724171,
+              "good_approval_rate": 0.8401464307504576,
+              "bad_approval_rate": 0.7194570135746606,
+              "bad_rate": 0.21239788563190773,
+              "expected_bad_rate": 0.15711966763893156,
+              "calibration_ratio": 1.35182239641703,
+              "auc": 0.7158562913596471
+            },
+            "RENT": {
+              "n": 9097,
+              "approval_rate": 0.7480488072991096,
+              "good_approval_rate": 0.7958309537407195,
+              "bad_approval_rate": 0.5881509794553272,
+              "bad_rate": 0.2300758491810487,
+              "expected_bad_rate": 0.17315385385202722,
+              "calibration_ratio": 1.328736519937151,
+              "auc": 0.7118045029486939
+            }
+          },
+          "delta_vs_champion": 2942265.917007018
+        },
+        "limite só em home_ownership": {
+          "value": 12968355.481000751,
+          "per_batch": [
+            {
+              "home_ownership": 0.06998409452397181,
+              "emp_length": 0.38891581112249063,
+              "addr_state": 0.0593775593775594,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.06968535967055656,
+              "emp_length": 0.35901482544237207,
+              "addr_state": 0.058876246882793026,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.06960165093723936,
+              "emp_length": 0.33445857977160287,
+              "addr_state": 0.04862895676697332,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.06999860998683571,
+              "emp_length": 0.4147307654026078,
+              "addr_state": 0.0862898621645869,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 12811,
+              "approval_rate": 0.8794005151822653,
+              "good_approval_rate": 0.8991833560178883,
+              "bad_approval_rate": 0.7988118811881189,
+              "bad_rate": 0.19709624541409726,
+              "expected_bad_rate": 0.13967307072259944,
+              "calibration_ratio": 1.4111255977578119,
+              "auc": 0.7296926708031487
+            },
+            "OWN": {
+              "n": 2081,
+              "approval_rate": 0.8207592503604036,
+              "good_approval_rate": 0.8462477120195241,
+              "bad_approval_rate": 0.7262443438914027,
+              "bad_rate": 0.21239788563190773,
+              "expected_bad_rate": 0.15711966763893156,
+              "calibration_ratio": 1.35182239641703,
+              "auc": 0.7158562913596471
+            },
+            "RENT": {
+              "n": 9097,
+              "approval_rate": 0.8093877102341431,
+              "good_approval_rate": 0.8565105653912051,
+              "bad_approval_rate": 0.6516961299569995,
+              "bad_rate": 0.2300758491810487,
+              "expected_bad_rate": 0.17315385385202722,
+              "calibration_ratio": 1.328736519937151,
+              "auc": 0.7118045029486939
+            }
+          },
+          "delta_vs_champion": 2868431.152275933
+        },
+        "limite nos três segmentos": {
+          "value": 12837742.400786983,
+          "per_batch": [
+            {
+              "home_ownership": 0.06375504576606794,
+              "emp_length": 0.06705801047469173,
+              "addr_state": 0.06879606879606881,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.06984004155022983,
+              "emp_length": 0.06881874701099955,
+              "addr_state": 0.06471858630934624,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.06967254671083456,
+              "emp_length": 0.06625934605512784,
+              "addr_state": 0.053583672690631357,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.06932976835839444,
+              "emp_length": 0.06824922862546035,
+              "addr_state": 0.06083167301664971,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 12811,
+              "approval_rate": 0.8913433767855748,
+              "good_approval_rate": 0.9102663814894031,
+              "bad_approval_rate": 0.8142574257425742,
+              "bad_rate": 0.19709624541409726,
+              "expected_bad_rate": 0.13967307072259944,
+              "calibration_ratio": 1.4111255977578119,
+              "auc": 0.7296926708031487
+            },
+            "OWN": {
+              "n": 2081,
+              "approval_rate": 0.8495915425276309,
+              "good_approval_rate": 0.8706528370957901,
+              "bad_approval_rate": 0.7714932126696833,
+              "bad_rate": 0.21239788563190773,
+              "expected_bad_rate": 0.15711966763893156,
+              "calibration_ratio": 1.35182239641703,
+              "auc": 0.7158562913596471
+            },
+            "RENT": {
+              "n": 9097,
+              "approval_rate": 0.8230185775530394,
+              "good_approval_rate": 0.8666476299257567,
+              "bad_approval_rate": 0.6770186335403726,
+              "bad_rate": 0.2300758491810487,
+              "expected_bad_rate": 0.17315385385202722,
+              "calibration_ratio": 1.328736519937151,
+              "auc": 0.7118045029486939
+            }
+          },
+          "delta_vs_champion": 2737818.0720621645
+        },
+        "conservador com limite (política)": {
+          "value": 12836944.50422789,
+          "per_batch": [
+            {
+              "home_ownership": 0.06356551147026346,
+              "emp_length": 0.06961756550845555,
+              "addr_state": 0.07371007371007365,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.06984004155022983,
+              "emp_length": 0.06881874701099955,
+              "addr_state": 0.06471858630934624,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.06967254671083456,
+              "emp_length": 0.06625934605512784,
+              "addr_state": 0.053583672690631357,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.06932976835839444,
+              "emp_length": 0.06824922862546035,
+              "addr_state": 0.06083167301664971,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 12811,
+              "approval_rate": 0.8911872609476231,
+              "good_approval_rate": 0.9100719424460432,
+              "bad_approval_rate": 0.8142574257425742,
+              "bad_rate": 0.19709624541409726,
+              "expected_bad_rate": 0.13967307072259944,
+              "calibration_ratio": 1.4111255977578119,
+              "auc": 0.7296926708031487
+            },
+            "OWN": {
+              "n": 2081,
+              "approval_rate": 0.8495915425276309,
+              "good_approval_rate": 0.8706528370957901,
+              "bad_approval_rate": 0.7714932126696833,
+              "bad_rate": 0.21239788563190773,
+              "expected_bad_rate": 0.15711966763893156,
+              "calibration_ratio": 1.35182239641703,
+              "auc": 0.7158562913596471
+            },
+            "RENT": {
+              "n": 9097,
+              "approval_rate": 0.8229086512036935,
+              "good_approval_rate": 0.8666476299257567,
+              "bad_approval_rate": 0.6765408504538939,
+              "bad_rate": 0.2300758491810487,
+              "expected_bad_rate": 0.17315385385202722,
+              "calibration_ratio": 1.328736519937151,
+              "auc": 0.7118045029486939
+            }
+          },
+          "delta_vs_champion": 2737020.1755030714
+        }
+      }
+    },
+    {
+      "scenario": "S3",
+      "decision_point": 7,
+      "strategies": {
+        "champion puro": {
+          "value": 9119671.211018825,
+          "per_batch": [
+            {
+              "home_ownership": 0.004402234636871505,
+              "emp_length": 0.006192247013747987,
+              "addr_state": 0.0049261083743842304,
+              "batch": 7
+            },
+            {
+              "home_ownership": 0.005377738159536238,
+              "emp_length": 0.004334365325077361,
+              "addr_state": 0.009615384615384581,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.002047732611307307,
+              "emp_length": 0.026496055037281252,
+              "addr_state": 0.005976095617529875,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.0031216825553651573,
+              "emp_length": 0.0031256497645026915,
+              "addr_state": 0.004784688995215336,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.002209456473707516,
+              "emp_length": 0.0035227243458293422,
+              "addr_state": 0.002178649237472796,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 16099,
+              "approval_rate": 0.998881918131561,
+              "good_approval_rate": 0.9992923972010378,
+              "bad_approval_rate": 0.9973372781065089,
+              "bad_rate": 0.2099509286291074,
+              "expected_bad_rate": 0.1390479888924765,
+              "calibration_ratio": 1.509917045916133,
+              "auc": 0.6959385995233334
+            },
+            "OWN": {
+              "n": 2595,
+              "approval_rate": 0.9965317919075144,
+              "good_approval_rate": 0.998989898989899,
+              "bad_approval_rate": 0.9886178861788618,
+              "bad_rate": 0.23699421965317918,
+              "expected_bad_rate": 0.16038636609507614,
+              "calibration_ratio": 1.4776456716569681,
+              "auc": 0.692795844625113
+            },
+            "RENT": {
+              "n": 11295,
+              "approval_rate": 0.996547144754316,
+              "good_approval_rate": 0.9977565237926556,
+              "bad_approval_rate": 0.9929228591648974,
+              "bad_rate": 0.250199203187251,
+              "expected_bad_rate": 0.1747823929693412,
+              "calibration_ratio": 1.4314897452579147,
+              "auc": 0.6857067785705613
+            }
+          },
+          "delta_vs_champion": 0.0
+        },
+        "conservador sem limite": {
+          "value": 11781742.02573065,
+          "per_batch": [
+            {
+              "home_ownership": 0.2253308504034761,
+              "emp_length": 0.38276425512733825,
+              "addr_state": 0.06730416304452824,
+              "batch": 7
+            },
+            {
+              "home_ownership": 0.18188195233313031,
+              "emp_length": 0.4112833586907357,
+              "addr_state": 0.10718599033816423,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.1761202151915301,
+              "emp_length": 0.4341953307216775,
+              "addr_state": 0.06285080892410733,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.19491326502628625,
+              "emp_length": 0.4295329046621651,
+              "addr_state": 0.07839743589743597,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.18754867932621333,
+              "emp_length": 0.4576213091141082,
+              "addr_state": 0.09204630321135177,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 16099,
+              "approval_rate": 0.8137772532455432,
+              "good_approval_rate": 0.8351285478418115,
+              "bad_approval_rate": 0.7334319526627219,
+              "bad_rate": 0.2099509286291074,
+              "expected_bad_rate": 0.1390479888924765,
+              "calibration_ratio": 1.509917045916133,
+              "auc": 0.6959385995233334
+            },
+            "OWN": {
+              "n": 2595,
+              "approval_rate": 0.7036608863198458,
+              "good_approval_rate": 0.7424242424242424,
+              "bad_approval_rate": 0.5788617886178862,
+              "bad_rate": 0.23699421965317918,
+              "expected_bad_rate": 0.16038636609507614,
+              "calibration_ratio": 1.4776456716569681,
+              "auc": 0.692795844625113
+            },
+            "RENT": {
+              "n": 11295,
+              "approval_rate": 0.6207171314741036,
+              "good_approval_rate": 0.6611170149958673,
+              "bad_approval_rate": 0.4996461429582449,
+              "bad_rate": 0.250199203187251,
+              "expected_bad_rate": 0.1747823929693412,
+              "calibration_ratio": 1.4314897452579147,
+              "auc": 0.6857067785705613
+            }
+          },
+          "delta_vs_champion": 2662070.814711826
+        },
+        "limite só em home_ownership": {
+          "value": 11723672.36935661,
+          "per_batch": [
+            {
+              "home_ownership": 0.06977529484792055,
+              "emp_length": 0.3614660520839411,
+              "addr_state": 0.13578672848449724,
+              "batch": 7
+            },
+            {
+              "home_ownership": 0.06989938152703012,
+              "emp_length": 0.3316160791385925,
+              "addr_state": 0.10073757763975155,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.06984218828570044,
+              "emp_length": 0.3883026501513402,
+              "addr_state": 0.06077543512098482,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.06996864827839078,
+              "emp_length": 0.40371117386042765,
+              "addr_state": 0.11272435897435895,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.06956370363023456,
+              "emp_length": 0.424868690350945,
+              "addr_state": 0.05821917808219179,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 16099,
+              "approval_rate": 0.8137772532455432,
+              "good_approval_rate": 0.8351285478418115,
+              "bad_approval_rate": 0.7334319526627219,
+              "bad_rate": 0.2099509286291074,
+              "expected_bad_rate": 0.1390479888924765,
+              "calibration_ratio": 1.509917045916133,
+              "auc": 0.6959385995233334
+            },
+            "OWN": {
+              "n": 2595,
+              "approval_rate": 0.7448940269749519,
+              "good_approval_rate": 0.7833333333333333,
+              "bad_approval_rate": 0.6211382113821138,
+              "bad_rate": 0.23699421965317918,
+              "expected_bad_rate": 0.16038636609507614,
+              "calibration_ratio": 1.4776456716569681,
+              "auc": 0.692795844625113
+            },
+            "RENT": {
+              "n": 11295,
+              "approval_rate": 0.7440460380699424,
+              "good_approval_rate": 0.7874601487778958,
+              "bad_approval_rate": 0.6139419674451522,
+              "bad_rate": 0.250199203187251,
+              "expected_bad_rate": 0.1747823929693412,
+              "calibration_ratio": 1.4314897452579147,
+              "auc": 0.6857067785705613
+            }
+          },
+          "delta_vs_champion": 2604001.158337785
+        },
+        "limite nos três segmentos": {
+          "value": 11596952.663027748,
+          "per_batch": [
+            {
+              "home_ownership": 0.06989944134078219,
+              "emp_length": 0.0673089925625423,
+              "addr_state": 0.06481213174925138,
+              "batch": 7
+            },
+            {
+              "home_ownership": 0.06952045021759057,
+              "emp_length": 0.06692787728192151,
+              "addr_state": 0.06172360248447206,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.06964931495526028,
+              "emp_length": 0.06757093362922029,
+              "addr_state": 0.058582142351775945,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.06926474389554638,
+              "emp_length": 0.06956434045986282,
+              "addr_state": 0.06224358974358979,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.0698006796039814,
+              "emp_length": 0.06891899120903944,
+              "addr_state": 0.041543558062494323,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 16099,
+              "approval_rate": 0.8308590595689174,
+              "good_approval_rate": 0.85266137274943,
+              "bad_approval_rate": 0.7488165680473373,
+              "bad_rate": 0.2099509286291074,
+              "expected_bad_rate": 0.1390479888924765,
+              "calibration_ratio": 1.509917045916133,
+              "auc": 0.6959385995233334
+            },
+            "OWN": {
+              "n": 2595,
+              "approval_rate": 0.778805394990366,
+              "good_approval_rate": 0.8121212121212121,
+              "bad_approval_rate": 0.6715447154471544,
+              "bad_rate": 0.23699421965317918,
+              "expected_bad_rate": 0.16038636609507614,
+              "calibration_ratio": 1.4776456716569681,
+              "auc": 0.692795844625113
+            },
+            "RENT": {
+              "n": 11295,
+              "approval_rate": 0.7613103142983622,
+              "good_approval_rate": 0.8030464045341835,
+              "bad_approval_rate": 0.6362349610757254,
+              "bad_rate": 0.250199203187251,
+              "expected_bad_rate": 0.1747823929693412,
+              "calibration_ratio": 1.4314897452579147,
+              "auc": 0.6857067785705613
+            }
+          },
+          "delta_vs_champion": 2477281.4520089235
+        },
+        "conservador com limite (política)": {
+          "value": 11663735.795653187,
+          "per_batch": [
+            {
+              "home_ownership": 0.0699217877094972,
+              "emp_length": 0.06644689499581846,
+              "addr_state": 0.1140732154930938,
+              "batch": 7
+            },
+            {
+              "home_ownership": 0.06966368131355538,
+              "emp_length": 0.0680185392961411,
+              "addr_state": 0.09312456866804697,
+              "batch": 8
+            },
+            {
+              "home_ownership": 0.06964931495526028,
+              "emp_length": 0.06757093362922029,
+              "addr_state": 0.058582142351775945,
+              "batch": 9
+            },
+            {
+              "home_ownership": 0.06964177138539573,
+              "emp_length": 0.06789027833803962,
+              "addr_state": 0.09830128205128208,
+              "batch": 10
+            },
+            {
+              "home_ownership": 0.0698006796039814,
+              "emp_length": 0.06891899120903944,
+              "addr_state": 0.041543558062494323,
+              "batch": 11
+            }
+          ],
+          "home_ownership": {
+            "MORTGAGE": {
+              "n": 16099,
+              "approval_rate": 0.8274426983042426,
+              "good_approval_rate": 0.8494378488874912,
+              "bad_approval_rate": 0.7446745562130177,
+              "bad_rate": 0.2099509286291074,
+              "expected_bad_rate": 0.1390479888924765,
+              "calibration_ratio": 1.509917045916133,
+              "auc": 0.6959385995233334
+            },
+            "OWN": {
+              "n": 2595,
+              "approval_rate": 0.7780346820809249,
+              "good_approval_rate": 0.8116161616161616,
+              "bad_approval_rate": 0.6699186991869919,
+              "bad_rate": 0.23699421965317918,
+              "expected_bad_rate": 0.16038636609507614,
+              "calibration_ratio": 1.4776456716569681,
+              "auc": 0.692795844625113
+            },
+            "RENT": {
+              "n": 11295,
+              "approval_rate": 0.7577689243027889,
+              "good_approval_rate": 0.7998583067658519,
+              "bad_approval_rate": 0.6316348195329087,
+              "bad_rate": 0.250199203187251,
+              "expected_bad_rate": 0.1747823929693412,
+              "calibration_ratio": 1.4314897452579147,
+              "auc": 0.6857067785705613
+            }
+          },
+          "delta_vs_champion": 2544064.584634362
+        }
+      }
+    }
+  ]
+}
