@@ -77,7 +77,7 @@ def main(argv: list[str] | None = None) -> int:
     end = str(args.to_ms) if args.to_ms else "now"
     base = {"orgId": "1", "from": start, "to": end, "var-scenario": args.scenario,
             "tz": "America/Sao_Paulo"}  # fmt: skip
-    render(f"d/{UID}/x", {**base, "width": "1600", "height": "2150", "kiosk": "true"},
+    render(f"d/{UID}/x", {**base, "width": "1600", "height": "2500", "kiosk": "true"},
            OUT / f"{args.scenario}_dashboard.png")  # fmt: skip
     for panel in dashboard()["panels"][5:]:
         params = {**base, "panelId": str(panel["id"]), "width": "1200", "height": "450"}
