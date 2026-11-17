@@ -6,6 +6,19 @@ Mudanças relevantes por fase, da mais recente para a mais antiga. Formato inspi
 
 Nada ainda.
 
+## F9 — Consolidação e entrega (2026-11-17)
+
+### Adicionado
+- README final: contexto, arquitetura, resultados por critério com o RUN ou a evidência de cada número, lições e limitações.
+- Roteiro cronometrado do vídeo STAR (`docs/video_script.md`); o vídeo é entregue fora do repositório.
+- Auditoria de entrega (`docs/DELIVERY_AUDIT.md`): critérios e requisitos do enunciado, um a um, com o caminho da evidência.
+
+### Alterado
+- Prints do dashboard refeitos numa stack recriada do zero, com os painéis de resposta e de fairness, e na janela exata de cada replay (RUN-20261117-monitor-S0-01 a S4-01 e S5-02).
+
+### Corrigido
+- O print do dashboard inteiro cortava a última faixa de painéis; um print tirado logo ao fim do replay pegava o penúltimo lote.
+
 ## F8 — Governança, LGPD, vieses e causalidade (2026-11-17)
 
 ### Adicionado

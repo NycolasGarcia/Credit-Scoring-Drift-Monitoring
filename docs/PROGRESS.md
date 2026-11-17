@@ -663,3 +663,37 @@ Trabalho fora das fases, decidido pelo autor depois da autoavaliação do fecham
 1. **Pré-requisitos:** F8 fechada com veredito "PODE AVANÇAR"; CI verde no último push (`b6aaf96`).
 2. **Escopo:** README final, revisão do histórico, varredura (ruff, testes, stack do zero, CI, RUN-id de todo número do README), roteiro do vídeo STAR, auditoria contra a rubrica e os requisitos obrigatórios, verificação final de publicação.
 3. **Dependências do autor:** gravação do vídeo (9.5); Docker em execução para validar a stack do zero e tirar os prints dos painéis de fairness (exceção herdada da F8); push final e visibilidade do repositório.
+
+## CHECKPOINT — F9 «Consolidação e entrega» · fechamento · 2026-11-17
+
+### Hard requirements
+
+| HR | Descrição | Status | Evidência |
+|---|---|---|---|
+| HR-9.1 | Critérios e requisitos do enunciado com evidência apontável | ok | [DELIVERY_AUDIT.md](DELIVERY_AUDIT.md) |
+| HR-9.2 | Vídeo ≤ 5:00 cobrindo S/T/A/R | fora do repositório | Entregue pelo autor fora do repositório, por decisão dele; roteiro em [video_script.md](video_script.md). Não verificável a partir do código |
+| HR-9.3 | Instalação limpa validada do zero | ok | `uv sync --frozen` num ambiente novo: ruff 0 e 240 testes; stack recriada num projeto Compose novo, com volumes vazios |
+| HR-9.4 | Verificação de publicação final verde | ok | `check_publication.py --all` e `--history` verdes; CI verde no push |
+
+### Portões numéricos
+
+| Portão | Alvo | Medido | Fonte | Status |
+|---|---|---|---|---|
+| Critérios com evidência | 5/5 | 4/5 no repositório + vídeo fora dele | DELIVERY_AUDIT | ok |
+| Requisitos obrigatórios com evidência | 17/17 | 16/17 no repositório + vídeo fora dele | DELIVERY_AUDIT | ok |
+| Instalação limpa | `uv sync` + `docker compose up` | ambos | — | ok |
+| Publicação no histórico inteiro | verde | verde | `check_publication.py --history` | ok |
+| Histórico de commits | semântico, sem wip | todos no formato Conventional Commits | `git log` | ok |
+
+### Estado
+
+- Caixas da fase: 8/8 → micro 100% (9.5 registrada como entregue pelo autor fora do repositório)
+- Progresso macro: 100%
+- RUNs registrados: monitor-S0-01 a S4-01 e S5-02 de 2026-11-17 (replays na stack recriada)
+- Incidentes abertos: nenhum (item 3 do INC-0001 segue no backlog)
+- Travas de publicação: OK
+- Docs em sincronia: ok
+
+### Veredito
+
+**PROJETO CONCLUÍDO.** O que fica fora do código é decisão do autor: o vídeo, a visibilidade do repositório e o item 3 do INC-0001 (alerta de tendência), que fica como trabalho futuro.

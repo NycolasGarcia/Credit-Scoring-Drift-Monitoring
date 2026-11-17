@@ -9,8 +9,6 @@ Uma fintech tem um modelo de credit scoring em produção, e a diretoria suspeit
 
 > **Escopo acadêmico.** Trabalho acadêmico (Tech Challenge 4, FIAP · ML Engineering). Não existe fintech, cliente nem modelo em produção. A "produção" é simulada localmente com lotes mensais. Ver [Governança e Causalidade](#governança-e-causalidade).
 
-**Vídeo (STAR, ≤ 5 min):** `<pendente — link a ser incluído pelo autor>`
-
 ## Arquitetura
 
 ```mermaid

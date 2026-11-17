@@ -10,7 +10,7 @@ Conferência dos critérios de avaliação e dos requisitos obrigatórios do enu
 | R2 | Detecção de drift: simulação + relatório Evidently apontando as variáveis degradadas (PSI/KS) | 25% | Simulador com ground truth ([SCENARIOS.md](SCENARIOS.md)); relatório HTML do Evidently por cenário (`docs/evidence/drift/S*_evidently.html`); PSI e KS próprios cruzados com o Evidently ([DRIFT_EVALUATION.md](DRIFT_EVALUATION.md)); robustez em 5 seeds ([ROBUSTNESS.md](ROBUSTNESS.md)); [ADR-0009](adr/0009-drift-detection-methodology.md) | ok |
 | R3 | Observabilidade e logs: apresentação visual das métricas de saúde do modelo e dos alertas | 20% | Dashboard do Grafana como código (`monitoring/grafana/`) com prints em `docs/evidence/observability/`; [METRICS.md](METRICS.md), [ALERTS.md](ALERTS.md), [RUNBOOK.md](RUNBOOK.md); MLflow experimento `monitoring` | ok: stack recriada do zero, replays de S0 a S5 (RUN-20261117-monitor-S0-01 a S4-01 e S5-02) e prints com os painéis de resposta e de fairness |
 | R4 | Governança (LGPD): privacidade, base legal e mitigação de vieses, consolidada no README | 15% | README, seção "Governança e Causalidade"; [GOVERNANCE.md](GOVERNANCE.md); [FAIRNESS.md](FAIRNESS.md); [ADR-0014](adr/0014-privacy-legal-basis-retention.md), [ADR-0015](adr/0015-bias-mitigation.md) | ok |
-| R5 | Vídeo STAR ≤ 5 min | 15% | Roteiro cronometrado em [video_script.md](video_script.md) | **pendente: gravação pelo autor** |
+| R5 | Vídeo STAR ≤ 5 min | 15% | Entregue pelo autor fora do repositório; roteiro cronometrado em [video_script.md](video_script.md) | fora do repositório |
 
 ## Requisitos obrigatórios
 
@@ -31,7 +31,7 @@ Conferência dos critérios de avaliação e dos requisitos obrigatórios do enu
 | RO-13 | Logs de execução (sucesso/falha de ingestão e transformação) + resultados de drift centralizados | Eventos JSON por etapa e lote (`logs/<run_id>.jsonl`, exemplo versionado em `docs/evidence/observability/run_log_S4.jsonl`); MLflow `monitoring` | ok |
 | RO-14 | Métricas de saúde operacional (status, latência, volume, alertas) | [METRICS.md](METRICS.md): status e duração por etapa, linhas por estágio, alertas por severidade, dead man's switch | ok |
 | RO-15 | Análise causal ("Governança e Causalidade" no README) | [CAUSAL_ANALYSIS.md](CAUSAL_ANALYSIS.md); resumo no README | ok |
-| RO-16 | Vídeo STAR (S/T/A/R com relatório, alertas e lições) | [video_script.md](video_script.md), com o checklist do critério | **pendente: gravação** |
+| RO-16 | Vídeo STAR (S/T/A/R com relatório, alertas e lições) | Entregue fora do repositório; [video_script.md](video_script.md) traz o roteiro e o checklist do critério | fora do repositório |
 | RO-17 | Dataset tabular financeiro binário com ≥ 5.000 amostras | Lending Club; referência de 2013 com 107.843 empréstimos maduros ([data_card.md](data_card.md)) | ok |
 
 ## Verificações técnicas
@@ -44,7 +44,6 @@ Conferência dos critérios de avaliação e dos requisitos obrigatórios do enu
 | Verificação de publicação (arquivos e histórico inteiro) | ok |
 | Stack (`docker compose up`) do zero | ok: projeto Compose novo, com volumes vazios; 4 serviços saudáveis, 2 alvos no ar, 12 regras e dashboard provisionados; `promtool` verde |
 
-## Pendências para fechar a entrega
+## Pendências
 
-1. Gravar o vídeo seguindo o roteiro e incluir o link no README.
-2. Decidir a visibilidade do repositório e fazer o push final.
+Nenhuma no repositório. O vídeo e a visibilidade do repositório ficam com o autor, fora do código.
