@@ -4,6 +4,7 @@ import argparse
 import json
 import logging
 from pathlib import Path
+from types import SimpleNamespace
 
 import mlflow
 import numpy as np
@@ -19,7 +20,7 @@ from src.monitoring.profile import build_profile
 from src.monitoring.settings import load_monitoring_config
 from src.observability.events import attach_run_log, detach_run_log
 from src.observability.metrics import BY_NAME, build_registry
-from src.observability.runner import mlflow_key, record
+from src.observability.runner import mlflow_key, record, soft_rule_batches
 from src.observability.samples import batch_samples
 from src.pipeline import BatchInput, JobContext, RunMemory, run_batch
 from src.response.guardrails import REASONS
@@ -153,3 +154,10 @@ def test_child_runs_stay_in_monitoring_experiment(
     children = mlflow.search_runs(experiment_ids=[monitoring], output_format="list",
                                   filter_string="tags.batch_id = 'S9-b00'")  # fmt: skip
     assert len(children) == 1 and children[0].data.metrics["cdm_batch_index"] == 0
+
+
+def test_summary_counts_batches_per_soft_rule() -> None:
+    states = [SimpleNamespace(report={"soft_warnings": {"S02": {}}}),
+              SimpleNamespace(report={"soft_warnings": {"S02": {}, "S01": {}}}),
+              SimpleNamespace(report={})]  # fmt: skip
+    assert soft_rule_batches(states) == {"soft_S01": 1, "soft_S02": 2}

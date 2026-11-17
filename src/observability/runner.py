@@ -109,7 +109,14 @@ def summarize(states: list[BatchState]) -> dict[str, Any]:
             "diagnoses": dict(Counter(s.diagnosis for s in states)),
             "first_alert_batch": next((s.index for s in states if any(s.levels.values())), None),
             "duration_p50_s": durations[len(durations) // 2] if durations else None,
-            "duration_max_s": durations[-1] if durations else None}  # fmt: skip
+            "duration_max_s": durations[-1] if durations else None,
+            **soft_rule_batches(states)}  # fmt: skip
+
+
+def soft_rule_batches(states: list[BatchState]) -> dict[str, int]:
+    """Batches in which each soft contract rule fired (``soft_<rule>``), for the RUN record."""
+    counts = Counter(k for s in states for k in s.report.get("soft_warnings", {}))
+    return {f"soft_{k}": n for k, n in sorted(counts.items())}
 
 
 def run(args: argparse.Namespace, ctx: JobContext, experiment_id: str) -> dict[str, Any]:
