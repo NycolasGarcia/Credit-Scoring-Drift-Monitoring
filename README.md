@@ -100,6 +100,53 @@ A etapa `respond` do job aplica a matriz de resposta declarativa (`config/respon
 
 Detalhes da separação e do alvo: [ADR-0004](docs/adr/0004-target-maturity-leakage.md), [ADR-0005](docs/adr/0005-reference-production-split.md) e [data card](docs/data_card.md).
 
+### Governança
+
+```bash
+make fairness                  # vieses no regime normal e no modo conservador → docs/FAIRNESS.md
+make retention                 # lista o que passou do prazo de retenção (quarentena e logs)
+make retention APPLY=1         # apaga o que passou do prazo
+```
+
+## Governança e Causalidade
+
+> **Escopo acadêmico.** Este é um trabalho acadêmico: não existe fintech, cliente nem modelo em produção. O plano de governança descreve como o sistema funcionaria **se** estivesse em produção na fintech do enunciado. Não é parecer jurídico. Os artigos citados foram conferidos no texto vigente publicado pelo Planalto. Plano completo em [docs/GOVERNANCE.md](docs/GOVERNANCE.md).
+
+**Privacidade (situação real do projeto).**
+- **Dado tratado:** o dataset público do Lending Club (licença CC0).
+- **Enquadramento:** o processamento no Brasil está no âmbito da LGPD (art. 3º, I), mas com fins exclusivamente acadêmicos, hipótese em que só os arts. 7º e 11 se aplicam (art. 4º, II, "b"). A base legal é o dado de acesso público, usado com respeito à finalidade e à boa-fé da disponibilização (art. 7º, §§ 3º e 7º).
+- **Tratado como pseudonimizado, não anônimo** (art. 12), porque tem quase-identificadores:
+  - o id vira HMAC com chave fora do repositório;
+  - texto livre, CEP e datas brutas são descartados;
+  - nada de linha de dado é versionado;
+  - logs e relatórios só têm agregados.
+
+**Plano para a fintech (cenário).**
+- **Base legal:** proteção do crédito (art. 7º, X).
+- **Direitos do titular:** art. 18.
+- **Revisão de decisão automatizada** (LGPD art. 20; Lei 12.414/2011, art. 5º, VI): toda decisão sai com código de motivo, e os casos limítrofes vão para revisão humana antes da decisão, numa fila com capacidade declarada.
+- **Retenção:** proposta e decisão por contrato + 5 anos, modelos e dados de treino pela vida útil + 5 anos, quarentena por 90 dias, logs por 1 ano. Âncoras: LGPD art. 16 e CDC art. 43 §1º. A quarentena e os logs locais têm expurgo executável (`make retention`).
+- **Relatório de impacto simplificado:** na seção 9 do plano.
+- **Decisão:** [ADR-0014](docs/adr/0014-privacy-legal-basis-retention.md).
+
+**Vieses e mitigação** ([docs/FAIRNESS.md](docs/FAIRNESS.md), [ADR-0015](docs/adr/0015-bias-mitigation.md)).
+- **Grupos disponíveis:** `home_ownership`, tempo de emprego e estado. Não há gênero nem idade no dado.
+- **Regime normal:** sem gap relevante. O modelo aprova 99,8%, e o gap entre grupos fica abaixo de 0,3 p.p.
+- **Modo conservador sem mitigação:** quem aluga perde de 13 a 19 p.p. de aprovação em média, e quem não informou o tempo de emprego, cerca de 40 p.p.
+- **Mitigação aplicada:**
+  - nenhum grupo de `home_ownership` ou de tempo de emprego fica mais de 7 p.p. abaixo do mais aprovado, com as propostas retidas de maior valor esperado voltando a ser aprovadas;
+  - custo medido de 7% (S2) e 4% (S3) do ganho do modo conservador;
+  - o estado fica só monitorado, porque está fora do modelo de propósito.
+- **Monitoramento contínuo:** o gap é medido em todo lote, com alerta próprio. Na produção real, é ele que dispara, pelo gap regional.
+
+**Causalidade** ([docs/CAUSAL_ANALYSIS.md](docs/CAUSAL_ANALYSIS.md)).
+- **Drift de entrada não prova degradação, e degradação não precisa de drift de entrada.**
+  - No choque econômico, as entradas mudam e o modelo continua certo.
+  - No concept drift, as entradas não mudam e o modelo erra, num segmento.
+  - O detector separa os mecanismos por camada e acerta o tipo contra o ground truth dos cenários. Com 5 seeds novos, a exceção é o primeiro alerta do concept drift, que pode ser lido como prior shift por um lote ([docs/ROBUSTNESS.md](docs/ROBUSTNESS.md)).
+- **Produção real (2014–2018):** o modelo passa a subestimar o risco sem perder a ordenação. As causas possíveis (mudança de política do credor, repricing, censura do rótulo) ficam declaradas como hipóteses, não como fatos.
+- **Viés de seleção e realimentação:** o dado só tem empréstimos aprovados, e a própria resposta muda quem gera rótulo. Por isso o retreino exige rótulo maduro e passa pelo gate de promoção.
+
 ## Documentação
 
 Índice em [docs/README.md](docs/README.md). Mudanças por fase: [CHANGELOG.md](CHANGELOG.md).
