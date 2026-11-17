@@ -8,7 +8,7 @@ Conferência dos critérios de avaliação e dos requisitos obrigatórios do enu
 |---|---|---|---|---|
 | R1 | Validação de dados: contrato configurado, interceptando anomalias; lote ruim bloqueado com evidência | 25% | Contrato Pandera com 18 regras ([DATA_CONTRACTS.md](DATA_CONTRACTS.md), `src/contracts/`); lote com 13 defeitos bloqueado, 0 linhas pontuadas (`docs/evidence/contracts/bad-all-seed7.json`); teste de falha isolada por regra (`tests/test_contracts.py`); [ADR-0008](adr/0008-data-contracts.md) | ok |
 | R2 | Detecção de drift: simulação + relatório Evidently apontando as variáveis degradadas (PSI/KS) | 25% | Simulador com ground truth ([SCENARIOS.md](SCENARIOS.md)); relatório HTML do Evidently por cenário (`docs/evidence/drift/S*_evidently.html`); PSI e KS próprios cruzados com o Evidently ([DRIFT_EVALUATION.md](DRIFT_EVALUATION.md)); robustez em 5 seeds ([ROBUSTNESS.md](ROBUSTNESS.md)); [ADR-0009](adr/0009-drift-detection-methodology.md) | ok |
-| R3 | Observabilidade e logs: apresentação visual das métricas de saúde do modelo e dos alertas | 20% | Dashboard do Grafana como código (`monitoring/grafana/`) com prints em `docs/evidence/observability/`; [METRICS.md](METRICS.md), [ALERTS.md](ALERTS.md), [RUNBOOK.md](RUNBOOK.md); MLflow experimento `monitoring` | ok; prints dos painéis de resposta e de fairness pendentes (exige a stack no ar) |
+| R3 | Observabilidade e logs: apresentação visual das métricas de saúde do modelo e dos alertas | 20% | Dashboard do Grafana como código (`monitoring/grafana/`) com prints em `docs/evidence/observability/`; [METRICS.md](METRICS.md), [ALERTS.md](ALERTS.md), [RUNBOOK.md](RUNBOOK.md); MLflow experimento `monitoring` | ok: stack recriada do zero, replays de S0 a S5 (RUN-20261117-monitor-S0-01 a S4-01 e S5-02) e prints com os painéis de resposta e de fairness |
 | R4 | Governança (LGPD): privacidade, base legal e mitigação de vieses, consolidada no README | 15% | README, seção "Governança e Causalidade"; [GOVERNANCE.md](GOVERNANCE.md); [FAIRNESS.md](FAIRNESS.md); [ADR-0014](adr/0014-privacy-legal-basis-retention.md), [ADR-0015](adr/0015-bias-mitigation.md) | ok |
 | R5 | Vídeo STAR ≤ 5 min | 15% | Roteiro cronometrado em [video_script.md](video_script.md) | **pendente: gravação pelo autor** |
 
@@ -42,10 +42,9 @@ Conferência dos critérios de avaliação e dos requisitos obrigatórios do enu
 | Testes | 240 passando, inclusive numa instalação limpa a partir do `uv.lock` |
 | CI no último push | verde |
 | Verificação de publicação (arquivos e histórico inteiro) | ok |
-| Stack (`docker compose up`) do zero | **pendente: Docker parado nesta máquina** |
+| Stack (`docker compose up`) do zero | ok: projeto Compose novo, com volumes vazios; 4 serviços saudáveis, 2 alvos no ar, 12 regras e dashboard provisionados; `promtool` verde |
 
 ## Pendências para fechar a entrega
 
-1. Subir a stack do zero (`make stack-up`), rodar um replay e refazer os prints do dashboard, agora com os painéis de resposta e de fairness (`make replay`, `make screenshots`).
-2. Gravar o vídeo seguindo o roteiro e incluir o link no README.
-3. Decidir a visibilidade do repositório e fazer o push final.
+1. Gravar o vídeo seguindo o roteiro e incluir o link no README.
+2. Decidir a visibilidade do repositório e fazer o push final.

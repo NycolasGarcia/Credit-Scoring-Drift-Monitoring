@@ -50,6 +50,8 @@ make screenshots SCENARIO=S4    # dashboard inteiro + um PNG por painel em docs/
 
 Os PNGs vêm do renderer do Grafana, sem login. Antes de versionar, abrir e conferir: só gráficos de gauges agregados.
 
+Se os prints forem tirados depois de outros replays, use a janela exata do replay em vez dos últimos 15 minutos: `uv run python -m src.observability.screenshots --scenario S2 --from-ms <início> --to-ms <fim>` (epoch em ms). Tirar o print logo ao fim do replay pode pegar o penúltimo lote, porque o Prometheus ainda não coletou o último.
+
 ## Regras de alerta
 
 ```bash
