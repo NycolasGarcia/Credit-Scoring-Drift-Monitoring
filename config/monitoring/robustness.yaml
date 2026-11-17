@@ -1,0 +1,20 @@
+# Estudo de robustez do detector e das respostas (entre F7 e F8).
+# A regra de leitura é declarada aqui ANTES da execução e não muda depois de ver o resultado.
+# Cada variante é uma cópia de um cenário oficial com outra seed (nunca usada antes) e a
+# intensidade multiplicada por `m` (1,0 = magnitude oficial): fator de escala 1 + (f − 1)·m,
+# deslocamento δ·m, logit δ·m e fração do bug f·m.
+version: 1
+status: PROPOSTO
+
+seeds: [301, 302, 303, 304, 305]
+magnitudes: [0.25, 0.5, 1.0, 1.5]
+scenarios: [S1, S2, S3, S4]   # variados em seed e magnitude
+control: S0                   # variado só em seed
+compare_magnitude: 1.0        # comparação de respostas só na magnitude oficial
+
+reading:                      # critérios declarados antes de rodar
+  detected_level: 2           # detectado = algum lote a partir do início em SEV-2+ (o que aciona resposta)
+  min_detection_share: 0.8    # detecção robusta: ≥ 80% das seeds detectam
+  min_diagnosis_lower: 0.8    # diagnóstico robusto: limite inferior de Wilson (95%) da acurácia ≥ 0,8
+  max_false_alarm_sev2: 0.0   # nenhum lote em SEV-2+ no controle nem antes do início do drift
+  response_min_positive: 1.0  # resposta robusta: melhora o valor contra "não fazer nada" em todas as seeds
