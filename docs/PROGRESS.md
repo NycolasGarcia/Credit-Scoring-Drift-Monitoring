@@ -602,3 +602,58 @@ Trabalho fora das fases, decidido pelo autor depois da autoavaliação do fecham
    - **Prazos de retenção** são decisão do autor (§15).
 4. **Grupos disponíveis para fairness:** `addr_state` (49 estados, fora do modelo), `home_ownership` e `emp_length` (no modelo). Não há gênero nem idade no dado.
 5. **Pendências herdadas:** item 5 do INC-0001 (ligar à análise causal); investigação da regra de aviso do contrato que dispara no S5 (vinda da F6); painel de fairness previsto na caixa 6.6.
+
+## CHECKPOINT — F8 «Governança, LGPD, vieses e causalidade» · fechamento · 2026-11-17
+
+### Hard requirements
+
+| HR | Descrição | Status | Evidência |
+|---|---|---|---|
+| HR-8.1 | Plano LGPD: PII, base legal, retenção (RO-10) | ok | [GOVERNANCE.md](GOVERNANCE.md), declarado como acadêmico; `config/governance/retention.yaml`; `make retention` |
+| HR-8.2 | Análise de viés com métricas e mitigação | ok | [FAIRNESS.md](FAIRNESS.md) ([RUN-20261117-fairness-ALL-01](runs/RUN-20261117-fairness-ALL-01.md)); limite de gap do ADR-0015 na etapa `respond` |
+| HR-8.3 | Análise causal (RO-15) | ok | [CAUSAL_ANALYSIS.md](CAUSAL_ANALYSIS.md): grafo, validação contra o ground truth, hipóteses da produção natural, causa raiz do INC-0001 |
+| HR-8.4 | README com governança consolidada (RO-4) | ok | README, seção "Governança e Causalidade" |
+| HR-8.5 | ADR-0014 e ADR-0015 aceitos | ok | `docs/adr/0014-privacy-legal-basis-retention.md`, `docs/adr/0015-bias-mitigation.md` |
+| HR-8.6 | NV-11 fechado | ok | Conferido no texto vigente do Planalto em 2026-11-17 (LGPD, CDC, Lei 12.414/2011) |
+
+### Portões numéricos
+
+| Portão | Alvo | Medido | Fonte | Status |
+|---|---|---|---|---|
+| Colunas com tratamento declarado | 100% | 151/151 | `data_inventory.md` | ok |
+| Base legal com artigo citado e verificado | sim | arts. 3º, 4º, 5º, 6º, 7º, 12, 16, 18, 20, 37 e 38 da LGPD; CDC art. 43; Lei 12.414 arts. 5º e 14 | NV-11 | ok |
+| Tabela de retenção completa | sim | RET-01 a RET-06, com teste de sincronia com o plano | `tests/test_retention.py` | ok |
+| Métricas de fairness | ≥ 2 em ≥ 1 dimensão | 4 (aprovação, aprovação dos bons, calibração, AUC) em 3 dimensões | RUN-20261117-fairness-ALL-01 | ok |
+| DAG causal + validação contra o ground truth | sim | 4 cenários; robustez em 5 seeds | CAUSAL_ANALYSIS, RUN-20261117-calib-ROBUST-02 | ok |
+| ruff / testes | 0 / verde | 0 / 240 passed | — | ok |
+
+### Estado
+
+- Caixas da fase: 9/9 → micro 100%
+- Progresso macro: 85% (F0 2 + F1 3 + F2 3 + F3 20 + F4 10 + F5 14 + F6 14 + F7 7 + F8 12)
+- Rubrica tocada: R4 (12) · RO-4, RO-10, RO-15
+- ADRs aceitos: 0014, 0015
+- RUNs registrados: fairness-ALL-01, response-ALL-02 (substitui o ALL-01 do dia), calib-ROBUST-02 (substitui o ROBUST-01), monitor-S5-01
+- NV fechados: NV-11
+- Limiares de detecção: 6 CALIBRADO · 0 PROPOSTO. Limite de fairness (7 p.p.) e prazos de retenção: PROPOSTO
+- Incidentes abertos: nenhum (INC-0001 com o item 5 concluído; o item 3 segue no backlog)
+- Travas de publicação: OK
+- Docs em sincronia: ok (GOVERNANCE, FAIRNESS e ROBUSTNESS gerados e testados; ALERTS, METRICS e dashboard regenerados; RUNBOOK, ARCHITECTURE, README, índice, model card, CHANGELOG)
+
+### Exceções
+
+- **Painéis de fairness sem print:** o Docker está parado nesta máquina. A métrica foi verificada nos runs por lote do MLflow do RUN-20261117-monitor-S5-01. Os prints entram com os demais na F9.
+- **`promtool` não reexecutado localmente** para a regra nova (`CDM_FAIRNESS_GAP`), pelo mesmo motivo. A regra segue o formato genérico das demais e é testada no CI do próximo push.
+
+### Achados
+
+- **Escopo legal:** o projeto é acadêmico (LGPD art. 4º, II, "b"), e o plano para a fintech é exercício. Os dois estão separados e declarados no GOVERNANCE, no ADR-0014 e no README.
+- **O modo conservador é a fonte de viés, não o modelo.** Em regime normal, não há gap. O corte por valor com fator de risco único cai mais sobre quem aluga e sobre quem não informou o tempo de emprego. O limite custa 7% do ganho no S2 e 4% no S3.
+- **A primeira escolha de mitigação era insuficiente:** o limite só em `home_ownership` deixava o grupo sem tempo de emprego com cerca de 40 p.p. a menos. Medido e estendido por decisão do autor.
+- **Produção natural:**
+  - O alerta de fairness dispara pelo gap regional, que fica fora do limite de propósito.
+  - A regra de aviso S02 dispara por categorias novas de cadastro, o que fecha a pendência herdada da F6.
+
+### Veredito
+
+**PODE AVANÇAR para F9.**

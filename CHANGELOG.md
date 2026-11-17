@@ -4,14 +4,30 @@ Mudanças relevantes por fase, da mais recente para a mais antiga. Formato inspi
 
 ## [Não publicado]
 
+Nada ainda.
+
+## F8 — Governança, LGPD, vieses e causalidade (2026-11-17)
+
 ### Adicionado
-- Estudo de robustez (`make robustness` → `docs/ROBUSTNESS.md`, RUN-20261117-calib-ROBUST-01): cada cenário repetido com 5 seeds novos e 4 magnitudes (0,25 a 1,5 vezes a oficial), pelo mesmo caminho da produção (simulador, contrato, score, detector), com a comparação de respostas por seed na magnitude oficial. Regra de leitura declarada em `config/monitoring/robustness.yaml` antes da execução.
+- Estudo de robustez entre a F7 e a F8 (`make robustness` → `docs/ROBUSTNESS.md`, RUN-20261117-calib-ROBUST-02): cada cenário repetido com 5 seeds novos e 4 magnitudes (0,25 a 1,5 vezes a oficial), pelo mesmo caminho da produção, com a comparação de respostas por seed. Regra de leitura declarada em `config/monitoring/robustness.yaml` antes da execução.
+- Análise de vieses (`make fairness` → `docs/FAIRNESS.md`, RUN-20261117-fairness-ALL-01): aprovação, aprovação entre bons pagadores, calibração e AUC por grupo, no regime normal e no modo conservador; força de proxy da região.
+- Limite de gap de aprovação entre grupos de `home_ownership` e `emp_length` no modo conservador, com o motivo R12 ([ADR-0015](docs/adr/0015-bias-mitigation.md)), na etapa `respond` e na comparação de custo.
+- Fairness drift por lote: métricas `cdm_fairness_gap_pp` e `cdm_fairness_gap_increase_pp`, alerta `CDM_FAIRNESS_GAP` com playbook e dois painéis no dashboard.
+- Plano de governança (`docs/GOVERNANCE.md`, [ADR-0014](docs/adr/0014-privacy-legal-basis-retention.md)), declarado como acadêmico: situação real do projeto (LGPD art. 4º, II, "b") separada do plano para a fintech do cenário. Inclui base legal, direitos do titular, revisão de decisão automatizada com códigos de motivo, retenção e RIPD simplificado.
+- Retenção executável (`make retention`, `APPLY=1` para apagar) para a quarentena (90 dias) e os logs (1 ano), com prazos em `config/governance/retention.yaml`.
+- Análise causal (`docs/CAUSAL_ANALYSIS.md`): grafo causal, mecanismo × sinal por camada, validação contra o ground truth, hipóteses da produção natural e causa raiz do INC-0001.
+- Seção "Governança e Causalidade" no README; model card final.
+- O resumo do job conta em quantos lotes cada regra de aviso do contrato disparou.
+
+### Alterado
+- A comparação de respostas e o estudo de robustez passam a refletir a política com o limite de fairness (RUN-20261117-response-ALL-02, RUN-20261117-calib-ROBUST-02).
 
 ### Achados
-- Nenhum falso alarme no controle nem antes do início do drift; detecção de 5/5 na magnitude oficial nos quatro cenários.
-- O S2 falha a regra de diagnóstico declarada (19 de 20 lotes; limite inferior de 76% contra 80%): num seed, o primeiro alerta, em SEV-1 na rampa, foi lido como D2.
-- Os valores do seed oficial ficaram no lado favorável: o modo conservador rende mediana de +US$ 2,19 mi no S2 (oficial 2,94) e a recalibração, +US$ 0,27 mi no S3 (oficial 0,87). O sinal de toda resposta se mantém em todos os seeds.
-- Limites de sensibilidade: concept drift com logit +0,5 e bug de unidade em 7,5% das linhas passam sem detecção.
+- Citações legais conferidas no Planalto (NV-11): desde a Lei 13.853/2019, a revisão de decisão automatizada não precisa ser feita por pessoa natural; a Lei 12.414/2011, art. 5º, VI, também dá esse direito.
+- Em regime normal, o gap de aprovação entre grupos fica abaixo de 0,3 p.p. No modo conservador sem limite, quem aluga perde de 13 a 19 p.p. de aprovação e quem não informou o tempo de emprego, cerca de 40 p.p. O limite custa 7% do ganho no S2 e 4% no S3.
+- Na produção natural, o modo conservador age em mar–dez/2018. O gap regional (fora do limite) cresce de 6 a 11 p.p. e dispara o alerta de fairness.
+- A regra de aviso S02 (categoria nova) dispara em 31 de 60 meses da produção natural, por `home_ownership = ANY` e `purpose = educational`: mudança de cadastro, não drift (RUN-20261117-monitor-S5-01).
+- Robustez: nenhum falso alarme; detecção de 5/5 na magnitude oficial; o S2 falha a regra de diagnóstico declarada (19 de 20 lotes) porque um primeiro alerta, na rampa, foi lido como D2. Os valores do seed oficial ficaram no lado favorável (modo conservador: mediana de +US$ 2,09 mi no S2 e +2,23 mi no S3). Concept drift com logit +0,5 e bug em 7,5% das linhas passam sem detecção.
 
 ## F7 — Resposta à degradação: guardrails, playbooks e retreino controlado (2026-11-17)
 
