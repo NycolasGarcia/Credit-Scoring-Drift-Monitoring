@@ -40,3 +40,4 @@ política (modo conservador por valor) vs. não fazer nada, US$ mil — S1: 0,0;
 ## Observações
 
 - Valores em US$ mil, somados do ponto de decisão ao último lote.
+- Substituído por [RUN-20261117-response-ALL-02](RUN-20261117-response-ALL-02.md): o modo conservador passou a limitar o gap de aprovação entre grupos de `home_ownership` e `emp_length` (ADR-0015); mudam só as linhas do modo conservador.

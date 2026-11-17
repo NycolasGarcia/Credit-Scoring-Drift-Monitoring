@@ -2,7 +2,7 @@
 
 > Gerado por `make respond-compare` (`src/response/docs.py`). Não editar à mão.
 
-RUN: [RUN-20261117-response-ALL-01](runs/RUN-20261117-response-ALL-01.md).
+RUN: [RUN-20261117-response-ALL-02](runs/RUN-20261117-response-ALL-02.md).
 
 Cada estratégia decide os lotes a partir do ponto de decisão, o primeiro lote em que a matriz de resposta pede mais do que registrar. O valor usa o desfecho realizado da simulação e a economia do [ADR-0016](adr/0016-empirical-cost-threshold.md): bom aprovado rende o ganho, mau aprovado custa a perda, recusa e revisão valem 0 no lote. Recalibrar e retreinar usam só o que é observável no ponto de decisão (GR-7, GR-8) e valem a partir do lote seguinte. Decisões em [ADR-0012](adr/0012-guardrails-conservative-mode.md) e [ADR-0013](adr/0013-retraining-gate-rollback.md).
 
@@ -17,8 +17,8 @@ Gate do challenger (GR-5): **reprovado** — `auc_gain_recent` -0.0054 (limite 0
 |---|---|---|---|---|---|---|---|
 | não fazer nada | 44.347,4 | 0,0 | 44.347,4 | 1056 | 98,6% | 0,0% | 19,1% |
 | modo conservador por valor (política) | 44.347,4 | 0,0 | 44.347,4 | 1056 | 98,6% | 0,0% | 19,1% |
-| modo conservador por valor, forçado | 44.651,0 | 303,6 | 44.347,4 | 1063 | 95,4% | 3,2% | 18,5% |
-| regra por valor sem correção, forçada | 44.712,9 | 365,5 | 44.347,4 | 1065 | 95,9% | 2,7% | 18,6% |
+| modo conservador por valor, forçado | 44.640,1 | 292,7 | 44.347,4 | 1063 | 95,9% | 2,7% | 18,6% |
+| regra por valor sem correção, forçada | 44.656,0 | 308,6 | 44.347,4 | 1063 | 96,3% | 2,2% | 18,7% |
 | teto de 14% (descartado, ADR-0019) | 44.347,4 | 0,0 | 44.347,4 | 1056 | 98,6% | 0,0% | 19,1% |
 | recalibrar (A5) | 44.416,3 | 69,0 | 44.416,3 | 1058 | 98,7% | 0,0% | 19,2% |
 | retreinar com gate (A6+GR-5) | 44.347,4 | 0,0 | 44.347,4 | 1056 | 98,6% | 0,0% | 19,1% |
@@ -33,9 +33,9 @@ Gate do challenger (GR-5): **aprovado** — `auc_gain_recent` 0.0054 (limite 0.0
 | Estratégia | Valor, revisão perdida (US$ mil) | Δ vs. não fazer nada (US$ mil) | Valor, revisão decidida depois (US$ mil) | Valor por proposta (US$) | Aprovação | Revisão | Bad rate dos aprovados |
 |---|---|---|---|---|---|---|---|
 | não fazer nada | 10.099,9 | 0,0 | 10.099,9 | 421 | 99,8% | 0,0% | 21,0% |
-| modo conservador por valor (política) | 13.042,2 | 2.942,3 | 11.174,5 | 544 | 82,4% | 14,6% | 18,0% |
-| modo conservador por valor, forçado | 13.042,2 | 2.942,3 | 11.174,5 | 544 | 82,4% | 14,6% | 18,0% |
-| regra por valor sem correção, forçada | 10.613,1 | 513,2 | 10.099,9 | 442 | 96,8% | 3,0% | 20,8% |
+| modo conservador por valor (política) | 12.836,9 | 2.737,0 | 11.174,5 | 535 | 86,2% | 10,9% | 18,4% |
+| modo conservador por valor, forçado | 12.836,9 | 2.737,0 | 11.174,5 | 535 | 86,2% | 10,9% | 18,4% |
+| regra por valor sem correção, forçada | 10.517,3 | 417,4 | 10.099,9 | 438 | 97,2% | 2,6% | 20,8% |
 | teto de 14% (descartado, ADR-0019) | 8.846,0 | -1.253,9 | 10.099,9 | 369 | 72,2% | 27,6% | 14,1% |
 | recalibrar (A5) | 10.670,6 | 570,6 | 10.670,6 | 445 | 98,3% | 0,0% | 20,4% |
 | retreinar com gate (A6+GR-5) | 10.709,0 | 609,1 | 10.709,0 | 446 | 98,3% | 0,0% | 20,4% |
@@ -50,9 +50,9 @@ Gate do challenger (GR-5): **reprovado** — `auc_gain_recent` -0.0023 (limite 0
 | Estratégia | Valor, revisão perdida (US$ mil) | Δ vs. não fazer nada (US$ mil) | Valor, revisão decidida depois (US$ mil) | Valor por proposta (US$) | Aprovação | Revisão | Bad rate dos aprovados |
 |---|---|---|---|---|---|---|---|
 | não fazer nada | 9.119,7 | 0,0 | 9.119,7 | 304 | 99,8% | 0,0% | 22,7% |
-| modo conservador por valor (política) | 11.781,7 | 2.662,1 | 11.246,2 | 393 | 73,2% | 15,0% | 19,4% |
-| modo conservador por valor, forçado | 11.781,7 | 2.662,1 | 11.246,2 | 393 | 73,2% | 15,0% | 19,4% |
-| regra por valor sem correção, forçada | 9.651,8 | 532,2 | 9.119,7 | 322 | 97,0% | 2,7% | 22,6% |
+| modo conservador por valor (política) | 11.663,7 | 2.544,1 | 11.262,4 | 389 | 79,7% | 8,8% | 19,7% |
+| modo conservador por valor, forçado | 11.663,7 | 2.544,1 | 11.262,4 | 389 | 79,7% | 8,8% | 19,7% |
+| regra por valor sem correção, forçada | 9.558,7 | 439,0 | 9.119,7 | 319 | 97,4% | 2,4% | 22,6% |
 | teto de 14% (descartado, ADR-0019) | 6.167,5 | -2.952,2 | 9.119,7 | 206 | 62,9% | 36,9% | 15,0% |
 | recalibrar (A5) | 9.993,2 | 873,5 | 9.993,2 | 333 | 96,7% | 0,0% | 21,6% |
 | retreinar com gate (A6+GR-5) | 9.119,7 | 0,0 | 9.119,7 | 304 | 99,8% | 0,0% | 22,7% |
@@ -68,8 +68,8 @@ Gate do challenger (GR-5): **reprovado** — `auc_gain_recent` -0.0003 (limite 0
 |---|---|---|---|---|---|---|---|
 | não fazer nada | 34.366,8 | 0,0 | 34.366,8 | 818 | 93,7% | 0,0% | 14,7% |
 | modo conservador por valor (política) | 34.366,8 | 0,0 | 34.366,8 | 818 | 93,7% | 0,0% | 14,7% |
-| modo conservador por valor, forçado | 28.050,5 | -6.316,2 | 31.252,6 | 668 | 70,9% | 15,0% | 15,5% |
-| regra por valor sem correção, forçada | 28.091,2 | -6.275,5 | 31.313,8 | 669 | 71,0% | 15,0% | 15,5% |
+| modo conservador por valor, forçado | 28.032,3 | -6.334,4 | 31.252,6 | 668 | 71,2% | 14,6% | 15,5% |
+| regra por valor sem correção, forçada | 28.087,0 | -6.279,8 | 31.313,8 | 669 | 71,3% | 14,6% | 15,5% |
 | teto de 14% (descartado, ADR-0019) | 34.366,8 | 0,0 | 34.366,8 | 818 | 93,7% | 0,0% | 14,7% |
 | recalibrar (A5) | 34.872,8 | 506,1 | 34.872,8 | 831 | 94,3% | 0,0% | 14,8% |
 | retreinar com gate (A6+GR-5) | 34.366,8 | 0,0 | 34.366,8 | 818 | 93,7% | 0,0% | 14,7% |
