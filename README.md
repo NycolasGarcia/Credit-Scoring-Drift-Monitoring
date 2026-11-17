@@ -1,8 +1,64 @@
 # Credit Scoring — Monitoramento de Drift e Resposta à Degradação
 
-Sustentação e confiabilidade de um modelo de credit scoring em produção simulada: contratos de dados, detecção de drift, observabilidade, guardrails e governança (LGPD).
+Uma fintech tem um modelo de credit scoring em produção, e a diretoria suspeita que ele vem degradando em silêncio depois de mudanças na economia. Este projeto constrói a camada de **sustentação e confiabilidade** em volta desse modelo:
+- contratos que barram dado ruim antes da pontuação;
+- detecção de drift em camadas, avaliada contra cenários com ground truth conhecido;
+- observabilidade com alertas que levam a playbooks;
+- uma política de resposta que diz o que fazer para cada tipo de degradação, com o custo de cada resposta medido;
+- governança (LGPD, vieses e análise causal).
 
-> Projeto em construção. O progresso por fase está em [docs/PROGRESS.md](docs/PROGRESS.md).
+> **Escopo acadêmico.** Trabalho acadêmico (Tech Challenge 4, FIAP · ML Engineering). Não existe fintech, cliente nem modelo em produção. A "produção" é simulada localmente com lotes mensais. Ver [Governança e Causalidade](#governança-e-causalidade).
+
+**Vídeo (STAR, ≤ 5 min):** `<pendente — link a ser incluído pelo autor>`
+
+## Arquitetura
+
+```mermaid
+flowchart LR
+    lote["Lote mensal<br/>(simulado ou real)"] --> contrato["Contrato de dados<br/>Pandera"]
+    contrato -->|bloqueado| quar["Quarentena + alerta"]
+    contrato --> score["Score<br/>regressão logística calibrada"]
+    score --> detect["Detecção<br/>entradas · score · desempenho maduro<br/>PSI/KS próprios + Evidently"]
+    detect --> alert["Severidade, diagnóstico<br/>e alertas"]
+    alert --> resp["Resposta<br/>matriz declarativa + guardrails"]
+    resp --> decisao["Decisão com<br/>código de motivo"]
+    alert --> obs["Pushgateway → Prometheus → Grafana<br/>MLflow · logs JSON · RUN records"]
+```
+
+Modelo: regressão logística calibrada, champion no MLflow Registry ([model card](docs/model_card.md)). Dados: Lending Club 2007–2018; referência = safra 2013; produção natural = 2014–2018; seis cenários simulados (S0 controle, S1 choque econômico, S2 concept drift, S3 prior shift, S4 bug de unidade, S5 produção natural). Componentes e fluxos em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md); decisões em [docs/adr/](docs/adr/).
+
+## Resultados
+
+Todo número aponta para o RUN record que o produziu (`docs/runs/`) ou para a evidência versionada.
+
+| Critério | O que foi entregue | Evidência |
+|---|---|---|
+| **Validação de dados** | Contrato Pandera com 18 regras: 11 bloqueantes, 4 de aviso e 3 de saída. Um lote com 13 defeitos catalogados (20.000 linhas) é **bloqueado**: 0 linhas pontuadas, exit code 2, quarentena com relatório só de agregados | [DATA_CONTRACTS.md](docs/DATA_CONTRACTS.md), `docs/evidence/contracts/bad-all-seed7.json` |
+| **Detecção de drift** | Choque econômico: as 3 variáveis injetadas apontadas, sem falso positivo. Concept drift: visto só no desempenho com rótulo, com atraso de 5 lotes. Bug de unidade: reconhecido como bug no próprio lote. Controle: nenhum alerta | [DRIFT_EVALUATION.md](docs/DRIFT_EVALUATION.md), RUN-20261115-monitor-S0-01 a S5-01, relatórios Evidently em `docs/evidence/drift/` |
+| | Limiares calibrados no controle: falso alarme de 0,2% (SEV-1) e 0% (SEV-2). Na produção real, o KS rejeita em 98,3% dos pares lote–feature contra 11,5% do PSI, por isso o gatilho é o tamanho de efeito | RUN-20261113-calib-S0-01, RUN-20261113-monitor-S5-02 |
+| | Robustez com 5 seeds novos e 4 magnitudes: detecção de 5/5 na magnitude oficial e nenhum falso alarme. Concept drift com metade da intensidade e bug em 7,5% das linhas passam sem detecção | [ROBUSTNESS.md](docs/ROBUSTNESS.md), RUN-20261117-calib-ROBUST-02 |
+| **Observabilidade** | Job em 8 etapas com eventos JSON por etapa, 30 métricas no Pushgateway, 12 alertas com playbook, dead man's switch e dashboard com 17 painéis provisionado como código | [METRICS.md](docs/METRICS.md), [ALERTS.md](docs/ALERTS.md), [RUNBOOK.md](docs/RUNBOOK.md), `docs/evidence/observability/` |
+| **Resposta à degradação** | Contra não fazer nada, o modo conservador rende mediana de **+US$ 2,09 mi** no concept drift e **+US$ 2,23 mi** no prior shift, positivo em 5 de 5 seeds. Forçado sobre o bug, perderia de 6,25 a 6,77 mi, e a política não o força. Game day com postmortem, gate de promoção e rollback ensaiados | [RESPONSE_EVALUATION.md](docs/RESPONSE_EVALUATION.md), RUN-20261117-calib-ROBUST-02, [INC-0001](docs/incidents/0001-s2-concept-drift-dti.md), RUN-20261115-response-DRILL-01 |
+| **Governança** | Plano LGPD com citações conferidas. Vieses: sem gap em regime normal; no modo conservador, um limite de 7 p.p. entre grupos custa 7% (S2) e 4% (S3) do ganho. Análise causal validada contra os cenários | [GOVERNANCE.md](docs/GOVERNANCE.md), [FAIRNESS.md](docs/FAIRNESS.md) (RUN-20261117-fairness-ALL-01), [CAUSAL_ANALYSIS.md](docs/CAUSAL_ANALYSIS.md) |
+
+**Lições:**
+- **Drift não é degradação.** No choque econômico, as entradas mudam e o modelo continua certo; no concept drift, nada muda nas entradas e o modelo erra. É por isso que o detector tem camadas e diagnóstico.
+- **O rótulo chega atrasado.** Na produção real, o drift de entrada aparece em 2014 e a confirmação, só em 2017. Por isso os guardrails agem antes do rótulo.
+- **Retreinar não é a resposta padrão.**
+  - Retreinar sobre o bug parece render +US$ 0,76 a 1,30 mi enquanto o bug persiste. É a armadilha que a trava de "nunca treinar em dado reprovado" evita.
+  - No prior shift, a resposta de modelo indicada é recalibrar, não retreinar.
+- **A resposta também pode discriminar.** O modo conservador, não o modelo, abria gaps de cerca de 40 p.p. entre grupos; o limite custa pouco.
+
+## Limitações
+
+- **Cenários simulados:** desenhados para o projeto. O detector recupera esses mecanismos, o que não prova que recuperaria qualquer mecanismo real ([ROBUSTNESS.md](docs/ROBUSTNESS.md)).
+- **Diagnóstico do concept drift:** falha a regra declarada em seeds novos. Um primeiro alerta, ainda na rampa, pode ser lido como prior shift por um lote.
+- **Viés de seleção:** o dado só tem empréstimos aprovados pelo credor de origem, e o modelo não sabe avaliar quem foi recusado. Em regime normal, aprova 99,8%.
+- **Atributos protegidos:** sem gênero e idade no dado, a análise de vieses cobre só moradia, tempo de emprego e estado.
+- **Premissas declaradas, não medidas:** o custo de funding (5% a.a.), a capacidade da fila de revisão (15%), o limite de fairness (7 p.p.) e os prazos de retenção.
+- **Produção natural:** as causas da degradação ficam como hipóteses ([CAUSAL_ANALYSIS.md](docs/CAUSAL_ANALYSIS.md)).
+
+O progresso por fase está em [docs/PROGRESS.md](docs/PROGRESS.md).
 
 ## Setup
 
