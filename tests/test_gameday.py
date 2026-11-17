@@ -41,3 +41,29 @@ def test_watch_stops_after_first_batch_at_severity(monkeypatch) -> None:
     )
     assert [v["batch"] for v in gameday.watch("S2", "gd-test", 2, 0)] == [0, 1, 2]
     assert len(gameday.watch("S2", "gd-test", 0, 0)) == len(levels)
+
+
+def test_shadow_at_trains_at_the_batch_and_respects_the_limit(monkeypatch) -> None:
+    seen = {}
+    setup = {"views": "views", "batches": list(range(12))}
+    monkeypatch.setattr(gameday.cli, "context", lambda: {"policy": None, "cfg": "cfg", "champ": 1})
+    monkeypatch.setattr(gameday.cli, "scenario_setup", lambda sid, policy: setup)
+    monkeypatch.setattr(gameday, "challenger_rows", lambda views, t, cfg: seen.update(t=t) or [])
+    monkeypatch.setattr(gameday, "train_challenger", lambda rows, cfg: ("ch", None))
+    monkeypatch.setattr(gameday.shadow, "shadow_timeline",
+                        lambda b, t, champ, ch, ctx: [{"batch": i} for i in b[t + 1:]])  # fmt: skip
+    assert [v["batch"] for v in gameday.shadow_at("S2", 8, 10)] == [9]
+    assert seen["t"] == 8
+
+
+def test_shadow_at_reports_a_refused_training(monkeypatch) -> None:
+    def refuse(rows, cfg):
+        raise gameday.TrainingRefusedError("GR-8: poucos rótulos maduros")
+
+    monkeypatch.setattr(gameday.cli, "context", lambda: {"policy": None, "cfg": "cfg"})
+    monkeypatch.setattr(gameday.cli, "scenario_setup", lambda sid, policy: {"views": None})
+    monkeypatch.setattr(gameday, "challenger_rows", lambda views, t, cfg: [])
+    monkeypatch.setattr(gameday, "train_challenger", refuse)
+    assert gameday.shadow_at("S2", 4, 0) == [
+        {"batch": 4, "refused": "GR-8: poucos rótulos maduros"}
+    ]

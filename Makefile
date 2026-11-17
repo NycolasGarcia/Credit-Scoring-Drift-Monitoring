@@ -6,6 +6,8 @@ DEFECTS ?= all
 INTERVAL ?= 15
 REGISTRY ?= credit-scoring
 UNTIL_SEV ?= 2
+AT ?= 8
+LIMIT ?= 0
 GAMEDAY_SCENARIO := $(if $(filter all,$(SCENARIO)),S2,$(SCENARIO))
 JOB_SCENARIO := $(if $(filter all,$(SCENARIO)),S1,$(SCENARIO))
 PROMTOOL := docker run --rm -v "$(CURDIR)/monitoring://m:ro" --entrypoint promtool prom/prometheus:v3.5.0
@@ -17,7 +19,7 @@ endef
 
 .PHONY: help setup lint format test data inventory eda cost train validate validate-bad contracts-d6 \
         contracts-doc simulate calibrate detect sweep-l4 drift-docs alerts check-rules screenshots monitor \
-        replay report rollback respond-compare respond-drill gameday-watch gameday stack-up stack-down stack-status publish-check publish-check-all \
+        replay report rollback respond-compare respond-drill gameday-watch gameday gameday-shadow stack-up stack-down stack-status publish-check publish-check-all \
         publish-check-history
 
 help:
@@ -27,7 +29,7 @@ help:
 	@echo contracts: validate validate-bad contracts-d6 contracts-doc
 	@echo monitor: simulate calibrate detect sweep-l4 drift-docs monitor replay rollback
 	@echo alerts:  alerts check-rules screenshots
-	@echo respond: respond-compare respond-drill rollback gameday-watch gameday
+	@echo respond: respond-compare respond-drill rollback gameday-watch gameday gameday-shadow
 	@echo stack:   stack-up stack-down stack-status
 	@echo publish: publish-check publish-check-all publish-check-history
 
@@ -132,6 +134,9 @@ gameday-watch:
 
 gameday:
 	$(RUN) python -m src.response.gameday --scenario $(GAMEDAY_SCENARIO) --record
+
+gameday-shadow:
+	$(RUN) python -m src.response.gameday --scenario $(GAMEDAY_SCENARIO) --shadow-at $(AT) --limit $(LIMIT)
 
 stack-up:
 	docker compose up -d
