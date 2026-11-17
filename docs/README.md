@@ -9,7 +9,7 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Componentes e fluxos (treino, monitoramento, resposta) | dados (F1), treino (F2), quality gate (F3), simulador (F4), detecção (F5), observabilidade (F6) e resposta (F7) implementados |
 | [adr/](adr/) | Decisões de arquitetura | ver índice abaixo |
 | [runs/INDEX.md](runs/INDEX.md) | Registro de execuções (todo número citado aponta para um RUN-id) | gerado (treino, calibração, simulação, monitoramento e resposta) |
-| [incidents/](incidents/) | Incidentes e postmortems | vazio |
+| [incidents/](incidents/) | Incidentes e postmortems ([INC-0001](incidents/0001-s2-concept-drift-dti.md): game day do S2) | vivo |
 | [evidence/](evidence/) | Prints e relatórios curados (somente agregados) | vivo |
 | [data_inventory.md](data_inventory.md) | Classificação das 151 colunas (gerado do YAML) | gerado |
 | [data_card.md](data_card.md) | Origem, licença, volume por safra, alvo, limitações | F1 |
