@@ -25,6 +25,7 @@ Ponto de entrada da documentação. Status de cada documento entre parênteses.
 | [THRESHOLDS.md](THRESHOLDS.md) | Limiares vigentes e calibração no controle (gerado) | gerado |
 | [DRIFT_EVALUATION.md](DRIFT_EVALUATION.md) | Avaliação do detector por cenário, relatórios Evidently, p-valor × efeito (gerado) | gerado |
 | [evidence/drift/](evidence/drift/) | Resultados por lote, relatórios HTML do Evidently e calibração | F5 |
+| [DELIVERY_AUDIT.md](DELIVERY_AUDIT.md) | Auditoria de entrega: critérios e requisitos do enunciado, um a um, com evidência e pendências | F9 |
 | [video_script.md](video_script.md) | Roteiro cronometrado do vídeo STAR, com o que mostrar e o que falar | F9 |
 | [CAUSAL_ANALYSIS.md](CAUSAL_ANALYSIS.md) | Grafo causal, mecanismo × sinal por camada, validação contra o ground truth, hipóteses da produção natural e causa raiz do INC-0001 | F8 |
 | [GOVERNANCE.md](GOVERNANCE.md) | Plano de privacidade, base legal, retenção, vieses e RIPD (acadêmico: separa a situação real do projeto do cenário da fintech) | F8 |
